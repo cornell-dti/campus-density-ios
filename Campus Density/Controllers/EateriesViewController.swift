@@ -18,8 +18,8 @@ class EateriesViewController: UIViewController {
     var tableView: UITableView!
     
     // MARK: - Constants
-    let buttonAnimationDuration: TimeInterval = 0.2
-    let buttonScale: CGFloat = 0.95
+    let cellAnimationDuration: TimeInterval = 0.2
+    let cellScale: CGFloat = 0.95
     
 
     override func viewDidLoad() {
@@ -41,7 +41,6 @@ class EateriesViewController: UIViewController {
         box.backgroundColor = .clear
         tableView.tableHeaderView = box
         tableView.backgroundColor = .clear
-        tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
         tableView.register(FacilityTableViewCell.self, forCellReuseIdentifier: "eateries")

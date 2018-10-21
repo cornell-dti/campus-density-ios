@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FacilityTableViewCellDelegate {
-    func facilityTableViewCellDidTapFavoriteButton(facility: Facility)
+    func facilityTableViewCellDidTapFavoritebackground(facility: Facility)
 }
 
 class FacilityTableViewCell: UITableViewCell {
@@ -19,7 +19,7 @@ class FacilityTableViewCell: UITableViewCell {
     var percentage: Double!
     
     // MARK: - View vars
-    var button: UIButton!
+    var background: UIView!
     var nameLabel: UILabel!
     var timeLabel: UILabel!
     var capacityLabel: UILabel!
@@ -27,7 +27,7 @@ class FacilityTableViewCell: UITableViewCell {
     var currentCapacityBar: UIView!
     
     // MARK: - Constants
-    let buttonCornerRadius: CGFloat = 10
+    let backgroundCornerRadius: CGFloat = 10
     let capacityBarCornerRadius: CGFloat = 5
     let padding: CGFloat = 15
     let capacityBarHeight: CGFloat = 45
@@ -37,22 +37,21 @@ class FacilityTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .clear
-        
         setupViews()
         
     }
     
     func setupViews() {
-        button = UIButton()
-        button.backgroundColor = .offWhite
-        button.clipsToBounds = true
-        button.layer.cornerRadius = buttonCornerRadius
-        button.layer.masksToBounds = false
-        button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.layer.shadowRadius = 2.5
-        button.layer.shadowOffset = CGSize(width: 0, height: 1)
-        button.layer.shadowOpacity = 1.0
-        addSubview(button)
+        background = UIView()
+        background.backgroundColor = .offWhite
+        background.clipsToBounds = true
+        background.layer.cornerRadius = backgroundCornerRadius
+        background.layer.masksToBounds = false
+        background.layer.shadowColor = UIColor.lightGray.cgColor
+        background.layer.shadowRadius = 2.5
+        background.layer.shadowOffset = CGSize(width: 0, height: 1)
+        background.layer.shadowOpacity = 1.0
+        addSubview(background)
         
         nameLabel = UILabel()
         nameLabel.adjustsFontSizeToFitWidth = true
@@ -76,7 +75,7 @@ class FacilityTableViewCell: UITableViewCell {
         totalCapacityBar.backgroundColor = .white
         totalCapacityBar.clipsToBounds = true
         totalCapacityBar.layer.cornerRadius = capacityBarCornerRadius
-        totalCapacityBar.layer.cornerRadius = buttonCornerRadius
+        totalCapacityBar.layer.cornerRadius = backgroundCornerRadius
         totalCapacityBar.layer.masksToBounds = false
         totalCapacityBar.layer.shadowColor = UIColor.lightGray.cgColor
         totalCapacityBar.layer.shadowRadius = 1.5
@@ -91,39 +90,17 @@ class FacilityTableViewCell: UITableViewCell {
         addSubview(currentCapacityBar)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func getCapacityColor() -> UIColor {
-        if percentage > 0.75 {
-            return UIColor.red
-        } else if percentage > 0.25 {
-            return UIColor.orange
-        }
-        return UIColor.green
-    }
-    
-    func configure(with facility: Facility) {
-        self.facility = facility
-        nameLabel.text = facility.name
-        timeLabel.text = "Open until \(facility.closesAt)"
-        percentage = facility.currentCapacity / facility.totalCapacity
-        capacityLabel.text = "\(Int(percentage * 100))% full"
-        capacityLabel.textColor = getCapacityColor()
-    }
-    
-    override func updateConstraints() {
-        button.snp.makeConstraints { make in
+    func setupConstraints() {
+        background.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(padding)
             make.width.equalToSuperview().offset(-padding * 2)
             make.height.equalToSuperview().offset(-padding)
         }
         
         totalCapacityBar.snp.makeConstraints { make in
-            make.left.equalTo(button).offset(padding)
-            make.width.equalTo(button).offset(-padding * 2)
-            make.bottom.equalTo(button).offset(-padding)
+            make.left.equalTo(background).offset(padding)
+            make.width.equalTo(background).offset(-padding * 2)
+            make.bottom.equalTo(background).offset(-padding)
             make.height.equalTo(capacityBarHeight)
         }
         
@@ -151,11 +128,32 @@ class FacilityTableViewCell: UITableViewCell {
         capacityLabel.snp.makeConstraints { make in
             make.width.equalTo(capacityLabelWidth)
             make.height.equalTo(capacityBarHeight)
-            make.right.equalTo(button).offset(-padding)
+            make.right.equalTo(background).offset(-padding)
             make.top.equalTo(nameLabel)
         }
-        
-        super.updateConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getCapacityColor() -> UIColor {
+        if percentage > 0.75 {
+            return UIColor.red
+        } else if percentage > 0.25 {
+            return UIColor.orange
+        }
+        return UIColor.green
+    }
+    
+    func configure(with facility: Facility) {
+        self.facility = facility
+        nameLabel.text = facility.name
+        timeLabel.text = "Open until \(facility.closesAt)"
+        percentage = facility.currentCapacity / facility.totalCapacity
+        capacityLabel.text = "\(Int(percentage * 100))% full"
+        capacityLabel.textColor = getCapacityColor()
+        setupConstraints()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

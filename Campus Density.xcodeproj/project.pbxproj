@@ -11,8 +11,6 @@
 		0CA3F4C22173EA8000988A46 /* EateriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C12173EA8000988A46 /* EateriesViewController.swift */; };
 		0CA3F4C72173EA8100988A46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C62173EA8100988A46 /* Assets.xcassets */; };
 		0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C82173EA8100988A46 /* LaunchScreen.storyboard */; };
-		0CA3F4D52173EA8200988A46 /* Campus_DensityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4D42173EA8200988A46 /* Campus_DensityTests.swift */; };
-		0CA3F4E02173EA8200988A46 /* Campus_DensityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4DF2173EA8200988A46 /* Campus_DensityUITests.swift */; };
 		0CA3F4EF2173ECD500988A46 /* EateriesViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4EE2173ECD500988A46 /* EateriesViewController+Extension.swift */; };
 		0CA3F4F22173ED4A00988A46 /* FacilityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F12173ED4A00988A46 /* FacilityTableViewCell.swift */; };
 		0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F32173EDA000988A46 /* Facility.swift */; };
@@ -47,11 +45,7 @@
 		0CA3F4C92173EA8100988A46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0CA3F4CB2173EA8100988A46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CA3F4D02173EA8200988A46 /* Campus DensityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Campus DensityTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0CA3F4D42173EA8200988A46 /* Campus_DensityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_DensityTests.swift; sourceTree = "<group>"; };
-		0CA3F4D62173EA8200988A46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CA3F4DB2173EA8200988A46 /* Campus DensityUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Campus DensityUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0CA3F4DF2173EA8200988A46 /* Campus_DensityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_DensityUITests.swift; sourceTree = "<group>"; };
-		0CA3F4E12173EA8200988A46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CA3F4EE2173ECD500988A46 /* EateriesViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EateriesViewController+Extension.swift"; sourceTree = "<group>"; };
 		0CA3F4F12173ED4A00988A46 /* FacilityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityTableViewCell.swift; sourceTree = "<group>"; };
 		0CA3F4F32173EDA000988A46 /* Facility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Facility.swift; sourceTree = "<group>"; };
@@ -99,8 +93,6 @@
 			isa = PBXGroup;
 			children = (
 				0CA3F4BE2173EA8000988A46 /* Campus Density */,
-				0CA3F4D32173EA8200988A46 /* Campus DensityTests */,
-				0CA3F4DE2173EA8200988A46 /* Campus DensityUITests */,
 				0CA3F4BD2173EA8000988A46 /* Products */,
 				23C61EB4463B8E7B5FDC9E81 /* Pods */,
 				D951F28FC50FB53C54D7D23F /* Frameworks */,
@@ -130,24 +122,6 @@
 				0CA3F4CB2173EA8100988A46 /* Info.plist */,
 			);
 			path = "Campus Density";
-			sourceTree = "<group>";
-		};
-		0CA3F4D32173EA8200988A46 /* Campus DensityTests */ = {
-			isa = PBXGroup;
-			children = (
-				0CA3F4D42173EA8200988A46 /* Campus_DensityTests.swift */,
-				0CA3F4D62173EA8200988A46 /* Info.plist */,
-			);
-			path = "Campus DensityTests";
-			sourceTree = "<group>";
-		};
-		0CA3F4DE2173EA8200988A46 /* Campus DensityUITests */ = {
-			isa = PBXGroup;
-			children = (
-				0CA3F4DF2173EA8200988A46 /* Campus_DensityUITests.swift */,
-				0CA3F4E12173EA8200988A46 /* Info.plist */,
-			);
-			path = "Campus DensityUITests";
 			sourceTree = "<group>";
 		};
 		0CA3F4ED2173EB5F00988A46 /* Controllers */ = {
@@ -412,7 +386,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CA3F4D52173EA8200988A46 /* Campus_DensityTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +393,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CA3F4E02173EA8200988A46 /* Campus_DensityUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

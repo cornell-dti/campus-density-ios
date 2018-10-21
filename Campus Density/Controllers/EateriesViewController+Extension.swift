@@ -16,8 +16,8 @@ extension EateriesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eateries", for: indexPath) as? FacilityTableViewCell else { return UITableViewCell() }
+        cell.selectionStyle = .none
         cell.configure(with: facilities[indexPath.row])
-        cell.setNeedsUpdateConstraints()
         return cell
     }
     
@@ -26,17 +26,17 @@ extension EateriesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "eateries", for: indexPath) as? FacilityTableViewCell else { return }
-        UIView.animate(withDuration: buttonAnimationDuration) {
-            cell.transform = CGAffineTransform(scaleX: self.buttonScale, y: self.buttonScale)
-        }
+        guard let cell = tableView.cellForRow(at: indexPath) as? FacilityTableViewCell else { return }
+        UIView.animate(withDuration: cellAnimationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+            cell.transform = CGAffineTransform(scaleX: self.cellScale, y: self.cellScale)
+        }, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "eateries", for: indexPath) as? FacilityTableViewCell else { return }
-        UIView.animate(withDuration: buttonAnimationDuration) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? FacilityTableViewCell else { return }
+        UIView.animate(withDuration: cellAnimationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             cell.transform = .identity
-        }
+        }, completion: nil)
     }
     
 }
