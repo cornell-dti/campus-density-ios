@@ -17,8 +17,9 @@ class Facility {
     var address: String
     var currentCapacity: Double
     var totalCapacity: Double
+    var isFavorite: Bool
     
-    init(name: String, id: String, opensAt: String, closesAt: String, address: String, currentCapacity: Double, totalCapacity: Double) {
+    init(name: String, id: String, opensAt: String, closesAt: String, address: String, currentCapacity: Double, totalCapacity: Double, isFavorite: Bool) {
         self.name = name
         self.id = id
         self.opensAt = opensAt
@@ -26,6 +27,7 @@ class Facility {
         self.address = address
         self.currentCapacity = currentCapacity
         self.totalCapacity = totalCapacity
+        self.isFavorite = isFavorite
     }
     
 }

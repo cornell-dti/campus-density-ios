@@ -21,16 +21,18 @@ class FacilityTableViewCell: UITableViewCell {
     // MARK: - View vars
     var background: UIView!
     var nameLabel: UILabel!
-    var timeLabel: UILabel!
+    var densityLabel: UILabel!
     var capacityLabel: UILabel!
-    var totalCapacityBar: UIView!
-    var currentCapacityBar: UIView!
+    var totalDensityBar: UIView!
+    var currentDensityBar: UIView!
+    var heartButton: UIButton!
     
     // MARK: - Constants
     let backgroundCornerRadius: CGFloat = 10
-    let capacityBarCornerRadius: CGFloat = 5
+    let densityBarCornerRadius: CGFloat = 5
     let padding: CGFloat = 15
-    let capacityBarHeight: CGFloat = 45
+    let densityBarHeight: CGFloat = 30
+    let heartButtonLength: CGFloat = 25
     let capacityLabelWidth: CGFloat = 92.5
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -43,11 +45,11 @@ class FacilityTableViewCell: UITableViewCell {
     
     func setupViews() {
         background = UIView()
-        background.backgroundColor = .offWhite
+        background.backgroundColor = .white
         background.clipsToBounds = true
         background.layer.cornerRadius = backgroundCornerRadius
         background.layer.masksToBounds = false
-        background.layer.shadowColor = UIColor.lightGray.cgColor
+        background.layer.shadowColor = UIColor.densityDarkGray.cgColor
         background.layer.shadowRadius = 2.5
         background.layer.shadowOffset = CGSize(width: 0, height: 1)
         background.layer.shadowOpacity = 1.0
@@ -59,35 +61,38 @@ class FacilityTableViewCell: UITableViewCell {
         nameLabel.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize)
         addSubview(nameLabel)
         
-        timeLabel = UILabel()
-        timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.textColor = .darkGray
-        timeLabel.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
-        addSubview(timeLabel)
+        densityLabel = UILabel()
+        densityLabel.adjustsFontSizeToFitWidth = true
+        densityLabel.textColor = .densityDarkGray
+        densityLabel.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
+        addSubview(densityLabel)
         
-        capacityLabel = UILabel()
-        capacityLabel.adjustsFontSizeToFitWidth = true
-        capacityLabel.textAlignment = .right
-        capacityLabel.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize * 2)
-        addSubview(capacityLabel)
+        heartButton = UIButton()
+        heartButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
+        heartButton.imageView?.tintColor = .densityDarkGray
+        heartButton.contentMode = .scaleToFill
+        addSubview(heartButton)
         
-        totalCapacityBar = UIView()
-        totalCapacityBar.backgroundColor = .white
-        totalCapacityBar.clipsToBounds = true
-        totalCapacityBar.layer.cornerRadius = capacityBarCornerRadius
-        totalCapacityBar.layer.cornerRadius = backgroundCornerRadius
-        totalCapacityBar.layer.masksToBounds = false
-        totalCapacityBar.layer.shadowColor = UIColor.lightGray.cgColor
-        totalCapacityBar.layer.shadowRadius = 1.5
-        totalCapacityBar.layer.shadowOffset = CGSize(width: 0, height: 1)
-        totalCapacityBar.layer.shadowOpacity = 1.0
-        addSubview(totalCapacityBar)
+        totalDensityBar = UIView()
+        totalDensityBar.backgroundColor = .white
+        totalDensityBar.clipsToBounds = true
+        totalDensityBar.layer.cornerRadius = densityBarHeight / 2.0
+        totalDensityBar.layer.masksToBounds = false
+        totalDensityBar.layer.shadowColor = UIColor.lightGray.cgColor
+        totalDensityBar.layer.shadowRadius = 1.5
+        totalDensityBar.layer.shadowOffset = CGSize(width: 0, height: 1)
+        totalDensityBar.layer.shadowOpacity = 1.0
+        addSubview(totalDensityBar)
         
-        currentCapacityBar = UIView()
-        currentCapacityBar.backgroundColor = .densityBlue
-        currentCapacityBar.clipsToBounds = true
-        currentCapacityBar.layer.cornerRadius = capacityBarCornerRadius
-        addSubview(currentCapacityBar)
+        currentDensityBar = UIView()
+        currentDensityBar.backgroundColor = .densityRed
+        currentDensityBar.clipsToBounds = true
+        currentDensityBar.layer.cornerRadius = totalDensityBar.layer.cornerRadius
+        addSubview(currentDensityBar)
+    }
+    
+    @objc func toggleFavorite() {
+        print("toggle favorite")
     }
     
     func setupConstraints() {
@@ -97,39 +102,38 @@ class FacilityTableViewCell: UITableViewCell {
             make.height.equalToSuperview().offset(-padding)
         }
         
-        totalCapacityBar.snp.makeConstraints { make in
+        totalDensityBar.snp.makeConstraints { make in
             make.left.equalTo(background).offset(padding)
             make.width.equalTo(background).offset(-padding * 2)
             make.bottom.equalTo(background).offset(-padding)
-            make.height.equalTo(capacityBarHeight)
+            make.height.equalTo(densityBarHeight)
         }
         
-        currentCapacityBar.snp.makeConstraints { make in
-            make.left.equalTo(totalCapacityBar)
-            make.height.equalTo(totalCapacityBar)
-            make.width.equalTo(totalCapacityBar).multipliedBy(percentage)
-            make.centerY.equalTo(totalCapacityBar)
+        currentDensityBar.snp.makeConstraints { make in
+            make.left.equalTo(totalDensityBar)
+            make.height.equalTo(totalDensityBar)
+            make.width.equalTo(totalDensityBar).multipliedBy(percentage)
+            make.centerY.equalTo(totalDensityBar)
         }
         
-        timeLabel.snp.makeConstraints { make in
-            make.left.equalTo(totalCapacityBar)
-            make.bottom.equalTo(totalCapacityBar.snp.top).offset(-padding)
-            make.width.equalTo(totalCapacityBar).offset(-capacityLabelWidth - padding * 2)
-            make.height.equalTo(capacityBarHeight / 2)
+        densityLabel.snp.makeConstraints { make in
+            make.left.equalTo(totalDensityBar)
+            make.bottom.equalTo(totalDensityBar.snp.top).offset(-10)
+            make.width.equalTo(totalDensityBar).offset(-capacityLabelWidth - padding * 2)
+            make.height.equalTo(densityBarHeight / 2)
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(timeLabel)
-            make.bottom.equalTo(timeLabel.snp.top)
-            make.width.equalTo(timeLabel)
-            make.height.equalTo(timeLabel)
+            make.left.equalTo(densityLabel)
+            make.bottom.equalTo(densityLabel.snp.top)
+            make.width.equalTo(densityLabel)
+            make.height.equalTo(densityLabel)
         }
         
-        capacityLabel.snp.makeConstraints { make in
-            make.width.equalTo(capacityLabelWidth)
-            make.height.equalTo(capacityBarHeight)
+        heartButton.snp.makeConstraints { make in
+            make.width.height.equalTo(heartButtonLength)
             make.right.equalTo(background).offset(-padding)
-            make.top.equalTo(nameLabel)
+            make.centerY.equalTo(nameLabel.snp.bottom)
         }
     }
     
@@ -137,23 +141,28 @@ class FacilityTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func getCapacityColor() -> UIColor {
+    func interpretDensity() -> String {
         if percentage > 0.75 {
-            return UIColor.red
+            return "As crowded as it gets"
         } else if percentage > 0.25 {
-            return UIColor.orange
+            return "Pretty crowded"
         }
-        return UIColor.green
+        return "Not crowded"
     }
     
     func configure(with facility: Facility) {
         self.facility = facility
         nameLabel.text = facility.name
-        timeLabel.text = "Open until \(facility.closesAt)"
         percentage = facility.currentCapacity / facility.totalCapacity
-        capacityLabel.text = "\(Int(percentage * 100))% full"
-        capacityLabel.textColor = getCapacityColor()
+        densityLabel.text = interpretDensity()
         setupConstraints()
+        if facility.isFavorite {
+            heartButton.setImage(UIImage(named: "favorite")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            heartButton.imageView?.tintColor = .densityBlue
+        } else {
+            heartButton.setImage(UIImage(named: "favoriteunfilled")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            heartButton.imageView?.tintColor = .densityDarkGray
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

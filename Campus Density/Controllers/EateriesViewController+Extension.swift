@@ -22,7 +22,7 @@ extension EateriesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return facilityTableViewCellHeight
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
@@ -37,6 +37,53 @@ extension EateriesViewController: UITableViewDataSource, UITableViewDelegate {
         UIView.animate(withDuration: cellAnimationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             cell.transform = .identity
         }, completion: nil)
+    }
+    
+}
+
+extension EateriesViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return filters.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = filtersCollectionView.dequeueReusableCell(withReuseIdentifier: "filters", for: indexPath) as? FilterCollectionViewCell else { return UICollectionViewCell() }
+        let filter = filters[indexPath.row]
+        cell.configure(with: filter, isSelectedFilter: filter == selectedFilter)
+        cell.delegate = self
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let filter = filters[indexPath.row]
+        let width = filter.widthWithConstrainedHeight(filtersCollectionViewHeight, font: .eighteen) + filterCollectionViewCellHorizontalPadding * 2
+        return CGSize(width: width, height: filtersCollectionViewHeight)
+    }
+    
+}
+
+extension String {
+    
+    func widthWithConstrainedHeight(_ height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
+        
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return ceil(boundingBox.width)
+    }
+    
+}
+
+extension EateriesViewController: FilterCollectionViewCellDelegate {
+    
+    func filterCollectionViewCellDidTapFilterButton(filter: String) {
+        selectedFilter = filter
+        filtersCollectionView.reloadData()
     }
     
 }
