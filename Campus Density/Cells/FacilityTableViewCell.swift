@@ -30,7 +30,8 @@ class FacilityTableViewCell: UITableViewCell {
     // MARK: - Constants
     let backgroundCornerRadius: CGFloat = 10
     let densityBarCornerRadius: CGFloat = 5
-    let padding: CGFloat = 15
+    let padding: CGFloat = 50.0 / 3.0
+    let labelHeight: CGFloat = 20
     let densityBarHeight: CGFloat = 30
     let heartButtonLength: CGFloat = 25
     let capacityLabelWidth: CGFloat = 92.5
@@ -58,13 +59,16 @@ class FacilityTableViewCell: UITableViewCell {
         nameLabel = UILabel()
         nameLabel.adjustsFontSizeToFitWidth = true
         nameLabel.textColor = .darkGray
-        nameLabel.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize)
+        nameLabel.textAlignment = .left
+        nameLabel.numberOfLines = 0
+        nameLabel.font = .eighteenBold
         addSubview(nameLabel)
         
         densityLabel = UILabel()
         densityLabel.adjustsFontSizeToFitWidth = true
         densityLabel.textColor = .densityDarkGray
-        densityLabel.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
+        densityLabel.textAlignment = .right
+        densityLabel.font = .fourteen
         addSubview(densityLabel)
         
         heartButton = UIButton()
@@ -116,24 +120,18 @@ class FacilityTableViewCell: UITableViewCell {
             make.centerY.equalTo(totalDensityBar)
         }
         
-        densityLabel.snp.makeConstraints { make in
-            make.left.equalTo(totalDensityBar)
-            make.bottom.equalTo(totalDensityBar.snp.top).offset(-10)
-            make.width.equalTo(totalDensityBar).offset(-capacityLabelWidth - padding * 2)
-            make.height.equalTo(densityBarHeight / 2)
-        }
-        
         nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(densityLabel)
-            make.bottom.equalTo(densityLabel.snp.top)
-            make.width.equalTo(densityLabel)
-            make.height.equalTo(densityLabel)
+            make.left.equalTo(totalDensityBar)
+            make.bottom.equalTo(totalDensityBar.snp.top).offset(-padding)
+            make.width.equalTo(totalDensityBar).offset(-padding).multipliedBy(0.55)
+            make.height.equalTo(labelHeight)
         }
         
-        heartButton.snp.makeConstraints { make in
-            make.width.height.equalTo(heartButtonLength)
+        densityLabel.snp.makeConstraints { make in
+            make.width.equalTo(totalDensityBar).offset(-padding).multipliedBy(0.45)
+            make.height.equalTo(nameLabel)
             make.right.equalTo(background).offset(-padding)
-            make.centerY.equalTo(nameLabel.snp.bottom)
+            make.centerY.equalTo(nameLabel)
         }
     }
     

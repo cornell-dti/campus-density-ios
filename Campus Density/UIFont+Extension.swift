@@ -11,5 +11,7 @@ import UIKit
 extension UIFont {
     
     static let eighteen = UIFont.systemFont(ofSize: 18.0)
+    static let eighteenBold = UIFont.boldSystemFont(ofSize: 18.0)
+    static let fourteen = UIFont.systemFont(ofSize: 14.0)
     
 }
