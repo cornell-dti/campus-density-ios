@@ -100,6 +100,9 @@ class FacilityTableViewCell: UITableViewCell {
     }
     
     func setupConstraints() {
+        
+        let barWidth: CGFloat = frame.width
+        
         background.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(padding)
             make.width.equalToSuperview().offset(-padding * 2)
