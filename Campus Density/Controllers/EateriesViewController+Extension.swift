@@ -8,16 +8,88 @@
 
 import UIKit
 
+extension Filter: Equatable {
+    public static func ==(lhs: Filter, rhs: Filter) -> Bool {
+        switch lhs {
+        case .all:
+            switch rhs {
+            case .all:
+                return true
+            case .central:
+                return false
+            case .north:
+                return false
+            case .west:
+                return false
+            case .density(_):
+                return false
+            }
+        case .central:
+            switch rhs {
+            case .all:
+                return false
+            case .central:
+                return true
+            case .north:
+                return false
+            case .west:
+                return false
+            case .density(_):
+                return false
+            }
+        case .north:
+            switch rhs {
+            case .all:
+                return false
+            case .central:
+                return false
+            case .north:
+            return true
+            case .west:
+                return false
+            case .density(_):
+                return false
+            }
+        case .west:
+            switch rhs {
+            case .all:
+                return false
+            case .central:
+                return false
+            case .north:
+                return false
+            case .west:
+                return true
+            case .density(_):
+                return false
+            }
+        case .density(let type):
+            switch rhs {
+            case .all:
+                return false
+            case .central:
+                return false
+            case .north:
+                return false
+            case .west:
+                return false
+            case .density(let otherType):
+                return type == otherType
+            }
+        }
+    }
+}
+
 extension EateriesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return facilities.count
+        return filteredFacilities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "eateries", for: indexPath) as? FacilityTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        cell.configure(with: facilities[indexPath.row])
+        cell.configure(with: filteredFacilities[indexPath.row])
         return cell
     }
     
@@ -61,7 +133,7 @@ extension EateriesViewController: UICollectionViewDelegateFlowLayout, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let filter = filters[indexPath.row]
-        let width = filter.widthWithConstrainedHeight(filtersCollectionViewHeight, font: .eighteen) + filterCollectionViewCellHorizontalPadding * 2
+        let width = filterLabel(filter: filter).widthWithConstrainedHeight(filtersCollectionViewHeight, font: .eighteen) + filterCollectionViewCellHorizontalPadding * 2
         return CGSize(width: width, height: filtersCollectionViewHeight)
     }
     
@@ -81,9 +153,11 @@ extension String {
 
 extension EateriesViewController: FilterCollectionViewCellDelegate {
     
-    func filterCollectionViewCellDidTapFilterButton(filter: String) {
-        selectedFilter = filter
+    func filterCollectionViewCellDidTapFilterButton(selectedFilter: Filter) {
+        self.selectedFilter = selectedFilter
+        filter(by: selectedFilter)
         filtersCollectionView.reloadData()
+        facilitiesTableView.reloadData()
     }
     
 }

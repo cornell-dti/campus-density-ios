@@ -9,12 +9,21 @@
 import UIKit
 import SnapKit
 
+public enum Filter {
+    case all
+    case north
+    case west
+    case central
+    case density(type: Density)
+}
+
 class EateriesViewController: UIViewController {
     
     // MARK: - Data vars
     var facilities: [Facility]!
-    var filters: [String]!
-    var selectedFilter: String = "All"
+    var filteredFacilities = [Facility]()
+    var filters: [Filter]!
+    var selectedFilter: Filter = .all
     
     // MARK: - View vars
     var facilitiesTableView: UITableView!
@@ -32,18 +41,72 @@ class EateriesViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        title = "Eateries"
+        title = "Places"
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
         
-        facilities = [Facility(name: "Becker House", id: "beckerid", opensAt: "7:00 AM", closesAt: "8:00 PM", address: "address", currentCapacity: 52.0, totalCapacity: 100.0, isFavorite: false), Facility(name: "Flora Rose House", id: "roseid", opensAt: "7:00 AM", closesAt: "8:00 PM", address: "address", currentCapacity: 86.0, totalCapacity: 100.0, isFavorite: true), Facility(name: "Okenshields", id: "okenshieldsid", opensAt: "11:30 AM", closesAt: "2:30 PM", address: "address", currentCapacity: 24, totalCapacity: 100, isFavorite: true)]
+        filters = [.all, .north, .west, .central, .density(type: .manySpots), .density(type: .someSpots), .density(type: .fewSpots), .density(type: .noSpots)]
         
-        filters = ["All", "Favorites", "North", "West", "Central"]
+        facilities = [Facility(name: "Becker House", id: "beckerid", opensAt: "7:00 AM", closesAt: "8:00 PM", address: "address", density: .someSpots, region: "west"), Facility(name: "Rose House", id: "roseid", opensAt: "7:00 AM", closesAt: "8:00 PM", address: "address", density: .noSpots, region: "west"), Facility(name: "Okenshields", id: "okenshieldsid", opensAt: "11:30 AM", closesAt: "2:30 PM", address: "address", density: .manySpots, region: "central"), Facility(name: "Appel", id: "okenshieldsid", opensAt: "8:00 AM", closesAt: "2:30 PM", address: "address", density: .fewSpots, region: "north")]
+        
+        filter(by: selectedFilter)
         
         setupViews()
         setupConstraints()
         
+    }
+    
+    func filterLabel(filter: Filter) -> String {
+        switch filter {
+        case .all:
+            return "All"
+        case .central:
+            return "Central"
+        case .north:
+            return "North"
+        case .west:
+            return "West"
+        case .density(let type):
+            switch type {
+            case .noSpots:
+                return "No spots"
+            case .fewSpots:
+                return "Few spots"
+            case .someSpots:
+                return "Some spots"
+            case .manySpots:
+                return "Many spots"
+            }
+        }
+    }
+    
+    func filter(by selectedFilter: Filter) {
+        switch selectedFilter {
+        case .all:
+            filteredFacilities = []
+            filteredFacilities.append(contentsOf: facilities)
+            break
+        case .north:
+            filteredFacilities = facilities.filter({ facility -> Bool in
+                return facility.region == "north"
+            })
+            break
+        case .west:
+            filteredFacilities = facilities.filter({ facility -> Bool in
+                return facility.region == "west"
+            })
+            break
+        case .central:
+            filteredFacilities = facilities.filter({ facility -> Bool in
+                return facility.region == "central"
+            })
+            break
+        case .density(let type):
+            filteredFacilities = facilities.filter({ facility -> Bool in
+                return facility.density == type
+            })
+        }
     }
     
     func setupViews() {

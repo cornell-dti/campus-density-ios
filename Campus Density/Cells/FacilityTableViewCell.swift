@@ -8,6 +8,13 @@
 
 import UIKit
 
+public enum Density {
+    case noSpots
+    case fewSpots
+    case someSpots
+    case manySpots
+}
+
 protocol FacilityTableViewCellDelegate {
     func facilityTableViewCellDidTapFavoritebackground(facility: Facility)
 }
@@ -23,8 +30,10 @@ class FacilityTableViewCell: UITableViewCell {
     var nameLabel: UILabel!
     var densityLabel: UILabel!
     var capacityLabel: UILabel!
-    var totalDensityBar: UIView!
-    var currentDensityBar: UIView!
+    var barOne: UIView!
+    var barTwo: UIView!
+    var barThree: UIView!
+    var barFour: UIView!
     var heartButton: UIButton!
     
     // MARK: - Constants
@@ -50,9 +59,9 @@ class FacilityTableViewCell: UITableViewCell {
         background.clipsToBounds = true
         background.layer.cornerRadius = backgroundCornerRadius
         background.layer.masksToBounds = false
-        background.layer.shadowColor = UIColor.densityDarkGray.cgColor
-        background.layer.shadowRadius = 2.5
-        background.layer.shadowOffset = CGSize(width: 0, height: 1)
+        background.layer.shadowColor = UIColor.whiteTwo.cgColor
+        background.layer.shadowRadius = 5.0
+        background.layer.shadowOffset = CGSize(width: 0, height: 2)
         background.layer.shadowOpacity = 1.0
         addSubview(background)
         
@@ -77,22 +86,25 @@ class FacilityTableViewCell: UITableViewCell {
         heartButton.contentMode = .scaleToFill
         addSubview(heartButton)
         
-        totalDensityBar = UIView()
-        totalDensityBar.backgroundColor = .white
-        totalDensityBar.clipsToBounds = true
-        totalDensityBar.layer.cornerRadius = densityBarHeight / 2.0
-        totalDensityBar.layer.masksToBounds = false
-        totalDensityBar.layer.shadowColor = UIColor.lightGray.cgColor
-        totalDensityBar.layer.shadowRadius = 1.5
-        totalDensityBar.layer.shadowOffset = CGSize(width: 0, height: 1)
-        totalDensityBar.layer.shadowOpacity = 1.0
-        addSubview(totalDensityBar)
+        barOne = setupBar()
+        addSubview(barOne)
         
-        currentDensityBar = UIView()
-        currentDensityBar.backgroundColor = .densityRed
-        currentDensityBar.clipsToBounds = true
-        currentDensityBar.layer.cornerRadius = totalDensityBar.layer.cornerRadius
-        addSubview(currentDensityBar)
+        barTwo = setupBar()
+        addSubview(barTwo)
+        
+        barThree = setupBar()
+        addSubview(barThree)
+        
+        barFour = setupBar()
+        addSubview(barFour)
+    }
+    
+    func setupBar() -> UIView {
+        let view = UIView()
+        view.backgroundColor = .densityRed
+        view.clipsToBounds = true
+        view.layer.cornerRadius = densityBarHeight / 2.0
+        return view
     }
     
     @objc func toggleFavorite() {
@@ -101,7 +113,9 @@ class FacilityTableViewCell: UITableViewCell {
     
     func setupConstraints() {
         
-        let barWidth: CGFloat = frame.width
+        let totalBarWidth: CGFloat = frame.width - padding * 2 - 45
+        
+        let barWidth: CGFloat = totalBarWidth / 4.0
         
         background.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(padding)
@@ -109,29 +123,43 @@ class FacilityTableViewCell: UITableViewCell {
             make.height.equalToSuperview().offset(-padding)
         }
         
-        totalDensityBar.snp.makeConstraints { make in
+        barOne.snp.makeConstraints { make in
             make.left.equalTo(background).offset(padding)
-            make.width.equalTo(background).offset(-padding * 2)
+            make.width.equalTo(barWidth)
             make.bottom.equalTo(background).offset(-padding)
             make.height.equalTo(densityBarHeight)
         }
         
-        currentDensityBar.snp.makeConstraints { make in
-            make.left.equalTo(totalDensityBar)
-            make.height.equalTo(totalDensityBar)
-            make.width.equalTo(totalDensityBar).multipliedBy(percentage)
-            make.centerY.equalTo(totalDensityBar)
+        barTwo.snp.makeConstraints { make in
+            make.left.equalTo(barOne.snp.right).offset(5)
+            make.width.equalTo(barWidth)
+            make.bottom.equalTo(barOne)
+            make.height.equalTo(barOne)
+        }
+        
+        barThree.snp.makeConstraints { make in
+            make.left.equalTo(barTwo.snp.right).offset(5)
+            make.width.equalTo(barWidth)
+            make.bottom.equalTo(barOne)
+            make.height.equalTo(barOne)
+        }
+        
+        barFour.snp.makeConstraints { make in
+            make.left.equalTo(barThree.snp.right).offset(5)
+            make.width.equalTo(barWidth)
+            make.bottom.equalTo(barOne)
+            make.height.equalTo(barOne)
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(totalDensityBar)
-            make.bottom.equalTo(totalDensityBar.snp.top).offset(-padding)
-            make.width.equalTo(totalDensityBar).offset(-padding).multipliedBy(0.55)
+            make.left.equalTo(barOne)
+            make.bottom.equalTo(barOne.snp.top).offset(-padding)
+            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.55)
             make.height.equalTo(labelHeight)
         }
         
         densityLabel.snp.makeConstraints { make in
-            make.width.equalTo(totalDensityBar).offset(-padding).multipliedBy(0.45)
+            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.45)
             make.height.equalTo(nameLabel)
             make.right.equalTo(background).offset(-padding)
             make.centerY.equalTo(nameLabel)
@@ -143,27 +171,53 @@ class FacilityTableViewCell: UITableViewCell {
     }
     
     func interpretDensity() -> String {
-        if percentage > 0.75 {
-            return "As crowded as it gets"
-        } else if percentage > 0.25 {
-            return "Pretty crowded"
+        switch facility.density {
+        case .noSpots:
+            return "No spots"
+        case .fewSpots:
+            return "Few spots"
+        case .manySpots:
+            return "Many spots"
+        case .someSpots:
+            return "Some spots"
         }
-        return "Not crowded"
+    }
+    
+    func colorBars() {
+        switch facility.density {
+        case .noSpots:
+            barOne.backgroundColor = .orangeyRed
+            barTwo.backgroundColor = barOne.backgroundColor
+            barThree.backgroundColor = barTwo.backgroundColor
+            barFour.backgroundColor = barThree.backgroundColor
+            break
+        case .fewSpots:
+            barOne.backgroundColor = .peach
+            barTwo.backgroundColor = barOne.backgroundColor
+            barThree.backgroundColor = barTwo.backgroundColor
+            barFour.backgroundColor = .whiteTwo
+            break
+        case .manySpots:
+            barOne.backgroundColor = .lightTeal
+            barTwo.backgroundColor = .whiteTwo
+            barThree.backgroundColor = barTwo.backgroundColor
+            barFour.backgroundColor = barThree.backgroundColor
+            break
+        case .someSpots:
+            barOne.backgroundColor = .wheat
+            barTwo.backgroundColor = barOne.backgroundColor
+            barThree.backgroundColor = .whiteTwo
+            barFour.backgroundColor = barThree.backgroundColor
+            break
+        }
     }
     
     func configure(with facility: Facility) {
         self.facility = facility
         nameLabel.text = facility.name
-        percentage = facility.currentCapacity / facility.totalCapacity
         densityLabel.text = interpretDensity()
         setupConstraints()
-        if facility.isFavorite {
-            heartButton.setImage(UIImage(named: "favorite")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            heartButton.imageView?.tintColor = .densityBlue
-        } else {
-            heartButton.setImage(UIImage(named: "favoriteunfilled")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            heartButton.imageView?.tintColor = .densityDarkGray
-        }
+        colorBars()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

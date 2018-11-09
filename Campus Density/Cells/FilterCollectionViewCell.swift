@@ -9,14 +9,14 @@
 import UIKit
 
 protocol FilterCollectionViewCellDelegate {
-    func filterCollectionViewCellDidTapFilterButton(filter: String)
+    func filterCollectionViewCellDidTapFilterButton(selectedFilter: Filter)
 }
 
 class FilterCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Data vars
     var delegate: FilterCollectionViewCellDelegate!
-    var filter: String!
+    var filter: Filter!
     var isSelectedFilter: Bool!
     
     // MARK: - View vars
@@ -46,13 +46,37 @@ class FilterCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func filterButtonPressed() {
-        delegate.filterCollectionViewCellDidTapFilterButton(filter: filter)
+        delegate.filterCollectionViewCellDidTapFilterButton(selectedFilter: filter)
     }
     
-    func configure(with filter: String, isSelectedFilter: Bool) {
+    func filterLabel() -> String {
+        switch filter! {
+        case .all:
+            return "All"
+        case .central:
+            return "Central"
+        case .north:
+            return "North"
+        case .west:
+            return "West"
+        case .density(let type):
+            switch type {
+            case .noSpots:
+                return "No spots"
+            case .fewSpots:
+                return "Few spots"
+            case .someSpots:
+                return "Some spots"
+            case .manySpots:
+                return "Many spots"
+            }
+        }
+    }
+    
+    func configure(with filter: Filter, isSelectedFilter: Bool) {
         self.filter = filter
         self.isSelectedFilter = isSelectedFilter
-        filterButton.setTitle(filter, for: .normal)
+        filterButton.setTitle(filterLabel(), for: .normal)
         
         if isSelectedFilter {
             filterButton.backgroundColor = .densityBlue
