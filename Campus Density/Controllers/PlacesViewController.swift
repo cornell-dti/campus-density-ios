@@ -51,12 +51,18 @@ class PlacesViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.largeTitleTextAttributes =
+            [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown]
         
         filters = [.all, .north, .west, .central]
         
         setupViews()
         setupConstraints()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     func filterLabel(filter: Filter) -> String {

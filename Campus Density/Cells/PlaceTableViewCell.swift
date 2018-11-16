@@ -136,12 +136,12 @@ class PlaceTableViewCell: UITableViewCell {
         nameLabel.snp.makeConstraints { make in
             make.left.equalTo(barOne)
             make.bottom.equalTo(barOne.snp.top).offset(-padding)
-            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.55)
+            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.6)
             make.height.equalTo(labelHeight)
         }
         
         densityLabel.snp.makeConstraints { make in
-            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.45)
+            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.4)
             make.height.equalTo(nameLabel)
             make.right.equalTo(background).offset(-padding)
             make.centerY.equalTo(nameLabel)

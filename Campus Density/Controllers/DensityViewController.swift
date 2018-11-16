@@ -46,6 +46,7 @@ class DensityViewController: UIViewController {
 
         view.backgroundColor = .white
         title = place.displayName
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
