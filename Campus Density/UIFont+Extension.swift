@@ -10,8 +10,10 @@ import UIKit
 
 extension UIFont {
     
-    static let eighteen = UIFont.systemFont(ofSize: 18.0)
-    static let eighteenBold = UIFont.boldSystemFont(ofSize: 18.0)
-    static let fourteen = UIFont.systemFont(ofSize: 14.0)
+    static let eighteen = UIFont(name: "Avenir", size: 18.0)!
+    static let eighteenBold = UIFont(name: "Avenir-Heavy", size: 18.0)!
+    static let fourteen = UIFont(name: "Avenir", size: 14.0)!
+    static let sixteen = UIFont(name: "Avenir", size: 16.0)!
+    static let sixteenBold = UIFont(name: "Avenir-Heavy", size: 16.0)!
     
 }

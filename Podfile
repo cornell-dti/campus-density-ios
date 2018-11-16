@@ -7,6 +7,9 @@ target 'Campus Density' do
 
   # Pods for Campus Density
   pod 'SnapKit'
+  pod 'Alamofire'
+  pod 'SwiftyJSON'
+  pod 'NVActivityIndicatorView'
 
   target 'Campus DensityTests' do
     inherit! :search_paths

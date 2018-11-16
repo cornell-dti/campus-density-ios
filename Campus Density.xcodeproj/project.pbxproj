@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C29A760219E1F4200515D01 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29A75F219E1F4200515D01 /* API.swift */; };
+		0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */; };
 		0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */; };
 		0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */; };
+		0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7F910B219659FB00FBCD41 /* DensityViewController.swift */; };
 		0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */; };
-		0CA3F4C22173EA8000988A46 /* EateriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C12173EA8000988A46 /* EateriesViewController.swift */; };
+		0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */; };
 		0CA3F4C72173EA8100988A46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C62173EA8100988A46 /* Assets.xcassets */; };
 		0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C82173EA8100988A46 /* LaunchScreen.storyboard */; };
-		0CA3F4EF2173ECD500988A46 /* EateriesViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4EE2173ECD500988A46 /* EateriesViewController+Extension.swift */; };
-		0CA3F4F22173ED4A00988A46 /* FacilityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F12173ED4A00988A46 /* FacilityTableViewCell.swift */; };
+		0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */; };
+		0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */; };
 		0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F32173EDA000988A46 /* Facility.swift */; };
 		0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */; };
 		69FBE3A7C9A2FABCC58E8B38 /* Pods_Campus_DensityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */; };
@@ -40,18 +43,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C29A75F219E1F4200515D01 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		0C7F910B219659FB00FBCD41 /* DensityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DensityViewController.swift; sourceTree = "<group>"; };
 		0CA3F4BC2173EA8000988A46 /* Campus Density.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Campus Density.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0CA3F4C12173EA8000988A46 /* EateriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EateriesViewController.swift; sourceTree = "<group>"; };
+		0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		0CA3F4C62173EA8100988A46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0CA3F4C92173EA8100988A46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0CA3F4CB2173EA8100988A46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CA3F4D02173EA8200988A46 /* Campus DensityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Campus DensityTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA3F4DB2173EA8200988A46 /* Campus DensityUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Campus DensityUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0CA3F4EE2173ECD500988A46 /* EateriesViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EateriesViewController+Extension.swift"; sourceTree = "<group>"; };
-		0CA3F4F12173ED4A00988A46 /* FacilityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityTableViewCell.swift; sourceTree = "<group>"; };
+		0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlacesViewController+Extension.swift"; sourceTree = "<group>"; };
+		0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
 		0CA3F4F32173EDA000988A46 /* Facility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Facility.swift; sourceTree = "<group>"; };
 		0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_Density.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +99,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C4B2A2A2198E09B00CE7D69 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		0CA3F4B32173EA8000988A46 = {
 			isa = PBXGroup;
 			children = (
@@ -118,8 +132,10 @@
 			children = (
 				0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */,
 				0CA3F4F32173EDA000988A46 /* Facility.swift */,
+				0C29A75F219E1F4200515D01 /* API.swift */,
 				0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */,
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
+				0C4B2A2A2198E09B00CE7D69 /* Views */,
 				0CA3F4F02173ED2C00988A46 /* Cells */,
 				0CA3F4ED2173EB5F00988A46 /* Controllers */,
 				0CA3F4C62173EA8100988A46 /* Assets.xcassets */,
@@ -132,8 +148,9 @@
 		0CA3F4ED2173EB5F00988A46 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				0CA3F4C12173EA8000988A46 /* EateriesViewController.swift */,
-				0CA3F4EE2173ECD500988A46 /* EateriesViewController+Extension.swift */,
+				0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */,
+				0C7F910B219659FB00FBCD41 /* DensityViewController.swift */,
+				0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -141,7 +158,7 @@
 		0CA3F4F02173ED2C00988A46 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				0CA3F4F12173ED4A00988A46 /* FacilityTableViewCell.swift */,
+				0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */,
 				0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -361,11 +378,17 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -379,13 +402,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CA3F4C22173EA8000988A46 /* EateriesViewController.swift in Sources */,
-				0CA3F4EF2173ECD500988A46 /* EateriesViewController+Extension.swift in Sources */,
+				0C29A760219E1F4200515D01 /* API.swift in Sources */,
+				0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */,
+				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
-				0CA3F4F22173ED4A00988A46 /* FacilityTableViewCell.swift in Sources */,
+				0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */,
+				0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
+				0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */,
 				0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

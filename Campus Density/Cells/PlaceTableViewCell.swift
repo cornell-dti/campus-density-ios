@@ -8,21 +8,17 @@
 
 import UIKit
 
-public enum Density {
-    case noSpots
-    case fewSpots
-    case someSpots
-    case manySpots
+public enum Density: Int, Codable {
+    case noSpots = 3
+    case fewSpots = 2
+    case someSpots = 1
+    case manySpots = 0
 }
 
-protocol FacilityTableViewCellDelegate {
-    func facilityTableViewCellDidTapFavoritebackground(facility: Facility)
-}
-
-class FacilityTableViewCell: UITableViewCell {
+class PlaceTableViewCell: UITableViewCell {
     
     // MARK: - Data vars
-    var facility: Facility!
+    var place: Place!
     var percentage: Double!
     
     // MARK: - View vars
@@ -34,15 +30,14 @@ class FacilityTableViewCell: UITableViewCell {
     var barTwo: UIView!
     var barThree: UIView!
     var barFour: UIView!
-    var heartButton: UIButton!
     
     // MARK: - Constants
     let backgroundCornerRadius: CGFloat = 10
     let densityBarCornerRadius: CGFloat = 5
-    let padding: CGFloat = 50.0 / 3.0
+    let padding: CGFloat = 55.0 / 3.0
+    let innerPadding: CGFloat = 50
     let labelHeight: CGFloat = 20
-    let densityBarHeight: CGFloat = 30
-    let heartButtonLength: CGFloat = 25
+    let densityBarHeight: CGFloat = 25
     let capacityLabelWidth: CGFloat = 92.5
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -58,16 +53,13 @@ class FacilityTableViewCell: UITableViewCell {
         background.backgroundColor = .white
         background.clipsToBounds = true
         background.layer.cornerRadius = backgroundCornerRadius
-        background.layer.masksToBounds = false
-        background.layer.shadowColor = UIColor.whiteTwo.cgColor
-        background.layer.shadowRadius = 5.0
-        background.layer.shadowOffset = CGSize(width: 0, height: 2)
-        background.layer.shadowOpacity = 1.0
+        background.layer.borderColor = UIColor.whiteTwo.cgColor
+        background.layer.borderWidth = 1
         addSubview(background)
         
         nameLabel = UILabel()
         nameLabel.adjustsFontSizeToFitWidth = true
-        nameLabel.textColor = .darkGray
+        nameLabel.textColor = .grayishBrown
         nameLabel.textAlignment = .left
         nameLabel.numberOfLines = 0
         nameLabel.font = .eighteenBold
@@ -79,12 +71,6 @@ class FacilityTableViewCell: UITableViewCell {
         densityLabel.textAlignment = .right
         densityLabel.font = .fourteen
         addSubview(densityLabel)
-        
-        heartButton = UIButton()
-        heartButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
-        heartButton.imageView?.tintColor = .densityDarkGray
-        heartButton.contentMode = .scaleToFill
-        addSubview(heartButton)
         
         barOne = setupBar()
         addSubview(barOne)
@@ -107,13 +93,9 @@ class FacilityTableViewCell: UITableViewCell {
         return view
     }
     
-    @objc func toggleFavorite() {
-        print("toggle favorite")
-    }
-    
     func setupConstraints() {
         
-        let totalBarWidth: CGFloat = frame.width - padding * 2 - 45
+        let totalBarWidth: CGFloat = frame.width - padding * 2 - innerPadding
         
         let barWidth: CGFloat = totalBarWidth / 4.0
         
@@ -171,7 +153,7 @@ class FacilityTableViewCell: UITableViewCell {
     }
     
     func interpretDensity() -> String {
-        switch facility.density {
+        switch place.density {
         case .noSpots:
             return "No spots"
         case .fewSpots:
@@ -184,7 +166,7 @@ class FacilityTableViewCell: UITableViewCell {
     }
     
     func colorBars() {
-        switch facility.density {
+        switch place.density {
         case .noSpots:
             barOne.backgroundColor = .orangeyRed
             barTwo.backgroundColor = barOne.backgroundColor
@@ -212,9 +194,9 @@ class FacilityTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(with facility: Facility) {
-        self.facility = facility
-        nameLabel.text = facility.name
+    func configure(with place: Place) {
+        self.place = place
+        nameLabel.text = place.displayName
         densityLabel.text = interpretDensity()
         setupConstraints()
         colorBars()

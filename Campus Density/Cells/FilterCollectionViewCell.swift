@@ -59,17 +59,6 @@ class FilterCollectionViewCell: UICollectionViewCell {
             return "North"
         case .west:
             return "West"
-        case .density(let type):
-            switch type {
-            case .noSpots:
-                return "No spots"
-            case .fewSpots:
-                return "Few spots"
-            case .someSpots:
-                return "Some spots"
-            case .manySpots:
-                return "Many spots"
-            }
         }
     }
     
@@ -79,15 +68,15 @@ class FilterCollectionViewCell: UICollectionViewCell {
         filterButton.setTitle(filterLabel(), for: .normal)
         
         if isSelectedFilter {
-            filterButton.backgroundColor = .densityBlue
-            filterButton.setTitleColor(.white, for: .normal)
+            filterButton.backgroundColor = .whiteTwo
+            filterButton.setTitleColor(.grayishBrown, for: .normal)
             filterButton.layer.borderColor = nil
             filterButton.layer.borderWidth = 0
         } else {
             filterButton.backgroundColor = .white
-            filterButton.setTitleColor(.densityBlue, for: .normal)
-            filterButton.layer.borderColor = UIColor.densityBlue.cgColor
-            filterButton.layer.borderWidth = 1
+            filterButton.setTitleColor(.densityDarkGray, for: .normal)
+//            filterButton.layer.borderColor = UIColor.whiteTwo.cgColor
+//            filterButton.layer.borderWidth = 1
         }
     }
     

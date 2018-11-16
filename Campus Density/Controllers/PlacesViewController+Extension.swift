@@ -21,8 +21,6 @@ extension Filter: Equatable {
                 return false
             case .west:
                 return false
-            case .density(_):
-                return false
             }
         case .central:
             switch rhs {
@@ -33,8 +31,6 @@ extension Filter: Equatable {
             case .north:
                 return false
             case .west:
-                return false
-            case .density(_):
                 return false
             }
         case .north:
@@ -47,8 +43,6 @@ extension Filter: Equatable {
             return true
             case .west:
                 return false
-            case .density(_):
-                return false
             }
         case .west:
             switch rhs {
@@ -60,81 +54,47 @@ extension Filter: Equatable {
                 return false
             case .west:
                 return true
-            case .density(_):
-                return false
-            }
-        case .density(let type):
-            switch rhs {
-            case .all:
-                return false
-            case .central:
-                return false
-            case .north:
-                return false
-            case .west:
-                return false
-            case .density(let otherType):
-                return type == otherType
             }
         }
     }
 }
 
-extension EateriesViewController: UITableViewDataSource, UITableViewDelegate {
+extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredFacilities.count
+        return filteredPlaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "eateries", for: indexPath) as? FacilityTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "eateries", for: indexPath) as? PlaceTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        cell.configure(with: filteredFacilities[indexPath.row])
+        cell.configure(with: filteredPlaces[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return facilityTableViewCellHeight
+        return placeTableViewCellHeight
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? FacilityTableViewCell else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) as? PlaceTableViewCell else { return }
         UIView.animate(withDuration: cellAnimationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             cell.transform = CGAffineTransform(scaleX: self.cellScale, y: self.cellScale)
         }, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? FacilityTableViewCell else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) as? PlaceTableViewCell else { return }
         UIView.animate(withDuration: cellAnimationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             cell.transform = .identity
         }, completion: nil)
     }
     
-}
-
-extension EateriesViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filters.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = filtersCollectionView.dequeueReusableCell(withReuseIdentifier: "filters", for: indexPath) as? FilterCollectionViewCell else { return UICollectionViewCell() }
-        let filter = filters[indexPath.row]
-        cell.configure(with: filter, isSelectedFilter: filter == selectedFilter)
-        cell.delegate = self
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let filter = filters[indexPath.row]
-        let width = filterLabel(filter: filter).widthWithConstrainedHeight(filtersCollectionViewHeight, font: .eighteen) + filterCollectionViewCellHorizontalPadding * 2
-        return CGSize(width: width, height: filtersCollectionViewHeight)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let place = filteredPlaces[indexPath.row]
+        let densityViewController = DensityViewController()
+        densityViewController.place = place
+        navigationController?.pushViewController(densityViewController, animated: true)
     }
     
 }
@@ -151,13 +111,47 @@ extension String {
     
 }
 
-extension EateriesViewController: FilterCollectionViewCellDelegate {
+extension PlacesViewController: FilterViewDelegate {
     
-    func filterCollectionViewCellDidTapFilterButton(selectedFilter: Filter) {
+    func filterViewDidSelectFilter(selectedFilter: Filter) {
         self.selectedFilter = selectedFilter
         filter(by: selectedFilter)
-        filtersCollectionView.reloadData()
-        facilitiesTableView.reloadData()
+        placesTableView.reloadData()
+    }
+    
+}
+
+extension PlacesViewController: APIDelegate {
+    
+    func didGetPlaces(updatedPlaces: [Place]?) {
+        if let updatedPlaces = updatedPlaces {
+            self.places = updatedPlaces
+            api.getDensities(updatedPlaces: updatedPlaces)
+        } else {
+            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .actionSheet)
+            alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+                self.api.getPlaces()
+            }))
+            alertController.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func didGetDensities(updatedPlaces: [Place]?) {
+        if let updatedPlaces = updatedPlaces {
+            self.places = updatedPlaces
+            selectedFilter = .all
+            filter(by: selectedFilter)
+            loadingView.stopAnimating()
+            placesTableView.isHidden = false
+            filterView.isHidden = false
+            placesTableView.reloadData()
+        } else {
+            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .actionSheet)
+            alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+                self.api.getDensities(updatedPlaces: self.places)
+            }))
+            alertController.dismiss(animated: true, completion: nil)
+        }
     }
     
 }

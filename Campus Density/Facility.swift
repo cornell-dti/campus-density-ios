@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Facility {
+class Facility: Codable {
     
     var name: String
     var id: String
