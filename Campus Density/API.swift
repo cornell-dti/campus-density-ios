@@ -100,7 +100,7 @@ class API {
                     updatedPlace.density = placeDensity.density
                     newPlaces.append(updatedPlace)
                 })
-                let sortedPlaces = updatedPlaces.sorted(by: { (placeOne, placeTwo) -> Bool in
+                let sortedPlaces = newPlaces.sorted(by: { (placeOne, placeTwo) -> Bool in
                     switch placeOne.density {
                     case .noSpots:
                         return placeTwo.density != .noSpots
