@@ -61,7 +61,7 @@ class PlacesViewController: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
