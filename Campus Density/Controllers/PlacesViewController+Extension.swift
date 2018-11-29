@@ -123,12 +123,30 @@ extension PlacesViewController: FilterViewDelegate {
 
 extension PlacesViewController: APIDelegate {
     
+    func didGetInfo(updatedPlaces: [Place]?) {
+        if let updatedPlaces = updatedPlaces {
+            self.places = updatedPlaces
+            filter(by: selectedFilter)
+            loadingView.stopAnimating()
+            placesTableView.isHidden = false
+            filterView.isHidden = false
+            placesTableView.reloadData()
+        } else {
+            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+                self.api.getDensities(updatedPlaces: self.places)
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     func didGetPlaces(updatedPlaces: [Place]?) {
         if let updatedPlaces = updatedPlaces {
             self.places = updatedPlaces
             api.getDensities(updatedPlaces: updatedPlaces)
         } else {
-            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .actionSheet)
+            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
                 self.api.getPlaces()
                 alertController.dismiss(animated: true, completion: nil)
@@ -140,13 +158,9 @@ extension PlacesViewController: APIDelegate {
     func didGetDensities(updatedPlaces: [Place]?) {
         if let updatedPlaces = updatedPlaces {
             self.places = updatedPlaces
-            filter(by: selectedFilter)
-            loadingView.stopAnimating()
-            placesTableView.isHidden = false
-            filterView.isHidden = false
-            placesTableView.reloadData()
+            api.getPlaceInfo(updatedPlaces: updatedPlaces)
         } else {
-            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .actionSheet)
+            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
                 self.api.getDensities(updatedPlaces: self.places)
                 alertController.dismiss(animated: true, completion: nil)

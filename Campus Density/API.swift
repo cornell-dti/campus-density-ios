@@ -14,7 +14,7 @@ enum APIError: Error {
     case noData
 }
 
-class PlaceInfo: Codable {
+class PlaceName: Codable {
     
     var displayName: String
     var id: String
@@ -36,16 +36,34 @@ class PlaceDensity: Codable {
     }
 }
 
+class PlaceInfo: Codable {
+    var id: String
+    var campusLocation: String
+    var nextOpen: Double
+    var closingAt: Double
+    var dailyHours: [[String : Double]]
+    
+    init(id: String, campusLocation: String, nextOpen: Double, closingAt: Double, dailyHours: [[String : Double]]) {
+        self.id = id
+        self.campusLocation = campusLocation
+        self.nextOpen = nextOpen
+        self.closingAt = closingAt
+        self.dailyHours = dailyHours
+    }
+}
+
 class Place {
     
     var displayName: String
     var id: String
     var density: Density
+    var isClosed: Bool
     
-    init(displayName: String, id: String, density: Density) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool) {
         self.displayName = displayName
         self.id = id
         self.density = density
+        self.isClosed = isClosed
     }
     
 }
@@ -53,6 +71,7 @@ class Place {
 protocol APIDelegate {
     func didGetPlaces(updatedPlaces: [Place]?)
     func didGetDensities(updatedPlaces: [Place]?)
+    func didGetInfo(updatedPlaces: [Place]?)
 }
 
 class API {
@@ -63,16 +82,39 @@ class API {
         self.delegate = delegate
     }
     
+    func getPlaceInfo(updatedPlaces: [Place]) {
+        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityInfo")
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let placeInfos):
+                    var places = [Place]()
+                    placeInfos.forEach({ placeInfo in
+                        let oldPlace = updatedPlaces.first(where: { place -> Bool in
+                            return place.id == placeInfo.id
+                        })
+                        guard let old = oldPlace else { return }
+                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: Date().timeIntervalSince1970 < placeInfo.closingAt)
+                        places.append(place)
+                    })
+                    self.delegate.didGetInfo(updatedPlaces: places)
+                case .failure(_):
+                    self.delegate.didGetInfo(updatedPlaces: nil)
+                }
+        }
+    }
+    
     func getPlaces() {
         Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityList")
         .responseData { response in
             let decoder = JSONDecoder()
-            let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
+            let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
             switch result {
-            case .success(let placeInfos):
+            case .success(let placeNames):
                 var places = [Place]()
-                placeInfos.forEach({ placeInfo in
-                    let place = Place(displayName: placeInfo.displayName, id: placeInfo.id, density: .manySpots)
+                placeNames.forEach({ placeName in
+                    let place = Place(displayName: placeName.displayName, id: placeName.id, density: .manySpots, isClosed: false)
                     places.append(place)
                 })
                 self.delegate.didGetPlaces(updatedPlaces: places)

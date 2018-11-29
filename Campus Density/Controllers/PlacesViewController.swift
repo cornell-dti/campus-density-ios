@@ -123,9 +123,6 @@ class PlacesViewController: UIViewController {
         case .all:
             filteredPlaces = []
             filteredPlaces.append(contentsOf: places)
-            filteredPlaces.sort { placeOne, placeTwo -> Bool in
-                return placeOne.density.rawValue < placeTwo.density.rawValue
-            }
             break
         case .north:
             filteredPlaces = places.filter({ place -> Bool in
@@ -141,6 +138,9 @@ class PlacesViewController: UIViewController {
             filteredPlaces = places.filter({ place -> Bool in
                 return getRegion(place: place) == "Central"
             })
+        }
+        filteredPlaces.sort { placeOne, placeTwo -> Bool in
+            return placeOne.density.rawValue < placeTwo.density.rawValue
         }
     }
     

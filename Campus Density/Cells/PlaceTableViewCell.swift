@@ -166,6 +166,13 @@ class PlaceTableViewCell: UITableViewCell {
     }
     
     func colorBars() {
+        if place.isClosed {
+            barOne.backgroundColor = .whiteTwo
+            barTwo.backgroundColor = barOne.backgroundColor
+            barThree.backgroundColor = barOne.backgroundColor
+            barFour.backgroundColor = barOne.backgroundColor
+            return
+        }
         switch place.density {
         case .noSpots:
             barOne.backgroundColor = .orangeyRed
@@ -197,7 +204,7 @@ class PlaceTableViewCell: UITableViewCell {
     func configure(with place: Place) {
         self.place = place
         nameLabel.text = place.displayName
-        densityLabel.text = interpretDensity()
+        densityLabel.text = place.isClosed ? "Closed" : interpretDensity()
         setupConstraints()
         colorBars()
     }
