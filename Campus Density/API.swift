@@ -41,7 +41,6 @@ class Place {
     var displayName: String
     var id: String
     var density: Density
-    let region: String = "north"
     
     init(displayName: String, id: String, density: Density) {
         self.displayName = displayName

@@ -78,6 +78,37 @@ class PlacesViewController: UIViewController {
         }
     }
     
+    func getRegion(place: Place) -> String {
+        switch place.displayName {
+        case "Rose Dining Hall":
+            return "West"
+        case "Risley":
+            return "North"
+        case "RPCC Dining Hall":
+            return "North"
+        case "Olin Libe Cafe":
+            return "Central"
+        case "Okenshields":
+            return "Central"
+        case "North Star at Appel":
+            return "North"
+        case "104West!":
+            return "West"
+        case "Keeton House":
+            return "West"
+        case "Jansen's at Bethe House":
+            return "West"
+        case "Carl Becker House":
+            return "West"
+        case "Cafe Jennie":
+            return "Central"
+        case "Alice Cook House":
+            return "West"
+        default:
+            return ""
+        }
+    }
+    
     func filter(by selectedFilter: Filter) {
         switch selectedFilter {
         case .all:
@@ -86,17 +117,17 @@ class PlacesViewController: UIViewController {
             break
         case .north:
             filteredPlaces = places.filter({ place -> Bool in
-                return place.region == "north"
+                return getRegion(place: place) == "North"
             })
             break
         case .west:
             filteredPlaces = places.filter({ place -> Bool in
-                return place.region == "west"
+                return getRegion(place: place) == "West"
             })
             break
         case .central:
             filteredPlaces = places.filter({ place -> Bool in
-                return place.region == "central"
+                return getRegion(place: place) == "Central"
             })
         }
     }
