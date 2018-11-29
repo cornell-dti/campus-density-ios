@@ -13,14 +13,17 @@ import SnapKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var placesViewController: PlacesViewController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.sixteenBold]
         
+        placesViewController = PlacesViewController()
+        
         window = UIWindow()
-        window?.rootViewController = UINavigationController(rootViewController: PlacesViewController())
+        window?.rootViewController = UINavigationController(rootViewController: placesViewController)
         window?.makeKeyAndVisible()
         
         return true
@@ -42,6 +45,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if !placesViewController.loadingView.isAnimating {
+            placesViewController.updatePlaces()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

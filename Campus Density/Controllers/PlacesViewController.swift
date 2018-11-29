@@ -60,6 +60,14 @@ class PlacesViewController: UIViewController {
         setupViews()
         setupConstraints()
         
+        
+        
+    }
+    
+    func updatePlaces() {
+        if !loadingView.isAnimating {
+            api.getPlaces()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

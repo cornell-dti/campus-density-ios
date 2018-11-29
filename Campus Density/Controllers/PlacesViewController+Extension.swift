@@ -140,7 +140,6 @@ extension PlacesViewController: APIDelegate {
     func didGetDensities(updatedPlaces: [Place]?) {
         if let updatedPlaces = updatedPlaces {
             self.places = updatedPlaces
-            selectedFilter = .all
             filter(by: selectedFilter)
             loadingView.stopAnimating()
             placesTableView.isHidden = false
