@@ -1456,25 +1456,34 @@ class DensityViewController: UIViewController {
         
         layoutBars(maxBarHeight: maxBarHeight, startHour: start, endHour: end)
         
+        
         let index = bars.firstIndex(where: { bar -> Bool in
             return bar.tag == selectedHour
         })
-        guard let barIndex = index else { return }
         
-        densityDescriptionLabel.snp.makeConstraints { make in
-            make.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-            make.height.equalTo(40)
-            make.centerX.equalTo(bars[barIndex]).priority(.high)
-            make.right.lessThanOrEqualToSuperview().offset(-descriptionLabelHorizontalPadding).priority(.required)
-            make.left.greaterThanOrEqualToSuperview().offset(descriptionLabelHorizontalPadding).priority(.required)
-            make.centerY.equalTo(descriptionCenterY)
-        }
-        
-        selectedView.snp.makeConstraints { make in
-            make.width.equalTo(selectedViewWidth)
-            make.top.equalTo(densityDescriptionLabel.snp.bottom)
-            make.bottom.equalTo(bars[barIndex].snp.top)
-            make.centerX.equalTo(bars[barIndex])
+        if let barIndex = index {
+            densityDescriptionLabel.snp.makeConstraints { make in
+                make.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
+                make.height.equalTo(40)
+                make.centerX.equalTo(bars[barIndex]).priority(.high)
+                make.right.lessThanOrEqualToSuperview().offset(-descriptionLabelHorizontalPadding).priority(.required)
+                make.left.greaterThanOrEqualToSuperview().offset(descriptionLabelHorizontalPadding).priority(.required)
+                make.centerY.equalTo(descriptionCenterY)
+            }
+            
+            selectedView.snp.makeConstraints { make in
+                make.width.equalTo(selectedViewWidth)
+                make.top.equalTo(densityDescriptionLabel.snp.bottom)
+                make.bottom.equalTo(bars[barIndex].snp.top)
+                make.centerX.equalTo(bars[barIndex])
+            }
+        } else {
+            densityDescriptionLabel.snp.makeConstraints { make in
+                make.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
+                make.height.equalTo(40)
+                make.centerX.equalToSuperview()
+                make.centerY.equalTo(descriptionCenterY)
+            }
         }
         
     }
