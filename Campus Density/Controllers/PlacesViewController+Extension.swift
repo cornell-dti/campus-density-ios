@@ -66,7 +66,7 @@ extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "eateries", for: indexPath) as? PlaceTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: placeTableViewCellReuseIdentifier, for: indexPath) as? PlaceTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         cell.configure(with: filteredPlaces[indexPath.row])
         return cell
@@ -131,8 +131,9 @@ extension PlacesViewController: APIDelegate {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .actionSheet)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
                 self.api.getPlaces()
+                alertController.dismiss(animated: true, completion: nil)
             }))
-            alertController.dismiss(animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -149,8 +150,9 @@ extension PlacesViewController: APIDelegate {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .actionSheet)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
                 self.api.getDensities(updatedPlaces: self.places)
+                alertController.dismiss(animated: true, completion: nil)
             }))
-            alertController.dismiss(animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         }
     }
     

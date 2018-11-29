@@ -149,8 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */,
-				0C7F910B219659FB00FBCD41 /* DensityViewController.swift */,
 				0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */,
+				0C7F910B219659FB00FBCD41 /* DensityViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

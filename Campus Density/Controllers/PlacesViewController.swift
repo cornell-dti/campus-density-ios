@@ -39,6 +39,7 @@ class PlacesViewController: UIViewController {
     let filtersCollectionViewHeight: CGFloat = 65
     let filterCollectionViewCellHorizontalPadding: CGFloat = 12.5
     let loadingViewLength: CGFloat = 50
+    let placeTableViewCellReuseIdentifier = "places"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,6 +115,9 @@ class PlacesViewController: UIViewController {
         case .all:
             filteredPlaces = []
             filteredPlaces.append(contentsOf: places)
+            filteredPlaces.sort { placeOne, placeTwo -> Bool in
+                return placeOne.density.rawValue < placeTwo.density.rawValue
+            }
             break
         case .north:
             filteredPlaces = places.filter({ place -> Bool in
@@ -141,7 +145,7 @@ class PlacesViewController: UIViewController {
         placesTableView.backgroundColor = .clear
         placesTableView.showsVerticalScrollIndicator = false
         placesTableView.showsHorizontalScrollIndicator = false
-        placesTableView.register(PlaceTableViewCell.self, forCellReuseIdentifier: "eateries")
+        placesTableView.register(PlaceTableViewCell.self, forCellReuseIdentifier: placeTableViewCellReuseIdentifier)
         filterView = FilterView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: filtersCollectionViewHeight))
         filterView.isHidden = true
         filterView.setNeedsUpdateConstraints()
