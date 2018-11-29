@@ -579,7 +579,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NVY52276C4;
+				DEVELOPMENT_TEAM = MJ5Q5C9SFW;
 				INFOPLIST_FILE = "Campus Density/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -598,7 +598,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NVY52276C4;
+				DEVELOPMENT_TEAM = MJ5Q5C9SFW;
 				INFOPLIST_FILE = "Campus Density/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
