@@ -1798,11 +1798,11 @@ class DensityViewController: UIViewController {
         guard let historicalAverage = densityMap[selectedHour] else { return "Closed" }
         guard let avg = historicalAverage else { return "Closed" }
         if avg < 0.5 {
-            return "Many spots"
+            return "Not busy"
         } else if avg < 0.75 {
-            return "Few spots"
+            return "Somewhat busy"
         } else {
-            return "No spots"
+            return "Very busy"
         }
     }
     
