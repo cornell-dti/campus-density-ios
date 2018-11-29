@@ -19,7 +19,7 @@ class DensityViewController: UIViewController {
     var axis: UIView!
     var currentLabel: UILabel!
     var hoursLabel: UILabel!
-    var bars = [UIButton]()
+    var bars = [UIView]()
     var densityDescriptionLabel: UILabel!
     var selectedView: UIView!
     
@@ -1527,7 +1527,7 @@ class DensityViewController: UIViewController {
         
         currentLabel = UILabel()
         currentLabel.textColor = .warmGray
-        currentLabel.text = "Hours"
+        currentLabel.text = "Today's Hours"
         currentLabel.textAlignment = .center
         currentLabel.font = .eighteenBold
         view.addSubview(currentLabel)
@@ -1707,15 +1707,15 @@ class DensityViewController: UIViewController {
             case 1:
                 return "10:00 AM - 2:00 PM\n4:30 PM - 7:30 PM"
             case 2:
-                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n4:30 PM - 7:30 PM"
             case 3:
-                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n4:30 PM - 7:30 PM"
             case 4:
-                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n6:00 PM - 7:30 PM"
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n6:00 PM - 7:30 PM"
             case 5:
-                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n4:30 PM - 7:30 PM"
             case 6:
-                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n4:30 PM - 7:30 PM"
             case 7:
                 return "10:30 AM - 2:00 PM\n4:30 PM - 7:30 PM"
             default:
@@ -1872,8 +1872,28 @@ class DensityViewController: UIViewController {
         
     }
     
-    @objc func didTapBar(sender: UIButton) {
-        selectedHour = sender.tag
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let location = touches.first?.location(in: view) {
+            let index = bars.firstIndex { bar -> Bool in
+                return bar.frame.contains(location)
+            }
+            guard let barIndex = index else { return }
+            didTapBar(bar: bars[barIndex])
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let location = touches.first?.location(in: view) {
+            let index = bars.firstIndex { bar -> Bool in
+                return bar.frame.contains(location)
+            }
+            guard let barIndex = index else { return }
+            didTapBar(bar: bars[barIndex])
+        }
+    }
+    
+    func didTapBar(bar: UIView) {
+        selectedHour = bar.tag
         densityDescriptionLabel.text = "\(getHourLabel()) - \(getCurrentDensity())"
         
         let navOffset: CGFloat = UIApplication.shared.statusBarFrame.height + navigationController!.navigationBar.frame.height
@@ -1885,7 +1905,7 @@ class DensityViewController: UIViewController {
         densityDescriptionLabel.snp.remakeConstraints { remake in
             remake.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
             remake.height.equalTo(40)
-            remake.centerX.equalTo(sender).priority(.high)
+            remake.centerX.equalTo(bar).priority(.high)
             remake.right.lessThanOrEqualToSuperview().offset(-descriptionLabelHorizontalPadding).priority(.required)
             remake.left.greaterThanOrEqualToSuperview().offset(descriptionLabelHorizontalPadding).priority(.required)
             remake.centerY.equalTo(descriptionCenterY)
@@ -1894,8 +1914,8 @@ class DensityViewController: UIViewController {
         selectedView.snp.remakeConstraints { remake in
             remake.width.equalTo(selectedViewWidth)
             remake.top.equalTo(densityDescriptionLabel.snp.bottom)
-            remake.bottom.equalTo(sender.snp.top)
-            remake.centerX.equalTo(sender)
+            remake.bottom.equalTo(bar.snp.top)
+            remake.centerX.equalTo(bar)
         }
     }
     
@@ -1905,9 +1925,8 @@ class DensityViewController: UIViewController {
         var barLeftOffset: CGFloat = 0
         let barWidth: CGFloat = (view.frame.width - axisHorizontalPadding * 4) / CGFloat(densityMap.keys.count)
         while hour <= endHour {
-            let bar = UIButton()
+            let bar = UIView()
             bar.tag = hour
-            bar.addTarget(self, action: #selector(didTapBar), for: .touchUpInside)
             var barHeight: CGFloat = 1
             if let historicalAverage = densityMap[hour], let avg = historicalAverage {
                 if avg < 0.5 {
@@ -1920,7 +1939,6 @@ class DensityViewController: UIViewController {
                 barHeight = maxBarHeight * CGFloat(avg)
             } else {
                 bar.isHidden = true
-                bar.isEnabled = false
             }
             bar.clipsToBounds = true
             bar.layer.cornerRadius = 5
