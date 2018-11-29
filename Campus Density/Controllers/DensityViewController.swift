@@ -1365,13 +1365,81 @@ class DensityViewController: UIViewController {
     func operatingHours() -> String {
         switch place.displayName {
         case "Rose Dining Hall":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "8:00 AM - 9:30 AM\n10:00 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            case 2:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 8:00 PM"
+            case 3:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 8:00 PM"
+            case 4:
+                return "7:30 AM - 10:00 AM\n6:00 PM - 8:00 PM"
+            case 5:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 8:00 PM"
+            case 6:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 8:00 PM"
+            case 7:
+                return "8:00 AM - 10:00 AM\n10:30 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            default:
+                return "Closed"
+            }
         case "Risley":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "Closed"
+            case 2:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 3:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 4:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 5:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 6:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 7:
+                return "Closed"
+            default:
+                return "Closed"
+            }
         case "RPCC Dining Hall":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "10:00 AM - 2:00 PM\n5:30 PM - 8:30 PM"
+            case 2:
+                return "5:30 PM - 9:00 PM"
+            case 3:
+                return "5:30 PM - 9:00 PM"
+            case 4:
+                return "5:30 PM - 9:00 PM"
+            case 5:
+                return "5:30 PM - 9:00 PM"
+            case 6:
+                return "5:30 PM - 8:30 PM"
+            case 7:
+                return "5:30 PM - 8:30 PM"
+            default:
+                return "Closed"
+            }
         case "Olin Libe Cafe":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "10:00 AM - 12:00 AM"
+            case 2:
+                return "8:00 AM - 12:00 AM"
+            case 3:
+                return "8:00 AM - 12:00 AM"
+            case 4:
+                return "8:00 AM - 12:00 AM"
+            case 5:
+                return "8:00 AM - 12:00 AM"
+            case 6:
+                return "8:00 AM - 6:00 PM"
+            case 7:
+                return "10:00 AM - 8:00 PM"
+            default:
+                return "Closed"
+            }
         case "Okenshields":
             if getWeekday() == 6 {
                 return "11:00 AM - 2:30 PM"
@@ -1381,19 +1449,138 @@ class DensityViewController: UIViewController {
                 return "11:00 AM - 2:30 PM\n4:30 PM - 7:30 PM"
             }
         case "North Star at Appel":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "10:00 AM - 2:00 PM\n2:00 PM - 4:00 PM\n5:00 PM - 8:00 PM"
+            case 2:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n2:00 PM - 4:00 PM\n5:00 PM - 8:00 PM"
+            case 3:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n2:00 PM - 4:00 PM\n5:00 PM - 8:00 PM"
+            case 4:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n2:00 PM - 4:00 PM\n5:00 PM - 8:00 PM"
+            case 5:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n2:00 PM - 4:00 PM\n5:00 PM - 8:00 PM"
+            case 6:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n2:00 PM - 4:00 PM\n5:00 PM - 8:00 PM"
+            case 7:
+                return "8:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n2:00 PM - 4:00 PM\n5:00 PM - 8:00 PM"
+            default:
+                return "Closed"
+            }
         case "104West!":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 2:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 3:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 4:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 5:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 7:00 PM"
+            case 6:
+                return "11:00 AM - 3:00 PM\n6:00 PM - 8:00 PM"
+            case 7:
+                return "12:30 PM - 2:00 PM\n6:00 PM - 8:00 PM"
+            default:
+                return "Closed"
+            }
         case "Keeton House":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "10:00 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            case 2:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 8:00 PM"
+            case 3:
+                return "11:00 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            case 4:
+                return "6:00 PM - 8:00 PM"
+            case 5:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 8:00 PM"
+            case 6:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 8:00 PM"
+            case 7:
+                return "10:30 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            default:
+                return "Closed"
+            }
         case "Jansen's at Bethe House":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "10:00 AM - 2:00 PM\n4:30 PM - 7:30 PM"
+            case 2:
+                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+            case 3:
+                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+            case 4:
+                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n6:00 PM - 7:30 PM"
+            case 5:
+                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+            case 6:
+                return "7:00 AM - 10:30 AM\n10:30 PM - 2:00 PM\n4:30 PM - 7:30 PM"
+            case 7:
+                return "10:30 AM - 2:00 PM\n4:30 PM - 7:30 PM"
+            default:
+                return "Closed"
+            }
         case "Carl Becker House":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "10:00 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            case 2:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            case 3:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            case 4:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 2:00 PM\n6:00 PM - 8:00 PM"
+            case 5:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 3:30 PM\n5:00 PM - 8:00 PM"
+            case 6:
+                return "7:00 AM - 10:30 AM\n10:30 AM - 3:30 PM\n5:00 PM - 8:00 PM"
+            case 7:
+                return "10:30 AM - 2:00 PM\n5:00 PM - 8:00 PM"
+            default:
+                return "Closed"
+            }
         case "Cafe Jennie":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "Closed"
+            case 2:
+                return "8:00 AM - 6:00 PM"
+            case 3:
+                return "8:00 AM - 6:00 PM"
+            case 4:
+                return "8:00 AM - 6:00 PM"
+            case 5:
+                return "8:00 AM - 6:00 PM"
+            case 6:
+                return "8:00 AM - 6:00 PM"
+            case 7:
+                return "10:00 AM - 5:00 PM"
+            default:
+                return "Closed"
+            }
         case "Alice Cook House":
-            return ""
+            switch getWeekday() {
+            case 1:
+                return "10:00 AM - 2:00 PM\n5:00 PM - 9:00 PM"
+            case 2:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 9:00 PM"
+            case 3:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 9:00 PM"
+            case 4:
+                return "6:00 PM - 9:00 PM"
+            case 5:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 9:00 PM"
+            case 6:
+                return "7:30 AM - 10:00 AM\n5:00 PM - 9:00 PM"
+            case 7:
+                return "10:30 AM - 2:00 PM\n5:00 PM - 9:00 PM"
+            default:
+                return "Closed"
+            }
         default:
             return ""
         }
