@@ -7,3 +7,4 @@ Pods/Pods.xcodeproj/xcuserdata/Raymone.xcuserdatad/xcschemes/xcschememanagement.
 Campus Density.xcodeproj/project.pbxproj
 Campus Density.xcodeproj/project.pbxproj
 *.pbxproj
+BuildConfig/*
