@@ -93,6 +93,12 @@ class API {
     }
     
     func getToken() {
+        if let token = UserDefaults.standard.value(forKey: "token") as? String, let authKey = UserDefaults.standard.value(forKey: "authKey") as? String {
+            System.token = token
+            System.authKey = authKey
+            delegate.didGetToken()
+            return
+        }
         guard let receiptURL = Bundle.main.appStoreReceiptURL else { return }
         var receipt: Data!
         do {
@@ -115,6 +121,9 @@ class API {
                     switch result {
                     case .success(let token):
                         System.token = token.token
+                        UserDefaults.standard.set(token.token, forKey: "token")
+                        UserDefaults.standard.set(authKey, forKey: "authKey")
+                        UserDefaults.standard.synchronize()
                     case .failure(_):
                         System.token = nil
                     }
@@ -135,6 +144,9 @@ class API {
                     switch result {
                     case .success(let token):
                         System.token = token.token
+                        UserDefaults.standard.set(token.token, forKey: "token")
+                        UserDefaults.standard.set(authKey, forKey: "authKey")
+                        UserDefaults.standard.synchronize()
                     case .failure(_):
                         System.token = nil
                     }
