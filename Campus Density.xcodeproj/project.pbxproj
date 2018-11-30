@@ -20,6 +20,10 @@
 		0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */; };
 		0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F32173EDA000988A46 /* Facility.swift */; };
 		0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */; };
+		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
+		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
+		0CC6B74721B0B2C200E7B359 /* Variables.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0CC6B74421B0AE2300E7B359 /* Variables.xcconfig */; };
+		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
 		69FBE3A7C9A2FABCC58E8B38 /* Pods_Campus_DensityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */; };
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
@@ -60,6 +64,10 @@
 		0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
 		0CA3F4F32173EDA000988A46 /* Facility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Facility.swift; sourceTree = "<group>"; };
 		0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		0CC6B74121B0A43C00E7B359 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		0CC6B74421B0AE2300E7B359 /* Variables.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Variables.xcconfig; sourceTree = "<group>"; };
+		0CC6B74521B0AF1400E7B359 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
+		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
 		2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_Density.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33A9A060DE6722A4C153ECF9 /* Pods-Campus DensityUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A221D5B742F7968E952C70F /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,6 +111,8 @@
 			isa = PBXGroup;
 			children = (
 				0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */,
+				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
+				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -110,6 +120,7 @@
 		0CA3F4B32173EA8000988A46 = {
 			isa = PBXGroup;
 			children = (
+				0CC6B74321B0ADAF00E7B359 /* BuildConfig */,
 				0CA3F4BE2173EA8000988A46 /* Campus Density */,
 				0CA3F4BD2173EA8000988A46 /* Products */,
 				23C61EB4463B8E7B5FDC9E81 /* Pods */,
@@ -133,6 +144,7 @@
 				0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */,
 				0CA3F4F32173EDA000988A46 /* Facility.swift */,
 				0C29A75F219E1F4200515D01 /* API.swift */,
+				0CC6B74521B0AF1400E7B359 /* System.swift */,
 				0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */,
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
 				0C4B2A2A2198E09B00CE7D69 /* Views */,
@@ -162,6 +174,14 @@
 				0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		0CC6B74321B0ADAF00E7B359 /* BuildConfig */ = {
+			isa = PBXGroup;
+			children = (
+				0CC6B74421B0AE2300E7B359 /* Variables.xcconfig */,
+			);
+			path = BuildConfig;
 			sourceTree = "<group>";
 		};
 		23C61EB4463B8E7B5FDC9E81 /* Pods */ = {
@@ -297,6 +317,7 @@
 			files = (
 				0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */,
 				0CA3F4C72173EA8100988A46 /* Assets.xcassets in Resources */,
+				0CC6B74721B0B2C200E7B359 /* Variables.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,7 +424,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
+				0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */,
 				0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */,
+				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
@@ -411,6 +434,7 @@
 				0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
+				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */,
 				0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */,
 			);
@@ -459,6 +483,7 @@
 /* Begin XCBuildConfiguration section */
 		0CA3F4E22173EA8200988A46 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CC6B74421B0AE2300E7B359 /* Variables.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -520,6 +545,7 @@
 		};
 		0CA3F4E32173EA8200988A46 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CC6B74421B0AE2300E7B359 /* Variables.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

@@ -29,7 +29,7 @@ class PlacesViewController: UIViewController {
     // MARK: - View vars
     var placesTableView: UITableView!
     var filterView: FilterView!
-    var loadingView: NVActivityIndicatorView!
+    var loadingBarsView: LoadingBarsView!
     
     // MARK: - Constants
     let cellAnimationDuration: TimeInterval = 0.2
@@ -40,13 +40,14 @@ class PlacesViewController: UIViewController {
     let filterCollectionViewCellHorizontalPadding: CGFloat = 12.5
     let loadingViewLength: CGFloat = 50
     let placeTableViewCellReuseIdentifier = "places"
+    let loadingBarsLength: CGFloat = 63
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         api = API(delegate: self)
-        api.getPlaces()
-        
+        api.getToken()
+
         view.backgroundColor = .white
         title = "Places"
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -54,9 +55,9 @@ class PlacesViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.largeTitleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown]
-        
+
         filters = [.all, .north, .west, .central]
-        
+
         setupViews()
         setupConstraints()
         
@@ -65,7 +66,7 @@ class PlacesViewController: UIViewController {
     }
     
     func updatePlaces() {
-        if !loadingView.isAnimating {
+        if !loadingBarsView.animating {
             api.getPlaces()
         }
     }
@@ -140,7 +141,7 @@ class PlacesViewController: UIViewController {
             })
         }
         filteredPlaces.sort { placeOne, placeTwo -> Bool in
-            return placeOne.density.rawValue < placeTwo.density.rawValue
+            return placeTwo.isClosed ? true : placeOne.density.rawValue < placeTwo.density.rawValue
         }
     }
     
@@ -159,12 +160,15 @@ class PlacesViewController: UIViewController {
         filterView.setNeedsUpdateConstraints()
         filterView.configure(with: filters, selectedFilter: selectedFilter, delegate: self, width: view.frame.width)
         placesTableView.tableHeaderView = filterView
+        let logoView = LogoView()
+        logoView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: logoView.getHeight())
+        placesTableView.tableFooterView = logoView
         placesTableView.isHidden = true
         view.addSubview(placesTableView)
         
-        loadingView = NVActivityIndicatorView(frame: .zero, type: NVActivityIndicatorType.ballClipRotate, color: .peach, padding: nil)
-        loadingView.startAnimating()
-        view.addSubview(loadingView)
+        loadingBarsView = LoadingBarsView()
+        loadingBarsView.startAnimating()
+        view.addSubview(loadingBarsView)
         
     }
     
@@ -176,8 +180,8 @@ class PlacesViewController: UIViewController {
             make.height.equalToSuperview()
         }
         
-        loadingView.snp.makeConstraints { make in
-            make.width.height.equalTo(loadingViewLength)
+        loadingBarsView.snp.makeConstraints { make in
+            make.width.height.equalTo(loadingBarsLength)
             make.center.equalToSuperview()
         }
         

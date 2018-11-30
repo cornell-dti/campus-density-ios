@@ -68,10 +68,20 @@ class Place {
     
 }
 
+class Token: Codable {
+    
+    var token: String
+    
+    init(token: String) {
+        self.token = token
+    }
+}
+
 protocol APIDelegate {
     func didGetPlaces(updatedPlaces: [Place]?)
     func didGetDensities(updatedPlaces: [Place]?)
     func didGetInfo(updatedPlaces: [Place]?)
+    func didGetToken()
 }
 
 class API {
@@ -82,8 +92,64 @@ class API {
         self.delegate = delegate
     }
     
+    func getToken() {
+        guard let receiptURL = Bundle.main.appStoreReceiptURL else { return }
+        var receipt: Data!
+        do {
+            guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
+            receipt = try Data(contentsOf: receiptURL)
+            guard let authKey = Bundle.main.object(forInfoDictionaryKey: "AUTHKEY") as? String else { return }
+            System.authKey = authKey
+            let headers: HTTPHeaders = [
+                "Authorization": "Bearer \(authKey)",
+                "x-api-key": identifierForVendor
+            ]
+            let parameters: Parameters = [
+                "receipt": receipt.base64EncodedString(),
+                "instanceId": identifierForVendor
+            ]
+            Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/authv1", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseData { response in
+                    let decoder = JSONDecoder()
+                    let result: Result<Token> = decoder.decodeResponse(from: response)
+                    switch result {
+                    case .success(let token):
+                        System.token = token.token
+                    case .failure(_):
+                        System.token = nil
+                    }
+                    self.delegate.didGetToken()
+            }
+        } catch {
+            guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
+            guard let authKey = Bundle.main.object(forInfoDictionaryKey: "Density") as? String else { return }
+            System.authKey = authKey
+            let headers: HTTPHeaders = [
+                "Authorization": "Bearer \(authKey)",
+                "x-api-key": identifierForVendor
+            ]
+            Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/authv1", method: .put, headers: headers)
+                .responseData { response in
+                    let decoder = JSONDecoder()
+                    let result: Result<Token> = decoder.decodeResponse(from: response)
+                    switch result {
+                    case .success(let token):
+                        System.token = token.token
+                    case .failure(_):
+                        System.token = nil
+                    }
+                    self.delegate.didGetToken()
+            }
+        }
+    }
+    
     func getPlaceInfo(updatedPlaces: [Place]) {
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityInfo")
+        guard let authKey = System.authKey, let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(authKey)",
+            "x-api-key": token
+        ]
+        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityInfo", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
@@ -95,7 +161,7 @@ class API {
                             return place.id == placeInfo.id
                         })
                         guard let old = oldPlace else { return }
-                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: Date().timeIntervalSince1970 < placeInfo.closingAt)
+                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: Date().timeIntervalSince1970 >= placeInfo.closingAt)
                         places.append(place)
                     })
                     self.delegate.didGetInfo(updatedPlaces: places)
@@ -106,7 +172,12 @@ class API {
     }
     
     func getPlaces() {
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityList")
+        guard let authKey = System.authKey, let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(authKey)",
+            "x-api-key": token
+        ]
+        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityList", headers: headers)
         .responseData { response in
             let decoder = JSONDecoder()
             let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
@@ -125,7 +196,12 @@ class API {
     }
     
     func getDensities(updatedPlaces: [Place]) {
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/howDense")
+        guard let authKey = System.authKey, let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(authKey)",
+            "x-api-key": token
+        ]
+        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/howDense", headers: headers)
         .responseData { response in
             let decoder = JSONDecoder()
             let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)

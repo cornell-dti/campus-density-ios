@@ -37,5 +37,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>Density</key>
+	<string>$(AUTHKEY)</string>
 </dict>
 </plist>

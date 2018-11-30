@@ -109,6 +109,13 @@ extension String {
         return ceil(boundingBox.width)
     }
     
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return ceil(boundingBox.height)
+    }
+    
 }
 
 extension PlacesViewController: FilterViewDelegate {
@@ -123,11 +130,24 @@ extension PlacesViewController: FilterViewDelegate {
 
 extension PlacesViewController: APIDelegate {
     
+    func didGetToken() {
+        if System.token != nil {
+            api.getPlaces()
+        } else {
+            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+                self.api.getDensities(updatedPlaces: self.places)
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     func didGetInfo(updatedPlaces: [Place]?) {
         if let updatedPlaces = updatedPlaces {
             self.places = updatedPlaces
             filter(by: selectedFilter)
-            loadingView.stopAnimating()
+            loadingBarsView.stopAnimating()
             placesTableView.isHidden = false
             filterView.isHidden = false
             placesTableView.reloadData()

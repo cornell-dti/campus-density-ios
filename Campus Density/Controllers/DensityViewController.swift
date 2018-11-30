@@ -92,14 +92,14 @@ class DensityViewController: UIViewController {
                 ]
             case 2:
                 return [
-                    7: nil,
-                    8: 0.279,
-                    9: 0.325,
-                    10: 0.396,
-                    11: 0.734,
-                    12: 1,
-                    13: 0.909,
-                    14: 0.13,
+                    7: 0.279,
+                    8: 0.325,
+                    9: 0.396,
+                    10: nil,
+                    11: nil,
+                    12: nil,
+                    13: nil,
+                    14: nil,
                     15: nil,
                     16: nil,
                     17: 0.87,
@@ -112,14 +112,14 @@ class DensityViewController: UIViewController {
                 ]
             case 3:
                 return [
-                    7: nil,
-                    8: nil,
-                    9: nil,
+                    7: 0.558,
+                    8: 0.629,
+                    9: 0.179,
                     10: nil,
-                    11: 0.8,
-                    12: 0.558,
-                    13: 0.629,
-                    14: 0.179,
+                    11: nil,
+                    12: nil,
+                    13: nil,
+                    14: nil,
                     15: nil,
                     16: nil,
                     17: 0.979,
@@ -132,14 +132,14 @@ class DensityViewController: UIViewController {
                 ]
             case 4:
                 return [
-                    7: nil,
-                    8: nil,
-                    9: nil,
+                    7: 0.636,
+                    8: 0.393,
+                    9: 0.011,
                     10: nil,
-                    11: 0.397,
-                    12: 0.636,
-                    13: 0.393,
-                    14: 0.011,
+                    11: nil,
+                    12: nil,
+                    13: nil,
+                    14: nil,
                     15: nil,
                     16: nil,
                     17: 0.768,
@@ -152,14 +152,14 @@ class DensityViewController: UIViewController {
                 ]
             case 5:
                 return [
-                    7: nil,
-                    8: nil,
-                    9: nil,
+                    7: 0.433,
+                    8: 0.502,
+                    9: 0.16,
                     10: nil,
-                    11: 0.631,
-                    12: 0.433,
-                    13: 0.502,
-                    14: 0.16,
+                    11: nil,
+                    12: nil,
+                    13: nil,
+                    14: nil,
                     15: nil,
                     16: nil,
                     17: 1,
@@ -175,11 +175,11 @@ class DensityViewController: UIViewController {
                     7: 0.162,
                     8: 0.554,
                     9: 0.378,
-                    10: 0.378,
-                    11: 0.518,
-                    12: 0.716,
-                    13: 0.604,
-                    14: 0.176,
+                    10: nil,
+                    11: nil,
+                    12: nil,
+                    13: nil,
+                    14: nil,
                     15: nil,
                     16: nil,
                     17: 0.459,
@@ -2004,11 +2004,11 @@ class DensityViewController: UIViewController {
         guard let historicalAverage = densityMap[selectedHour] else { return "Closed" }
         guard let avg = historicalAverage else { return "Closed" }
         if avg < 0.5 {
-            return "Not busy"
+            return "Usually not busy"
         } else if avg < 0.75 {
-            return "Somewhat busy"
+            return "Usually pretty busy"
         } else {
-            return "Very busy"
+            return "Usually very busy"
         }
     }
     

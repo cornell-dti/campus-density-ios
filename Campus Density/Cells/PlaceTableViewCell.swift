@@ -155,13 +155,13 @@ class PlaceTableViewCell: UITableViewCell {
     func interpretDensity() -> String {
         switch place.density {
         case .noSpots:
-            return "No spots"
+            return "Very busy"
         case .fewSpots:
-            return "Few spots"
+            return "Pretty busy"
         case .manySpots:
-            return "Many spots"
+            return "Not busy"
         case .someSpots:
-            return "Some spots"
+            return "Somewhat busy"
         }
     }
     
