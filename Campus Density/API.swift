@@ -125,6 +125,9 @@ class API {
                         UserDefaults.standard.set(authKey, forKey: "authKey")
                         UserDefaults.standard.synchronize()
                     case .failure(_):
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.removeObject(forKey: "authKey")
+                        UserDefaults.standard.synchronize()
                         System.token = nil
                     }
                     self.delegate.didGetToken()
@@ -148,6 +151,9 @@ class API {
                         UserDefaults.standard.set(authKey, forKey: "authKey")
                         UserDefaults.standard.synchronize()
                     case .failure(_):
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.removeObject(forKey: "authKey")
+                        UserDefaults.standard.synchronize()
                         System.token = nil
                     }
                     self.delegate.didGetToken()
@@ -173,11 +179,14 @@ class API {
                             return place.id == placeInfo.id
                         })
                         guard let old = oldPlace else { return }
-                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: Date().timeIntervalSince1970 >= placeInfo.closingAt)
+                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt == -1.0)
                         places.append(place)
                     })
                     self.delegate.didGetInfo(updatedPlaces: places)
                 case .failure(_):
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
                     self.delegate.didGetInfo(updatedPlaces: nil)
                 }
         }
@@ -202,6 +211,9 @@ class API {
                 })
                 self.delegate.didGetPlaces(updatedPlaces: places)
             case .failure(_):
+                UserDefaults.standard.removeObject(forKey: "token")
+                UserDefaults.standard.removeObject(forKey: "authKey")
+                UserDefaults.standard.synchronize()
                 self.delegate.didGetPlaces(updatedPlaces: nil)
             }
         }
@@ -243,6 +255,9 @@ class API {
                 })
                 self.delegate.didGetDensities(updatedPlaces: sortedPlaces)
             case .failure(_):
+                UserDefaults.standard.removeObject(forKey: "token")
+                UserDefaults.standard.removeObject(forKey: "authKey")
+                UserDefaults.standard.synchronize()
                 self.delegate.didGetDensities(updatedPlaces: nil)
             }
         }
