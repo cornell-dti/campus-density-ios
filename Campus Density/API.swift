@@ -104,7 +104,7 @@ class API {
         do {
             guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
             receipt = try Data(contentsOf: receiptURL)
-            guard let authKey = Bundle.main.object(forInfoDictionaryKey: "AUTHKEY") as? String else { return }
+            guard let authKey = ProcessInfo.processInfo.environment["AUTH_KEY"] else { return }
             System.authKey = authKey
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer \(authKey)",
@@ -134,7 +134,7 @@ class API {
             }
         } catch {
             guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
-            guard let authKey = Bundle.main.object(forInfoDictionaryKey: "Density") as? String else { return }
+            guard let authKey = ProcessInfo.processInfo.environment["AUTH_KEY"] else { return }
             System.authKey = authKey
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer \(authKey)",

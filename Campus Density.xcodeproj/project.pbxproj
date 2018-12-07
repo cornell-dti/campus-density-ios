@@ -23,7 +23,6 @@
 		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
-		0CC6B74E21B1D17700E7B359 /* Variables.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0CC6B74D21B1D17700E7B359 /* Variables.xcconfig */; };
 		69FBE3A7C9A2FABCC58E8B38 /* Pods_Campus_DensityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */; };
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
@@ -67,7 +66,6 @@
 		0CC6B74121B0A43C00E7B359 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		0CC6B74521B0AF1400E7B359 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
-		0CC6B74D21B1D17700E7B359 /* Variables.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Variables.xcconfig; path = ../../../Downloads/Variables.xcconfig; sourceTree = "<group>"; };
 		2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_Density.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33A9A060DE6722A4C153ECF9 /* Pods-Campus DensityUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A221D5B742F7968E952C70F /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 		0CA3F4B32173EA8000988A46 = {
 			isa = PBXGroup;
 			children = (
-				0CC6B74321B0ADAF00E7B359 /* BuildConfig */,
 				0CA3F4BE2173EA8000988A46 /* Campus Density */,
 				0CA3F4BD2173EA8000988A46 /* Products */,
 				23C61EB4463B8E7B5FDC9E81 /* Pods */,
@@ -174,14 +171,6 @@
 				0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		0CC6B74321B0ADAF00E7B359 /* BuildConfig */ = {
-			isa = PBXGroup;
-			children = (
-				0CC6B74D21B1D17700E7B359 /* Variables.xcconfig */,
-			);
-			path = BuildConfig;
 			sourceTree = "<group>";
 		};
 		23C61EB4463B8E7B5FDC9E81 /* Pods */ = {
@@ -317,7 +306,6 @@
 			files = (
 				0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */,
 				0CA3F4C72173EA8100988A46 /* Assets.xcassets in Resources */,
-				0CC6B74E21B1D17700E7B359 /* Variables.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,7 +471,6 @@
 /* Begin XCBuildConfiguration section */
 		0CA3F4E22173EA8200988A46 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0CC6B74D21B1D17700E7B359 /* Variables.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -545,7 +532,6 @@
 		};
 		0CA3F4E32173EA8200988A46 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0CC6B74D21B1D17700E7B359 /* Variables.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

@@ -8,7 +8,6 @@
 
 import UIKit
 import SnapKit
-import NVActivityIndicatorView
 
 public enum Filter {
     case all
@@ -67,7 +66,7 @@ class PlacesViewController: UIViewController {
     
     func updatePlaces() {
         if !loadingBarsView.animating {
-            api.getPlaces()
+            api.getToken()
         }
     }
     

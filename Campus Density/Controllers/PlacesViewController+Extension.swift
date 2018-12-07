@@ -130,13 +130,15 @@ extension PlacesViewController: FilterViewDelegate {
 
 extension PlacesViewController: APIDelegate {
     
+    // on failure for any of these functions make sure to call self.api.getToken()
+    
     func didGetToken() {
         if System.token != nil {
             api.getPlaces()
         } else {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
-                self.api.getDensities(updatedPlaces: self.places)
+                self.api.getToken()
                 alertController.dismiss(animated: true, completion: nil)
             }))
             present(alertController, animated: true, completion: nil)
@@ -154,7 +156,7 @@ extension PlacesViewController: APIDelegate {
         } else {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
-                self.api.getDensities(updatedPlaces: self.places)
+                self.api.getToken()
                 alertController.dismiss(animated: true, completion: nil)
             }))
             present(alertController, animated: true, completion: nil)
@@ -168,7 +170,7 @@ extension PlacesViewController: APIDelegate {
         } else {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
-                self.api.getPlaces()
+                self.api.getToken()
                 alertController.dismiss(animated: true, completion: nil)
             }))
             present(alertController, animated: true, completion: nil)
@@ -182,7 +184,7 @@ extension PlacesViewController: APIDelegate {
         } else {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
-                self.api.getDensities(updatedPlaces: self.places)
+                self.api.getToken()
                 alertController.dismiss(animated: true, completion: nil)
             }))
             present(alertController, animated: true, completion: nil)
