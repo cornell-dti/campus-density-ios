@@ -8,3 +8,4 @@ Campus Density.xcodeproj/project.pbxproj
 Campus Density.xcodeproj/project.pbxproj
 *.pbxproj
 BuildConfig/*
+Secrets/

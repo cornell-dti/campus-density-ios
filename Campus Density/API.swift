@@ -99,12 +99,13 @@ class API {
             delegate.didGetToken()
             return
         }
-        guard let receiptURL = Bundle.main.appStoreReceiptURL else { return }
-        var receipt: Data!
-        do {
+        if let receiptURL = Bundle.main.appStoreReceiptURL {
             guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
-            receipt = try Data(contentsOf: receiptURL)
-            guard let authKey = ProcessInfo.processInfo.environment["AUTH_KEY"] else { return }
+            let receipt = receiptURL.dataRepresentation
+            //            guard let receiptData = NSData(contentsOf: receiptURL) else { return }
+            //            guard let receipt = receiptData.base64EncodedString(options: .lineLength64Characters)
+            guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let keyDict = NSDictionary(contentsOfFile: path) else { return }
+            guard let authKey = keyDict["AUTH_KEY"] as? String else { return }
             System.authKey = authKey
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer \(authKey)",
@@ -132,9 +133,10 @@ class API {
                     }
                     self.delegate.didGetToken()
             }
-        } catch {
+        } else {
             guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
-            guard let authKey = ProcessInfo.processInfo.environment["AUTH_KEY"] else { return }
+            guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let keyDict = NSDictionary(contentsOfFile: path) else { return }
+            guard let authKey = keyDict["AUTH_KEY"] as? String else { return }
             System.authKey = authKey
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer \(authKey)",
@@ -179,7 +181,7 @@ class API {
                             return place.id == placeInfo.id
                         })
                         guard let old = oldPlace else { return }
-                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt == -1.0)
+                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt != -1.0)
                         places.append(place)
                     })
                     self.delegate.didGetInfo(updatedPlaces: places)
@@ -199,23 +201,23 @@ class API {
             "x-api-key": token
         ]
         Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityList", headers: headers)
-        .responseData { response in
-            let decoder = JSONDecoder()
-            let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
-            switch result {
-            case .success(let placeNames):
-                var places = [Place]()
-                placeNames.forEach({ placeName in
-                    let place = Place(displayName: placeName.displayName, id: placeName.id, density: .manySpots, isClosed: false)
-                    places.append(place)
-                })
-                self.delegate.didGetPlaces(updatedPlaces: places)
-            case .failure(_):
-                UserDefaults.standard.removeObject(forKey: "token")
-                UserDefaults.standard.removeObject(forKey: "authKey")
-                UserDefaults.standard.synchronize()
-                self.delegate.didGetPlaces(updatedPlaces: nil)
-            }
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let placeNames):
+                    var places = [Place]()
+                    placeNames.forEach({ placeName in
+                        let place = Place(displayName: placeName.displayName, id: placeName.id, density: .manySpots, isClosed: false)
+                        places.append(place)
+                    })
+                    self.delegate.didGetPlaces(updatedPlaces: places)
+                case .failure(_):
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    self.delegate.didGetPlaces(updatedPlaces: nil)
+                }
         }
     }
     
@@ -226,40 +228,40 @@ class API {
             "x-api-key": token
         ]
         Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/howDense", headers: headers)
-        .responseData { response in
-            let decoder = JSONDecoder()
-            let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
-            switch result {
-            case .success(let densities):
-                var newPlaces = [Place]()
-                densities.forEach({ placeDensity in
-                    let index = updatedPlaces.firstIndex(where: { place -> Bool in
-                        return place.id == placeDensity.id
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let densities):
+                    var newPlaces = [Place]()
+                    densities.forEach({ placeDensity in
+                        let index = updatedPlaces.firstIndex(where: { place -> Bool in
+                            return place.id == placeDensity.id
+                        })
+                        guard let placeIndex = index else { return }
+                        let updatedPlace = updatedPlaces[placeIndex]
+                        updatedPlace.density = placeDensity.density
+                        newPlaces.append(updatedPlace)
                     })
-                    guard let placeIndex = index else { return }
-                    let updatedPlace = updatedPlaces[placeIndex]
-                    updatedPlace.density = placeDensity.density
-                    newPlaces.append(updatedPlace)
-                })
-                let sortedPlaces = newPlaces.sorted(by: { (placeOne, placeTwo) -> Bool in
-                    switch placeOne.density {
-                    case .noSpots:
-                        return placeTwo.density != .noSpots
-                    case .fewSpots:
-                        return placeTwo.density != .noSpots && placeTwo.density != .fewSpots
-                    case .someSpots:
-                        return placeTwo.density == .manySpots
-                    case .manySpots:
-                        return placeTwo.density == .manySpots
-                    }
-                })
-                self.delegate.didGetDensities(updatedPlaces: sortedPlaces)
-            case .failure(_):
-                UserDefaults.standard.removeObject(forKey: "token")
-                UserDefaults.standard.removeObject(forKey: "authKey")
-                UserDefaults.standard.synchronize()
-                self.delegate.didGetDensities(updatedPlaces: nil)
-            }
+                    let sortedPlaces = newPlaces.sorted(by: { (placeOne, placeTwo) -> Bool in
+                        switch placeOne.density {
+                        case .noSpots:
+                            return placeTwo.density != .noSpots
+                        case .fewSpots:
+                            return placeTwo.density != .noSpots && placeTwo.density != .fewSpots
+                        case .someSpots:
+                            return placeTwo.density == .manySpots
+                        case .manySpots:
+                            return placeTwo.density == .manySpots
+                        }
+                    })
+                    self.delegate.didGetDensities(updatedPlaces: sortedPlaces)
+                case .failure(_):
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    self.delegate.didGetDensities(updatedPlaces: nil)
+                }
         }
     }
     
