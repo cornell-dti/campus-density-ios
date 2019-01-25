@@ -81,13 +81,6 @@
             ReferencedContainer = "container:Campus Density.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "AUTH_KEY"
-            value = "NWZlOGM3MmYtYmQxOC00ODU5LTkwMGYtNWUyYzM1MmQxZTA1"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
