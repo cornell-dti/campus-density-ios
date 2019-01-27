@@ -102,8 +102,6 @@ class API {
         if let receiptURL = Bundle.main.appStoreReceiptURL {
             guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
             let receipt = receiptURL.dataRepresentation
-            //            guard let receiptData = NSData(contentsOf: receiptURL) else { return }
-            //            guard let receipt = receiptData.base64EncodedString(options: .lineLength64Characters)
             guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let keyDict = NSDictionary(contentsOfFile: path) else { return }
             guard let authKey = keyDict["AUTH_KEY"] as? String else { return }
             System.authKey = authKey
@@ -181,7 +179,7 @@ class API {
                             return place.id == placeInfo.id
                         })
                         guard let old = oldPlace else { return }
-                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt != -1.0)
+                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt == -1.0)
                         places.append(place)
                     })
                     self.delegate.didGetInfo(updatedPlaces: places)

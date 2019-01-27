@@ -140,7 +140,16 @@ class PlacesViewController: UIViewController {
             })
         }
         filteredPlaces.sort { placeOne, placeTwo -> Bool in
-            return placeTwo.isClosed ? true : placeOne.density.rawValue < placeTwo.density.rawValue
+            if placeOne.isClosed && placeTwo.isClosed {
+                return true
+            }
+            if placeOne.isClosed {
+                return false
+            }
+            if placeTwo.isClosed {
+                return true
+            }
+            return placeOne.density.rawValue < placeTwo.density.rawValue
         }
     }
     
