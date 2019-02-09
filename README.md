@@ -22,8 +22,10 @@ You will need **required IDE or platform, version number** to run the latest ver
 _Last updated **09/22/2018**_.
 ​
 ## Dependencies & Libraries
- * **[Example Library](http://example.com)** - **Why we use this library**
- * [Guava](https://github.com/google/guava) - a Google Library containing lots of helpful classes for Java. Most notably, immutable data structures (like ImmutableList) and EventBus, which provides a way for classes that do not have references to each other to communicate.
+ * **Cocoapods we use:**
+    * Alamofire
+    * Snapkit
+    * SwiftJSON
 ​
 ## External Documentation
 ​
