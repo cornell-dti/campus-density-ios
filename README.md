@@ -27,7 +27,6 @@ _Last updated **02/09/2019**_.
     * SwiftyJSON
 ​
 ## External Documentation
-​
 * [Backend API Documentation](https://apiary.io/) - this is an external Apiary documenting the endpoints for our application.
 ​
 ## Screenshots
