@@ -15,17 +15,16 @@ An iOS and Android app for allowing students to track how many spots are left in
 ## Getting Started
 You will need **required IDE or platform, version number** to run the latest version of this app, which uses the following **SDKs, extensions, packages**:
 ​
- * **api name***
- * Android API 27
-    * Android SDK Platform 27, Revision 3
+ * **Swift 4.X**
+ * **XCode 12.X**
  
-_Last updated **09/22/2018**_.
+_Last updated **02/09/2019**_.
 ​
 ## Dependencies & Libraries
  * **Cocoapods we use:**
     * Alamofire
     * Snapkit
-    * SwiftJSON
+    * SwiftyJSON
 ​
 ## External Documentation
 ​
