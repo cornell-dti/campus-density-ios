@@ -18,6 +18,7 @@ You will need **required IDE or platform, version number** to run the latest ver
  * **Swift 4.X**
  * **Xcode 12.X**
  
+ After you have these, all you have to do is clone the repo, run pod install in the main directory, and contact the main developers for the secret file!
 _Last updated **02/09/2019**_.
 ​
 ## Dependencies & Libraries
