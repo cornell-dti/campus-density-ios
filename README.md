@@ -16,7 +16,7 @@ An iOS and Android app for allowing students to track how many spots are left in
 You will need **required IDE or platform, version number** to run the latest version of this app, which uses the following **SDKs, extensions, packages**:
 ​
  * **Swift 4.X**
- * **XCode 12.X**
+ * **Xcode 12.X**
  
 _Last updated **02/09/2019**_.
 ​
