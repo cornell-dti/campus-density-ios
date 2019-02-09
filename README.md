@@ -1,6 +1,5 @@
 # Campus Density v1.0
-_See [here](https://github.com/cornell-dti/o-week-android/blob/master/README.md) for an example of what a good README.md looks like._
-​
+
 #### Contents
   - [About](#about)
   - [Getting Started](#getting-started)
@@ -38,24 +37,20 @@ _Screenshots showing major parts of app_
 <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc1.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc2.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc3.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc4.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;">
 ​
 ## Contributors
-​
-**School Year**
- * **Name** - **Role**
-​
 
-**2018**
+**2018-2019**
  * **Matthew Coufal** - iOS Developer
 
-**2018**
+**2018-2019**
  * **Raymone Radi** - iOS Developer
 
-**2018**
+**2018-2019**
  * **Andrew Xiao** - Web Developer
 
-**2018**
+**2018-2019**
  * **Kaushik Ravikumar** - Android Developer
 
-**2018**
+**2018-2019**
  * **Evan Welsh** - Web + Android Developer
 ​
 
