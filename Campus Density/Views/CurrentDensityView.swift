@@ -199,6 +199,7 @@ class CurrentDensityView: UIView {
     func configure(with place: Place) {
         self.place = place
         densityLabel.text = place.isClosed ? "Closed" : interpretDensity()
+        densityLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
         setupConstraints()
         colorBars()
     }

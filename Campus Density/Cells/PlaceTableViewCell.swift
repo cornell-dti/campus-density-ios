@@ -67,7 +67,6 @@ class PlaceTableViewCell: UITableViewCell {
         
         densityLabel = UILabel()
         densityLabel.adjustsFontSizeToFitWidth = true
-        densityLabel.textColor = .densityDarkGray
         densityLabel.textAlignment = .right
         densityLabel.font = .fourteen
         addSubview(densityLabel)
@@ -205,6 +204,7 @@ class PlaceTableViewCell: UITableViewCell {
         self.place = place
         nameLabel.text = place.displayName
         densityLabel.text = place.isClosed ? "Closed" : interpretDensity()
+        densityLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
         setupConstraints()
         colorBars()
     }
