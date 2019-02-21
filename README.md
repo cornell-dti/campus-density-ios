@@ -1,6 +1,5 @@
 # Campus Density v1.0
-_See [here](https://github.com/cornell-dti/o-week-android/blob/master/README.md) for an example of what a good README.md looks like._
-​
+
 #### Contents
   - [About](#about)
   - [Getting Started](#getting-started)
@@ -15,45 +14,43 @@ An iOS and Android app for allowing students to track how many spots are left in
 ## Getting Started
 You will need **required IDE or platform, version number** to run the latest version of this app, which uses the following **SDKs, extensions, packages**:
 ​
- * **api name***
- * Android API 27
-    * Android SDK Platform 27, Revision 3
+ * **Swift 4.X**
+ * **Xcode 12.X**
  
-_Last updated **09/22/2018**_.
+ After you have these, all you have to do is clone the repo, run pod install in the main directory, and contact the main developers for the secret file!
+​ 
+_Last updated **02/09/2019**_.
 ​
 ## Dependencies & Libraries
- * **[Example Library](http://example.com)** - **Why we use this library**
- * [Guava](https://github.com/google/guava) - a Google Library containing lots of helpful classes for Java. Most notably, immutable data structures (like ImmutableList) and EventBus, which provides a way for classes that do not have references to each other to communicate.
+ * **Cocoapods we use:**
+    * Alamofire
+    * Snapkit
+    * SwiftyJSON
 ​
 ## External Documentation
-​
 * [Backend API Documentation](https://apiary.io/) - this is an external Apiary documenting the endpoints for our application.
 ​
 ## Screenshots
-​
+
 _Screenshots showing major parts of app_
-​
-<img src="https://raw.githubusercontent.com/cornell-dti/o-week-android/master/Screenshots/1.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/o-week-android/master/Screenshots/2.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/o-week-android/master/Screenshots/3.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;">
+
+<img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc1.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc2.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc3.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc4.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;">
 ​
 ## Contributors
-​
-**School Year**
- * **Name** - **Role**
-​
 
-**2018**
+**2018-2019**
  * **Matthew Coufal** - iOS Developer
 
-**2018**
+**2018-2019**
  * **Raymone Radi** - iOS Developer
 
-**2018**
+**2018-2019**
  * **Andrew Xiao** - Web Developer
 
-**2018**
+**2018-2019**
  * **Kaushik Ravikumar** - Android Developer
 
-**2018**
+**2018-2019**
  * **Evan Welsh** - Web + Android Developer
 ​
 
