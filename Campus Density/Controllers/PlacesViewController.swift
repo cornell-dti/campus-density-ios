@@ -19,7 +19,6 @@ public enum Filter {
 class PlacesViewController: UIViewController {
     
     // MARK: - Data vars
-    var places = [Place]()
     var filteredPlaces = [Place]()
     var filters: [Filter]!
     var selectedFilter: Filter = .all
@@ -46,32 +45,36 @@ class PlacesViewController: UIViewController {
         
         api = API(delegate: self)
         api.getToken()
+        
+        api.getHistoricalData()
 
         view.backgroundColor = .white
-        title = "Places"
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.largeTitleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown]
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 
         filters = [.all, .north, .west, .central]
 
         setupViews()
         setupConstraints()
         
-        
-        
     }
     
-    func updatePlaces() {
-        if !loadingBarsView.animating {
-            api.getToken()
+    @objc func didBecomeActive() {
+        if !System.places.isEmpty {
+            api.getPlaces()
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = true
+    override func viewWillAppear(_ animated: Bool) {
+        if !System.places.isEmpty {
+            api.getPlaces()
+        }
     }
     
     func filterLabel(filter: Filter) -> String {
@@ -122,20 +125,20 @@ class PlacesViewController: UIViewController {
         switch selectedFilter {
         case .all:
             filteredPlaces = []
-            filteredPlaces.append(contentsOf: places)
+            filteredPlaces.append(contentsOf: System.places)
             break
         case .north:
-            filteredPlaces = places.filter({ place -> Bool in
+            filteredPlaces = System.places.filter({ place -> Bool in
                 return getRegion(place: place) == "North"
             })
             break
         case .west:
-            filteredPlaces = places.filter({ place -> Bool in
+            filteredPlaces = System.places.filter({ place -> Bool in
                 return getRegion(place: place) == "West"
             })
             break
         case .central:
-            filteredPlaces = places.filter({ place -> Bool in
+            filteredPlaces = System.places.filter({ place -> Bool in
                 return getRegion(place: place) == "Central"
             })
         }

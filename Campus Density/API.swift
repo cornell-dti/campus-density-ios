@@ -58,12 +58,16 @@ class Place {
     var id: String
     var density: Density
     var isClosed: Bool
+    var hours: [[String: Double]]
+    var history: [String: [String: Double]]
     
-    init(displayName: String, id: String, density: Density, isClosed: Bool) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [[String : Double]], history: [String: [String: Double]]) {
         self.displayName = displayName
         self.id = id
         self.density = density
         self.isClosed = isClosed
+        self.hours = hours
+        self.history = history
     }
     
 }
@@ -78,10 +82,18 @@ class Token: Codable {
 }
 
 protocol APIDelegate {
-    func didGetPlaces(updatedPlaces: [Place]?)
-    func didGetDensities(updatedPlaces: [Place]?)
-    func didGetInfo(updatedPlaces: [Place]?)
+    func didGetPlaces()
+    func didGetDensities()
+    func didGetInfo()
     func didGetToken()
+    func didGetHistoricalData(data: [HistoricalData])
+}
+
+struct HistoricalData: Codable {
+    
+    var id: String
+    var history: [String : [String : Double]]
+    
 }
 
 class API {
@@ -173,21 +185,22 @@ class API {
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let placeInfos):
-                    var places = [Place]()
-                    placeInfos.forEach({ placeInfo in
+                    System.places = placeInfos.map { placeInfo in
                         let oldPlace = updatedPlaces.first(where: { place -> Bool in
                             return place.id == placeInfo.id
                         })
-                        guard let old = oldPlace else { return }
-                        let place = Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt == -1.0)
-                        places.append(place)
-                    })
-                    self.delegate.didGetInfo(updatedPlaces: places)
+                        guard let old = oldPlace else {
+                            return Place(displayName: "", id: "", density: .manySpots, isClosed: true, hours: [[:]], history: [:])
+                        }
+                        return Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt == -1.0, hours: placeInfo.dailyHours, history: [:])
+                    }
+                    self.delegate.didGetInfo()
                 case .failure(_):
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
-                    self.delegate.didGetInfo(updatedPlaces: nil)
+                    System.places = []
+                    self.delegate.didGetInfo()
                 }
         }
     }
@@ -204,18 +217,90 @@ class API {
                 let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let placeNames):
-                    var places = [Place]()
-                    placeNames.forEach({ placeName in
-                        let place = Place(displayName: placeName.displayName, id: placeName.id, density: .manySpots, isClosed: false)
-                        places.append(place)
-                    })
-                    self.delegate.didGetPlaces(updatedPlaces: places)
+                    System.places = placeNames.map { placeName in
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .manySpots, isClosed: false, hours: [[:]], history: [:])
+                    }
+                    self.delegate.didGetPlaces()
                 case .failure(_):
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
-                    self.delegate.didGetPlaces(updatedPlaces: nil)
+                    System.places = []
+                    self.delegate.didGetPlaces()
                 }
+        }
+    }
+    
+    func getHistoricalData() {
+        guard let authKey = System.authKey, let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(authKey)",
+            "x-api-key": token
+        ]
+        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/historicalData", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let data):
+                    self.delegate.didGetHistoricalData(data: data)
+                case .failure(let error):
+                    print(error)
+                    self.delegate.didGetHistoricalData(data: [])
+                }
+        }
+    }
+    
+    static func updateDensities(places: [Place], place: Place, completion: @escaping (Int) -> Void) {
+        guard let authKey = System.authKey, let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(authKey)",
+            "x-api-key": token
+        ]
+        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/howDense", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let densities):
+                    densities.forEach({ placeDensity in
+                        let index = places.firstIndex(where: { place -> Bool in
+                            return place.id == placeDensity.id
+                        })
+                        guard let placeIndex = index else { return }
+                        let updatedPlace = places[placeIndex]
+                        updatedPlace.density = placeDensity.density
+                    })
+                    System.places = densities.map { placeDensity in
+                        let index = places.firstIndex(where: { place -> Bool in
+                            return place.id == placeDensity.id
+                        })
+                        guard let placeIndex = index else {
+                            return Place(displayName: "", id: "", density: .manySpots, isClosed: true, hours: [[:]], history: [:])
+                        }
+                        let updatedPlace = places[placeIndex]
+                        updatedPlace.density = placeDensity.density
+                        return updatedPlace
+                    }
+                    System.places = System.places.sorted(by: { (placeOne, placeTwo) -> Bool in
+                        switch placeOne.density {
+                        case .noSpots:
+                            return placeTwo.density != .noSpots
+                        case .fewSpots:
+                            return placeTwo.density != .noSpots && placeTwo.density != .fewSpots
+                        case .someSpots:
+                            return placeTwo.density == .manySpots
+                        case .manySpots:
+                            return placeTwo.density == .manySpots
+                        }
+                    })
+                case .failure(_):
+                    break
+                }
+                guard let index = System.places.firstIndex(where: { somePlace in
+                    return somePlace.id == place.id
+                }) else { return }
+                completion(index)
         }
     }
     
@@ -231,7 +316,6 @@ class API {
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let densities):
-                    var newPlaces = [Place]()
                     densities.forEach({ placeDensity in
                         let index = updatedPlaces.firstIndex(where: { place -> Bool in
                             return place.id == placeDensity.id
@@ -239,9 +323,19 @@ class API {
                         guard let placeIndex = index else { return }
                         let updatedPlace = updatedPlaces[placeIndex]
                         updatedPlace.density = placeDensity.density
-                        newPlaces.append(updatedPlace)
                     })
-                    let sortedPlaces = newPlaces.sorted(by: { (placeOne, placeTwo) -> Bool in
+                    System.places = densities.map { placeDensity in
+                        let index = updatedPlaces.firstIndex(where: { place -> Bool in
+                            return place.id == placeDensity.id
+                        })
+                        guard let placeIndex = index else {
+                            return Place(displayName: "", id: "", density: .manySpots, isClosed: true, hours: [[:]], history: [:])
+                        }
+                        let updatedPlace = updatedPlaces[placeIndex]
+                        updatedPlace.density = placeDensity.density
+                        return updatedPlace
+                    }
+                    System.places = System.places.sorted(by: { (placeOne, placeTwo) -> Bool in
                         switch placeOne.density {
                         case .noSpots:
                             return placeTwo.density != .noSpots
@@ -253,12 +347,13 @@ class API {
                             return placeTwo.density == .manySpots
                         }
                     })
-                    self.delegate.didGetDensities(updatedPlaces: sortedPlaces)
+                    self.delegate.didGetDensities()
                 case .failure(_):
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
-                    self.delegate.didGetDensities(updatedPlaces: nil)
+                    System.places = []
+                    self.delegate.didGetDensities()
                 }
         }
     }

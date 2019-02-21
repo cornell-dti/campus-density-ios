@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0C29A760219E1F4200515D01 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29A75F219E1F4200515D01 /* API.swift */; };
+		0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308760220F650000AC9589 /* CurrentDensityView.swift */; };
+		0C308763220F86EE00AC9589 /* WeekdayToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */; };
+		0C308765220F916D00AC9589 /* WeekdayToggleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */; };
+		0C308767220F933400AC9589 /* WeekdayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */; };
+		0C3ED50E221A116300A061D7 /* WeekdayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */; };
 		0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */; };
 		0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */; };
 		0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */; };
@@ -48,6 +53,11 @@
 
 /* Begin PBXFileReference section */
 		0C29A75F219E1F4200515D01 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		0C308760220F650000AC9589 /* CurrentDensityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityView.swift; sourceTree = "<group>"; };
+		0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayToggleView.swift; sourceTree = "<group>"; };
+		0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayToggleViewController.swift; sourceTree = "<group>"; };
+		0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCollectionViewCell.swift; sourceTree = "<group>"; };
+		0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayButtonView.swift; sourceTree = "<group>"; };
 		0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
@@ -113,6 +123,9 @@
 				0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */,
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
+				0C308760220F650000AC9589 /* CurrentDensityView.swift */,
+				0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */,
+				0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -163,6 +176,7 @@
 				0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */,
 				0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */,
 				0C7F910B219659FB00FBCD41 /* DensityViewController.swift */,
+				0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -172,6 +186,7 @@
 			children = (
 				0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */,
 				0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */,
+				0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -401,6 +416,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
@@ -408,6 +424,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
@@ -428,14 +445,19 @@
 				0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */,
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
+				0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */,
 				0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */,
+				0C308767220F933400AC9589 /* WeekdayCollectionViewCell.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */,
+				0C308765220F916D00AC9589 /* WeekdayToggleViewController.swift in Sources */,
+				0C308763220F86EE00AC9589 /* WeekdayToggleView.swift in Sources */,
 				0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */,
+				0C3ED50E221A116300A061D7 /* WeekdayButtonView.swift in Sources */,
 				0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

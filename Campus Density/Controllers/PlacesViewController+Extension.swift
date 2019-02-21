@@ -130,9 +130,8 @@ extension PlacesViewController: FilterViewDelegate {
 
 extension PlacesViewController: APIDelegate {
     
-    // on failure for any of these functions make sure to call self.api.getToken()
-    
     func didGetToken() {
+        
         if System.token != nil {
             api.getPlaces()
         } else {
@@ -145,9 +144,15 @@ extension PlacesViewController: APIDelegate {
         }
     }
     
-    func didGetInfo(updatedPlaces: [Place]?) {
-        if let updatedPlaces = updatedPlaces {
-            self.places = updatedPlaces
+    func didGetHistoricalData(data: [HistoricalData]) {
+        if !data.isEmpty {
+            data.forEach { placeData in
+                guard let index = System.places.firstIndex(where: { place in
+                    return place.id == placeData.id
+                }) else { return }
+                System.places[index].history = placeData.history
+            }
+            title = "Places"
             filter(by: selectedFilter)
             loadingBarsView.stopAnimating()
             placesTableView.isHidden = false
@@ -163,10 +168,9 @@ extension PlacesViewController: APIDelegate {
         }
     }
     
-    func didGetPlaces(updatedPlaces: [Place]?) {
-        if let updatedPlaces = updatedPlaces {
-            self.places = updatedPlaces
-            api.getDensities(updatedPlaces: updatedPlaces)
+    func didGetInfo() {
+        if !System.places.isEmpty {
+            api.getHistoricalData()
         } else {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
@@ -177,10 +181,22 @@ extension PlacesViewController: APIDelegate {
         }
     }
     
-    func didGetDensities(updatedPlaces: [Place]?) {
-        if let updatedPlaces = updatedPlaces {
-            self.places = updatedPlaces
-            api.getPlaceInfo(updatedPlaces: updatedPlaces)
+    func didGetPlaces() {
+        if !System.places.isEmpty {
+            api.getDensities(updatedPlaces: System.places)
+        } else {
+            let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+                self.api.getToken()
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func didGetDensities() {
+        if !System.places.isEmpty {
+            api.getPlaceInfo(updatedPlaces: System.places)
         } else {
             let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in

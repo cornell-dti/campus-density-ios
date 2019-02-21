@@ -11,4 +11,5 @@ import UIKit
 struct System {
     static var token: String?
     static var authKey: String?
+    static var places = [Place]()
 }
