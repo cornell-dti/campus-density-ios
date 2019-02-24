@@ -150,7 +150,7 @@ extension PlacesViewController: APIDelegate {
                 guard let index = System.places.firstIndex(where: { place in
                     return place.id == placeData.id
                 }) else { return }
-                System.places[index].history = placeData.history
+                System.places[index].history = placeData.hours
             }
             title = "Places"
             filter(by: selectedFilter)

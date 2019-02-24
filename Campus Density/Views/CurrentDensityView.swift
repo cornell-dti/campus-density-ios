@@ -27,12 +27,12 @@ class CurrentDensityView: UIView {
     // MARK: - Constants
     let backgroundCornerRadius: CGFloat = 10
     let densityBarCornerRadius: CGFloat = 5
-    let padding: CGFloat = 45.0 / 3.0
+    let padding: CGFloat = 15
     let innerPadding: CGFloat = 50
     let labelHeight: CGFloat = 20
     let densityBarHeight: CGFloat = 25
     let capacityLabelWidth: CGFloat = 92.5
-    let descriptionLabelText = "Right now"
+    let descriptionLabelText = "Now"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,11 +53,11 @@ class CurrentDensityView: UIView {
         
         descriptionLabel = UILabel()
         descriptionLabel.adjustsFontSizeToFitWidth = true
-        descriptionLabel.textColor = .brightBlue
+        descriptionLabel.textColor = .grayishBrown
         descriptionLabel.textAlignment = .left
         descriptionLabel.text = descriptionLabelText
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.font = .eighteenBold
+        descriptionLabel.font = .eighteen
         addSubview(descriptionLabel)
         
         densityLabel = UILabel()

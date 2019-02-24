@@ -92,7 +92,7 @@ protocol APIDelegate {
 struct HistoricalData: Codable {
     
     var id: String
-    var history: [String : [String : Double]]
+    var hours: [String : [String : Double]]
     
 }
 
@@ -179,7 +179,7 @@ class API {
             "Authorization": "Bearer \(authKey)",
             "x-api-key": token
         ]
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityInfo", headers: headers)
+        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityInfo", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
@@ -195,7 +195,8 @@ class API {
                         return Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt == -1.0, hours: placeInfo.dailyHours, history: [:])
                     }
                     self.delegate.didGetInfo()
-                case .failure(_):
+                case .failure(let error):
+                    print(error)
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -211,7 +212,7 @@ class API {
             "Authorization": "Bearer \(authKey)",
             "x-api-key": token
         ]
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/facilityList", headers: headers)
+        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityList", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
@@ -221,7 +222,8 @@ class API {
                         return Place(displayName: placeName.displayName, id: placeName.id, density: .manySpots, isClosed: false, hours: [[:]], history: [:])
                     }
                     self.delegate.didGetPlaces()
-                case .failure(_):
+                case .failure(let error):
+                    print(error)
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -237,7 +239,7 @@ class API {
             "Authorization": "Bearer \(authKey)",
             "x-api-key": token
         ]
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/historicalData", headers: headers)
+        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/historicalData", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
@@ -257,7 +259,7 @@ class API {
             "Authorization": "Bearer \(authKey)",
             "x-api-key": token
         ]
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/howDense", headers: headers)
+        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/howDense", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
@@ -294,7 +296,8 @@ class API {
                             return placeTwo.density == .manySpots
                         }
                     })
-                case .failure(_):
+                case .failure(let error):
+                    print(error)
                     break
                 }
                 guard let index = System.places.firstIndex(where: { somePlace in
@@ -310,7 +313,7 @@ class API {
             "Authorization": "Bearer \(authKey)",
             "x-api-key": token
         ]
-        Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/howDense", headers: headers)
+        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/howDense", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
@@ -348,7 +351,8 @@ class API {
                         }
                     })
                     self.delegate.didGetDensities()
-                case .failure(_):
+                case .failure(let error):
+                    print(error)
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()

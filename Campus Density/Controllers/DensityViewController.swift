@@ -44,15 +44,20 @@ class DensityViewController: UIViewController {
     // MARK: - Constants
     let start: Int = 7
     let end: Int = 23
+    let horizontalPadding: CGFloat = 15
     let numSpaces: CGFloat = 4
     let axisHeight: CGFloat = 2
-    let axisHorizontalPadding: CGFloat = 10
     let hoursVerticalPadding: CGFloat = 15
     let barVerticalPadding: CGFloat = 150
     let descriptionLabelHorizontalPadding: CGFloat = 15
     let descriptionLabelHorizontalMargin: CGFloat = 20
     let descriptionLabelHeight: CGFloat = 40
     let headerHeight: CGFloat = 40
+    let formButtonHeight: CGFloat = 20
+    let formButtonTopOffset: CGFloat = 5
+    let weekdayButtonTopOffset: CGFloat = 5
+    let closedLabelWidthInset: CGFloat = 75
+    let closedLabelTopOffset: CGFloat = 15
     let hoursButtonHeight: CGFloat = 40
     let hoursButtonCornerRadius: CGFloat = 6
     let descriptionLabelCornerRadius: CGFloat = 6
@@ -321,7 +326,7 @@ class DensityViewController: UIViewController {
         formButton.addTarget(self, action: #selector(formButtonPressed), for: .touchUpInside)
         formButton.setTitle(formButtonText, for: .normal)
         formButton.setTitleColor(.brightBlue, for: .normal)
-        formButton.titleLabel?.font = .eighteen
+        formButton.titleLabel?.font = .fourteen
         formButton.titleLabel?.textAlignment = .right
         view.addSubview(formButton)
         
@@ -465,17 +470,17 @@ class DensityViewController: UIViewController {
     }
     
     func spacing() -> CGFloat {
-        let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * 15) / CGFloat(weekdays.count)
-        var total = descriptionLabelHeight + maxBarHeight + axisHeight + currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + headerHeight + 10 + weekdayButtonLength
+        let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * horizontalPadding) / CGFloat(weekdays.count)
+        var total = currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + formButtonHeight + formButtonTopOffset + headerHeight + weekdayButtonTopOffset + weekdayButtonLength + descriptionLabelHeight + maxBarHeight + axisHeight
         let hours = operatingHours()
         guard let currentLabelText = currentLabel.text else { return total }
         let currentHeight = currentLabelText.height(withConstrainedWidth: view.frame.width, font: .eighteenBold)
         let hoursHeight = hours.height(withConstrainedWidth: view.frame.width, font: .eighteen)
         var difference = UIScreen.main.bounds.height - total - currentHeight - hoursHeight - navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height
         if densityMap.isEmpty {
-            total = descriptionLabelHeight + currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + headerHeight + 10 + weekdayButtonLength + 10 + 15 + 20
+            total = currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + formButtonHeight + formButtonTopOffset + headerHeight + weekdayButtonTopOffset + weekdayButtonLength + descriptionLabelHeight
             guard let closedLabelText = closedLabel.text else { return total }
-            let closedLabelHeight = closedLabelText.height(withConstrainedWidth: view.frame.width - 150, font: .eighteen)
+            let closedLabelHeight = closedLabelText.height(withConstrainedWidth: view.frame.width - closedLabelWidthInset * 2, font: .eighteen)
             difference = UIScreen.main.bounds.height - total - closedLabelHeight - navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height
             return difference / 2
         }
@@ -489,7 +494,7 @@ class DensityViewController: UIViewController {
         guard let description = densityDescriptionLabel.text else { return }
         guard let closedLabelText = closedLabel.text else { return }
         let descriptionWidth = description.widthWithConstrainedHeight(descriptionLabelHeight, font: .eighteen)
-        let closedLabelHeight = closedLabelText.height(withConstrainedWidth: view.frame.width - 150, font: .eighteen)
+        let closedLabelHeight = closedLabelText.height(withConstrainedWidth: view.frame.width - closedLabelWidthInset * 2, font: .eighteen)
         
         currentDensityView.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -497,28 +502,28 @@ class DensityViewController: UIViewController {
             make.top.equalToSuperview().offset(navOffset + currentDensityViewVerticalPadding)
         }
         
+        formButton.snp.makeConstraints { make in
+            make.height.equalTo(formButtonHeight)
+            make.top.equalTo(currentDensityView.snp.bottom).offset(formButtonTopOffset)
+            make.right.equalToSuperview().inset(horizontalPadding)
+        }
+        
         headerLabel.snp.makeConstraints { make in
             make.height.equalTo(headerHeight)
-            make.left.equalToSuperview().offset(20)
-            make.top.equalTo(currentDensityView.snp.bottom).offset(5)
+            make.left.equalToSuperview().offset(horizontalPadding)
+            make.top.equalTo(formButton.snp.bottom)
         }
         
-        formButton.snp.makeConstraints { make in
-            make.height.equalTo(headerLabel)
-            make.right.equalToSuperview().offset(-20)
-            make.centerY.equalTo(headerLabel)
-        }
-        
-        let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * 15) / CGFloat(weekdays.count)
-        var left: CGFloat = 15
+        let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * horizontalPadding) / CGFloat(weekdays.count)
+        var left: CGFloat = horizontalPadding
         
         for button in weekdayButtons {
             button.snp.makeConstraints { make in
                 make.width.height.equalTo(weekdayButtonLength)
-                make.top.equalTo(headerLabel.snp.bottom).offset(10)
+                make.top.equalTo(headerLabel.snp.bottom).offset(weekdayButtonTopOffset)
                 make.left.equalTo(left)
             }
-            left += weekdayButtonLength + 15
+            left += weekdayButtonLength + horizontalPadding
         }
         
         if !densityMap.isEmpty {
@@ -563,14 +568,14 @@ class DensityViewController: UIViewController {
         }
         
         closedLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview().offset(-150)
+            make.width.equalToSuperview().inset(closedLabelWidthInset)
             make.height.equalTo(closedLabelHeight)
-            make.top.equalTo(densityDescriptionLabel.snp.bottom).offset(15)
+            make.top.equalTo(densityDescriptionLabel.snp.bottom).offset(closedLabelTopOffset)
             make.centerX.equalToSuperview()
         }
         
         axis.snp.makeConstraints { make in
-            make.width.equalToSuperview().inset(axisHorizontalPadding * 2)
+            make.width.equalToSuperview().inset(horizontalPadding)
             make.height.equalTo(axisHeight)
             make.top.equalTo(densityDescriptionLabel.snp.bottom).offset(verticalSpacing + maxBarHeight)
             make.centerX.equalToSuperview()
@@ -639,7 +644,7 @@ class DensityViewController: UIViewController {
         var startHour: Int = start
         let endHour: Int = end
         var barLeftOffset: CGFloat = 0
-        let barWidth: CGFloat = (view.frame.width - axisHorizontalPadding * 4) / CGFloat(endHour - startHour + 1)
+        let barWidth: CGFloat = (view.frame.width - horizontalPadding * 4) / CGFloat(endHour - startHour + 1)
         while startHour <= endHour {
             let bar = UIView()
             bar.tag = startHour
