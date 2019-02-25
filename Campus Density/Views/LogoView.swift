@@ -61,10 +61,6 @@ class LogoView: UIView {
         
     }
     
-    func getHeight() -> CGFloat {
-        return padding * 2 + dtiLength + labelText.height(withConstrainedWidth: frame.width, font: label.font)
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

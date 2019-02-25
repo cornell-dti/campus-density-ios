@@ -12,6 +12,7 @@
 		0C308763220F86EE00AC9589 /* WeekdayToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */; };
 		0C308765220F916D00AC9589 /* WeekdayToggleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */; };
 		0C308767220F933400AC9589 /* WeekdayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */; };
+		0C316AD52223773400AE4BE3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C316AD42223773400AE4BE3 /* Utils.swift */; };
 		0C3ED50E221A116300A061D7 /* WeekdayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */; };
 		0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */; };
 		0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */; };
@@ -57,6 +58,7 @@
 		0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayToggleView.swift; sourceTree = "<group>"; };
 		0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayToggleViewController.swift; sourceTree = "<group>"; };
 		0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCollectionViewCell.swift; sourceTree = "<group>"; };
+		0C316AD42223773400AE4BE3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayButtonView.swift; sourceTree = "<group>"; };
 		0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */,
 				0CA3F4F32173EDA000988A46 /* Facility.swift */,
 				0C29A75F219E1F4200515D01 /* API.swift */,
+				0C316AD42223773400AE4BE3 /* Utils.swift */,
 				0CC6B74521B0AF1400E7B359 /* System.swift */,
 				0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */,
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
@@ -455,6 +458,7 @@
 				0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
+				0C316AD52223773400AE4BE3 /* Utils.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */,
 				0C3ED50E221A116300A061D7 /* WeekdayButtonView.swift in Sources */,

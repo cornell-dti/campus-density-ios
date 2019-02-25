@@ -41,14 +41,12 @@ class PlaceInfo: Codable {
     var campusLocation: String
     var nextOpen: Double
     var closingAt: Double
-    var dailyHours: [[String : Double]]
     
-    init(id: String, campusLocation: String, nextOpen: Double, closingAt: Double, dailyHours: [[String : Double]]) {
+    init(id: String, campusLocation: String, nextOpen: Double, closingAt: Double) {
         self.id = id
         self.campusLocation = campusLocation
         self.nextOpen = nextOpen
         self.closingAt = closingAt
-        self.dailyHours = dailyHours
     }
 }
 
@@ -58,10 +56,10 @@ class Place {
     var id: String
     var density: Density
     var isClosed: Bool
-    var hours: [[String: Double]]
+    var hours: [Int: String]
     var history: [String: [String: Double]]
     
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [[String : Double]], history: [String: [String: Double]]) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]]) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -81,12 +79,21 @@ class Token: Codable {
     }
 }
 
-protocol APIDelegate {
-    func didGetPlaces()
-    func didGetDensities()
-    func didGetInfo()
-    func didGetToken()
-    func didGetHistoricalData(data: [HistoricalData])
+struct DailyInfo: Codable {
+    
+    var dailyHours: [String: Double]
+    var date: String
+    var dayOfWeek: Int
+    var status: String
+    var statusText: String
+    
+}
+
+struct HoursResponse: Codable {
+    
+    var hours: [DailyInfo]
+    var id: String
+    
 }
 
 struct HistoricalData: Codable {
@@ -98,17 +105,11 @@ struct HistoricalData: Codable {
 
 class API {
     
-    var delegate: APIDelegate
-    
-    init(delegate: APIDelegate) {
-        self.delegate = delegate
-    }
-    
-    func getToken() {
+    static func token(completion: @escaping (Bool) -> Void) {
         if let token = UserDefaults.standard.value(forKey: "token") as? String, let authKey = UserDefaults.standard.value(forKey: "authKey") as? String {
             System.token = token
             System.authKey = authKey
-            delegate.didGetToken()
+            completion(true)
             return
         }
         if let receiptURL = Bundle.main.appStoreReceiptURL {
@@ -135,13 +136,14 @@ class API {
                         UserDefaults.standard.set(token.token, forKey: "token")
                         UserDefaults.standard.set(authKey, forKey: "authKey")
                         UserDefaults.standard.synchronize()
+                        completion(true)
                     case .failure(_):
                         UserDefaults.standard.removeObject(forKey: "token")
                         UserDefaults.standard.removeObject(forKey: "authKey")
                         UserDefaults.standard.synchronize()
                         System.token = nil
+                        completion(false)
                     }
-                    self.delegate.didGetToken()
             }
         } else {
             guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
@@ -162,18 +164,19 @@ class API {
                         UserDefaults.standard.set(token.token, forKey: "token")
                         UserDefaults.standard.set(authKey, forKey: "authKey")
                         UserDefaults.standard.synchronize()
+                        completion(true)
                     case .failure(_):
                         UserDefaults.standard.removeObject(forKey: "token")
                         UserDefaults.standard.removeObject(forKey: "authKey")
                         UserDefaults.standard.synchronize()
                         System.token = nil
+                        completion(false)
                     }
-                    self.delegate.didGetToken()
             }
         }
     }
     
-    func getPlaceInfo(updatedPlaces: [Place]) {
+    static func status(completion: @escaping (Bool) -> Void) {
         guard let authKey = System.authKey, let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(authKey)",
@@ -185,28 +188,56 @@ class API {
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let placeInfos):
-                    System.places = placeInfos.map { placeInfo in
-                        let oldPlace = updatedPlaces.first(where: { place -> Bool in
+                    placeInfos.forEach { placeInfo in
+                        let index = System.places.firstIndex(where: { place -> Bool in
                             return place.id == placeInfo.id
                         })
-                        guard let old = oldPlace else {
-                            return Place(displayName: "", id: "", density: .manySpots, isClosed: true, hours: [[:]], history: [:])
-                        }
-                        return Place(displayName: old.displayName, id: old.id, density: old.density, isClosed: placeInfo.closingAt == -1.0, hours: placeInfo.dailyHours, history: [:])
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
                     }
-                    self.delegate.didGetInfo()
+                    completion(true)
                 case .failure(let error):
                     print(error)
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
                     System.places = []
-                    self.delegate.didGetInfo()
+                    completion(false)
                 }
         }
     }
     
-    func getPlaces() {
+    static func history(completion: @escaping (Bool) -> Void) {
+        guard let authKey = System.authKey, let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(authKey)",
+            "x-api-key": token
+        ]
+        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/historicalData", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let data):
+                    data.forEach { placeData in
+                        guard let index = System.places.firstIndex(where: { place in
+                            return place.id == placeData.id
+                        }) else { return }
+                        System.places[index].history = placeData.hours
+                    }
+                    completion(true)
+                case .failure(let error):
+                    print(error)
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    System.places = []
+                    completion(false)
+                }
+        }
+    }
+    
+    static func places(completion: @escaping (Bool) -> Void) {
         guard let authKey = System.authKey, let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(authKey)",
@@ -219,41 +250,115 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .manySpots, isClosed: false, hours: [[:]], history: [:])
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:])
                     }
-                    self.delegate.didGetPlaces()
+                    completion(true)
                 case .failure(let error):
                     print(error)
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
                     System.places = []
-                    self.delegate.didGetPlaces()
+                    completion(false)
                 }
         }
     }
     
-    func getHistoricalData() {
+    static func hours(completion: @escaping (Bool) -> Void) {
         guard let authKey = System.authKey, let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(authKey)",
             "x-api-key": token
         ]
-        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/historicalData", headers: headers)
-            .responseData { response in
-                let decoder = JSONDecoder()
-                let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
-                switch result {
-                case .success(let data):
-                    self.delegate.didGetHistoricalData(data: data)
-                case .failure(let error):
-                    print(error)
-                    self.delegate.didGetHistoricalData(data: [])
+    
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        dispatchGroup.enter()
+        dispatchGroup.enter()
+        
+        var success = true
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        let today = Date()
+        let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today)
+        if let sixDays = sixDaysLater {
+            let start = formatter.string(from: today)
+            let end = formatter.string(from: sixDays)
+            let startComponents = start.components(separatedBy: "/")
+            let startYear = String(startComponents[2].suffix(2))
+            let startDay = startComponents[1].count == 1 ? "0\(startComponents[1])" : startComponents[1]
+            let startMonth = startComponents[0].count == 1 ? "0\(startComponents[0])" : startComponents[0]
+            let endComponents = end.components(separatedBy: "/")
+            let endYear = String(endComponents[2].suffix(2))
+            let endDay = endComponents[1].count == 1 ? "0\(endComponents[1])" : endComponents[1]
+            let endMonth = endComponents[0].count == 1 ? "0\(endComponents[0])" : endComponents[0]
+            let startDate = "\(startMonth)-\(startDay)-\(startYear)"
+            let endDate = "\(endMonth)-\(endDay)-\(endYear)"
+            
+            let dispatchGroup = DispatchGroup()
+            var index = 0
+            while index < System.places.count {
+                dispatchGroup.enter()
+                let placeIndex = index
+                let parameters = [
+                    "id": System.places[placeIndex].id,
+                    "startDate": startDate,
+                    "endDate": endDate
+                ]
+                Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityHours", parameters: parameters, headers: headers)
+                    .responseData { response in
+                        let decoder = JSONDecoder()
+                        let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
+                        switch result {
+                        case .success(let hoursResponseArray):
+                            let hoursResponse = hoursResponseArray[0]
+                            var hours = [Int: String]()
+                            hoursResponse.hours.forEach { dailyInfo in
+                                let day = dailyInfo.dayOfWeek
+                                let dailyHours = dailyInfo.dailyHours
+                                let timeFormatter = DateFormatter()
+                                timeFormatter.timeStyle = .short
+                                guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
+                                let open = Date(timeIntervalSince1970: openTimestamp)
+                                let close = Date(timeIntervalSince1970: closeTimestamp)
+                                let openTime = timeFormatter.string(from: open)
+                                let closeTime = timeFormatter.string(from: close)
+                                if let hoursString = hours[day] {
+                                    hours[day] = hoursString + "\(openTime) - \(closeTime)\n"
+                                } else {
+                                    hours[day] = "\(openTime) - \(closeTime)\n"
+                                }
+                            }
+                            System.places[placeIndex].hours = hours
+                        case .failure(let error):
+                            print(error)
+                            success = false
+                        }
+                        dispatchGroup.leave()
                 }
+                index += 1
+            }
+            dispatchGroup.notify(queue: .main, execute: {
+                if !success {
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    System.places = []
+                }
+                completion(success)
+            })
+        } else {
+            success = false
+            UserDefaults.standard.removeObject(forKey: "token")
+            UserDefaults.standard.removeObject(forKey: "authKey")
+            UserDefaults.standard.synchronize()
+            System.places = []
+            completion(success)
         }
     }
     
-    static func updateDensities(places: [Place], place: Place, completion: @escaping (Int) -> Void) {
+    static func densities(completion: @escaping (Bool) -> Void) {
         guard let authKey = System.authKey, let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(authKey)",
@@ -266,102 +371,19 @@ class API {
                 switch result {
                 case .success(let densities):
                     densities.forEach({ placeDensity in
-                        let index = places.firstIndex(where: { place -> Bool in
+                        let index = System.places.firstIndex(where: { place -> Bool in
                             return place.id == placeDensity.id
                         })
                         guard let placeIndex = index else { return }
-                        let updatedPlace = places[placeIndex]
-                        updatedPlace.density = placeDensity.density
+                        System.places[placeIndex].density = placeDensity.density
                     })
-                    System.places = densities.map { placeDensity in
-                        let index = places.firstIndex(where: { place -> Bool in
-                            return place.id == placeDensity.id
-                        })
-                        guard let placeIndex = index else {
-                            return Place(displayName: "", id: "", density: .manySpots, isClosed: true, hours: [[:]], history: [:])
-                        }
-                        let updatedPlace = places[placeIndex]
-                        updatedPlace.density = placeDensity.density
-                        return updatedPlace
-                    }
-                    System.places = System.places.sorted(by: { (placeOne, placeTwo) -> Bool in
-                        switch placeOne.density {
-                        case .noSpots:
-                            return placeTwo.density != .noSpots
-                        case .fewSpots:
-                            return placeTwo.density != .noSpots && placeTwo.density != .fewSpots
-                        case .someSpots:
-                            return placeTwo.density == .manySpots
-                        case .manySpots:
-                            return placeTwo.density == .manySpots
-                        }
-                    })
+                    completion(true)
                 case .failure(let error):
                     print(error)
-                    break
-                }
-                guard let index = System.places.firstIndex(where: { somePlace in
-                    return somePlace.id == place.id
-                }) else { return }
-                completion(index)
-        }
-    }
-    
-    func getDensities(updatedPlaces: [Place]) {
-        guard let authKey = System.authKey, let token = System.token else { return }
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(authKey)",
-            "x-api-key": token
-        ]
-        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/howDense", headers: headers)
-            .responseData { response in
-                let decoder = JSONDecoder()
-                let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
-                switch result {
-                case .success(let densities):
-                    densities.forEach({ placeDensity in
-                        let index = updatedPlaces.firstIndex(where: { place -> Bool in
-                            return place.id == placeDensity.id
-                        })
-                        guard let placeIndex = index else { return }
-                        let updatedPlace = updatedPlaces[placeIndex]
-                        updatedPlace.density = placeDensity.density
-                    })
-                    System.places = densities.map { placeDensity in
-                        let index = updatedPlaces.firstIndex(where: { place -> Bool in
-                            return place.id == placeDensity.id
-                        })
-                        guard let placeIndex = index else {
-                            return Place(displayName: "", id: "", density: .manySpots, isClosed: true, hours: [[:]], history: [:])
-                        }
-                        let updatedPlace = updatedPlaces[placeIndex]
-                        updatedPlace.density = placeDensity.density
-                        return updatedPlace
-                    }
-                    System.places = System.places.sorted(by: { (placeOne, placeTwo) -> Bool in
-                        switch placeOne.density {
-                        case .noSpots:
-                            return placeTwo.density != .noSpots
-                        case .fewSpots:
-                            return placeTwo.density != .noSpots && placeTwo.density != .fewSpots
-                        case .someSpots:
-                            return placeTwo.density == .manySpots
-                        case .manySpots:
-                            return placeTwo.density == .manySpots
-                        }
-                    })
-                    self.delegate.didGetDensities()
-                case .failure(let error):
-                    print(error)
-                    UserDefaults.standard.removeObject(forKey: "token")
-                    UserDefaults.standard.removeObject(forKey: "authKey")
-                    UserDefaults.standard.synchronize()
-                    System.places = []
-                    self.delegate.didGetDensities()
+                    completion(false)
                 }
         }
     }
-    
 }
 
 extension JSONDecoder {

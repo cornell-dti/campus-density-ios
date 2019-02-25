@@ -9,10 +9,10 @@
 import UIKit
 
 public enum Density: Int, Codable {
-    case noSpots = 3
-    case fewSpots = 2
-    case someSpots = 1
-    case manySpots = 0
+    case veryBusy = 3
+    case prettyBusy = 2
+    case somewhatBusy = 1
+    case notBusy = 0
 }
 
 class PlaceTableViewCell: UITableViewCell {
@@ -34,7 +34,8 @@ class PlaceTableViewCell: UITableViewCell {
     // MARK: - Constants
     let backgroundCornerRadius: CGFloat = 10
     let densityBarCornerRadius: CGFloat = 5
-    let padding: CGFloat = 55.0 / 3.0
+    let padding: CGFloat = 15
+    let interBarSpacing: CGFloat = 5
     let innerPadding: CGFloat = 50
     let labelHeight: CGFloat = 20
     let densityBarHeight: CGFloat = 25
@@ -62,7 +63,7 @@ class PlaceTableViewCell: UITableViewCell {
         nameLabel.textColor = .grayishBrown
         nameLabel.textAlignment = .left
         nameLabel.numberOfLines = 0
-        nameLabel.font = .eighteenBold
+        nameLabel.font = .sixteenBold
         addSubview(nameLabel)
         
         densityLabel = UILabel()
@@ -94,39 +95,39 @@ class PlaceTableViewCell: UITableViewCell {
     
     func setupConstraints() {
         
-        let totalBarWidth: CGFloat = frame.width - padding * 2 - innerPadding
+        let totalBarWidth: CGFloat = frame.width - padding * 4 - interBarSpacing * 3
         
         let barWidth: CGFloat = totalBarWidth / 4.0
         
         background.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(padding)
-            make.width.equalToSuperview().offset(-padding * 2)
+            make.width.equalToSuperview().inset(padding)
             make.height.equalToSuperview().offset(-padding)
         }
         
         barOne.snp.makeConstraints { make in
             make.left.equalTo(background).offset(padding)
             make.width.equalTo(barWidth)
-            make.bottom.equalTo(background).offset(-padding)
+            make.bottom.equalTo(background).inset(padding)
             make.height.equalTo(densityBarHeight)
         }
         
         barTwo.snp.makeConstraints { make in
-            make.left.equalTo(barOne.snp.right).offset(5)
+            make.left.equalTo(barOne.snp.right).offset(interBarSpacing)
             make.width.equalTo(barWidth)
             make.bottom.equalTo(barOne)
             make.height.equalTo(barOne)
         }
         
         barThree.snp.makeConstraints { make in
-            make.left.equalTo(barTwo.snp.right).offset(5)
+            make.left.equalTo(barTwo.snp.right).offset(interBarSpacing)
             make.width.equalTo(barWidth)
             make.bottom.equalTo(barOne)
             make.height.equalTo(barOne)
         }
         
         barFour.snp.makeConstraints { make in
-            make.left.equalTo(barThree.snp.right).offset(5)
+            make.left.equalTo(barThree.snp.right).offset(interBarSpacing)
             make.width.equalTo(barWidth)
             make.bottom.equalTo(barOne)
             make.height.equalTo(barOne)
@@ -135,14 +136,14 @@ class PlaceTableViewCell: UITableViewCell {
         nameLabel.snp.makeConstraints { make in
             make.left.equalTo(barOne)
             make.bottom.equalTo(barOne.snp.top).offset(-padding)
-            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.6)
+            make.width.equalTo(background).inset(padding).multipliedBy(0.6)
             make.height.equalTo(labelHeight)
         }
         
         densityLabel.snp.makeConstraints { make in
-            make.width.equalTo(background).offset(-padding * 2).multipliedBy(0.4)
+            make.width.equalTo(background).inset(padding).multipliedBy(0.4)
             make.height.equalTo(nameLabel)
-            make.right.equalTo(background).offset(-padding)
+            make.right.equalTo(background).inset(padding)
             make.centerY.equalTo(nameLabel)
         }
     }
@@ -153,13 +154,13 @@ class PlaceTableViewCell: UITableViewCell {
     
     func interpretDensity() -> String {
         switch place.density {
-        case .noSpots:
+        case .veryBusy:
             return "Very busy"
-        case .fewSpots:
+        case .prettyBusy:
             return "Pretty busy"
-        case .manySpots:
+        case .notBusy:
             return "Not busy"
-        case .someSpots:
+        case .somewhatBusy:
             return "Somewhat busy"
         }
     }
@@ -173,25 +174,25 @@ class PlaceTableViewCell: UITableViewCell {
             return
         }
         switch place.density {
-        case .noSpots:
+        case .veryBusy:
             barOne.backgroundColor = .orangeyRed
             barTwo.backgroundColor = barOne.backgroundColor
             barThree.backgroundColor = barTwo.backgroundColor
             barFour.backgroundColor = barThree.backgroundColor
             break
-        case .fewSpots:
+        case .prettyBusy:
             barOne.backgroundColor = .peach
             barTwo.backgroundColor = barOne.backgroundColor
             barThree.backgroundColor = barTwo.backgroundColor
             barFour.backgroundColor = .whiteTwo
             break
-        case .manySpots:
+        case .notBusy:
             barOne.backgroundColor = .lightTeal
             barTwo.backgroundColor = .whiteTwo
             barThree.backgroundColor = barTwo.backgroundColor
             barFour.backgroundColor = barThree.backgroundColor
             break
-        case .someSpots:
+        case .somewhatBusy:
             barOne.backgroundColor = .wheat
             barTwo.backgroundColor = barOne.backgroundColor
             barThree.backgroundColor = .whiteTwo

@@ -15,15 +15,8 @@ class DensityViewController: UIViewController {
     var place: Place!
     var densityMap = [Int: Double]()
     var selectedHour: Int = 0
-    var weekdays = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-    ]
+    var selectedWeekday: Int = 0
+    var weekdays = [Int]()
     
     // MARK: - View vars
     var axis: UIView!
@@ -35,7 +28,6 @@ class DensityViewController: UIViewController {
     var selectedView: UIView!
     var currentDensityView: CurrentDensityView!
     var hoursButton: UIButton!
-    var selectedWeekday: String!
     var arrowImageView: UIImageView!
     var headerLabel: UILabel!
     var formButton: UIButton!
@@ -50,7 +42,6 @@ class DensityViewController: UIViewController {
     let hoursVerticalPadding: CGFloat = 15
     let barVerticalPadding: CGFloat = 150
     let descriptionLabelHorizontalPadding: CGFloat = 15
-    let descriptionLabelHorizontalMargin: CGFloat = 20
     let descriptionLabelHeight: CGFloat = 40
     let headerHeight: CGFloat = 40
     let formButtonHeight: CGFloat = 20
@@ -77,7 +68,8 @@ class DensityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        selectedWeekday = currentWeekdayText()
+        setWeekdays()
+        selectedWeekday = getWeekday()
         selectedHour = getCurrentHour()
         getDensityMap()
 
@@ -96,30 +88,50 @@ class DensityViewController: UIViewController {
         
     }
     
-    @objc func didBecomeActive() {
-        if let nav = navigationController, let _ = nav.topViewController as? DensityViewController {
-            API.updateDensities(places: System.places, place: place, completion: { index in
-                self.place = System.places[index]
-                self.currentDensityView.configure(with: self.place)
-            })
+    func setWeekdays() {
+        let today = getWeekday()
+        let last = 6
+        weekdays = [today]
+        var weekday = today + 1 > last ? 0 : today + 1
+        while weekday != today {
+            weekdays.append(weekday)
+            weekday += 1
+            if weekday > last {
+                weekday = 0
+            }
         }
     }
     
-    func currentWeekdayText() -> String {
-        switch getWeekday() {
-        case 1:
+    @objc func didBecomeActive() {
+        if let nav = navigationController, let _ = nav.topViewController as? DensityViewController {
+            API.densities { gotDensities in
+                if gotDensities {
+                    let index = System.places.firstIndex(where: { place -> Bool in
+                        return place.id == self.place.id
+                    })
+                    guard let placeIndex = index else { return }
+                    self.place = System.places[placeIndex]
+                    self.currentDensityView.configure(with: self.place)
+                }
+            }
+        }
+    }
+    
+    func selectedWeekdayText() -> String {
+        switch selectedWeekday {
+        case 0:
             return "Sunday"
-        case 2:
+        case 1:
             return "Monday"
-        case 3:
+        case 2:
             return "Tuesday"
-        case 4:
+        case 3:
             return "Wednesday"
-        case 5:
+        case 4:
             return "Thursday"
-        case 6:
+        case 5:
             return "Friday"
-        case 7:
+        case 6:
             return "Saturday"
         default:
             return "Sunday"
@@ -129,7 +141,7 @@ class DensityViewController: UIViewController {
     func getWeekday() -> Int {
         let today = Date()
         let calendar = Calendar.current
-        return calendar.component(.weekday, from: today)
+        return calendar.component(.weekday, from: today) - 1
     }
     
     func getCurrentHour() -> Int {
@@ -140,19 +152,19 @@ class DensityViewController: UIViewController {
     
     func historyKey(weekday: Int) -> String {
         switch weekday {
-        case 1:
+        case 0:
             return "SUN"
-        case 2:
+        case 1:
             return "MON"
-        case 3:
+        case 2:
             return "TUE"
-        case 4:
+        case 3:
             return "WED"
-        case 5:
+        case 4:
             return "THU"
-        case 6:
+        case 5:
             return "FRI"
-        case 7:
+        case 6:
             return "SAT"
         default:
             return "SUN"
@@ -162,30 +174,26 @@ class DensityViewController: UIViewController {
     func weekdayNumber(weekday: String) -> Int {
         switch weekday {
         case "Sunday":
-            return 1
+            return 0
         case "Monday":
-            return 2
-        case "Tuesday":
-            return 3
-        case "Wednesday":
-            return 4
-        case "Thursday":
-            return 5
-        case "Friday":
-            return 6
-        case "Saturday":
-            return 7
-        default:
             return 1
+        case "Tuesday":
+            return 2
+        case "Wednesday":
+            return 3
+        case "Thursday":
+            return 4
+        case "Friday":
+            return 5
+        case "Saturday":
+            return 6
+        default:
+            return 0
         }
     }
     
     func getDensityMap() {
-        let weekdayText = currentWeekdayText()
-        var weekdayKey = historyKey(weekday: getWeekday())
-        if weekdayText != selectedWeekday {
-            weekdayKey = historyKey(weekday: weekdayNumber(weekday: selectedWeekday))
-        }
+        let weekdayKey = historyKey(weekday: selectedWeekday)
         guard let history = place.history[weekdayKey] else { return }
         let sortedKeys = history.keys.sorted { (one, two) in
             guard let one = Int(one), let two = Int(two) else { return true }
@@ -213,12 +221,13 @@ class DensityViewController: UIViewController {
     }
     
     @objc func weekdayButtonPressed(sender: UIButton) {
-        if selectedWeekday != weekdays[sender.tag] {
-            selectedWeekday = weekdays[sender.tag]
+        if selectedWeekday != sender.tag {
+            selectedWeekday = sender.tag
+            let currentLabelText = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
+            currentLabel.text = currentLabelText
             getDensityMap()
             for button in weekdayButtons {
-                let weekday = weekdays[button.tag]
-                if weekday == selectedWeekday {
+                if button.tag == selectedWeekday {
                     button.backgroundColor = .grayishBrown
                     button.setTitleColor(.white, for: .normal)
                     button.layer.borderWidth = 0
@@ -239,8 +248,19 @@ class DensityViewController: UIViewController {
                 selectedView.isHidden = false
                 hoursLabel.isHidden = false
                 currentLabel.isHidden = false
-                hoursLabel.text = operatingHours()
+                var hours = "No hours available"
+                if let selectedWeekdayHours = place.hours[selectedWeekday] {
+                    hours = selectedWeekdayHours
+                }
+                hoursLabel.text = hours
                 layoutBars()
+                let verticalSpacing = spacing()
+                axis.snp.remakeConstraints { make in
+                    make.width.equalToSuperview().inset(horizontalPadding)
+                    make.height.equalTo(axisHeight)
+                    make.top.equalTo(densityDescriptionLabel.snp.bottom).offset(verticalSpacing + maxBarHeight)
+                    make.centerX.equalToSuperview()
+                }
                 if let index = bars.firstIndex(where: { bar in
                     return bar.tag == selectedHour
                 }), let _ = densityMap[selectedHour] {
@@ -255,10 +275,10 @@ class DensityViewController: UIViewController {
                     
                     densityDescriptionLabel.snp.remakeConstraints { remake in
                         remake.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-                        remake.height.equalTo(40)
+                        remake.height.equalTo(descriptionLabelHeight)
                         remake.centerX.equalToSuperview()
-                        remake.right.lessThanOrEqualToSuperview().offset(-descriptionLabelHorizontalMargin).priority(.required)
-                        remake.left.greaterThanOrEqualToSuperview().offset(descriptionLabelHorizontalMargin).priority(.required)
+                        remake.right.lessThanOrEqualToSuperview().offset(-horizontalPadding).priority(.required)
+                        remake.left.greaterThanOrEqualToSuperview().offset(horizontalPadding).priority(.required)
                         remake.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
                     }
                 }
@@ -283,22 +303,22 @@ class DensityViewController: UIViewController {
         }
     }
     
-    func weekdayAbbreviation(weekday: String) -> String {
+    func weekdayAbbreviation(weekday: Int) -> String {
         switch weekday {
-        case "Monday":
-            return "M"
-        case "Tuesday":
-            return "T"
-        case "Wednesday":
-            return "W"
-        case "Thursday":
-            return "Th"
-        case "Friday":
-            return "F"
-        case "Saturday":
-            return "S"
-        case "Sunday":
+        case 0:
             return "Su"
+        case 1:
+            return "M"
+        case 2:
+            return "T"
+        case 3:
+            return "W"
+        case 4:
+            return "Th"
+        case 5:
+            return "F"
+        case 6:
+            return "S"
         default:
             return "M"
         }
@@ -336,7 +356,7 @@ class DensityViewController: UIViewController {
         while index < weekdays.count {
             let weekday = weekdays[index]
             let weekdayButton = UIButton()
-            weekdayButton.tag = index
+            weekdayButton.tag = weekday
             weekdayButton.addTarget(self, action: #selector(weekdayButtonPressed), for: .touchUpInside)
             weekdayButton.clipsToBounds = true
             weekdayButton.layer.cornerRadius = weekdayButtonLength / 2
@@ -365,8 +385,8 @@ class DensityViewController: UIViewController {
         
         currentLabel = UILabel()
         currentLabel.textColor = .warmGray
-        guard let currentLabelPrefix = currentWeekdayText() == selectedWeekday ? "Today's" : selectedWeekday else { return }
-        currentLabel.text = "\(currentLabelPrefix) Hours"
+        let currentLabelText = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
+        currentLabel.text = currentLabelText
         currentLabel.textAlignment = .center
         currentLabel.font = .eighteenBold
         currentLabel.isHidden = false
@@ -374,7 +394,11 @@ class DensityViewController: UIViewController {
         
         hoursLabel = UILabel()
         hoursLabel.textColor = .grayishBrown
-        hoursLabel.text = operatingHours()
+        var hours = "No hours available"
+        if let selectedWeekdayHours = place.hours[selectedWeekday] {
+            hours = selectedWeekdayHours
+        }
+        hoursLabel.text = hours
         hoursLabel.textAlignment = .center
         hoursLabel.numberOfLines = 0
         hoursLabel.font = .eighteen
@@ -395,10 +419,10 @@ class DensityViewController: UIViewController {
         view.addSubview(densityDescriptionLabel)
         
         closedLabel = UILabel()
-        if currentWeekdayText() == selectedWeekday {
+        if getWeekday() == selectedWeekday {
             closedLabel.text = "This place is not open today. Select a different day of the week!"
         } else {
-            closedLabel.text = "This place is not open on \(selectedWeekday!)s. Select a different day of the week!"
+            closedLabel.text = "This place is not open on \(selectedWeekdayText())s. Select a different day of the week!"
         }
         closedLabel.textColor = .grayishBrown
         closedLabel.font = .eighteen
@@ -422,21 +446,6 @@ class DensityViewController: UIViewController {
             currentLabel.isHidden = true
         }
         
-    }
-    
-    func operatingHours() -> String {
-        var hours = ""
-        place.hours.forEach { day in
-            guard let startTimestamp = day["startTimestamp"], let endTimestamp = day["endTimestamp"] else { return }
-            let formatter = DateFormatter()
-            formatter.timeStyle = .short
-            let startDate = Date(timeIntervalSince1970: startTimestamp)
-            let endDate = Date(timeIntervalSince1970: endTimestamp)
-            let startTime = formatter.string(from: startDate)
-            let endTime = formatter.string(from: endDate)
-            hours += "\(startTime) - \(endTime)\n"
-        }
-        return hours
     }
     
     func getHourLabel() -> String {
@@ -465,23 +474,19 @@ class DensityViewController: UIViewController {
         }
     }
     
-    func isOpen() -> Bool {
-        return true
-    }
-    
     func spacing() -> CGFloat {
         let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * horizontalPadding) / CGFloat(weekdays.count)
         var total = currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + formButtonHeight + formButtonTopOffset + headerHeight + weekdayButtonTopOffset + weekdayButtonLength + descriptionLabelHeight + maxBarHeight + axisHeight
-        let hours = operatingHours()
         guard let currentLabelText = currentLabel.text else { return total }
+        guard let hoursLabelText = hoursLabel.text else { return total }
         let currentHeight = currentLabelText.height(withConstrainedWidth: view.frame.width, font: .eighteenBold)
-        let hoursHeight = hours.height(withConstrainedWidth: view.frame.width, font: .eighteen)
+        let hoursHeight = hoursLabelText.height(withConstrainedWidth: view.frame.width, font: .eighteen)
         var difference = UIScreen.main.bounds.height - total - currentHeight - hoursHeight - navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height
         if densityMap.isEmpty {
             total = currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + formButtonHeight + formButtonTopOffset + headerHeight + weekdayButtonTopOffset + weekdayButtonLength + descriptionLabelHeight
             guard let closedLabelText = closedLabel.text else { return total }
             let closedLabelHeight = closedLabelText.height(withConstrainedWidth: view.frame.width - closedLabelWidthInset * 2, font: .eighteen)
-            difference = UIScreen.main.bounds.height - total - closedLabelHeight - navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height
+            difference = UIScreen.main.bounds.height - total - closedLabelHeight - closedLabelTopOffset - navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height
             return difference / 2
         }
         return difference / numSpaces
@@ -539,8 +544,8 @@ class DensityViewController: UIViewController {
                     make.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
                     make.height.equalTo(descriptionLabelHeight)
                     make.centerX.equalTo(bars[barIndex]).priority(.high)
-                    make.right.lessThanOrEqualToSuperview().offset(-descriptionLabelHorizontalMargin).priority(.required)
-                    make.left.greaterThanOrEqualToSuperview().offset(descriptionLabelHorizontalMargin).priority(.required)
+                    make.right.lessThanOrEqualToSuperview().offset(-horizontalPadding).priority(.required)
+                    make.left.greaterThanOrEqualToSuperview().offset(horizontalPadding).priority(.required)
                 }
                 
                 selectedView.snp.makeConstraints { make in
@@ -625,10 +630,10 @@ class DensityViewController: UIViewController {
         
         densityDescriptionLabel.snp.remakeConstraints { remake in
             remake.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-            remake.height.equalTo(40)
+            remake.height.equalTo(descriptionLabelHeight)
             remake.centerX.equalTo(bar).priority(.high)
-            remake.right.lessThanOrEqualToSuperview().offset(-descriptionLabelHorizontalMargin).priority(.required)
-            remake.left.greaterThanOrEqualToSuperview().offset(descriptionLabelHorizontalMargin).priority(.required)
+            remake.right.lessThanOrEqualToSuperview().offset(-horizontalPadding).priority(.required)
+            remake.left.greaterThanOrEqualToSuperview().offset(horizontalPadding).priority(.required)
             remake.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
         }
         

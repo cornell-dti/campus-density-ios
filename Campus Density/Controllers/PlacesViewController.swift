@@ -33,20 +33,18 @@ class PlacesViewController: UIViewController {
     let cellAnimationDuration: TimeInterval = 0.2
     let cellScale: CGFloat = 0.95
     let minimumInteritemSpacing: CGFloat = 15
-    let placeTableViewCellHeight: CGFloat = 115
-    let filtersCollectionViewHeight: CGFloat = 65
-    let filterCollectionViewCellHorizontalPadding: CGFloat = 12.5
+    let placeTableViewCellHeight: CGFloat = 105
+    let filtersViewHeight: CGFloat = 65
     let loadingViewLength: CGFloat = 50
     let placeTableViewCellReuseIdentifier = "places"
+    let logoText = "powered by DTI"
     let loadingBarsLength: CGFloat = 63
+    let logoImageHeight: CGFloat = 80
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        api = API(delegate: self)
-        api.getToken()
-        
-        api.getHistoricalData()
+        getToken()
 
         view.backgroundColor = .white
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -66,10 +64,95 @@ class PlacesViewController: UIViewController {
         
     }
     
-    @objc func didBecomeActive() {
-        if !System.places.isEmpty {
-            api.getPlaces()
+    func alertError() {
+        let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+            self.getToken()
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func getHistory() {
+        API.history { gotHistory in
+            if gotHistory {
+                self.getHours()
+            } else {
+                self.alertError()
+            }
         }
+    }
+    
+    func getHours() {
+        API.hours { gotHours in
+            if gotHours {
+                self.title = "Places"
+                sortPlaces()
+                self.filter(by: self.selectedFilter)
+                self.loadingBarsView.stopAnimating()
+                self.placesTableView.isHidden = false
+                self.filterView.isHidden = false
+                self.placesTableView.reloadData()
+            } else {
+                self.alertError()
+            }
+        }
+    }
+    
+    func getDensities() {
+        API.densities { gotDensities in
+            if gotDensities {
+                self.getStatus()
+            } else {
+                self.alertError()
+            }
+        }
+    }
+    
+    func getStatus() {
+        API.status { gotStatus in
+            if gotStatus {
+                self.getHistory()
+            } else {
+                self.alertError()
+            }
+        }
+    }
+    
+    func getPlaces() {
+        API.places { gotPlaces in
+            if gotPlaces {
+                self.getDensities()
+            } else {
+                self.alertError()
+            }
+        }
+    }
+    
+    func getToken() {
+        API.token { gotToken in
+            if gotToken {
+                self.getPlaces()
+            } else {
+                self.alertError()
+            }
+        }
+    }
+    
+    func updateDensities() {
+        if !System.places.isEmpty {
+            API.densities { gotDensities in
+                if gotDensities {
+                    sortPlaces()
+                    self.filter(by: self.selectedFilter)
+                    self.placesTableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    @objc func didBecomeActive() {
+        updateDensities()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,9 +160,7 @@ class PlacesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if !System.places.isEmpty {
-            api.getPlaces()
-        }
+        updateDensities()
     }
     
     func filterLabel(filter: Filter) -> String {
@@ -171,13 +252,14 @@ class PlacesViewController: UIViewController {
         placesTableView.showsVerticalScrollIndicator = false
         placesTableView.showsHorizontalScrollIndicator = false
         placesTableView.register(PlaceTableViewCell.self, forCellReuseIdentifier: placeTableViewCellReuseIdentifier)
-        filterView = FilterView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: filtersCollectionViewHeight))
+        filterView = FilterView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: filtersViewHeight))
         filterView.isHidden = true
         filterView.setNeedsUpdateConstraints()
         filterView.configure(with: filters, selectedFilter: selectedFilter, delegate: self, width: view.frame.width)
         placesTableView.tableHeaderView = filterView
         let logoView = LogoView()
-        logoView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: logoView.getHeight())
+        let logoViewHeight = logoImageHeight + logoText.height(withConstrainedWidth: view.frame.width, font: .sixteen)
+        logoView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: logoViewHeight)
         placesTableView.tableFooterView = logoView
         placesTableView.isHidden = true
         view.addSubview(placesTableView)
