@@ -154,6 +154,9 @@ class PlacesViewController: UIViewController {
     
     @objc func didBecomeActive() {
         updateDensities()
+        if !System.places.isEmpty {
+            setupRefreshControl()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
