@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum LoadingBarsSize {
+    case small, large
+}
+
 class LoadingBarsView: UIView {
     
     // MARK: - Data vars
@@ -21,10 +25,10 @@ class LoadingBarsView: UIView {
     var barFour: UIView!
     
     // MARK: - Constants
-    let barWidth: CGFloat = 15
-    let maxBarHeight: CGFloat = 100
-    let minBarHeight: CGFloat = 25
-    let barCornerRadius: CGFloat = 5
+    var barWidth: CGFloat!
+    var maxBarHeight: CGFloat!
+    var minBarHeight: CGFloat!
+    var barCornerRadius: CGFloat!
     let padding: CGFloat = 1
 
     override init(frame: CGRect) {
@@ -32,32 +36,31 @@ class LoadingBarsView: UIView {
         
         barOne = UIView()
         barOne.clipsToBounds = true
-        barOne.layer.cornerRadius = barCornerRadius
         barOne.backgroundColor = .lightTeal
         barOne.tag = 1
         addSubview(barOne)
         
         barTwo = UIView()
         barTwo.clipsToBounds = true
-        barTwo.layer.cornerRadius = barCornerRadius
         barTwo.backgroundColor = .wheat
         barTwo.tag = 2
         addSubview(barTwo)
         
         barThree = UIView()
         barThree.clipsToBounds = true
-        barThree.layer.cornerRadius = barCornerRadius
         barThree.backgroundColor = .peach
         barThree.tag = 3
         addSubview(barThree)
         
         barFour = UIView()
         barFour.clipsToBounds = true
-        barFour.layer.cornerRadius = barCornerRadius
         barFour.backgroundColor = .orangeyRed
         barFour.tag = 4
         addSubview(barFour)
         
+    }
+    
+    func setupConstraints() {
         barOne.snp.makeConstraints { make in
             make.width.equalTo(barWidth)
             make.height.equalTo(randomHeight())
@@ -85,7 +88,26 @@ class LoadingBarsView: UIView {
             make.bottom.equalTo(barOne)
             make.left.equalTo(barThree.snp.right).offset(padding)
         }
-        
+    }
+    
+    func configure(with size: LoadingBarsSize) {
+        switch size {
+        case .small:
+            barWidth = 7.5
+            maxBarHeight = 30
+            minBarHeight = 10
+            barCornerRadius = 2.5
+        case .large:
+            barWidth = 15
+            maxBarHeight = 100
+            minBarHeight = 25
+            barCornerRadius = 5
+        }
+        barOne.layer.cornerRadius = barCornerRadius
+        barTwo.layer.cornerRadius = barCornerRadius
+        barThree.layer.cornerRadius = barCornerRadius
+        barFour.layer.cornerRadius = barCornerRadius
+        setupConstraints()
     }
     
     func startAnimating() {

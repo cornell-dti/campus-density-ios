@@ -68,6 +68,7 @@ extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: placeTableViewCellReuseIdentifier, for: indexPath) as? PlaceTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
+        print("here")
         cell.configure(with: filteredPlaces[indexPath.row])
         return cell
     }

@@ -22,7 +22,7 @@ class PlacesViewController: UIViewController {
     var filteredPlaces = [Place]()
     var filters: [Filter]!
     var selectedFilter: Filter = .all
-    var api: API!
+    var gettingDensities = false
     
     // MARK: - View vars
     var placesTableView: UITableView!
@@ -38,7 +38,8 @@ class PlacesViewController: UIViewController {
     let loadingViewLength: CGFloat = 50
     let placeTableViewCellReuseIdentifier = "places"
     let logoText = "powered by DTI"
-    let loadingBarsLength: CGFloat = 63
+    let smallLoadingBarsLength: CGFloat = 33
+    let largeLoadingBarsLength: CGFloat = 63
     let logoImageHeight: CGFloat = 80
 
     override func viewDidLoad() {
@@ -264,10 +265,37 @@ class PlacesViewController: UIViewController {
         placesTableView.isHidden = true
         view.addSubview(placesTableView)
         
+        if #available(iOS 10.0, *) {
+            let refreshControl = UIRefreshControl()
+            refreshControl.tintColor = .white
+            refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+            let barsView = LoadingBarsView()
+            barsView.configure(with: .small)
+            barsView.startAnimating()
+            refreshControl.addSubview(barsView)
+            barsView.snp.makeConstraints { make in
+                make.width.height.equalTo(smallLoadingBarsLength)
+                make.center.equalToSuperview()
+            }
+            placesTableView.refreshControl = refreshControl
+        }
+        
         loadingBarsView = LoadingBarsView()
+        loadingBarsView.configure(with: .large)
         loadingBarsView.startAnimating()
         view.addSubview(loadingBarsView)
         
+    }
+    
+    @objc func didPullToRefresh(sender: UIRefreshControl) {
+        guard let refreshControl = placesTableView.refreshControl else { return }
+        API.densities { gotDensities in
+            if gotDensities {
+                sortPlaces()
+                self.filter(by: self.selectedFilter)
+            }
+            refreshControl.endRefreshing()
+        }
     }
     
     func setupConstraints() {
@@ -279,7 +307,7 @@ class PlacesViewController: UIViewController {
         }
         
         loadingBarsView.snp.makeConstraints { make in
-            make.width.height.equalTo(loadingBarsLength)
+            make.width.height.equalTo(largeLoadingBarsLength)
             make.center.equalToSuperview()
         }
         
