@@ -9,13 +9,8 @@
 /* Begin PBXBuildFile section */
 		0C29A760219E1F4200515D01 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29A75F219E1F4200515D01 /* API.swift */; };
 		0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308760220F650000AC9589 /* CurrentDensityView.swift */; };
-		0C308763220F86EE00AC9589 /* WeekdayToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */; };
-		0C308765220F916D00AC9589 /* WeekdayToggleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */; };
-		0C308767220F933400AC9589 /* WeekdayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */; };
 		0C316AD52223773400AE4BE3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C316AD42223773400AE4BE3 /* Utils.swift */; };
-		0C3ED50E221A116300A061D7 /* WeekdayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */; };
 		0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */; };
-		0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */; };
 		0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */; };
 		0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7F910B219659FB00FBCD41 /* DensityViewController.swift */; };
 		0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */; };
@@ -24,7 +19,6 @@
 		0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C82173EA8100988A46 /* LaunchScreen.storyboard */; };
 		0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */; };
 		0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */; };
-		0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F32173EDA000988A46 /* Facility.swift */; };
 		0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */; };
 		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
@@ -55,13 +49,8 @@
 /* Begin PBXFileReference section */
 		0C29A75F219E1F4200515D01 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		0C308760220F650000AC9589 /* CurrentDensityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityView.swift; sourceTree = "<group>"; };
-		0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayToggleView.swift; sourceTree = "<group>"; };
-		0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayToggleViewController.swift; sourceTree = "<group>"; };
-		0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C316AD42223773400AE4BE3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayButtonView.swift; sourceTree = "<group>"; };
 		0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
-		0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0C7F910B219659FB00FBCD41 /* DensityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DensityViewController.swift; sourceTree = "<group>"; };
 		0CA3F4BC2173EA8000988A46 /* Campus Density.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Campus Density.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,7 +63,6 @@
 		0CA3F4DB2173EA8200988A46 /* Campus DensityUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Campus DensityUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlacesViewController+Extension.swift"; sourceTree = "<group>"; };
 		0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
-		0CA3F4F32173EDA000988A46 /* Facility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Facility.swift; sourceTree = "<group>"; };
 		0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		0CC6B74121B0A43C00E7B359 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		0CC6B74521B0AF1400E7B359 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
@@ -126,8 +114,6 @@
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
 				0C308760220F650000AC9589 /* CurrentDensityView.swift */,
-				0C308762220F86EE00AC9589 /* WeekdayToggleView.swift */,
-				0C3ED50D221A116300A061D7 /* WeekdayButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -157,7 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */,
-				0CA3F4F32173EDA000988A46 /* Facility.swift */,
 				0C29A75F219E1F4200515D01 /* API.swift */,
 				0C316AD42223773400AE4BE3 /* Utils.swift */,
 				0CC6B74521B0AF1400E7B359 /* System.swift */,
@@ -179,7 +164,6 @@
 				0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */,
 				0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */,
 				0C7F910B219659FB00FBCD41 /* DensityViewController.swift */,
-				0C308764220F916D00AC9589 /* WeekdayToggleViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -188,8 +172,6 @@
 			isa = PBXGroup;
 			children = (
 				0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */,
-				0C5D0C082182698600060874 /* FilterCollectionViewCell.swift */,
-				0C308766220F933400AC9589 /* WeekdayCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -449,20 +431,14 @@
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */,
-				0CA3F4F42173EDA000988A46 /* Facility.swift in Sources */,
-				0C308767220F933400AC9589 /* WeekdayCollectionViewCell.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */,
-				0C308765220F916D00AC9589 /* WeekdayToggleViewController.swift in Sources */,
-				0C308763220F86EE00AC9589 /* WeekdayToggleView.swift in Sources */,
 				0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
 				0C316AD52223773400AE4BE3 /* Utils.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */,
-				0C3ED50E221A116300A061D7 /* WeekdayButtonView.swift in Sources */,
-				0C5D0C092182698600060874 /* FilterCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

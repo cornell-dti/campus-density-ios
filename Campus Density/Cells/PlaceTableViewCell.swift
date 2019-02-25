@@ -1,5 +1,5 @@
 //
-//  FacilityTableViewCell.swift
+//  PlaceTableViewCell.swift
 //  Campus Density
 //
 //  Created by Matthew Coufal on 10/14/18.
