@@ -162,6 +162,9 @@ class PlacesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         updateDensities()
+        if !System.places.isEmpty {
+            setupRefreshControl()
+        }
     }
     
     func filterLabel(filter: Filter) -> String {
@@ -243,6 +246,24 @@ class PlacesViewController: UIViewController {
         }
     }
     
+    func setupRefreshControl() {
+        if #available(iOS 10.0, *) {
+            placesTableView.refreshControl?.removeFromSuperview()
+            let refreshControl = UIRefreshControl()
+            refreshControl.tintColor = .white
+            refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+            let barsView = LoadingBarsView()
+            barsView.configure(with: .small)
+            barsView.startAnimating()
+            refreshControl.addSubview(barsView)
+            barsView.snp.makeConstraints { make in
+                make.width.height.equalTo(smallLoadingBarsLength)
+                make.center.equalToSuperview()
+            }
+            placesTableView.refreshControl = refreshControl
+        }
+    }
+    
     func setupViews() {
         
         placesTableView = UITableView()
@@ -265,20 +286,7 @@ class PlacesViewController: UIViewController {
         placesTableView.isHidden = true
         view.addSubview(placesTableView)
         
-        if #available(iOS 10.0, *) {
-            let refreshControl = UIRefreshControl()
-            refreshControl.tintColor = .white
-            refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-            let barsView = LoadingBarsView()
-            barsView.configure(with: .small)
-            barsView.startAnimating()
-            refreshControl.addSubview(barsView)
-            barsView.snp.makeConstraints { make in
-                make.width.height.equalTo(smallLoadingBarsLength)
-                make.center.equalToSuperview()
-            }
-            placesTableView.refreshControl = refreshControl
-        }
+        setupRefreshControl()
         
         loadingBarsView = LoadingBarsView()
         loadingBarsView.configure(with: .large)
