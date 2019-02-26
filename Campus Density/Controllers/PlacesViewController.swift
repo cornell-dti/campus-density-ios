@@ -140,23 +140,25 @@ class PlacesViewController: UIViewController {
         }
     }
     
-    func updateDensities() {
+    func updatePlaces() {
         if !System.places.isEmpty {
+            setupRefreshControl()
             API.densities { gotDensities in
                 if gotDensities {
-                    sortPlaces()
-                    self.filter(by: self.selectedFilter)
-                    self.placesTableView.reloadData()
+                    API.status { gotStatus in
+                        if gotStatus {
+                            self.filter(by: self.selectedFilter)
+                            self.placesTableView.reloadData()
+                        }
+                    }
                 }
             }
         }
     }
     
+    
     @objc func didBecomeActive() {
-        updateDensities()
-        if !System.places.isEmpty {
-            setupRefreshControl()
-        }
+        updatePlaces()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -164,10 +166,7 @@ class PlacesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        updateDensities()
-        if !System.places.isEmpty {
-            setupRefreshControl()
-        }
+        updatePlaces()
     }
     
     func filterLabel(filter: Filter) -> String {

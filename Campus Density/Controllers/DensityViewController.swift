@@ -106,12 +106,16 @@ class DensityViewController: UIViewController {
         if let nav = navigationController, let _ = nav.topViewController as? DensityViewController {
             API.densities { gotDensities in
                 if gotDensities {
-                    let index = System.places.firstIndex(where: { place -> Bool in
-                        return place.id == self.place.id
-                    })
-                    guard let placeIndex = index else { return }
-                    self.place = System.places[placeIndex]
-                    self.currentDensityView.configure(with: self.place)
+                    API.status { gotStatus in
+                        if gotStatus {
+                            let index = System.places.firstIndex(where: { place -> Bool in
+                                return place.id == self.place.id
+                            })
+                            guard let placeIndex = index else { return }
+                            self.place = System.places[placeIndex]
+                            self.currentDensityView.configure(with: self.place)
+                        }
+                    }
                 }
             }
         }
