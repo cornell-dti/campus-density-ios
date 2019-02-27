@@ -32,7 +32,6 @@ class PlacesViewController: UIViewController {
     // MARK: - Constants
     let cellAnimationDuration: TimeInterval = 0.2
     let cellScale: CGFloat = 0.95
-    let minimumInteritemSpacing: CGFloat = 15
     let placeTableViewCellHeight: CGFloat = 105
     let filtersViewHeight: CGFloat = 65
     let loadingViewLength: CGFloat = 50
@@ -182,37 +181,6 @@ class PlacesViewController: UIViewController {
         }
     }
     
-    func getRegion(place: Place) -> String {
-        switch place.displayName {
-        case "Rose Dining Hall":
-            return "West"
-        case "Risley":
-            return "North"
-        case "RPCC Dining Hall":
-            return "North"
-        case "Olin Libe Cafe":
-            return "Central"
-        case "Okenshields":
-            return "Central"
-        case "North Star at Appel":
-            return "North"
-        case "104West!":
-            return "West"
-        case "Keeton House":
-            return "West"
-        case "Jansen's at Bethe House":
-            return "West"
-        case "Carl Becker House":
-            return "West"
-        case "Cafe Jennie":
-            return "Central"
-        case "Alice Cook House":
-            return "West"
-        default:
-            return ""
-        }
-    }
-    
     func filter(by selectedFilter: Filter) {
         switch selectedFilter {
         case .all:
@@ -221,17 +189,17 @@ class PlacesViewController: UIViewController {
             break
         case .north:
             filteredPlaces = System.places.filter({ place -> Bool in
-                return getRegion(place: place) == "North"
+                return place.region == Region.north
             })
             break
         case .west:
             filteredPlaces = System.places.filter({ place -> Bool in
-                return getRegion(place: place) == "West"
+                return place.region == Region.west
             })
             break
         case .central:
             filteredPlaces = System.places.filter({ place -> Bool in
-                return getRegion(place: place) == "Central"
+                return place.region == Region.central
             })
         }
         filteredPlaces.sort { placeOne, placeTwo -> Bool in

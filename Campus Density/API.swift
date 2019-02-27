@@ -14,40 +14,33 @@ enum APIError: Error {
     case noData
 }
 
-class PlaceName: Codable {
+enum Region: String, Codable {
+    case north = "north"
+    case central = "central"
+    case west = "west"
+}
+
+struct PlaceName: Codable {
     
     var displayName: String
     var id: String
     
-    init(displayName: String, id: String) {
-        self.displayName = displayName
-        self.id = id
-    }
-    
 }
 
-class PlaceDensity: Codable {
+struct PlaceDensity: Codable {
+    
     var id: String
     var density: Density
     
-    init(id: String, density: Density) {
-        self.id = id
-        self.density = density
-    }
 }
 
-class PlaceInfo: Codable {
+struct PlaceInfo: Codable {
+    
     var id: String
-    var campusLocation: String
+    var campusLocation: Region
     var nextOpen: Double
     var closingAt: Double
     
-    init(id: String, campusLocation: String, nextOpen: Double, closingAt: Double) {
-        self.id = id
-        self.campusLocation = campusLocation
-        self.nextOpen = nextOpen
-        self.closingAt = closingAt
-    }
 }
 
 class Place {
@@ -58,14 +51,16 @@ class Place {
     var isClosed: Bool
     var hours: [Int: String]
     var history: [String: [String: Double]]
+    var region: Region
     
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]]) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region) {
         self.displayName = displayName
         self.id = id
         self.density = density
         self.isClosed = isClosed
         self.hours = hours
         self.history = history
+        self.region = region
     }
     
 }
@@ -193,6 +188,7 @@ class API {
                             return place.id == placeInfo.id
                         })
                         guard let placeIndex = index else { return }
+                        System.places[placeIndex].region = placeInfo.campusLocation
                         System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
                     }
                     completion(true)
@@ -250,7 +246,7 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:])
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north)
                     }
                     completion(true)
                 case .failure(let error):
