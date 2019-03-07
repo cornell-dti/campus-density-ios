@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C1EC87A222C892B0011B3DE /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1EC879222C892B0011B3DE /* BarGraphView.swift */; };
 		0C29A760219E1F4200515D01 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29A75F219E1F4200515D01 /* API.swift */; };
 		0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308760220F650000AC9589 /* CurrentDensityView.swift */; };
 		0C316AD52223773400AE4BE3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C316AD42223773400AE4BE3 /* Utils.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C1EC879222C892B0011B3DE /* BarGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		0C29A75F219E1F4200515D01 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		0C308760220F650000AC9589 /* CurrentDensityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityView.swift; sourceTree = "<group>"; };
 		0C316AD42223773400AE4BE3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */,
+				0C1EC879222C892B0011B3DE /* BarGraphView.swift */,
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
 				0C308760220F650000AC9589 /* CurrentDensityView.swift */,
@@ -431,6 +434,7 @@
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */,
+				0C1EC87A222C892B0011B3DE /* BarGraphView.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */,
 				0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */,

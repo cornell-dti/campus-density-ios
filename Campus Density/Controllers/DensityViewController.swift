@@ -19,6 +19,9 @@ class DensityViewController: UIViewController {
     var weekdays = [Int]()
     
     // MARK: - View vars
+    var barGraphView: BarGraphView!
+    var contentView: UIView!
+    var scrollView: UIScrollView!
     var axis: UIView!
     var currentLabel: UILabel!
     var hoursLabel: UILabel!
@@ -29,7 +32,9 @@ class DensityViewController: UIViewController {
     var currentDensityView: CurrentDensityView!
     var hoursButton: UIButton!
     var arrowImageView: UIImageView!
-    var headerLabel: UILabel!
+    var graphHeaderLabel: UILabel!
+    var hoursHeaderLabel: UILabel!
+    var selectedDateLabel: UILabel!
     var formButton: UIButton!
     var weekdayButtons = [UIButton]()
     
@@ -46,21 +51,24 @@ class DensityViewController: UIViewController {
     let headerHeight: CGFloat = 40
     let formButtonHeight: CGFloat = 20
     let formButtonTopOffset: CGFloat = 5
-    let weekdayButtonTopOffset: CGFloat = 5
+    let weekdayButtonTopOffset: CGFloat = 15
     let closedLabelWidthInset: CGFloat = 75
     let closedLabelTopOffset: CGFloat = 15
     let hoursButtonHeight: CGFloat = 40
     let hoursButtonCornerRadius: CGFloat = 6
     let descriptionLabelCornerRadius: CGFloat = 6
     let selectedViewWidth: CGFloat = 1.5
-    let maxBarHeight: CGFloat = 115
+    let maxBarHeight: CGFloat = 150
     let descriptionLabelVerticalPadding: CGFloat = 30
     let currentDensityViewHeight: CGFloat = 90
     let currentDensityViewVerticalPadding: CGFloat = 5
     let arrowImageViewLength: CGFloat = 20
     let weekdayLabelHeight: CGFloat = 35
     let weekdayLabelSpacing: CGFloat = 15
-    let headerLabelText = "Popular Times"
+    let barGraphViewHeight: CGFloat = 277
+    let barGraphViewVerticalPadding: CGFloat = 50
+    let totalSpacing: CGFloat = 220
+    let graphHeaderLabelText = "Popular Times"
     let arrowImageName = "downarrow"
     let formButtonText = "Is this accurate?"
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
@@ -227,8 +235,13 @@ class DensityViewController: UIViewController {
     @objc func weekdayButtonPressed(sender: UIButton) {
         if selectedWeekday != sender.tag {
             selectedWeekday = sender.tag
-            let currentLabelText = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
-            currentLabel.text = currentLabelText
+            hoursHeaderLabel.text = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
+            selectedDateLabel.text = selectedDateLabelText()
+            var hours = "No hours available"
+            if let selectedWeekdayHours = place.hours[selectedWeekday] {
+                hours = selectedWeekdayHours
+            }
+            hoursLabel.text = hours
             getDensityMap()
             for button in weekdayButtons {
                 if button.tag == selectedWeekday {
@@ -242,67 +255,24 @@ class DensityViewController: UIViewController {
                     button.setTitleColor(.grayishBrown, for: .normal)
                 }
             }
-            for bar in bars {
-                bar.removeFromSuperview()
-            }
-            bars = []
+            
             if !densityMap.isEmpty {
-                closedLabel.isHidden = true
-                axis.isHidden = false
-                selectedView.isHidden = false
-                hoursLabel.isHidden = false
-                currentLabel.isHidden = false
-                var hours = "No hours available"
-                if let selectedWeekdayHours = place.hours[selectedWeekday] {
-                    hours = selectedWeekdayHours
+                var description = "\(getHourLabel()) - Closed"
+                if let _ = densityMap[selectedHour] {
+                    description = "\(getHourLabel()) - \(getCurrentDensity())"
                 }
-                hoursLabel.text = hours
-                layoutBars()
-                let verticalSpacing = spacing()
-                axis.snp.remakeConstraints { make in
-                    make.width.equalToSuperview().inset(horizontalPadding)
-                    make.height.equalTo(axisHeight)
-                    make.top.equalTo(densityDescriptionLabel.snp.bottom).offset(verticalSpacing + maxBarHeight)
-                    make.centerX.equalToSuperview()
-                }
-                if let index = bars.firstIndex(where: { bar in
-                    return bar.tag == selectedHour
-                }), let _ = densityMap[selectedHour] {
-                    let bar = bars[index]
-                    didTapBar(bar: bar)
-                } else {
-                    densityDescriptionLabel.text = "\(getHourLabel()) - Closed"
-                    let verticalSpacing = spacing()
-                    
-                    guard let description = densityDescriptionLabel.text else { return }
-                    let descriptionWidth = description.widthWithConstrainedHeight(descriptionLabelHeight, font: .eighteen)
-                    
-                    densityDescriptionLabel.snp.remakeConstraints { remake in
-                        remake.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-                        remake.height.equalTo(descriptionLabelHeight)
-                        remake.centerX.equalToSuperview()
-                        remake.right.lessThanOrEqualToSuperview().offset(-horizontalPadding).priority(.required)
-                        remake.left.greaterThanOrEqualToSuperview().offset(horizontalPadding).priority(.required)
-                        remake.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
-                    }
-                }
+                barGraphView.updateDensityMap(densityMap: densityMap, description: description)
             } else {
-                densityDescriptionLabel.text = "Closed"
-                hoursLabel.text = "No hours available"
-                closedLabel.isHidden = false
-                axis.isHidden = true
-                selectedView.isHidden = true
-                hoursLabel.isHidden = true
-                currentLabel.isHidden = true
-                let verticalSpacing = spacing()
-                guard let descriptionText = densityDescriptionLabel.text else { return }
-                let descriptionWidth = descriptionText.widthWithConstrainedHeight(descriptionLabelHeight, font: .eighteen)
-                densityDescriptionLabel.snp.remakeConstraints { remake in
-                    remake.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-                    remake.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
-                    remake.height.equalTo(descriptionLabelHeight)
-                    remake.centerX.equalToSuperview()
-                }
+                barGraphView.updateDensityMap(densityMap: nil, description: "Closed")
+            }
+            
+            let hoursLabelTextHeight = hours.height(withConstrainedWidth: view.frame.width, font: hoursLabel.font)
+            hoursLabel.snp.updateConstraints { update in
+                update.height.equalTo(hoursLabelTextHeight)
+            }
+            
+            contentView.snp.updateConstraints { update in
+                update.height.equalTo(contentSizeHeight())
             }
         }
     }
@@ -335,16 +305,27 @@ class DensityViewController: UIViewController {
     
     func setupViews() {
         
+        scrollView = UIScrollView()
+        scrollView.bounces = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.isScrollEnabled = true
+        scrollView.delegate = self
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        view.addSubview(scrollView)
+        
+        contentView = UIView()
+        scrollView.addSubview(contentView)
+        
         currentDensityView = CurrentDensityView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: currentDensityViewHeight))
         currentDensityView.configure(with: place)
-        view.addSubview(currentDensityView)
+        contentView.addSubview(currentDensityView)
         
-        headerLabel = UILabel()
-        headerLabel.text = headerLabelText
-        headerLabel.textColor = .grayishBrown
-        headerLabel.textAlignment = .left
-        headerLabel.font = .eighteenBold
-        view.addSubview(headerLabel)
+        graphHeaderLabel = UILabel()
+        graphHeaderLabel.text = graphHeaderLabelText
+        graphHeaderLabel.textColor = .grayishBrown
+        graphHeaderLabel.textAlignment = .left
+        graphHeaderLabel.font = .thirtyBold
+        contentView.addSubview(graphHeaderLabel)
         
         formButton = UIButton()
         formButton.addTarget(self, action: #selector(formButtonPressed), for: .touchUpInside)
@@ -352,7 +333,7 @@ class DensityViewController: UIViewController {
         formButton.setTitleColor(.brightBlue, for: .normal)
         formButton.titleLabel?.font = .fourteen
         formButton.titleLabel?.textAlignment = .right
-        view.addSubview(formButton)
+        contentView.addSubview(formButton)
         
         let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * 15) / CGFloat(weekdays.count)
         
@@ -376,28 +357,34 @@ class DensityViewController: UIViewController {
                 weekdayButton.setTitleColor(.grayishBrown, for: .normal)
             }
             weekdayButtons.append(weekdayButton)
-            view.addSubview(weekdayButton)
+            contentView.addSubview(weekdayButton)
             index += 1
         }
         
-        axis = UIView()
-        axis.backgroundColor = .whiteTwo
-        axis.clipsToBounds = true
-        axis.layer.cornerRadius = axisHeight / 2
-        axis.isHidden = false
-        view.addSubview(axis)
+        barGraphView = BarGraphView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: barGraphViewHeight))
+        if !densityMap.isEmpty {
+            barGraphView.configure(description: "\(getHourLabel()) - \(getCurrentDensity())", densityMap: densityMap, selectedHour: selectedHour, delegate: self)
+        } else {
+            barGraphView.configure(description: "Closed", densityMap: nil, selectedHour: selectedHour, delegate: self)
+        }
+        contentView.addSubview(barGraphView)
         
-        currentLabel = UILabel()
-        currentLabel.textColor = .warmGray
-        let currentLabelText = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
-        currentLabel.text = currentLabelText
-        currentLabel.textAlignment = .center
-        currentLabel.font = .eighteenBold
-        currentLabel.isHidden = false
-        view.addSubview(currentLabel)
+        hoursHeaderLabel = UILabel()
+        hoursHeaderLabel.text = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
+        hoursHeaderLabel.textColor = .grayishBrown
+        hoursHeaderLabel.textAlignment = .center
+        hoursHeaderLabel.font = .twentyBold
+        contentView.addSubview(hoursHeaderLabel)
+        
+        selectedDateLabel = UILabel()
+        selectedDateLabel.text = selectedDateLabelText()
+        selectedDateLabel.textColor = .densityDarkGray
+        selectedDateLabel.textAlignment = .center
+        selectedDateLabel.font = .sixteenBold
+        contentView.addSubview(selectedDateLabel)
         
         hoursLabel = UILabel()
-        hoursLabel.textColor = .grayishBrown
+        hoursLabel.textColor = .warmGray
         var hours = "No hours available"
         if let selectedWeekdayHours = place.hours[selectedWeekday] {
             hours = selectedWeekdayHours
@@ -405,51 +392,20 @@ class DensityViewController: UIViewController {
         hoursLabel.text = hours
         hoursLabel.textAlignment = .center
         hoursLabel.numberOfLines = 0
-        hoursLabel.font = .eighteen
-        hoursLabel.isHidden = false
-        view.addSubview(hoursLabel)
-        
-        densityDescriptionLabel = UILabel()
-        densityDescriptionLabel.textColor = .grayishBrown
-        densityDescriptionLabel.clipsToBounds = true
-        densityDescriptionLabel.backgroundColor = .white
-        densityDescriptionLabel.layer.borderColor = UIColor.warmGray.cgColor
-        densityDescriptionLabel.layer.borderWidth = 1
-        densityDescriptionLabel.font = .eighteen
-        densityDescriptionLabel.numberOfLines = 0
-        densityDescriptionLabel.textAlignment = .center
-        densityDescriptionLabel.text = "\(getHourLabel()) - \(getCurrentDensity())"
-        densityDescriptionLabel.layer.cornerRadius = descriptionLabelCornerRadius
-        view.addSubview(densityDescriptionLabel)
-        
-        closedLabel = UILabel()
-        if getWeekday() == selectedWeekday {
-            closedLabel.text = "This place is not open today. Select a different day of the week!"
-        } else {
-            closedLabel.text = "This place is not open on \(selectedWeekdayText())s. Select a different day of the week!"
-        }
-        closedLabel.textColor = .grayishBrown
-        closedLabel.font = .eighteen
-        closedLabel.numberOfLines = 0
-        closedLabel.textAlignment = .center
-        closedLabel.isHidden = true
-        view.addSubview(closedLabel)
-        
-        selectedView = UIView()
-        selectedView.backgroundColor = .warmGray
-        selectedView.isHidden = false
-        view.addSubview(selectedView)
-        
-        if densityMap.isEmpty {
-            densityDescriptionLabel.text = "Closed"
-            hoursLabel.text = "No hours available"
-            closedLabel.isHidden = false
-            axis.isHidden = true
-            selectedView.isHidden = true
-            hoursLabel.isHidden = true
-            currentLabel.isHidden = true
-        }
-        
+        hoursLabel.font = .eighteenBold
+        contentView.addSubview(hoursLabel)
+    }
+    
+    func selectedDateLabelText() -> String {
+        let today = Date()
+        guard let weekdayIndex = weekdays.firstIndex(of: selectedWeekday) else { return "" }
+        guard let selectedDate = Calendar.current.date(byAdding: Calendar.Component.day, value: weekdayIndex, to: today) else { return "" }
+        let formatter = DateFormatter()
+        formatter.timeStyle = .none
+        formatter.dateStyle = .long
+        let dateString = formatter.string(from: selectedDate)
+        let dateStringComponents = dateString.components(separatedBy: ",")
+        return dateStringComponents[0]
     }
     
     func getHourLabel() -> String {
@@ -478,37 +434,34 @@ class DensityViewController: UIViewController {
         }
     }
     
-    func spacing() -> CGFloat {
+    func contentSizeHeight() -> CGFloat {
+        guard let hoursLabelText = hoursLabel.text else { return 0 }
+        let hoursLabelTextHeight = hoursLabelText.height(withConstrainedWidth: view.frame.width, font: hoursLabel.font)
+        guard let hoursHeaderLabelText = hoursHeaderLabel.text else { return 0 }
+        let hoursHeaderLabelTextHeight = hoursHeaderLabelText.height(withConstrainedWidth: view.frame.width, font: hoursLabel.font)
+        guard let selectedDateLabelText = selectedDateLabel.text else { return 0 }
+        let selectedDateLabelTextHeight = selectedDateLabelText.height(withConstrainedWidth: view.frame.width, font: selectedDateLabel.font)
         let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * horizontalPadding) / CGFloat(weekdays.count)
-        var total = currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + formButtonHeight + formButtonTopOffset + headerHeight + weekdayButtonTopOffset + weekdayButtonLength + descriptionLabelHeight + maxBarHeight + axisHeight
-        guard let currentLabelText = currentLabel.text else { return total }
-        guard let hoursLabelText = hoursLabel.text else { return total }
-        let currentHeight = currentLabelText.height(withConstrainedWidth: view.frame.width, font: .eighteenBold)
-        let hoursHeight = hoursLabelText.height(withConstrainedWidth: view.frame.width, font: .eighteen)
-        var difference = UIScreen.main.bounds.height - total - currentHeight - hoursHeight - navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height
-        if densityMap.isEmpty {
-            total = currentDensityViewHeight + currentDensityViewVerticalPadding * 2 + formButtonHeight + formButtonTopOffset + headerHeight + weekdayButtonTopOffset + weekdayButtonLength + descriptionLabelHeight
-            guard let closedLabelText = closedLabel.text else { return total }
-            let closedLabelHeight = closedLabelText.height(withConstrainedWidth: view.frame.width - closedLabelWidthInset * 2, font: .eighteen)
-            difference = UIScreen.main.bounds.height - total - closedLabelHeight - closedLabelTopOffset - navigationController!.navigationBar.frame.height - UIApplication.shared.statusBarFrame.height
-            return difference / 2
-        }
-        return difference / numSpaces
+        guard let graphHeaderLabelText = graphHeaderLabel.text else { return 0 }
+        let graphHeaderLabelTextHeight = graphHeaderLabelText.height(withConstrainedWidth: view.frame.width, font: graphHeaderLabel.font)
+        return hoursLabelTextHeight + hoursHeaderLabelTextHeight + selectedDateLabelTextHeight + weekdayButtonLength + graphHeaderLabelTextHeight + currentDensityViewHeight + barGraphViewHeight + formButtonHeight + totalSpacing
     }
     
     func setupConstraints() {
-        let navOffset: CGFloat = UIApplication.shared.statusBarFrame.height + navigationController!.navigationBar.frame.height
-        let verticalSpacing = spacing()
         
-        guard let description = densityDescriptionLabel.text else { return }
-        guard let closedLabelText = closedLabel.text else { return }
-        let descriptionWidth = description.widthWithConstrainedHeight(descriptionLabelHeight, font: .eighteen)
-        let closedLabelHeight = closedLabelText.height(withConstrainedWidth: view.frame.width - closedLabelWidthInset * 2, font: .eighteen)
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.width.equalToSuperview()
+            make.height.equalTo(contentSizeHeight())
+        }
         
         currentDensityView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(currentDensityViewHeight)
-            make.top.equalToSuperview().offset(navOffset + currentDensityViewVerticalPadding)
+            make.top.equalToSuperview().offset(currentDensityViewVerticalPadding + 10)
         }
         
         formButton.snp.makeConstraints { make in
@@ -517,10 +470,13 @@ class DensityViewController: UIViewController {
             make.right.equalToSuperview().inset(horizontalPadding)
         }
         
-        headerLabel.snp.makeConstraints { make in
-            make.height.equalTo(headerHeight)
+        guard let graphHeaderLabelText = graphHeaderLabel.text else { return }
+        let graphHeaderLabelHeight = graphHeaderLabelText.height(withConstrainedWidth: view.frame.width - horizontalPadding * 2, font: graphHeaderLabel.font)
+        
+        graphHeaderLabel.snp.makeConstraints { make in
+            make.height.equalTo(graphHeaderLabelHeight)
             make.left.equalToSuperview().offset(horizontalPadding)
-            make.top.equalTo(formButton.snp.bottom)
+            make.top.equalTo(formButton.snp.bottom).offset(15)
         }
         
         let weekdayButtonLength = (view.frame.width - CGFloat(weekdays.count + 1) * horizontalPadding) / CGFloat(weekdays.count)
@@ -529,166 +485,63 @@ class DensityViewController: UIViewController {
         for button in weekdayButtons {
             button.snp.makeConstraints { make in
                 make.width.height.equalTo(weekdayButtonLength)
-                make.top.equalTo(headerLabel.snp.bottom).offset(weekdayButtonTopOffset)
+                make.top.equalTo(graphHeaderLabel.snp.bottom).offset(weekdayButtonTopOffset)
                 make.left.equalTo(left)
             }
             left += weekdayButtonLength + horizontalPadding
         }
         
-        if !densityMap.isEmpty {
-            
-            layoutBars()
-            let index = bars.firstIndex(where: { bar -> Bool in
-                return bar.tag == selectedHour
-            })
-        
-            if let barIndex = index, let _ = densityMap[selectedHour] {
-                densityDescriptionLabel.snp.makeConstraints { make in
-                    make.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-                    make.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
-                    make.height.equalTo(descriptionLabelHeight)
-                    make.centerX.equalTo(bars[barIndex]).priority(.high)
-                    make.right.lessThanOrEqualToSuperview().offset(-horizontalPadding).priority(.required)
-                    make.left.greaterThanOrEqualToSuperview().offset(horizontalPadding).priority(.required)
-                }
-                
-                selectedView.snp.makeConstraints { make in
-                    make.width.equalTo(selectedViewWidth)
-                    make.top.equalTo(densityDescriptionLabel.snp.bottom)
-                    make.bottom.equalTo(bars[barIndex].snp.top)
-                    make.centerX.equalTo(bars[barIndex])
-                }
-            } else {
-                densityDescriptionLabel.snp.makeConstraints { make in
-                    make.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-                    make.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
-                    make.height.equalTo(descriptionLabelHeight)
-                    make.centerX.equalToSuperview()
-                }
-            }
-        } else {
-            densityDescriptionLabel.snp.makeConstraints { make in
-                make.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-                make.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
-                make.height.equalTo(descriptionLabelHeight)
-                make.centerX.equalToSuperview()
-            }
-            
-        }
-        
-        closedLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview().inset(closedLabelWidthInset)
-            make.height.equalTo(closedLabelHeight)
-            make.top.equalTo(densityDescriptionLabel.snp.bottom).offset(closedLabelTopOffset)
-            make.centerX.equalToSuperview()
-        }
-        
-        axis.snp.makeConstraints { make in
-            make.width.equalToSuperview().inset(horizontalPadding)
-            make.height.equalTo(axisHeight)
-            make.top.equalTo(densityDescriptionLabel.snp.bottom).offset(verticalSpacing + maxBarHeight)
-            make.centerX.equalToSuperview()
-        }
-        
-        currentLabel.snp.makeConstraints { make in
+        barGraphView.snp.makeConstraints { make in
+            make.top.equalTo(weekdayButtons[0].snp.bottom).offset(barGraphViewVerticalPadding)
             make.width.equalToSuperview()
-            make.top.equalTo(densityMap.isEmpty ? closedLabel.snp.bottom : axis.snp.bottom).offset(verticalSpacing)
+            make.height.equalTo(barGraphViewHeight)
+        }
+        
+        guard let hoursHeaderLabelText = hoursHeaderLabel.text else { return }
+        let hoursHeaderLabelHeight = hoursHeaderLabelText.height(withConstrainedWidth: view.frame.width - horizontalPadding * 2, font: hoursHeaderLabel.font)
+        
+        hoursHeaderLabel.snp.makeConstraints { make in
+            make.height.equalTo(hoursHeaderLabelHeight)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(barGraphView.snp.bottom).offset(50)
+        }
+        
+        guard let selectedDateLabelText = selectedDateLabel.text else { return }
+        let selectedDateLabelTextHeight = selectedDateLabelText.height(withConstrainedWidth: view.frame.width, font: selectedDateLabel.font)
+        
+        selectedDateLabel.snp.makeConstraints { make in
+            make.top.equalTo(hoursHeaderLabel.snp.bottom)
+            make.height.equalTo(selectedDateLabelTextHeight)
             make.centerX.equalToSuperview()
         }
+        
+        guard let hoursLabelText = hoursLabel.text else { return }
+        let hoursLabelTextHeight = hoursLabelText.height(withConstrainedWidth: view.frame.width, font: hoursLabel.font)
         
         hoursLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.top.equalTo(currentLabel.snp.bottom).offset(hoursVerticalPadding)
+            make.top.equalTo(selectedDateLabel.snp.bottom).offset(25)
+            make.height.equalTo(hoursLabelTextHeight)
             make.centerX.equalToSuperview()
         }
         
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let location = touches.first?.location(in: view) {
-            let index = bars.firstIndex { bar -> Bool in
-                return bar.frame.contains(location)
-            }
-            guard let barIndex = index else { return }
-            didTapBar(bar: bars[barIndex])
-        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let location = touches.first?.location(in: view) {
-            let index = bars.firstIndex { bar -> Bool in
-                return bar.frame.contains(location)
-            }
-            guard let barIndex = index else { return }
-            didTapBar(bar: bars[barIndex])
-        }
-    }
-    
-    func didTapBar(bar: UIView) {
-        selectedHour = bar.tag
-        densityDescriptionLabel.text = "\(getHourLabel()) - \(getCurrentDensity())"
-        let verticalSpacing = spacing()
-        
-        guard let description = densityDescriptionLabel.text else { return }
-        let descriptionWidth = description.widthWithConstrainedHeight(descriptionLabelHeight, font: .eighteen)
-        
-        densityDescriptionLabel.snp.remakeConstraints { remake in
-            remake.width.equalTo(descriptionWidth + descriptionLabelHorizontalPadding * 2)
-            remake.height.equalTo(descriptionLabelHeight)
-            remake.centerX.equalTo(bar).priority(.high)
-            remake.right.lessThanOrEqualToSuperview().offset(-horizontalPadding).priority(.required)
-            remake.left.greaterThanOrEqualToSuperview().offset(horizontalPadding).priority(.required)
-            remake.top.equalTo(weekdayButtons[0].snp.bottom).offset(verticalSpacing)
-        }
-        
-        selectedView.snp.remakeConstraints { remake in
-            remake.width.equalTo(selectedViewWidth)
-            remake.top.equalTo(densityDescriptionLabel.snp.bottom)
-            remake.bottom.equalTo(bar.snp.top)
-            remake.centerX.equalTo(bar)
-        }
-    }
-    
-    func layoutBars() {
-        var startHour: Int = start
-        let endHour: Int = end
-        var barLeftOffset: CGFloat = 0
-        let barWidth: CGFloat = (view.frame.width - horizontalPadding * 4) / CGFloat(endHour - startHour + 1)
-        while startHour <= endHour {
-            let bar = UIView()
-            bar.tag = startHour
-            var barHeight: CGFloat = 1
-            if let historicalAverage = densityMap[startHour] {
-                if historicalAverage < 0.25 {
-                    bar.backgroundColor = .lightTeal
-                } else if historicalAverage < 0.5 {
-                    bar.backgroundColor = .wheat
-                } else if historicalAverage < 0.75 {
-                    bar.backgroundColor = .peach
-                } else {
-                    bar.backgroundColor = .orangeyRed
-                }
-                barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage)
-            } else {
-                bar.isHidden = true
-            }
-            bar.clipsToBounds = true
-            bar.layer.cornerRadius = 5
-            bar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            bar.layer.borderColor = UIColor.white.cgColor
-            bar.layer.borderWidth = 0.5
-            self.view.addSubview(bar)
-            
-            bar.snp.makeConstraints({ make in
-                make.width.equalTo(barWidth)
-                make.height.equalTo(barHeight)
-                make.left.equalTo(axis).offset(barLeftOffset)
-                make.bottom.equalTo(self.axis.snp.top)
-            })
-            self.bars.append(bar)
-            barLeftOffset += barWidth
-            startHour += 1
-        }
-    }
 
+}
+
+extension DensityViewController: BarGraphViewDelegate {
+    
+    func barGraphViewDidSelectHour(selectedHour: Int) {
+        self.selectedHour = selectedHour
+        let description = "\(getHourLabel()) - \(getCurrentDensity())"
+        barGraphView.updateSelectedHour(selectedHour: selectedHour, description: description)
+    }
+    
+}
+
+extension DensityViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
+    
 }

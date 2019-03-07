@@ -118,6 +118,15 @@ extension String {
     
 }
 
+extension PlacesViewController: LogoViewDelegate {
+    
+    func logoViewDidPressLinkButton() {
+        guard let url = URL(string: dtiWebsite) else { return }
+        UIApplication.shared.open(url)
+    }
+    
+}
+
 extension PlacesViewController: FilterViewDelegate {
     
     func filterViewDidSelectFilter(selectedFilter: Filter) {

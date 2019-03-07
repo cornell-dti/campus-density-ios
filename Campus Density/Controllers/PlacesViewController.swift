@@ -39,7 +39,8 @@ class PlacesViewController: UIViewController {
     let logoText = "powered by DTI"
     let smallLoadingBarsLength: CGFloat = 33
     let largeLoadingBarsLength: CGFloat = 63
-    let logoImageHeight: CGFloat = 80
+    let logoViewHeight: CGFloat = 65
+    let dtiWebsite = "https://www.cornelldti.org/"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -249,9 +250,8 @@ class PlacesViewController: UIViewController {
         filterView.setNeedsUpdateConstraints()
         filterView.configure(with: filters, selectedFilter: selectedFilter, delegate: self, width: view.frame.width)
         placesTableView.tableHeaderView = filterView
-        let logoView = LogoView()
-        let logoViewHeight = logoImageHeight + logoText.height(withConstrainedWidth: view.frame.width, font: .sixteen)
-        logoView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: logoViewHeight)
+        let logoView = LogoView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: logoViewHeight))
+        logoView.configure(with: self)
         placesTableView.tableFooterView = logoView
         placesTableView.isHidden = true
         view.addSubview(placesTableView)

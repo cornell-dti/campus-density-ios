@@ -8,9 +8,19 @@
 
 import UIKit
 
+protocol LogoViewDelegate: class {
+    
+    func logoViewDidPressLinkButton()
+    
+}
+
 class LogoView: UIView {
     
+    // MARK: - Data vars
+    weak var delegate: LogoViewDelegate?
+    
     // MARK: - Views
+    var linkButton: UIButton!
     var dti: UIImageView!
     var label: UILabel!
     var space: UIView!
@@ -19,46 +29,48 @@ class LogoView: UIView {
     let dtiLength: CGFloat = 50
     let dtiImageName = "dtilogo"
     let padding: CGFloat = 15
-    let labelText = "powered by DTI"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        linkButton = UIButton()
+        linkButton.addTarget(self, action: #selector(linkButtonPressed), for: .touchUpInside)
+        addSubview(linkButton)
         
         dti = UIImageView()
         dti.image = UIImage(named: dtiImageName)
         addSubview(dti)
         
-        label = UILabel()
-        label.font = .sixteen
-        label.textColor = .grayishBrown
-        label.textAlignment = .center
-        label.text = labelText
-        addSubview(label)
-        
         space = UIView()
         space.backgroundColor = .white
         addSubview(space)
         
-        dti.snp.makeConstraints { make in
+        linkButton.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
             make.width.height.equalTo(dtiLength)
         }
         
-        label.snp.makeConstraints { make in
-            make.top.equalTo(dti.snp.bottom).offset(padding)
-            make.centerX.equalToSuperview()
+        dti.snp.makeConstraints { make in
+            make.width.height.equalTo(linkButton)
+            make.center.equalTo(linkButton)
         }
         
         space.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(padding)
             make.centerX.equalToSuperview()
-            make.top.equalTo(label.snp.bottom)
+            make.top.equalTo(linkButton.snp.bottom)
         }
         
-        
-        
+    }
+    
+    func configure(with delegate: LogoViewDelegate) {
+        self.delegate = delegate
+    }
+    
+    @objc func linkButtonPressed() {
+        delegate?.logoViewDidPressLinkButton()
     }
     
     required init?(coder aDecoder: NSCoder) {
