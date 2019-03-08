@@ -92,9 +92,9 @@ extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let place = filteredPlaces[indexPath.row]
-        let densityViewController = DensityViewController()
-        densityViewController.place = place
-        navigationController?.pushViewController(densityViewController, animated: true)
+        let placeDetailViewController = PlaceDetailViewController()
+        placeDetailViewController.place = place
+        navigationController?.pushViewController(placeDetailViewController, animated: true)
     }
     
 }

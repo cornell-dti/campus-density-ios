@@ -100,82 +100,10 @@ struct HistoricalData: Codable {
 
 class API {
     
-    static func token(completion: @escaping (Bool) -> Void) {
-        if let token = UserDefaults.standard.value(forKey: "token") as? String, let authKey = UserDefaults.standard.value(forKey: "authKey") as? String {
-            System.token = token
-            System.authKey = authKey
-            completion(true)
-            return
-        }
-        if let receiptURL = Bundle.main.appStoreReceiptURL {
-            guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
-            let receipt = receiptURL.dataRepresentation
-            guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let keyDict = NSDictionary(contentsOfFile: path) else { return }
-            guard let authKey = keyDict["AUTH_KEY"] as? String else { return }
-            System.authKey = authKey
-            let headers: HTTPHeaders = [
-                "Authorization": "Bearer \(authKey)",
-                "x-api-key": identifierForVendor
-            ]
-            let parameters: Parameters = [
-                "receipt": receipt.base64EncodedString(),
-                "instanceId": identifierForVendor
-            ]
-            Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/authv1", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseData { response in
-                    let decoder = JSONDecoder()
-                    let result: Result<Token> = decoder.decodeResponse(from: response)
-                    switch result {
-                    case .success(let token):
-                        System.token = token.token
-                        UserDefaults.standard.set(token.token, forKey: "token")
-                        UserDefaults.standard.set(authKey, forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        completion(true)
-                    case .failure(_):
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        System.token = nil
-                        completion(false)
-                    }
-            }
-        } else {
-            guard let identifierForVendor = UIDevice.current.identifierForVendor?.uuidString else { return }
-            guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let keyDict = NSDictionary(contentsOfFile: path) else { return }
-            guard let authKey = keyDict["AUTH_KEY"] as? String else { return }
-            System.authKey = authKey
-            let headers: HTTPHeaders = [
-                "Authorization": "Bearer \(authKey)",
-                "x-api-key": identifierForVendor
-            ]
-            Alamofire.request("https://us-central1-campus-density-backend.cloudfunctions.net/authv1", method: .put, headers: headers)
-                .responseData { response in
-                    let decoder = JSONDecoder()
-                    let result: Result<Token> = decoder.decodeResponse(from: response)
-                    switch result {
-                    case .success(let token):
-                        System.token = token.token
-                        UserDefaults.standard.set(token.token, forKey: "token")
-                        UserDefaults.standard.set(authKey, forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        completion(true)
-                    case .failure(_):
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        System.token = nil
-                        completion(false)
-                    }
-            }
-        }
-    }
-    
     static func status(completion: @escaping (Bool) -> Void) {
-        guard let authKey = System.authKey, let token = System.token else { return }
+        guard let token = System.token else { return }
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(authKey)",
-            "x-api-key": token
+            "Authorization": "Bearer \(token)"
         ]
         Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityInfo", headers: headers)
             .responseData { response in
@@ -204,10 +132,9 @@ class API {
     }
     
     static func history(completion: @escaping (Bool) -> Void) {
-        guard let authKey = System.authKey, let token = System.token else { return }
+        guard let token = System.token else { return }
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(authKey)",
-            "x-api-key": token
+            "Authorization": "Bearer \(token)"
         ]
         Alamofire.request("https://flux.api.internal.cornelldti.org/v1/historicalData", headers: headers)
             .responseData { response in
@@ -234,10 +161,9 @@ class API {
     }
     
     static func places(completion: @escaping (Bool) -> Void) {
-        guard let authKey = System.authKey, let token = System.token else { return }
+        guard let token = System.token else { return }
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(authKey)",
-            "x-api-key": token
+            "Authorization": "Bearer \(token)"
         ]
         Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityList", headers: headers)
             .responseData { response in
@@ -260,27 +186,21 @@ class API {
         }
     }
     
-    static func hours(completion: @escaping (Bool) -> Void) {
-        guard let authKey = System.authKey, let token = System.token else { return }
+    static func hours(place: Place, completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(authKey)",
-            "x-api-key": token
+            "Authorization": "Bearer \(token)"
         ]
-    
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        dispatchGroup.enter()
-        dispatchGroup.enter()
         
         var success = true
         
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         let today = Date()
-        let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today)
-        if let sixDays = sixDaysLater {
+        if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
+            
             let start = formatter.string(from: today)
-            let end = formatter.string(from: sixDays)
+            let end = formatter.string(from: sixDaysLater)
             let startComponents = start.components(separatedBy: "/")
             let startYear = String(startComponents[2].suffix(2))
             let startDay = startComponents[1].count == 1 ? "0\(startComponents[1])" : startComponents[1]
@@ -292,73 +212,60 @@ class API {
             let startDate = "\(startMonth)-\(startDay)-\(startYear)"
             let endDate = "\(endMonth)-\(endDay)-\(endYear)"
             
-            let dispatchGroup = DispatchGroup()
-            var index = 0
-            while index < System.places.count {
-                dispatchGroup.enter()
-                let placeIndex = index
-                let parameters = [
-                    "id": System.places[placeIndex].id,
-                    "startDate": startDate,
-                    "endDate": endDate
-                ]
-                Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityHours", parameters: parameters, headers: headers)
-                    .responseData { response in
-                        let decoder = JSONDecoder()
-                        let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
-                        switch result {
-                        case .success(let hoursResponseArray):
-                            let hoursResponse = hoursResponseArray[0]
-                            var hours = [Int: String]()
-                            hoursResponse.hours.forEach { dailyInfo in
-                                let day = dailyInfo.dayOfWeek
-                                let dailyHours = dailyInfo.dailyHours
-                                let timeFormatter = DateFormatter()
-                                timeFormatter.timeStyle = .short
-                                guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
-                                let open = Date(timeIntervalSince1970: openTimestamp)
-                                let close = Date(timeIntervalSince1970: closeTimestamp)
-                                let openTime = timeFormatter.string(from: open)
-                                let closeTime = timeFormatter.string(from: close)
-                                if let hoursString = hours[day] {
-                                    hours[day] = hoursString + "\(openTime) - \(closeTime)\n"
-                                } else {
-                                    hours[day] = "\(openTime) - \(closeTime)\n"
-                                }
+            let parameters = [
+                "id": place.id,
+                "startDate": startDate,
+                "endDate": endDate
+            ]
+            
+            Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityHours", parameters: parameters, headers: headers)
+                .responseData { response in
+                    let decoder = JSONDecoder()
+                    let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
+                    switch result {
+                    case .success(let hoursResponseArray):
+                        let hoursResponse = hoursResponseArray[0]
+                        var hours = [Int: String]()
+                        hoursResponse.hours.forEach { dailyInfo in
+                            let day = dailyInfo.dayOfWeek
+                            let dailyHours = dailyInfo.dailyHours
+                            let timeFormatter = DateFormatter()
+                            timeFormatter.timeStyle = .short
+                            guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
+                            let open = Date(timeIntervalSince1970: openTimestamp)
+                            let close = Date(timeIntervalSince1970: closeTimestamp)
+                            let openTime = timeFormatter.string(from: open)
+                            let closeTime = timeFormatter.string(from: close)
+                            if let hoursString = hours[day] {
+                                hours[day] = hoursString + "\(openTime) - \(closeTime)\n"
+                            } else {
+                                hours[day] = "\(openTime) - \(closeTime)\n"
                             }
+                        }
+                        if let placeIndex = System.places.firstIndex(where: { other -> Bool in
+                            return other.id == place.id
+                        }) {
                             System.places[placeIndex].hours = hours
-                        case .failure(let error):
-                            print(error)
+                        } else {
                             success = false
                         }
-                        dispatchGroup.leave()
-                }
-                index += 1
+                    case .failure(let error):
+                        print(error)
+                        success = false
+                    }
+                    completion(success)
             }
-            dispatchGroup.notify(queue: .main, execute: {
-                if !success {
-                    UserDefaults.standard.removeObject(forKey: "token")
-                    UserDefaults.standard.removeObject(forKey: "authKey")
-                    UserDefaults.standard.synchronize()
-                    System.places = []
-                }
-                completion(success)
-            })
         } else {
             success = false
-            UserDefaults.standard.removeObject(forKey: "token")
-            UserDefaults.standard.removeObject(forKey: "authKey")
-            UserDefaults.standard.synchronize()
-            System.places = []
             completion(success)
         }
+    
     }
     
     static func densities(completion: @escaping (Bool) -> Void) {
-        guard let authKey = System.authKey, let token = System.token else { return }
+        guard let token = System.token else { return }
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(authKey)",
-            "x-api-key": token
+            "Authorization": "Bearer \(token)"
         ]
         Alamofire.request("https://flux.api.internal.cornelldti.org/v1/howDense", headers: headers)
             .responseData { response in

@@ -9,8 +9,9 @@ target 'Campus Density' do
   pod 'SnapKit'
   pod 'Alamofire'
   pod 'SwiftyJSON'
-  pod 'NVActivityIndicatorView'
-  pod 'Presentr'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'IGListKit'
 
   target 'Campus DensityTests' do
     inherit! :search_paths

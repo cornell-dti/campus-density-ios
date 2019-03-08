@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import Firebase
 
 public enum Filter {
     case all
@@ -45,7 +46,29 @@ class PlacesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getToken()
+        Auth.auth().addIDTokenDidChangeListener { (auth, user) in
+            if let user = user {
+                user.getIDToken { (token, error) in
+                    if let _ = error {
+                        System.token = nil
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.synchronize()
+                        self.alertError()
+                    } else if let token = token {
+                        System.token = token
+                        UserDefaults.standard.set(token, forKey: "token")
+                        UserDefaults.standard.synchronize()
+                    } else {
+                        System.token = nil
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.synchronize()
+                        self.alertError()
+                    }
+                }
+            }
+        }
+        
+        signIn()
 
         view.backgroundColor = .white
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -65,10 +88,79 @@ class PlacesViewController: UIViewController {
         
     }
     
+    func signIn() {
+        if let user = Auth.auth().currentUser {
+            if let _ = System.token {
+                getPlaces()
+            } else {
+                user.getIDToken { (token, error) in
+                    if let _ = error {
+                        System.token = nil
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.synchronize()
+                        self.alertError()
+                    } else {
+                        if let token = token {
+                            System.token = token
+                            UserDefaults.standard.set(token, forKey: "token")
+                            UserDefaults.standard.synchronize()
+                            self.getPlaces()
+                        } else {
+                            System.token = nil
+                            UserDefaults.standard.removeObject(forKey: "token")
+                            UserDefaults.standard.synchronize()
+                            self.alertError()
+                        }
+                    }
+                }
+            }
+        } else {
+            Auth.auth().signInAnonymously { (result, error) in
+                if let _ = error {
+                    System.token = nil
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.synchronize()
+                    self.alertError()
+                } else {
+                    if let result = result {
+                        let user = result.user
+                        user.getIDToken { (token, error) in
+                            if let _ = error {
+                                System.token = nil
+                                UserDefaults.standard.removeObject(forKey: "token")
+                                UserDefaults.standard.synchronize()
+                                self.alertError()
+                            } else {
+                                if let token = token {
+                                    System.token = token
+                                    UserDefaults.standard.set(token, forKey: "token")
+                                    UserDefaults.standard.synchronize()
+                                    self.getPlaces()
+                                } else {
+                                    System.token = nil
+                                    UserDefaults.standard.removeObject(forKey: "token")
+                                    UserDefaults.standard.synchronize()
+                                    UserDefaults.standard.removeObject(forKey: "token")
+                                    UserDefaults.standard.synchronize()
+                                    self.alertError()
+                                }
+                            }
+                        }
+                    } else {
+                        System.token = nil
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.synchronize()
+                        self.alertError()
+                    }
+                }
+            }
+        }
+    }
+    
     func alertError() {
         let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
-            self.getToken()
+            self.signIn()
             alertController.dismiss(animated: true, completion: nil)
         }))
         present(alertController, animated: true, completion: nil)
@@ -77,16 +169,6 @@ class PlacesViewController: UIViewController {
     func getHistory() {
         API.history { gotHistory in
             if gotHistory {
-                self.getHours()
-            } else {
-                self.alertError()
-            }
-        }
-    }
-    
-    func getHours() {
-        API.hours { gotHours in
-            if gotHours {
                 self.title = "Places"
                 sortPlaces()
                 self.filter(by: self.selectedFilter)
@@ -124,16 +206,6 @@ class PlacesViewController: UIViewController {
         API.places { gotPlaces in
             if gotPlaces {
                 self.getDensities()
-            } else {
-                self.alertError()
-            }
-        }
-    }
-    
-    func getToken() {
-        API.token { gotToken in
-            if gotToken {
-                self.getPlaces()
             } else {
                 self.alertError()
             }
@@ -205,13 +277,16 @@ class PlacesViewController: UIViewController {
         }
         filteredPlaces.sort { placeOne, placeTwo -> Bool in
             if placeOne.isClosed && placeTwo.isClosed {
-                return true
+                return placeOne.displayName < placeTwo.displayName
             }
             if placeOne.isClosed {
                 return false
             }
             if placeTwo.isClosed {
                 return true
+            }
+            if placeOne.density.rawValue == placeTwo.density.rawValue {
+                return placeOne.displayName < placeTwo.displayName
             }
             return placeOne.density.rawValue < placeTwo.density.rawValue
         }

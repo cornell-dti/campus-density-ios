@@ -7,13 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C1EC87A222C892B0011B3DE /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1EC879222C892B0011B3DE /* BarGraphView.swift */; };
 		0C29A760219E1F4200515D01 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29A75F219E1F4200515D01 /* API.swift */; };
-		0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C308760220F650000AC9589 /* CurrentDensityView.swift */; };
 		0C316AD52223773400AE4BE3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C316AD42223773400AE4BE3 /* Utils.swift */; };
 		0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */; };
 		0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */; };
-		0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7F910B219659FB00FBCD41 /* DensityViewController.swift */; };
+		0C8B6D382231D83C00058AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */; };
+		0C8B6D392231D83C00058AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */; };
+		0C8B6D3A2231D83C00058AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */; };
+		0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D5E2232436600058AE6 /* SpaceModel.swift */; };
+		0C8B6D612232441C00058AE6 /* CurrentDensityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */; };
+		0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D62223244B700058AE6 /* FormLinkModel.swift */; };
+		0C8B6D652232459900058AE6 /* GraphHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D642232459900058AE6 /* GraphHeaderModel.swift */; };
+		0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6622324A7A00058AE6 /* GraphModel.swift */; };
+		0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */; };
+		0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6A22324B8000058AE6 /* HoursModel.swift */; };
+		0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */; };
+		0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6F22324DDE00058AE6 /* SpaceCell.swift */; };
+		0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */; };
+		0C8B6D7422324FFA00058AE6 /* CurrentDensityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D7322324FFA00058AE6 /* CurrentDensityCell.swift */; };
 		0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */; };
 		0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */; };
 		0CA3F4C72173EA8100988A46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CA3F4C62173EA8100988A46 /* Assets.xcassets */; };
@@ -21,6 +32,18 @@
 		0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */; };
 		0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */; };
 		0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */; };
+		0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */; };
+		0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */; };
+		0CB3BF782232BF3200A5B371 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF772232BF3200A5B371 /* GraphHeaderSectionController.swift */; };
+		0CB3BF7A2232C0F700A5B371 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF792232C0F700A5B371 /* GraphHeaderCell.swift */; };
+		0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */; };
+		0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */; };
+		0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */; };
+		0CB3BF822232CC1E00A5B371 /* HoursHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */; };
+		0CB3BF842232CE3400A5B371 /* HoursSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF832232CE3400A5B371 /* HoursSectionController.swift */; };
+		0CB3BF862232CEB100A5B371 /* HoursCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF852232CEB100A5B371 /* HoursCell.swift */; };
+		0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF872232CF9F00A5B371 /* PlaceDetailViewController.swift */; };
+		0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */; };
 		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
@@ -48,13 +71,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0C1EC879222C892B0011B3DE /* BarGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		0C29A75F219E1F4200515D01 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		0C308760220F650000AC9589 /* CurrentDensityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityView.swift; sourceTree = "<group>"; };
 		0C316AD42223773400AE4BE3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
-		0C7F910B219659FB00FBCD41 /* DensityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DensityViewController.swift; sourceTree = "<group>"; };
+		0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0C8B6D5E2232436600058AE6 /* SpaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceModel.swift; sourceTree = "<group>"; };
+		0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityModel.swift; sourceTree = "<group>"; };
+		0C8B6D62223244B700058AE6 /* FormLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkModel.swift; sourceTree = "<group>"; };
+		0C8B6D642232459900058AE6 /* GraphHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderModel.swift; sourceTree = "<group>"; };
+		0C8B6D6622324A7A00058AE6 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
+		0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderModel.swift; sourceTree = "<group>"; };
+		0C8B6D6A22324B8000058AE6 /* HoursModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursModel.swift; sourceTree = "<group>"; };
+		0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSectionController.swift; sourceTree = "<group>"; };
+		0C8B6D6F22324DDE00058AE6 /* SpaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCell.swift; sourceTree = "<group>"; };
+		0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensitySectionController.swift; sourceTree = "<group>"; };
+		0C8B6D7322324FFA00058AE6 /* CurrentDensityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityCell.swift; sourceTree = "<group>"; };
 		0CA3F4BC2173EA8000988A46 /* Campus Density.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Campus Density.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA3F4BF2173EA8000988A46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +98,18 @@
 		0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlacesViewController+Extension.swift"; sourceTree = "<group>"; };
 		0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
 		0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkSectionController.swift; sourceTree = "<group>"; };
+		0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkCell.swift; sourceTree = "<group>"; };
+		0CB3BF772232BF3200A5B371 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
+		0CB3BF792232C0F700A5B371 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
+		0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSectionController.swift; sourceTree = "<group>"; };
+		0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCell.swift; sourceTree = "<group>"; };
+		0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderSectionController.swift; sourceTree = "<group>"; };
+		0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderCell.swift; sourceTree = "<group>"; };
+		0CB3BF832232CE3400A5B371 /* HoursSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursSectionController.swift; sourceTree = "<group>"; };
+		0CB3BF852232CEB100A5B371 /* HoursCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursCell.swift; sourceTree = "<group>"; };
+		0CB3BF872232CF9F00A5B371 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
+		0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceDetailViewController+Extension.swift"; sourceTree = "<group>"; };
 		0CC6B74121B0A43C00E7B359 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		0CC6B74521B0AF1400E7B359 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
@@ -113,12 +157,38 @@
 			isa = PBXGroup;
 			children = (
 				0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */,
-				0C1EC879222C892B0011B3DE /* BarGraphView.swift */,
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
-				0C308760220F650000AC9589 /* CurrentDensityView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		0C8B6D5D2232430600058AE6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0C8B6D5E2232436600058AE6 /* SpaceModel.swift */,
+				0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */,
+				0C8B6D62223244B700058AE6 /* FormLinkModel.swift */,
+				0C8B6D642232459900058AE6 /* GraphHeaderModel.swift */,
+				0C8B6D6622324A7A00058AE6 /* GraphModel.swift */,
+				0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */,
+				0C8B6D6A22324B8000058AE6 /* HoursModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0C8B6D6C22324C1200058AE6 /* SectionControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */,
+				0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */,
+				0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */,
+				0CB3BF772232BF3200A5B371 /* GraphHeaderSectionController.swift */,
+				0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */,
+				0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */,
+				0CB3BF832232CE3400A5B371 /* HoursSectionController.swift */,
+			);
+			path = SectionControllers;
 			sourceTree = "<group>";
 		};
 		0CA3F4B32173EA8000988A46 = {
@@ -151,6 +221,8 @@
 				0CC6B74521B0AF1400E7B359 /* System.swift */,
 				0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */,
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
+				0C8B6D6C22324C1200058AE6 /* SectionControllers */,
+				0C8B6D5D2232430600058AE6 /* Models */,
 				0C4B2A2A2198E09B00CE7D69 /* Views */,
 				0CA3F4F02173ED2C00988A46 /* Cells */,
 				0CA3F4ED2173EB5F00988A46 /* Controllers */,
@@ -166,7 +238,8 @@
 			children = (
 				0CA3F4C12173EA8000988A46 /* PlacesViewController.swift */,
 				0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */,
-				0C7F910B219659FB00FBCD41 /* DensityViewController.swift */,
+				0CB3BF872232CF9F00A5B371 /* PlaceDetailViewController.swift */,
+				0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -175,6 +248,13 @@
 			isa = PBXGroup;
 			children = (
 				0CA3F4F12173ED4A00988A46 /* PlaceTableViewCell.swift */,
+				0C8B6D6F22324DDE00058AE6 /* SpaceCell.swift */,
+				0C8B6D7322324FFA00058AE6 /* CurrentDensityCell.swift */,
+				0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */,
+				0CB3BF792232C0F700A5B371 /* GraphHeaderCell.swift */,
+				0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */,
+				0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */,
+				0CB3BF852232CEB100A5B371 /* HoursCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -182,6 +262,7 @@
 		0CF2766B21FA8EBB0051E819 /* Secrets */ = {
 			isa = PBXGroup;
 			children = (
+				0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */,
 				0CF2766C21FA8ECE0051E819 /* Keys.plist */,
 			);
 			path = Secrets;
@@ -319,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CF2766D21FA8ECE0051E819 /* Keys.plist in Resources */,
+				0C8B6D382231D83C00058AE6 /* GoogleService-Info.plist in Resources */,
 				0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */,
 				0CA3F4C72173EA8100988A46 /* Assets.xcassets in Resources */,
 			);
@@ -328,6 +410,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C8B6D392231D83C00058AE6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +418,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C8B6D3A2231D83C00058AE6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,18 +487,22 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
-				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -428,21 +516,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C8B6D7422324FFA00058AE6 /* CurrentDensityCell.swift in Sources */,
+				0CB3BF7A2232C0F700A5B371 /* GraphHeaderCell.swift in Sources */,
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
+				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
 				0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */,
 				0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */,
+				0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */,
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
-				0C308761220F650100AC9589 /* CurrentDensityView.swift in Sources */,
-				0C1EC87A222C892B0011B3DE /* BarGraphView.swift in Sources */,
+				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
+				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
+				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
 				0CA3F4F22173ED4A00988A46 /* PlaceTableViewCell.swift in Sources */,
-				0C7F910C219659FB00FBCD41 /* DensityViewController.swift in Sources */,
+				0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */,
+				0CB3BF782232BF3200A5B371 /* GraphHeaderSectionController.swift in Sources */,
+				0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */,
+				0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */,
+				0CB3BF842232CE3400A5B371 /* HoursSectionController.swift in Sources */,
+				0C8B6D652232459900058AE6 /* GraphHeaderModel.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
+				0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */,
+				0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */,
+				0CB3BF822232CC1E00A5B371 /* HoursHeaderCell.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
+				0C8B6D612232441C00058AE6 /* CurrentDensityModel.swift in Sources */,
 				0C316AD52223773400AE4BE3 /* Utils.swift in Sources */,
+				0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */,
+				0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
+				0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */,
+				0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */,
 				0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */,
+				0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */,
+				0CB3BF862232CEB100A5B371 /* HoursCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
