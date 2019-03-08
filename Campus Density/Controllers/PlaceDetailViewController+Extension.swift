@@ -35,7 +35,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.mediumPadding),
             HoursModel(hours: hours),
-            SpaceModel(space: Constants.largePadding - Constants.smallPadding)
+            SpaceModel(space: Constants.largePadding)
         ]
     }
     

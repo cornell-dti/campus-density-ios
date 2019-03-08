@@ -21,7 +21,7 @@ class HoursSectionController: ListSectionController {
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         let hoursHeight = hoursModel.hours.height(withConstrainedWidth: containerSize.width, font: .eighteenBold)
-        return CGSize(width: containerSize.width, height: hoursHeight + Constants.smallPadding)
+        return CGSize(width: containerSize.width, height: hoursHeight)
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
