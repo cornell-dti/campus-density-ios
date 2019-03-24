@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import IGListKit
 
 enum APIError: Error {
     case decodeError
@@ -43,7 +44,7 @@ struct PlaceInfo: Codable {
     
 }
 
-class Place {
+class Place: ListDiffable {
     
     var displayName: String
     var id: String
@@ -61,6 +62,16 @@ class Place {
         self.hours = hours
         self.history = history
         self.region = region
+    }
+    
+    func diffIdentifier() -> NSObjectProtocol {
+        return id as NSString
+    }
+    
+    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+        if self === object { return true }
+        guard let place = object as? Place else { return false }
+        return place.id == id
     }
     
 }
@@ -100,12 +111,23 @@ struct HistoricalData: Codable {
 
 class API {
     
+    static var url: String {
+        guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) else { return "" }
+        #if DEBUG
+        let key = "apiDevURL"
+        #else
+        let key = "apiURL"
+        #endif
+        guard let value = dict[key] as? String else { return "" }
+        return value
+    }
+    
     static func status(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityInfo", headers: headers)
+        Alamofire.request("\(url)/facilityInfo", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
@@ -136,7 +158,7 @@ class API {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/historicalData", headers: headers)
+        Alamofire.request("\(url)/historicalData", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
@@ -165,7 +187,7 @@ class API {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityList", headers: headers)
+        Alamofire.request("\(url)/facilityList", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
@@ -218,7 +240,7 @@ class API {
                 "endDate": endDate
             ]
             
-            Alamofire.request("https://flux.api.internal.cornelldti.org/v1/facilityHours", parameters: parameters, headers: headers)
+            Alamofire.request("\(url)/facilityHours", parameters: parameters, headers: headers)
                 .responseData { response in
                     let decoder = JSONDecoder()
                     let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
@@ -274,7 +296,7 @@ class API {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("https://flux.api.internal.cornelldti.org/v1/howDense", headers: headers)
+        Alamofire.request("\(url)/howDense", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)

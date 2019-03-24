@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IGListKit
 
 extension Filter: Equatable {
     public static func ==(lhs: Filter, rhs: Filter) -> Bool {
@@ -59,39 +60,64 @@ extension Filter: Equatable {
     }
 }
 
-extension PlacesViewController: UITableViewDataSource, UITableViewDelegate {
+extension PlacesViewController: ListAdapterDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredPlaces.count
+    func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
+        if collectionView.isHidden { return [] }
+        var objects = [ListDiffable]()
+        objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
+        objects.append(contentsOf: filteredPlaces)
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(LogoModel(length: logoLength, link: dtiWebsite))
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        return objects
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: placeTableViewCellReuseIdentifier, for: indexPath) as? PlaceTableViewCell else { return UITableViewCell() }
-        cell.selectionStyle = .none
-        cell.configure(with: filteredPlaces[indexPath.row])
-        return cell
+    func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
+        if object is Place {
+            let place = object as! Place
+            return PlaceSectionController(place: place, delegate: self)
+        } else if object is SpaceModel {
+            let spaceModel = object as! SpaceModel
+            return SpaceSectionController(spaceModel: spaceModel)
+        } else if object is FiltersModel {
+            let filtersModel = object as! FiltersModel
+            return FiltersSectionController(filtersModel: filtersModel, delegate: self)
+        } else if object is LogoModel {
+            let logoModel = object as! LogoModel
+            return LogoSectionController(logoModel: logoModel, delegate: self)
+        }
+        return ListSectionController()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return placeTableViewCellHeight
+    func emptyView(for listAdapter: ListAdapter) -> UIView? {
+        return nil
     }
     
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? PlaceTableViewCell else { return }
-        UIView.animate(withDuration: cellAnimationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-            cell.transform = CGAffineTransform(scaleX: self.cellScale, y: self.cellScale)
-        }, completion: nil)
+}
+
+extension PlacesViewController: FiltersSectionControllerDelegate {
+    
+    func filtersSectionControllerDidSelectFilter(selectedFilter: Filter) {
+        self.selectedFilter = selectedFilter
+        filter(by: selectedFilter)
+        adapter.performUpdates(animated: false, completion: nil)
     }
     
-    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? PlaceTableViewCell else { return }
-        UIView.animate(withDuration: cellAnimationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-            cell.transform = .identity
-        }, completion: nil)
+}
+
+extension PlacesViewController: LogoSectionControllerDelegate {
+    
+    func logoSectionControllerDidTapLink(logoModel: LogoModel) {
+        guard let url = URL(string: logoModel.link) else { return }
+        UIApplication.shared.open(url)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let place = filteredPlaces[indexPath.row]
+}
+
+extension PlacesViewController: PlaceSectionControllerDelegate {
+    
+    func placeSectionControllerDidSelectPlace(place: Place) {
         let placeDetailViewController = PlaceDetailViewController()
         placeDetailViewController.place = place
         navigationController?.pushViewController(placeDetailViewController, animated: true)
@@ -118,21 +144,12 @@ extension String {
     
 }
 
-extension PlacesViewController: LogoViewDelegate {
-    
-    func logoViewDidPressLinkButton() {
-        guard let url = URL(string: dtiWebsite) else { return }
-        UIApplication.shared.open(url)
-    }
-    
-}
-
 extension PlacesViewController: FilterViewDelegate {
     
     func filterViewDidSelectFilter(selectedFilter: Filter) {
         self.selectedFilter = selectedFilter
         filter(by: selectedFilter)
-        placesTableView.reloadData()
+        adapter.performUpdates(animated: false, completion: nil)
     }
     
 }

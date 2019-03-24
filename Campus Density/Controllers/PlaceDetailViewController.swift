@@ -100,6 +100,7 @@ class PlaceDetailViewController: UIViewController {
     }
     
     func update() {
+        setWeekdays()
         API.densities { gotDensities in
             if gotDensities {
                 API.status { gotStatus in

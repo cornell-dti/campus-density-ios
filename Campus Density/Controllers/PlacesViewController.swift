@@ -9,8 +9,9 @@
 import UIKit
 import SnapKit
 import Firebase
+import IGListKit
 
-public enum Filter {
+enum Filter {
     case all
     case north
     case west
@@ -24,23 +25,25 @@ class PlacesViewController: UIViewController {
     var filters: [Filter]!
     var selectedFilter: Filter = .all
     var gettingDensities = false
+    var adapter: ListAdapter!
     
     // MARK: - View vars
-    var placesTableView: UITableView!
-    var filterView: FilterView!
+    var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
+    var refreshBarsView: LoadingBarsView!
     
     // MARK: - Constants
+    let contentOffsetBound: CGFloat = 200
+    let minOffset: CGFloat = 150
     let cellAnimationDuration: TimeInterval = 0.2
     let cellScale: CGFloat = 0.95
     let placeTableViewCellHeight: CGFloat = 105
     let filtersViewHeight: CGFloat = 65
     let loadingViewLength: CGFloat = 50
     let placeTableViewCellReuseIdentifier = "places"
-    let logoText = "powered by DTI"
     let smallLoadingBarsLength: CGFloat = 33
     let largeLoadingBarsLength: CGFloat = 63
-    let logoViewHeight: CGFloat = 65
+    let logoLength: CGFloat = 50
     let dtiWebsite = "https://www.cornelldti.org/"
 
     override func viewDidLoad() {
@@ -173,9 +176,8 @@ class PlacesViewController: UIViewController {
                 sortPlaces()
                 self.filter(by: self.selectedFilter)
                 self.loadingBarsView.stopAnimating()
-                self.placesTableView.isHidden = false
-                self.filterView.isHidden = false
-                self.placesTableView.reloadData()
+                self.collectionView.isHidden = false
+                self.adapter.performUpdates(animated: false, completion: nil)
             } else {
                 self.alertError()
             }
@@ -220,7 +222,7 @@ class PlacesViewController: UIViewController {
                     API.status { gotStatus in
                         if gotStatus {
                             self.filter(by: self.selectedFilter)
-                            self.placesTableView.reloadData()
+                            self.adapter.performUpdates(animated: false, completion: nil)
                         }
                     }
                 }
@@ -294,42 +296,41 @@ class PlacesViewController: UIViewController {
     
     func setupRefreshControl() {
         if #available(iOS 10.0, *) {
-            placesTableView.refreshControl?.removeFromSuperview()
+            if refreshBarsView != nil {
+                refreshBarsView.removeFromSuperview()
+            }
+            collectionView.refreshControl?.removeFromSuperview()
             let refreshControl = UIRefreshControl()
             refreshControl.tintColor = .white
             refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-            let barsView = LoadingBarsView()
-            barsView.configure(with: .small)
-            barsView.startAnimating()
-            refreshControl.addSubview(barsView)
-            barsView.snp.makeConstraints { make in
+            refreshBarsView = LoadingBarsView()
+            refreshBarsView.configure(with: .small)
+            refreshBarsView.startAnimating()
+            refreshControl.addSubview(refreshBarsView)
+            refreshBarsView.snp.makeConstraints { make in
                 make.width.height.equalTo(smallLoadingBarsLength)
                 make.center.equalToSuperview()
             }
-            placesTableView.refreshControl = refreshControl
+            collectionView.refreshControl = refreshControl
         }
     }
     
     func setupViews() {
         
-        placesTableView = UITableView()
-        placesTableView.delegate = self
-        placesTableView.dataSource = self
-        placesTableView.separatorStyle = .none
-        placesTableView.backgroundColor = .clear
-        placesTableView.showsVerticalScrollIndicator = false
-        placesTableView.showsHorizontalScrollIndicator = false
-        placesTableView.register(PlaceTableViewCell.self, forCellReuseIdentifier: placeTableViewCellReuseIdentifier)
-        filterView = FilterView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: filtersViewHeight))
-        filterView.isHidden = true
-        filterView.setNeedsUpdateConstraints()
-        filterView.configure(with: filters, selectedFilter: selectedFilter, delegate: self, width: view.frame.width)
-        placesTableView.tableHeaderView = filterView
-        let logoView = LogoView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: logoViewHeight))
-        logoView.configure(with: self)
-        placesTableView.tableFooterView = logoView
-        placesTableView.isHidden = true
-        view.addSubview(placesTableView)
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.isHidden = true
+        collectionView.alwaysBounceVertical = true
+        collectionView.bounces = true
+        view.addSubview(collectionView)
+        
+        let updater = ListAdapterUpdater()
+        adapter = ListAdapter(updater: updater, viewController: nil)
+        adapter.collectionView = collectionView
+        adapter.dataSource = self
         
         setupRefreshControl()
         
@@ -341,7 +342,7 @@ class PlacesViewController: UIViewController {
     }
     
     @objc func didPullToRefresh(sender: UIRefreshControl) {
-        guard let refreshControl = placesTableView.refreshControl else { return }
+        guard let refreshControl = collectionView.refreshControl else { return }
         API.densities { gotDensities in
             if gotDensities {
                 sortPlaces()
@@ -353,10 +354,8 @@ class PlacesViewController: UIViewController {
     
     func setupConstraints() {
         
-        placesTableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview()
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         loadingBarsView.snp.makeConstraints { make in

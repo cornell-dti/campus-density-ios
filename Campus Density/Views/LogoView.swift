@@ -26,7 +26,7 @@ class LogoView: UIView {
     var space: UIView!
     
     // MARK: - Constants
-    let dtiLength: CGFloat = 50
+    let dtiLength: CGFloat = 35
     let dtiImageName = "dtilogo"
     let padding: CGFloat = 15
 

@@ -1,21 +1,21 @@
 //
-//  PlaceTableViewCell.swift
+//  PlaceCell.swift
 //  Campus Density
 //
-//  Created by Matthew Coufal on 10/14/18.
-//  Copyright © 2018 Cornell DTI. All rights reserved.
+//  Created by Matthew Coufal on 3/24/19.
+//  Copyright © 2019 Cornell DTI. All rights reserved.
 //
 
 import UIKit
 
-public enum Density: Int, Codable {
+enum Density: Int, Codable {
     case veryBusy = 3
     case prettyBusy = 2
     case somewhatBusy = 1
     case notBusy = 0
 }
 
-class PlaceTableViewCell: UITableViewCell {
+class PlaceCell: UICollectionViewCell {
     
     // MARK: - Data vars
     var place: Place!
@@ -40,13 +40,19 @@ class PlaceTableViewCell: UITableViewCell {
     let labelHeight: CGFloat = 20
     let densityBarHeight: CGFloat = 25
     let capacityLabelWidth: CGFloat = 92.5
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         backgroundColor = .clear
         setupViews()
         
+    }
+    
+    override func prepareForReuse() {
+        for subview in contentView.subviews {
+            subview.snp.removeConstraints()
+        }
     }
     
     func setupViews() {
@@ -56,7 +62,7 @@ class PlaceTableViewCell: UITableViewCell {
         background.layer.cornerRadius = backgroundCornerRadius
         background.layer.borderColor = UIColor.whiteTwo.cgColor
         background.layer.borderWidth = 1
-        addSubview(background)
+        contentView.addSubview(background)
         
         nameLabel = UILabel()
         nameLabel.adjustsFontSizeToFitWidth = true
@@ -64,25 +70,25 @@ class PlaceTableViewCell: UITableViewCell {
         nameLabel.textAlignment = .left
         nameLabel.numberOfLines = 0
         nameLabel.font = .sixteenBold
-        addSubview(nameLabel)
+        contentView.addSubview(nameLabel)
         
         densityLabel = UILabel()
         densityLabel.adjustsFontSizeToFitWidth = true
         densityLabel.textAlignment = .right
         densityLabel.font = .fourteen
-        addSubview(densityLabel)
+        contentView.addSubview(densityLabel)
         
         barOne = setupBar()
-        addSubview(barOne)
+        contentView.addSubview(barOne)
         
         barTwo = setupBar()
-        addSubview(barTwo)
+        contentView.addSubview(barTwo)
         
         barThree = setupBar()
-        addSubview(barThree)
+        contentView.addSubview(barThree)
         
         barFour = setupBar()
-        addSubview(barFour)
+        contentView.addSubview(barFour)
     }
     
     func setupBar() -> UIView {
@@ -100,6 +106,7 @@ class PlaceTableViewCell: UITableViewCell {
         let barWidth: CGFloat = totalBarWidth / 4.0
         
         background.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(padding)
             make.left.equalToSuperview().offset(padding)
             make.width.equalToSuperview().inset(padding)
             make.height.equalToSuperview().offset(-padding)
@@ -146,10 +153,6 @@ class PlaceTableViewCell: UITableViewCell {
             make.right.equalTo(background).inset(padding)
             make.centerY.equalTo(nameLabel)
         }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func interpretDensity() -> String {
@@ -201,6 +204,10 @@ class PlaceTableViewCell: UITableViewCell {
         }
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configure(with place: Place) {
         self.place = place
         nameLabel.text = place.displayName
@@ -209,5 +216,5 @@ class PlaceTableViewCell: UITableViewCell {
         setupConstraints()
         colorBars()
     }
-
+    
 }
