@@ -18,13 +18,14 @@ enum Filter {
     case central
 }
 
-class PlacesViewController: UIViewController {
+class PlacesViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Data vars
     var filteredPlaces = [Place]()
     var filters: [Filter]!
     var selectedFilter: Filter = .all
     var gettingDensities = false
+    var lastOffset: CGFloat = 0
     var adapter: ListAdapter!
     
     // MARK: - View vars
@@ -305,6 +306,7 @@ class PlacesViewController: UIViewController {
             refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
             refreshBarsView = LoadingBarsView()
             refreshBarsView.configure(with: .small)
+            refreshBarsView.alpha = 0.0
             refreshBarsView.startAnimating()
             refreshControl.addSubview(refreshBarsView)
             refreshBarsView.snp.makeConstraints { make in
@@ -331,6 +333,7 @@ class PlacesViewController: UIViewController {
         adapter = ListAdapter(updater: updater, viewController: nil)
         adapter.collectionView = collectionView
         adapter.dataSource = self
+        adapter.scrollViewDelegate = self
         
         setupRefreshControl()
         
@@ -363,6 +366,20 @@ class PlacesViewController: UIViewController {
             make.center.equalToSuperview()
         }
         
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = -scrollView.contentOffset.y
+        let fraction = offset / contentOffsetBound
+        let alpha = min(1, fraction)
+        if offset > minOffset || lastOffset > offset {
+            refreshBarsView.alpha = alpha
+        }
+        lastOffset = offset
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        refreshBarsView.alpha = 0
     }
 
 
