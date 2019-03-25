@@ -92,3 +92,15 @@ func sortPlaces() {
         index += 1
     }
 }
+
+func rememberToken(token: String) {
+    System.token = token
+    UserDefaults.standard.set(token, forKey: "token")
+    UserDefaults.standard.synchronize()
+}
+
+func forgetToken() {
+    System.token = nil
+    UserDefaults.standard.removeObject(forKey: "token")
+    UserDefaults.standard.synchronize()
+}

@@ -8,6 +8,7 @@
 
 import UIKit
 import IGListKit
+import Firebase
 
 class PlaceDetailViewController: UIViewController {
     
@@ -54,21 +55,87 @@ class PlaceDetailViewController: UIViewController {
         if place.hours.isEmpty {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
-            API.hours(place: place) { [weak self] gotHours in
-                if gotHours {
-                    DispatchQueue.main.async {
-                        self?.loadingBarsView.removeFromSuperview()
-                        self?.loadingHours = false
-                        self?.setup()
-                    }
-                }
-            }
+            getHours()
         } else {
             loadingBarsView.removeFromSuperview()
             loadingHours = false
             setup()
         }
         
+    }
+    
+    func getHours() {
+        API.hours(place: place) { [weak self] gotHours in
+            if gotHours {
+                DispatchQueue.main.async {
+                    self?.loadingBarsView.removeFromSuperview()
+                    self?.loadingHours = false
+                    self?.setup()
+                }
+            } else {
+                self?.alertError(completion: { self?.getHours() })
+            }
+        }
+    }
+    
+    func signIn(completion: @escaping () -> Void) {
+        if let user = Auth.auth().currentUser {
+            if let _ = System.token {
+                completion()
+            } else {
+                user.getIDToken { (token, error) in
+                    if let _ = error {
+                        forgetToken()
+                        self.alertError(completion: completion)
+                    } else {
+                        if let token = token {
+                            rememberToken(token: token)
+                            completion()
+                        } else {
+                            forgetToken()
+                            self.alertError(completion: completion)
+                        }
+                    }
+                }
+            }
+        } else {
+            Auth.auth().signInAnonymously { (result, error) in
+                if let _ = error {
+                    forgetToken()
+                    self.alertError(completion: completion)
+                } else {
+                    if let result = result {
+                        let user = result.user
+                        user.getIDToken { (token, error) in
+                            if let _ = error {
+                                forgetToken()
+                                self.alertError(completion: completion)
+                            } else {
+                                if let token = token {
+                                    rememberToken(token: token)
+                                    completion()
+                                } else {
+                                    forgetToken()
+                                    self.alertError(completion: completion)
+                                }
+                            }
+                        }
+                    } else {
+                        forgetToken()
+                        self.alertError(completion: completion)
+                    }
+                }
+            }
+        }
+    }
+    
+    func alertError(completion: @escaping () -> Void) {
+        let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+            self.signIn(completion: completion)
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+        present(alertController, animated: true, completion: nil)
     }
     
     func setup() {
@@ -113,8 +180,12 @@ class PlaceDetailViewController: UIViewController {
                         DispatchQueue.main.async {
                             self.adapter.performUpdates(animated: false, completion: nil)
                         }
+                    } else {
+                        self.alertError(completion: { self.update() })
                     }
                 }
+            } else {
+                self.alertError(completion: { self.update() })
             }
         }
     }

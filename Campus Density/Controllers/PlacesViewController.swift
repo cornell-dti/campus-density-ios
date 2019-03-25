@@ -99,20 +99,14 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             } else {
                 user.getIDToken { (token, error) in
                     if let _ = error {
-                        System.token = nil
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.synchronize()
+                        forgetToken()
                         self.alertError()
                     } else {
                         if let token = token {
-                            System.token = token
-                            UserDefaults.standard.set(token, forKey: "token")
-                            UserDefaults.standard.synchronize()
+                            rememberToken(token: token)
                             self.getPlaces()
                         } else {
-                            System.token = nil
-                            UserDefaults.standard.removeObject(forKey: "token")
-                            UserDefaults.standard.synchronize()
+                            forgetToken()
                             self.alertError()
                         }
                     }
@@ -121,39 +115,27 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         } else {
             Auth.auth().signInAnonymously { (result, error) in
                 if let _ = error {
-                    System.token = nil
-                    UserDefaults.standard.removeObject(forKey: "token")
-                    UserDefaults.standard.synchronize()
+                    forgetToken()
                     self.alertError()
                 } else {
                     if let result = result {
                         let user = result.user
                         user.getIDToken { (token, error) in
                             if let _ = error {
-                                System.token = nil
-                                UserDefaults.standard.removeObject(forKey: "token")
-                                UserDefaults.standard.synchronize()
+                                forgetToken()
                                 self.alertError()
                             } else {
                                 if let token = token {
-                                    System.token = token
-                                    UserDefaults.standard.set(token, forKey: "token")
-                                    UserDefaults.standard.synchronize()
+                                    rememberToken(token: token)
                                     self.getPlaces()
                                 } else {
-                                    System.token = nil
-                                    UserDefaults.standard.removeObject(forKey: "token")
-                                    UserDefaults.standard.synchronize()
-                                    UserDefaults.standard.removeObject(forKey: "token")
-                                    UserDefaults.standard.synchronize()
+                                    forgetToken()
                                     self.alertError()
                                 }
                             }
                         }
                     } else {
-                        System.token = nil
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.synchronize()
+                        forgetToken()
                         self.alertError()
                     }
                 }

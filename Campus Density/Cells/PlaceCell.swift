@@ -46,13 +46,8 @@ class PlaceCell: UICollectionViewCell {
         
         backgroundColor = .clear
         setupViews()
+        setupConstraints()
         
-    }
-    
-    override func prepareForReuse() {
-        for subview in contentView.subviews {
-            subview.snp.removeConstraints()
-        }
     }
     
     func setupViews() {
@@ -213,7 +208,6 @@ class PlaceCell: UICollectionViewCell {
         nameLabel.text = place.displayName
         densityLabel.text = place.isClosed ? "Closed" : interpretDensity()
         densityLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
-        setupConstraints()
         colorBars()
     }
     
