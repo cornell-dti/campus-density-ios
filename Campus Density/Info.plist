@@ -41,5 +41,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Flux would like to access your location to help find places near you</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Flux would like to access your location to help find places near you</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Flux would like to access your location to help find places near you</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Flux would like to access your location to help find places near you</string>
 </dict>
 </plist>

@@ -46,7 +46,6 @@ class PlaceCell: UICollectionViewCell {
         
         backgroundColor = .clear
         setupViews()
-        setupConstraints()
         
     }
     
@@ -86,6 +85,12 @@ class PlaceCell: UICollectionViewCell {
         contentView.addSubview(barFour)
     }
     
+    override func prepareForReuse() {
+        for subview in contentView.subviews {
+            subview.snp.removeConstraints()
+        }
+    }
+    
     func setupBar() -> UIView {
         let view = UIView()
         view.backgroundColor = .densityRed
@@ -99,6 +104,9 @@ class PlaceCell: UICollectionViewCell {
         let totalBarWidth: CGFloat = frame.width - padding * 4 - interBarSpacing * 3
         
         let barWidth: CGFloat = totalBarWidth / 4.0
+        
+        guard let densityLabelText = densityLabel.text else { return }
+        let densityLabelWidth = densityLabelText.widthWithConstrainedHeight(labelHeight, font: densityLabel.font)
         
         background.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(padding)
@@ -135,18 +143,18 @@ class PlaceCell: UICollectionViewCell {
             make.height.equalTo(barOne)
         }
         
-        nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(barOne)
-            make.bottom.equalTo(barOne.snp.top).offset(-padding)
-            make.width.equalTo(background).inset(padding).multipliedBy(0.6)
-            make.height.equalTo(labelHeight)
+        densityLabel.snp.makeConstraints { make in
+            make.width.equalTo(densityLabelWidth)
+            make.right.equalTo(background).inset(padding)
+            make.top.equalTo(background)
+            make.bottom.equalTo(barOne.snp.top)
         }
         
-        densityLabel.snp.makeConstraints { make in
-            make.width.equalTo(background).inset(padding).multipliedBy(0.4)
-            make.height.equalTo(nameLabel)
-            make.right.equalTo(background).inset(padding)
-            make.centerY.equalTo(nameLabel)
+        nameLabel.snp.makeConstraints { make in
+            make.left.equalTo(barOne)
+            make.bottom.equalTo(barOne.snp.top)
+            make.right.equalTo(densityLabel.snp.left).offset(-5)
+            make.top.equalTo(background)
         }
     }
     
@@ -209,6 +217,18 @@ class PlaceCell: UICollectionViewCell {
         densityLabel.text = place.isClosed ? "Closed" : interpretDensity()
         densityLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
         colorBars()
+        setupConstraints()
     }
     
+}
+
+extension UILabel {
+    func calculateMaxLines() -> Int {
+        let maxSize = CGSize(width: frame.size.width, height: CGFloat(Float.infinity))
+        let charSize = font.lineHeight
+        let text = (self.text ?? "") as NSString
+        let textSize = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        let linesRoundedUp = Int(ceil(textSize.height/charSize))
+        return linesRoundedUp
+    }
 }

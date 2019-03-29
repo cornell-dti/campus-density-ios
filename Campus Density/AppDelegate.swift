@@ -9,12 +9,14 @@
 import UIKit
 import SnapKit
 import Firebase
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
     var placesViewController: PlacesViewController!
+    var locationManager: CLLocationManager!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -25,11 +27,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         placesViewController = PlacesViewController()
         
-        window = UIWindow()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = UINavigationController(rootViewController: placesViewController)
         window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        System.currentUserLocation = manager.location
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

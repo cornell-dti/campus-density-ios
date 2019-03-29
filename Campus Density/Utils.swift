@@ -40,6 +40,19 @@ func getCurrentDensity(densityMap: [Int: Double], selectedHour: Int) -> String {
     }
 }
 
+func interpretDensity(place: Place) -> String {
+    switch place.density {
+    case .veryBusy:
+        return "Very busy"
+    case .prettyBusy:
+        return "Pretty busy"
+    case .notBusy:
+        return "Not busy"
+    case .somewhatBusy:
+        return "Somewhat busy"
+    }
+}
+
 func weekdayAbbreviation(weekday: Int) -> String {
     switch weekday {
     case 0:
@@ -61,7 +74,7 @@ func weekdayAbbreviation(weekday: Int) -> String {
     }
 }
 
-func compare(one: Place, two: Place) -> Bool {
+func compareDensity(one: Place, two: Place) -> Bool {
     switch one.density {
     case .veryBusy:
         return two.density != .veryBusy
@@ -74,23 +87,32 @@ func compare(one: Place, two: Place) -> Bool {
     }
 }
 
-func sortPlaces() {
-    var index = 0
-    while index < System.places.count {
-        var minIndex = index
-        var otherIndex = index + 1
-        while otherIndex < System.places.count {
-            let shouldSwap = compare(one: System.places[otherIndex], two: System.places[minIndex])
-            if shouldSwap {
-                minIndex = otherIndex
-            }
-            otherIndex += 1
-        }
-        let temp = System.places[index]
-        System.places[index] = System.places[minIndex]
-        System.places[minIndex] = temp
-        index += 1
+func compareFilter(one: Place, two: Place) -> Bool {
+    if one.isClosed && two.isClosed {
+        return one.displayName < two.displayName
     }
+    if one.isClosed {
+        return false
+    }
+    if two.isClosed {
+        return true
+    }
+    if one.density.rawValue == two.density.rawValue {
+        return one.displayName < two.displayName
+    }
+    return one.density.rawValue < two.density.rawValue
+}
+
+func sortFilteredPlaces(places: [Place]) -> [Place] {
+    return places.sorted(by: { (one, two) -> Bool in
+        return compareFilter(one: one, two: two)
+    })
+}
+
+func sortPlaces() {
+    System.places = System.places.sorted(by: { (one, two) -> Bool in
+        return compareDensity(one: one, two: two)
+    })
 }
 
 func rememberToken(token: String) {

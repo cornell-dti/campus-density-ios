@@ -54,21 +54,18 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             if let user = user {
                 user.getIDToken { (token, error) in
                     if let _ = error {
-                        System.token = nil
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.synchronize()
+                        forgetToken()
                         self.alertError()
                     } else if let token = token {
-                        System.token = token
-                        UserDefaults.standard.set(token, forKey: "token")
-                        UserDefaults.standard.synchronize()
+                        rememberToken(token: token)
                     } else {
-                        System.token = nil
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.synchronize()
+                        forgetToken()
                         self.alertError()
                     }
                 }
+            } else {
+                forgetToken()
+                self.alertError()
             }
         }
         
@@ -260,21 +257,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
                 return place.region == Region.central
             })
         }
-        filteredPlaces.sort { placeOne, placeTwo -> Bool in
-            if placeOne.isClosed && placeTwo.isClosed {
-                return placeOne.displayName < placeTwo.displayName
-            }
-            if placeOne.isClosed {
-                return false
-            }
-            if placeTwo.isClosed {
-                return true
-            }
-            if placeOne.density.rawValue == placeTwo.density.rawValue {
-                return placeOne.displayName < placeTwo.displayName
-            }
-            return placeOne.density.rawValue < placeTwo.density.rawValue
-        }
+        filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
     }
     
     func setupRefreshControl() {

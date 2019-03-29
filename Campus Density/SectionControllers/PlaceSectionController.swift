@@ -22,6 +22,7 @@ class PlaceSectionController: ListSectionController {
     weak var delegate: PlaceSectionControllerDelegate?
     
     // MARK: - Constants
+    let labelHeight: CGFloat = 20
     let cellHeight: CGFloat = 105
     let cellAnimationDuration: TimeInterval = 0.2
     let cellScale: CGFloat = 0.95
@@ -33,7 +34,10 @@ class PlaceSectionController: ListSectionController {
     
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        return CGSize(width: containerSize.width, height: cellHeight)
+        let densityWidth = interpretDensity(place: place).widthWithConstrainedHeight(labelHeight, font: .fourteen)
+        let nameWidth = containerSize.width - Constants.smallPadding * 4 - densityWidth - 5
+        let nameHeight = place.displayName.height(withConstrainedWidth: nameWidth, font: .sixteenBold)
+        return CGSize(width: containerSize.width, height: Constants.smallPadding * 2 + Constants.mediumPadding * 2 + nameHeight)
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {

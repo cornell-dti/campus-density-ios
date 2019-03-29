@@ -146,19 +146,6 @@ class CurrentDensityCell: UICollectionViewCell {
         }
     }
     
-    func interpretDensity() -> String {
-        switch place.density {
-        case .veryBusy:
-            return "Very busy"
-        case .prettyBusy:
-            return "Pretty busy"
-        case .notBusy:
-            return "Not busy"
-        case .somewhatBusy:
-            return "Somewhat busy"
-        }
-    }
-    
     func colorBars() {
         if place.isClosed {
             barOne.backgroundColor = .whiteTwo
@@ -197,7 +184,7 @@ class CurrentDensityCell: UICollectionViewCell {
     
     func configure(with place: Place) {
         self.place = place
-        densityLabel.text = place.isClosed ? "Closed" : interpretDensity()
+        densityLabel.text = place.isClosed ? "Closed" : interpretDensity(place: place)
         densityLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
         colorBars()
     }
