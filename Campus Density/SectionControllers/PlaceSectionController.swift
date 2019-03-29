@@ -37,7 +37,7 @@ class PlaceSectionController: ListSectionController {
         let densityWidth = interpretDensity(place: place).widthWithConstrainedHeight(labelHeight, font: .fourteen)
         let nameWidth = containerSize.width - Constants.smallPadding * 4 - densityWidth - 5
         let nameHeight = place.displayName.height(withConstrainedWidth: nameWidth, font: .sixteenBold)
-        return CGSize(width: containerSize.width, height: Constants.smallPadding * 2 + Constants.mediumPadding * 2 + nameHeight)
+        return CGSize(width: containerSize.width, height: Constants.smallPadding * 4 + Constants.mediumPadding + nameHeight)
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
