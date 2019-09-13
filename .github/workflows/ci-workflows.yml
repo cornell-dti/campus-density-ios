@@ -1,0 +1,10 @@
+name: CI
+on: push
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build
+        run: xcodebuild -scheme "Pods-Campus Density" -workspace "Campus Density.xcworkspace" build
