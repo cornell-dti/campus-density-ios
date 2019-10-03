@@ -10,28 +10,28 @@ import Foundation
 import IGListKit
 
 class LogoModel {
-    
+
     var length: CGFloat
     var link: String
     let identifier = UUID().uuidString
-    
+
     init(length: CGFloat, link: String) {
         self.length = length
         self.link = link
     }
-    
+
 }
 
 extension LogoModel: ListDiffable {
-    
+
     func diffIdentifier() -> NSObjectProtocol {
         return identifier as NSString
     }
-    
+
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
         guard let logoModel = object as? LogoModel else { return false }
         return logoModel.identifier == identifier
     }
-    
+
 }

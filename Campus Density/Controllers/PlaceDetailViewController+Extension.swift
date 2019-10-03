@@ -10,7 +10,7 @@ import Foundation
 import IGListKit
 
 extension PlaceDetailViewController: ListAdapterDataSource {
-    
+
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         var description = "Closed"
         if !densityMap.isEmpty {
@@ -38,7 +38,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: Constants.largePadding)
         ]
     }
-    
+
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
         if object is SpaceModel {
             let spaceModel = object as! SpaceModel
@@ -63,24 +63,24 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             return HoursSectionController(hoursModel: hoursModel)
         }
     }
-    
+
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return nil
     }
-    
+
 }
 
 extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
-    
+
     func formLinkSectionControllerDidPressLinkButton(link: String) {
         guard let url = URL(string: feedbackForm) else { return }
         UIApplication.shared.open(url)
     }
-    
+
 }
 
 extension PlaceDetailViewController: GraphHeaderSectionControllerDelegate {
-    
+
     func graphHeaderSectionControllerDidSelectWeekday(selectedWeekday: Int) {
         if selectedWeekday != self.selectedWeekday {
             self.selectedWeekday = selectedWeekday
@@ -88,16 +88,16 @@ extension PlaceDetailViewController: GraphHeaderSectionControllerDelegate {
             adapter.performUpdates(animated: false, completion: nil)
         }
     }
-    
+
 }
 
 extension PlaceDetailViewController: GraphSectionControllerDelegate {
-    
+
     func graphSectionControllerDidSelectHour(selectedHour: Int) {
         if selectedHour != self.selectedHour {
             self.selectedHour = selectedHour
             adapter.performUpdates(animated: false, completion: nil)
         }
     }
-    
+
 }

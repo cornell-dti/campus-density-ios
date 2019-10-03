@@ -9,52 +9,52 @@
 import UIKit
 
 protocol FiltersCellDelegate: class {
-    
+
     func filtersCellDidSelectFilter(selectedFilter: Filter)
-    
+
 }
 
 class FiltersCell: UICollectionViewCell {
-    
+
     // MARK: - Data vars
     var filtersModel: FiltersModel!
     weak var delegate: FiltersCellDelegate?
-    
+
     // MARK: - View vars
     var filterButtons = [UIButton]()
-    
+
     // MARK: - Constants
     let labelHorizontalPadding: CGFloat = 10
     let buttonHeight: CGFloat = 35
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+
     func filterLabel(filter: Filter) -> String {
         switch filter {
-        case .all:
-            return "All"
-        case .central:
-            return "Central"
-        case .north:
-            return "North"
-        case .west:
-            return "West"
+            case .all:
+                return "All"
+            case .central:
+                return "Central"
+            case .north:
+                return "North"
+            case .west:
+                return "West"
         }
     }
-    
+
     @objc func filterButtonPressed(sender: UIButton) {
         delegate?.filtersCellDidSelectFilter(selectedFilter: filtersModel.filters[sender.tag])
     }
-    
+
     override func prepareForReuse() {
         for subview in contentView.subviews {
             subview.removeFromSuperview()
         }
         filterButtons.removeAll()
     }
-    
+
     func setupConstraints() {
         var padding: CGFloat = frame.width - labelHorizontalPadding * 2 * CGFloat(filterButtons.count)
         filtersModel.filters.forEach { filter in
@@ -76,18 +76,18 @@ class FiltersCell: UICollectionViewCell {
             buttonLeftOffset += buttonWidth + padding
         }
     }
-    
+
     func configure(filtersModel: FiltersModel, delegate: FiltersCellDelegate) {
         self.filtersModel = filtersModel
         self.delegate = delegate
-        
+
         var index: Int = 0
-        
+
         for subview in contentView.subviews {
             subview.removeFromSuperview()
         }
         filterButtons.removeAll()
-        
+
         filtersModel.filters.forEach { filter in
             let button = UIButton()
             button.tag = index
@@ -102,12 +102,12 @@ class FiltersCell: UICollectionViewCell {
             self.filterButtons.append(button)
             index += 1
         }
-        
+
         setupConstraints()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }

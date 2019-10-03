@@ -10,30 +10,30 @@ import Foundation
 import IGListKit
 
 class GraphModel {
-    
+
     var description: String
     var densityMap: [Int: Double]
     var selectedHour: Int
     let identifier = UUID().uuidString
-    
+
     init(description: String, densityMap: [Int: Double], selectedHour: Int) {
         self.description = description
         self.densityMap = densityMap
         self.selectedHour = selectedHour
     }
-    
+
 }
 
 extension GraphModel: ListDiffable {
-    
+
     func diffIdentifier() -> NSObjectProtocol {
         return identifier as NSString
     }
-    
+
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
         guard let object = object as? GraphModel else { return false }
         return object.identifier == identifier
     }
-    
+
 }

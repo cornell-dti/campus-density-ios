@@ -13,17 +13,17 @@ enum LoadingBarsSize {
 }
 
 class LoadingBarsView: UIView {
-    
+
     // MARK: - Data vars
     var animating: Bool = false
     var shouldLayout = [false, false, false, false]
-    
+
     // MARK: - View vars
     var barOne: UIView!
     var barTwo: UIView!
     var barThree: UIView!
     var barFour: UIView!
-    
+
     // MARK: - Constants
     var barWidth: CGFloat!
     var maxBarHeight: CGFloat!
@@ -33,33 +33,33 @@ class LoadingBarsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         barOne = UIView()
         barOne.clipsToBounds = true
         barOne.backgroundColor = .lightTeal
         barOne.tag = 1
         addSubview(barOne)
-        
+
         barTwo = UIView()
         barTwo.clipsToBounds = true
         barTwo.backgroundColor = .wheat
         barTwo.tag = 2
         addSubview(barTwo)
-        
+
         barThree = UIView()
         barThree.clipsToBounds = true
         barThree.backgroundColor = .peach
         barThree.tag = 3
         addSubview(barThree)
-        
+
         barFour = UIView()
         barFour.clipsToBounds = true
         barFour.backgroundColor = .orangeyRed
         barFour.tag = 4
         addSubview(barFour)
-        
+
     }
-    
+
     func setupConstraints() {
         barOne.snp.makeConstraints { make in
             make.width.equalTo(barWidth)
@@ -67,21 +67,21 @@ class LoadingBarsView: UIView {
             make.left.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-        
+
         barTwo.snp.makeConstraints { make in
             make.width.equalTo(barWidth)
             make.height.equalTo(randomHeight())
             make.bottom.equalTo(barOne)
             make.left.equalTo(barOne.snp.right).offset(padding)
         }
-        
+
         barThree.snp.makeConstraints { make in
             make.width.equalTo(barWidth)
             make.height.equalTo(randomHeight())
             make.bottom.equalTo(barOne)
             make.left.equalTo(barTwo.snp.right).offset(padding)
         }
-        
+
         barFour.snp.makeConstraints { make in
             make.width.equalTo(barWidth)
             make.height.equalTo(randomHeight())
@@ -89,19 +89,19 @@ class LoadingBarsView: UIView {
             make.left.equalTo(barThree.snp.right).offset(padding)
         }
     }
-    
+
     func configure(with size: LoadingBarsSize) {
         switch size {
-        case .small:
-            barWidth = 7.5
-            maxBarHeight = 30
-            minBarHeight = 10
-            barCornerRadius = 2.5
-        case .large:
-            barWidth = 15
-            maxBarHeight = 100
-            minBarHeight = 25
-            barCornerRadius = 5
+            case .small:
+                barWidth = 7.5
+                maxBarHeight = 30
+                minBarHeight = 10
+                barCornerRadius = 2.5
+            case .large:
+                barWidth = 15
+                maxBarHeight = 100
+                minBarHeight = 25
+                barCornerRadius = 5
         }
         barOne.layer.cornerRadius = barCornerRadius
         barTwo.layer.cornerRadius = barCornerRadius
@@ -109,7 +109,7 @@ class LoadingBarsView: UIView {
         barFour.layer.cornerRadius = barCornerRadius
         setupConstraints()
     }
-    
+
     func startAnimating() {
         animating = true
         self.isHidden = false
@@ -118,13 +118,13 @@ class LoadingBarsView: UIView {
         rise(bar: barThree)
         rise(bar: barFour)
     }
-    
+
     func stopAnimating() {
         animating = false
         shouldLayout = [false, false, false, false]
         self.isHidden = true
     }
-    
+
     func rise(bar: UIView) {
         if animating {
             UIView.animate(withDuration: 0.3 + drand48(), animations: {
@@ -144,7 +144,7 @@ class LoadingBarsView: UIView {
             }
         }
     }
-    
+
     func fall(bar: UIView) {
         if animating {
             UIView.animate(withDuration: 0.3 + drand48(), animations: {
@@ -164,13 +164,13 @@ class LoadingBarsView: UIView {
             }
         }
     }
-    
+
     func randomHeight() -> CGFloat {
         return CGFloat(Float(arc4random()) / Float(UINT32_MAX)) * maxBarHeight
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }

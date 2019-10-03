@@ -13,16 +13,16 @@ protocol FilterViewDelegate {
 }
 
 class FilterView: UIView {
-    
+
     // MARK: - Data vars
     var filters = [Filter]()
     var delegate: FilterViewDelegate!
     var width: CGFloat = 0
     var selectedFilter: Filter!
-    
+
     // MARK: - View vars
     var filterButtons = [UIButton]()
-    
+
     // MARK: - Constants
     let labelHorizontalPadding: CGFloat = 10
     let verticalPadding: CGFloat = 15
@@ -30,23 +30,22 @@ class FilterView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        
+
     }
-    
+
     func filterLabel(filter: Filter) -> String {
         switch filter {
-        case .all:
-            return "All"
-        case .central:
-            return "Central"
-        case .north:
-            return "North"
-        case .west:
-            return "West"
-        }
+            case .all:
+                return "All"
+            case .central:
+                return "Central"
+            case .north:
+                return "North"
+            case .west:
+                return "West"
+            }
     }
-    
+
     @objc func filterButtonPressed(sender: UIButton) {
         let index = filters.firstIndex { filter -> Bool in
             return filter == self.selectedFilter
@@ -59,11 +58,11 @@ class FilterView: UIView {
         self.selectedFilter = filters[sender.tag]
         delegate.filterViewDidSelectFilter(selectedFilter: filters[sender.tag])
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func updateConstraints() {
         var padding: CGFloat = width - labelHorizontalPadding * 2 * CGFloat(filterButtons.count)
         filters.forEach { filter in
@@ -84,18 +83,18 @@ class FilterView: UIView {
             index += 1
             buttonLeftOffset += buttonWidth + padding
         }
-        
+
         super.updateConstraints()
     }
-    
+
     func configure(with filters: [Filter], selectedFilter: Filter, delegate: FilterViewDelegate, width: CGFloat) {
         self.filters = filters
         self.delegate = delegate
         self.width = width
         self.selectedFilter = selectedFilter
-        
+
         var index: Int = 0
-        
+
         filters.forEach { filter in
             let button = UIButton()
             button.tag = index
@@ -111,5 +110,5 @@ class FilterView: UIView {
             index += 1
         }
     }
-    
+
 }
