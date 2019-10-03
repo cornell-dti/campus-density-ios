@@ -8,6 +8,7 @@ target 'Campus Density' do
   # Pods for Campus Density
   pod 'SnapKit'
   pod 'Alamofire'
+  pod 'SwiftLint'
   pod 'SwiftyJSON'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'

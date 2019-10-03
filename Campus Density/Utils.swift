@@ -42,48 +42,48 @@ func getCurrentDensity(densityMap: [Int: Double], selectedHour: Int) -> String {
 
 func interpretDensity(place: Place) -> String {
     switch place.density {
-    case .veryBusy:
-        return "Very busy"
-    case .prettyBusy:
-        return "Pretty busy"
-    case .notBusy:
-        return "Not busy"
-    case .somewhatBusy:
-        return "Somewhat busy"
+        case .veryBusy:
+            return "Very busy"
+        case .prettyBusy:
+            return "Pretty busy"
+        case .notBusy:
+            return "Not busy"
+        case .somewhatBusy:
+            return "Somewhat busy"
     }
 }
 
 func weekdayAbbreviation(weekday: Int) -> String {
     switch weekday {
-    case 0:
-        return "Su"
-    case 1:
-        return "M"
-    case 2:
-        return "T"
-    case 3:
-        return "W"
-    case 4:
-        return "Th"
-    case 5:
-        return "F"
-    case 6:
-        return "S"
-    default:
-        return "M"
+        case 0:
+            return "Su"
+        case 1:
+            return "M"
+        case 2:
+            return "T"
+        case 3:
+            return "W"
+        case 4:
+            return "Th"
+        case 5:
+            return "F"
+        case 6:
+            return "S"
+        default:
+            return "M"
     }
 }
 
 func compareDensity(one: Place, two: Place) -> Bool {
     switch one.density {
-    case .veryBusy:
-        return two.density != .veryBusy
-    case .prettyBusy:
-        return two.density != .veryBusy && two.density != .prettyBusy
-    case .somewhatBusy:
-        return two.density == .notBusy
-    case .notBusy:
-        return two.density == .notBusy
+        case .veryBusy:
+            return two.density != .veryBusy
+        case .prettyBusy:
+            return two.density != .veryBusy && two.density != .prettyBusy
+        case .somewhatBusy:
+            return two.density == .notBusy
+        case .notBusy:
+            return two.density == .notBusy
     }
 }
 

@@ -16,11 +16,11 @@ enum Density: Int, Codable {
 }
 
 class PlaceCell: UICollectionViewCell {
-    
+
     // MARK: - Data vars
     var place: Place!
     var percentage: Double!
-    
+
     // MARK: - View vars
     var background: UIView!
     var nameLabel: UILabel!
@@ -30,7 +30,7 @@ class PlaceCell: UICollectionViewCell {
     var barTwo: UIView!
     var barThree: UIView!
     var barFour: UIView!
-    
+
     // MARK: - Constants
     let backgroundCornerRadius: CGFloat = 10
     let densityBarCornerRadius: CGFloat = 5
@@ -40,15 +40,15 @@ class PlaceCell: UICollectionViewCell {
     let labelHeight: CGFloat = 20
     let densityBarHeight: CGFloat = 25
     let capacityLabelWidth: CGFloat = 92.5
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         backgroundColor = .clear
         setupViews()
-        
+
     }
-    
+
     func setupViews() {
         background = UIView()
         background.backgroundColor = .white
@@ -57,7 +57,7 @@ class PlaceCell: UICollectionViewCell {
         background.layer.borderColor = UIColor.whiteTwo.cgColor
         background.layer.borderWidth = 1
         contentView.addSubview(background)
-        
+
         nameLabel = UILabel()
         nameLabel.adjustsFontSizeToFitWidth = true
         nameLabel.textColor = .grayishBrown
@@ -65,32 +65,32 @@ class PlaceCell: UICollectionViewCell {
         nameLabel.numberOfLines = 0
         nameLabel.font = .sixteenBold
         contentView.addSubview(nameLabel)
-        
+
         densityLabel = UILabel()
         densityLabel.adjustsFontSizeToFitWidth = true
         densityLabel.textAlignment = .right
         densityLabel.font = .fourteen
         contentView.addSubview(densityLabel)
-        
+
         barOne = setupBar()
         contentView.addSubview(barOne)
-        
+
         barTwo = setupBar()
         contentView.addSubview(barTwo)
-        
+
         barThree = setupBar()
         contentView.addSubview(barThree)
-        
+
         barFour = setupBar()
         contentView.addSubview(barFour)
     }
-    
+
     override func prepareForReuse() {
         for subview in contentView.subviews {
             subview.snp.removeConstraints()
         }
     }
-    
+
     func setupBar() -> UIView {
         let view = UIView()
         view.backgroundColor = .densityRed
@@ -98,58 +98,58 @@ class PlaceCell: UICollectionViewCell {
         view.layer.cornerRadius = densityBarHeight / 2.0
         return view
     }
-    
+
     func setupConstraints() {
-        
+
         let totalBarWidth: CGFloat = frame.width - padding * 4 - interBarSpacing * 3
-        
+
         let barWidth: CGFloat = totalBarWidth / 4.0
-        
+
         guard let densityLabelText = densityLabel.text else { return }
         let densityLabelWidth = densityLabelText.widthWithConstrainedHeight(labelHeight, font: densityLabel.font)
-        
+
         background.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(padding)
             make.left.equalToSuperview().offset(padding)
             make.width.equalToSuperview().inset(padding)
             make.height.equalToSuperview().offset(-padding)
         }
-        
+
         barOne.snp.makeConstraints { make in
             make.left.equalTo(background).offset(padding)
             make.width.equalTo(barWidth)
             make.bottom.equalTo(background).inset(padding)
             make.height.equalTo(densityBarHeight)
         }
-        
+
         barTwo.snp.makeConstraints { make in
             make.left.equalTo(barOne.snp.right).offset(interBarSpacing)
             make.width.equalTo(barWidth)
             make.bottom.equalTo(barOne)
             make.height.equalTo(barOne)
         }
-        
+
         barThree.snp.makeConstraints { make in
             make.left.equalTo(barTwo.snp.right).offset(interBarSpacing)
             make.width.equalTo(barWidth)
             make.bottom.equalTo(barOne)
             make.height.equalTo(barOne)
         }
-        
+
         barFour.snp.makeConstraints { make in
             make.left.equalTo(barThree.snp.right).offset(interBarSpacing)
             make.width.equalTo(barWidth)
             make.bottom.equalTo(barOne)
             make.height.equalTo(barOne)
         }
-        
+
         densityLabel.snp.makeConstraints { make in
             make.width.equalTo(densityLabelWidth)
             make.right.equalTo(background).inset(padding)
             make.top.equalTo(background)
             make.bottom.equalTo(barOne.snp.top)
         }
-        
+
         nameLabel.snp.makeConstraints { make in
             make.left.equalTo(barOne)
             make.bottom.equalTo(barOne.snp.top)
@@ -157,20 +157,20 @@ class PlaceCell: UICollectionViewCell {
             make.top.equalTo(background)
         }
     }
-    
+
     func interpretDensity() -> String {
         switch place.density {
-        case .veryBusy:
-            return "Very busy"
-        case .prettyBusy:
-            return "Pretty busy"
-        case .notBusy:
-            return "Not busy"
-        case .somewhatBusy:
-            return "Somewhat busy"
+            case .veryBusy:
+                return "Very busy"
+            case .prettyBusy:
+                return "Pretty busy"
+            case .notBusy:
+                return "Not busy"
+            case .somewhatBusy:
+                return "Somewhat busy"
         }
     }
-    
+
     func colorBars() {
         if place.isClosed {
             barOne.backgroundColor = .whiteTwo
@@ -180,37 +180,33 @@ class PlaceCell: UICollectionViewCell {
             return
         }
         switch place.density {
-        case .veryBusy:
-            barOne.backgroundColor = .orangeyRed
-            barTwo.backgroundColor = barOne.backgroundColor
-            barThree.backgroundColor = barTwo.backgroundColor
-            barFour.backgroundColor = barThree.backgroundColor
-            break
-        case .prettyBusy:
-            barOne.backgroundColor = .peach
-            barTwo.backgroundColor = barOne.backgroundColor
-            barThree.backgroundColor = barTwo.backgroundColor
-            barFour.backgroundColor = .whiteTwo
-            break
-        case .notBusy:
-            barOne.backgroundColor = .lightTeal
-            barTwo.backgroundColor = .whiteTwo
-            barThree.backgroundColor = barTwo.backgroundColor
-            barFour.backgroundColor = barThree.backgroundColor
-            break
-        case .somewhatBusy:
-            barOne.backgroundColor = .wheat
-            barTwo.backgroundColor = barOne.backgroundColor
-            barThree.backgroundColor = .whiteTwo
-            barFour.backgroundColor = barThree.backgroundColor
-            break
+            case .veryBusy:
+                barOne.backgroundColor = .orangeyRed
+                barTwo.backgroundColor = barOne.backgroundColor
+                barThree.backgroundColor = barTwo.backgroundColor
+                barFour.backgroundColor = barThree.backgroundColor
+            case .prettyBusy:
+                barOne.backgroundColor = .peach
+                barTwo.backgroundColor = barOne.backgroundColor
+                barThree.backgroundColor = barTwo.backgroundColor
+                barFour.backgroundColor = .whiteTwo
+            case .notBusy:
+                barOne.backgroundColor = .lightTeal
+                barTwo.backgroundColor = .whiteTwo
+                barThree.backgroundColor = barTwo.backgroundColor
+                barFour.backgroundColor = barThree.backgroundColor
+            case .somewhatBusy:
+                barOne.backgroundColor = .wheat
+                barTwo.backgroundColor = barOne.backgroundColor
+                barThree.backgroundColor = .whiteTwo
+                barFour.backgroundColor = barThree.backgroundColor
         }
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func configure(with place: Place) {
         self.place = place
         nameLabel.text = place.displayName
@@ -219,7 +215,7 @@ class PlaceCell: UICollectionViewCell {
         colorBars()
         setupConstraints()
     }
-    
+
 }
 
 extension UILabel {

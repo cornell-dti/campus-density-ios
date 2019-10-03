@@ -16,36 +16,36 @@ enum APIError: Error {
 }
 
 enum Region: String, Codable {
-    case north = "north"
-    case central = "central"
-    case west = "west"
+    case north
+    case central
+    case west
 }
 
 struct PlaceName: Codable {
-    
+
     var displayName: String
     var id: String
-    
+
 }
 
 struct PlaceDensity: Codable {
-    
+
     var id: String
     var density: Density
-    
+
 }
 
 struct PlaceInfo: Codable {
-    
+
     var id: String
     var campusLocation: Region
     var nextOpen: Double
     var closingAt: Double
-    
+
 }
 
 class Place: ListDiffable {
-    
+
     var displayName: String
     var id: String
     var density: Density
@@ -53,7 +53,7 @@ class Place: ListDiffable {
     var hours: [Int: String]
     var history: [String: [String: Double]]
     var region: Region
-    
+
     init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region) {
         self.displayName = displayName
         self.id = id
@@ -63,54 +63,54 @@ class Place: ListDiffable {
         self.history = history
         self.region = region
     }
-    
+
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString
     }
-    
+
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
         guard let place = object as? Place else { return false }
         return place.id == id
     }
-    
+
 }
 
 class Token: Codable {
-    
+
     var token: String
-    
+
     init(token: String) {
         self.token = token
     }
 }
 
 struct DailyInfo: Codable {
-    
+
     var dailyHours: [String: Double]
     var date: String
     var dayOfWeek: Int
     var status: String
     var statusText: String
-    
+
 }
 
 struct HoursResponse: Codable {
-    
+
     var hours: [DailyInfo]
     var id: String
-    
+
 }
 
 struct HistoricalData: Codable {
-    
+
     var id: String
-    var hours: [String : [String : Double]]
-    
+    var hours: [String: [String: Double]]
+
 }
 
 class API {
-    
+
     static var url: String {
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) else { return "" }
         #if DEBUG
@@ -121,7 +121,7 @@ class API {
         guard let value = dict[key] as? String else { return "" }
         return value
     }
-    
+
     static func status(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -132,27 +132,27 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
                 switch result {
-                case .success(let placeInfos):
-                    placeInfos.forEach { placeInfo in
-                        let index = System.places.firstIndex(where: { place -> Bool in
-                            return place.id == placeInfo.id
-                        })
-                        guard let placeIndex = index else { return }
-                        System.places[placeIndex].region = placeInfo.campusLocation
-                        System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
-                    }
-                    completion(true)
-                case .failure(let error):
-                    print(error)
-                    UserDefaults.standard.removeObject(forKey: "token")
-                    UserDefaults.standard.removeObject(forKey: "authKey")
-                    UserDefaults.standard.synchronize()
-                    System.places = []
-                    completion(false)
+                    case .success(let placeInfos):
+                        placeInfos.forEach { placeInfo in
+                            let index = System.places.firstIndex(where: { place -> Bool in
+                                return place.id == placeInfo.id
+                            })
+                            guard let placeIndex = index else { return }
+                            System.places[placeIndex].region = placeInfo.campusLocation
+                            System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
+                        }
+                        completion(true)
+                    case .failure(let error):
+                        print(error)
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.removeObject(forKey: "authKey")
+                        UserDefaults.standard.synchronize()
+                        System.places = []
+                        completion(false)
                 }
         }
     }
-    
+
     static func history(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -163,25 +163,25 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
                 switch result {
-                case .success(let data):
-                    data.forEach { placeData in
-                        guard let index = System.places.firstIndex(where: { place in
-                            return place.id == placeData.id
-                        }) else { return }
-                        System.places[index].history = placeData.hours
-                    }
-                    completion(true)
-                case .failure(let error):
-                    print(error)
-                    UserDefaults.standard.removeObject(forKey: "token")
-                    UserDefaults.standard.removeObject(forKey: "authKey")
-                    UserDefaults.standard.synchronize()
-                    System.places = []
-                    completion(false)
+                    case .success(let data):
+                        data.forEach { placeData in
+                            guard let index = System.places.firstIndex(where: { place in
+                                return place.id == placeData.id
+                            }) else { return }
+                            System.places[index].history = placeData.hours
+                        }
+                        completion(true)
+                    case .failure(let error):
+                        print(error)
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.removeObject(forKey: "authKey")
+                        UserDefaults.standard.synchronize()
+                        System.places = []
+                        completion(false)
                 }
         }
     }
-    
+
     static func places(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -192,35 +192,35 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
                 switch result {
-                case .success(let placeNames):
-                    System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north)
-                    }
-                    completion(true)
-                case .failure(let error):
-                    print(error)
-                    UserDefaults.standard.removeObject(forKey: "token")
-                    UserDefaults.standard.removeObject(forKey: "authKey")
-                    UserDefaults.standard.synchronize()
-                    System.places = []
-                    completion(false)
+                    case .success(let placeNames):
+                        System.places = placeNames.map { placeName in
+                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north)
+                        }
+                        completion(true)
+                    case .failure(let error):
+                        print(error)
+                        UserDefaults.standard.removeObject(forKey: "token")
+                        UserDefaults.standard.removeObject(forKey: "authKey")
+                        UserDefaults.standard.synchronize()
+                        System.places = []
+                        completion(false)
                 }
         }
     }
-    
+
     static func hours(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        
+
         var success = true
-        
+
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         let today = Date()
         if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
-            
+
             let start = formatter.string(from: today)
             let end = formatter.string(from: sixDaysLater)
             let startComponents = start.components(separatedBy: "/")
@@ -233,54 +233,54 @@ class API {
             let endMonth = endComponents[0].count == 1 ? "0\(endComponents[0])" : endComponents[0]
             let startDate = "\(startMonth)-\(startDay)-\(startYear)"
             let endDate = "\(endMonth)-\(endDay)-\(endYear)"
-            
+
             let parameters = [
                 "id": place.id,
                 "startDate": startDate,
                 "endDate": endDate
             ]
-            
+
             Alamofire.request("\(url)/facilityHours", parameters: parameters, headers: headers)
                 .responseData { response in
                     let decoder = JSONDecoder()
                     let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
                     switch result {
-                    case .success(let hoursResponseArray):
-                        let hoursResponse = hoursResponseArray[0]
-                        var hours = [Int: String]()
-                        var index: Int = 0
-                        while index < hoursResponse.hours.count {
-                            let dailyInfo = hoursResponse.hours[index]
-                            let day = dailyInfo.dayOfWeek
-                            let dailyHours = dailyInfo.dailyHours
-                            let timeFormatter = DateFormatter()
-                            timeFormatter.timeStyle = .short
-                            guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
-                            let open = Date(timeIntervalSince1970: openTimestamp)
-                            let close = Date(timeIntervalSince1970: closeTimestamp)
-                            let openTime = timeFormatter.string(from: open)
-                            let closeTime = timeFormatter.string(from: close)
-                            let isLastIndex = index == hoursResponse.hours.count - 1
-                            if let hoursString = hours[day] {
-                                hours[day] = hoursString + "\(openTime) - \(closeTime)"
+                        case .success(let hoursResponseArray):
+                            let hoursResponse = hoursResponseArray[0]
+                            var hours = [Int: String]()
+                            var index: Int = 0
+                            while index < hoursResponse.hours.count {
+                                let dailyInfo = hoursResponse.hours[index]
+                                let day = dailyInfo.dayOfWeek
+                                let dailyHours = dailyInfo.dailyHours
+                                let timeFormatter = DateFormatter()
+                                timeFormatter.timeStyle = .short
+                                guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
+                                let open = Date(timeIntervalSince1970: openTimestamp)
+                                let close = Date(timeIntervalSince1970: closeTimestamp)
+                                let openTime = timeFormatter.string(from: open)
+                                let closeTime = timeFormatter.string(from: close)
+                                let isLastIndex = index == hoursResponse.hours.count - 1
+                                if let hoursString = hours[day] {
+                                    hours[day] = hoursString + "\(openTime) - \(closeTime)"
+                                } else {
+                                    hours[day] = "\(openTime) - \(closeTime)"
+                                }
+                                if let hoursString = hours[day], !isLastIndex {
+                                    hours[day] = hoursString + "\n"
+                                }
+                                index += 1
+                            }
+                            if let placeIndex = System.places.firstIndex(where: { other -> Bool in
+                                return other.id == place.id
+                            }) {
+                                System.places[placeIndex].hours = hours
                             } else {
-                                hours[day] = "\(openTime) - \(closeTime)"
+                                success = false
                             }
-                            if let hoursString = hours[day], !isLastIndex {
-                                hours[day] = hoursString + "\n"
-                            }
-                            index += 1
-                        }
-                        if let placeIndex = System.places.firstIndex(where: { other -> Bool in
-                            return other.id == place.id
-                        }) {
-                            System.places[placeIndex].hours = hours
-                        } else {
+                        case .failure(let error):
+                            print(error)
                             success = false
-                        }
-                    case .failure(let error):
-                        print(error)
-                        success = false
                     }
                     completion(success)
             }
@@ -288,9 +288,9 @@ class API {
             success = false
             completion(success)
         }
-    
+
     }
-    
+
     static func densities(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -301,18 +301,18 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
                 switch result {
-                case .success(let densities):
-                    densities.forEach({ placeDensity in
-                        let index = System.places.firstIndex(where: { place -> Bool in
-                            return place.id == placeDensity.id
+                    case .success(let densities):
+                        densities.forEach({ placeDensity in
+                            let index = System.places.firstIndex(where: { place -> Bool in
+                                return place.id == placeDensity.id
+                            })
+                            guard let placeIndex = index else { return }
+                            System.places[placeIndex].density = placeDensity.density
                         })
-                        guard let placeIndex = index else { return }
-                        System.places[placeIndex].density = placeDensity.density
-                    })
-                    completion(true)
-                case .failure(let error):
-                    print(error)
-                    completion(false)
+                        completion(true)
+                    case .failure(let error):
+                        print(error)
+                        completion(false)
                 }
         }
     }
@@ -323,11 +323,11 @@ extension JSONDecoder {
         if let error = response.error {
             return .failure(error)
         }
-        
+
         guard let responseData = response.data else {
             return .failure(APIError.noData)
         }
-        
+
         do {
             let item = try decode(T.self, from: responseData)
             return .success(item)

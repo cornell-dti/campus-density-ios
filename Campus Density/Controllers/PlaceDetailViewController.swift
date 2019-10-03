@@ -11,7 +11,7 @@ import IGListKit
 import Firebase
 
 class PlaceDetailViewController: UIViewController {
-    
+
     // MARK: - Data vars
     var place: Place!
     var selectedWeekday: Int = 0
@@ -20,11 +20,11 @@ class PlaceDetailViewController: UIViewController {
     var densityMap = [Int: Double]()
     var adapter: ListAdapter!
     var loadingHours: Bool = true
-    
+
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
-    
+
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
     let linkTopOffset: CGFloat = 5
@@ -40,18 +40,18 @@ class PlaceDetailViewController: UIViewController {
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.tintColor = .warmGray
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-        
+
         loadingBarsView = LoadingBarsView()
         loadingBarsView.configure(with: .large)
         view.addSubview(loadingBarsView)
-        
+
         loadingBarsView.snp.makeConstraints { make in
             make.width.height.equalTo(largeLoadingBarsLength)
             make.center.equalToSuperview()
         }
-        
+
         if place.hours.isEmpty {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
@@ -61,9 +61,9 @@ class PlaceDetailViewController: UIViewController {
             loadingHours = false
             setup()
         }
-        
+
     }
-    
+
     func getHours() {
         API.hours(place: place) { [weak self] gotHours in
             if gotHours {
@@ -77,14 +77,14 @@ class PlaceDetailViewController: UIViewController {
             }
         }
     }
-    
+
     func signIn(completion: @escaping () -> Void) {
         if let user = Auth.auth().currentUser {
-            if let _ = System.token {
+            if System.token != nil {
                 completion()
             } else {
                 user.getIDToken { (token, error) in
-                    if let _ = error {
+                    if error != nil {
                         forgetToken()
                         self.alertError(completion: completion)
                     } else {
@@ -100,14 +100,14 @@ class PlaceDetailViewController: UIViewController {
             }
         } else {
             Auth.auth().signInAnonymously { (result, error) in
-                if let _ = error {
+                if error != nil {
                     forgetToken()
                     self.alertError(completion: completion)
                 } else {
                     if let result = result {
                         let user = result.user
                         user.getIDToken { (token, error) in
-                            if let _ = error {
+                            if error != nil {
                                 forgetToken()
                                 self.alertError(completion: completion)
                             } else {
@@ -128,16 +128,16 @@ class PlaceDetailViewController: UIViewController {
             }
         }
     }
-    
+
     func alertError(completion: @escaping () -> Void) {
         let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { action in
+        alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { _ in
             self.signIn(completion: completion)
             alertController.dismiss(animated: true, completion: nil)
         }))
         present(alertController, animated: true, completion: nil)
     }
-    
+
     func setup() {
         setWeekdays()
         selectedWeekday = getWeekday()
@@ -145,7 +145,7 @@ class PlaceDetailViewController: UIViewController {
         getDensityMap()
         setupViews()
     }
-    
+
     func setWeekdays() {
         let today = getWeekday()
         let last = 6
@@ -159,13 +159,13 @@ class PlaceDetailViewController: UIViewController {
             }
         }
     }
-    
+
     func getCurrentHour() -> Int {
         let today = Date()
         let calendar = Calendar.current
         return calendar.component(.hour, from: today)
     }
-    
+
     func update() {
         setWeekdays()
         API.densities { gotDensities in
@@ -189,7 +189,7 @@ class PlaceDetailViewController: UIViewController {
             }
         }
     }
-    
+
     @objc func didBecomeActive() {
         if let nav = navigationController, let _ = nav.topViewController as? PlaceDetailViewController {
             if !loadingHours {
@@ -197,7 +197,7 @@ class PlaceDetailViewController: UIViewController {
             }
         }
     }
-    
+
     func setupViews() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -205,40 +205,40 @@ class PlaceDetailViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
-        
+
         let updater = ListAdapterUpdater()
         adapter = ListAdapter(updater: updater, viewController: nil)
         adapter.collectionView = collectionView
         adapter.dataSource = self
-        
+
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         adapter.performUpdates(animated: false, completion: nil)
     }
-    
+
     func historyKey(weekday: Int) -> String {
         switch weekday {
-        case 0:
-            return "SUN"
-        case 1:
-            return "MON"
-        case 2:
-            return "TUE"
-        case 3:
-            return "WED"
-        case 4:
-            return "THU"
-        case 5:
-            return "FRI"
-        case 6:
-            return "SAT"
-        default:
-            return "SUN"
+            case 0:
+                return "SUN"
+            case 1:
+                return "MON"
+            case 2:
+                return "TUE"
+            case 3:
+                return "WED"
+            case 4:
+                return "THU"
+            case 5:
+                return "FRI"
+            case 6:
+                return "SAT"
+            default:
+                return "SUN"
         }
     }
-    
+
     func getDensityMap() {
         let weekdayKey = historyKey(weekday: selectedWeekday)
         guard let history = place.history[weekdayKey] else { return }
@@ -266,34 +266,34 @@ class PlaceDetailViewController: UIViewController {
             densityMap = [:]
         }
     }
-    
+
     func getWeekday() -> Int {
         let today = Date()
         let calendar = Calendar.current
         return calendar.component(.weekday, from: today) - 1
     }
-    
+
     func selectedWeekdayText() -> String {
         switch selectedWeekday {
-        case 0:
-            return "Sunday"
-        case 1:
-            return "Monday"
-        case 2:
-            return "Tuesday"
-        case 3:
-            return "Wednesday"
-        case 4:
-            return "Thursday"
-        case 5:
-            return "Friday"
-        case 6:
-            return "Saturday"
-        default:
-            return "Sunday"
+            case 0:
+                return "Sunday"
+            case 1:
+                return "Monday"
+            case 2:
+                return "Tuesday"
+            case 3:
+                return "Wednesday"
+            case 4:
+                return "Thursday"
+            case 5:
+                return "Friday"
+            case 6:
+                return "Saturday"
+            default:
+                return "Sunday"
         }
     }
-    
+
     func selectedDateText() -> String {
         let today = Date()
         guard let weekdayIndex = weekdays.firstIndex(of: selectedWeekday) else { return "" }
