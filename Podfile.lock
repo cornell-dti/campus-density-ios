@@ -65,6 +65,7 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - SnapKit (4.0.1)
+  - SwiftLint (0.35.0)
   - SwiftyJSON (4.1.0)
 
 DEPENDENCIES:
@@ -73,6 +74,7 @@ DEPENDENCIES:
   - Firebase/Core
   - IGListKit
   - SnapKit
+  - SwiftLint
   - SwiftyJSON
 
 SPEC REPOS:
@@ -90,6 +92,7 @@ SPEC REPOS:
     - IGListKit
     - nanopb
     - SnapKit
+    - SwiftLint
     - SwiftyJSON
 
 SPEC CHECKSUMS:
@@ -106,8 +109,9 @@ SPEC CHECKSUMS:
   IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
+  SwiftLint: 5553187048b900c91aa03552807681bb6b027846
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: f2e80d7771867bc563554092d38e1fc9f970ac2a
+PODFILE CHECKSUM: b168e1e686b594957df575f18c4236cb2d5c8ec6
 
 COCOAPODS: 1.7.5
