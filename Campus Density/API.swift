@@ -41,7 +41,6 @@ struct PlaceInfo: Codable {
     var campusLocation: Region
     var nextOpen: Double
     var closingAt: Double
-
 }
 
 class Place: ListDiffable {
@@ -107,6 +106,21 @@ struct HistoricalData: Codable {
     var id: String
     var hours: [String: [String: Double]]
 
+}
+
+struct MenuItem: Codable {
+    var items: [String]
+    var category: String
+}
+
+struct MenuData: Codable {
+    var menu: [MenuItem]
+    var description: String
+}
+
+struct Menu: Codable {
+    var weekMenus: [MenuData]
+    var id: String
 }
 
 class API {
@@ -244,8 +258,10 @@ class API {
                 .responseData { response in
                     let decoder = JSONDecoder()
                     let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
+                    print(result)
                     switch result {
                         case .success(let hoursResponseArray):
+                            print(hoursResponseArray)
                             let hoursResponse = hoursResponseArray[0]
                             var hours = [Int: String]()
                             var index: Int = 0
@@ -314,6 +330,19 @@ class API {
                         print(error)
                         completion(false)
                 }
+        }
+    }
+    
+    static func menus(completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        
+        Alamofire.request("\(url)/menuData", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                
         }
     }
 }
