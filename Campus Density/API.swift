@@ -64,7 +64,6 @@ class Place: ListDiffable {
         self.region = region
         self.menus = menus
     }
-    
 
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString
@@ -335,24 +334,24 @@ class API {
                 }
         }
     }
-    
+
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        
+
         let parameters = [
             "id": place.id
         ]
-        
+
         Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
                 switch result {
                     case .success(let menulist):
-                        menulist.forEach( {menu in
+                        menulist.forEach({menu in
                             let index = System.places.firstIndex(where: { place -> Bool in
                                 return place.id == menu.id
                             })
@@ -360,7 +359,7 @@ class API {
                             System.places[placeIndex].menus = menu
                         })
                         completion(true)
-                    
+
                     case .failure(let error):
                         print(error)
                         completion(false)
