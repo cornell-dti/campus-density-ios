@@ -52,8 +52,9 @@ class Place: ListDiffable {
     var hours: [Int: String]
     var history: [String: [String: Double]]
     var region: Region
+    var menus: WeekMenus
 
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -61,7 +62,9 @@ class Place: ListDiffable {
         self.hours = hours
         self.history = history
         self.region = region
+        self.menus = menus
     }
+    
 
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString
@@ -118,7 +121,7 @@ struct MenuData: Codable {
     var description: String
 }
 
-struct Menu: Codable {
+struct WeekMenus: Codable {
     var weekMenus: [MenuData]
     var id: String
 }
@@ -208,7 +211,7 @@ class API {
                 switch result {
                     case .success(let placeNames):
                         System.places = placeNames.map { placeName in
-                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north)
+                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weekMenus: [], id: placeName.id))
                         }
                         completion(true)
                     case .failure(let error):
@@ -333,16 +336,35 @@ class API {
         }
     }
     
-    static func menus(completion: @escaping (Bool) -> Void) {
+    static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
         
-        Alamofire.request("\(url)/menuData", headers: headers)
+        let parameters = [
+            "id": place.id
+        ]
+        
+        Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
-                
+                let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
+                switch result {
+                    case .success(let menulist):
+                        menulist.forEach( {menu in
+                            let index = System.places.firstIndex(where: { place -> Bool in
+                                return place.id == menu.id
+                            })
+                            guard let placeIndex = index else { return }
+                            System.places[placeIndex].menus = menu
+                        })
+                        completion(true)
+                    
+                    case .failure(let error):
+                        print(error)
+                        completion(false)
+            }
         }
     }
 }
