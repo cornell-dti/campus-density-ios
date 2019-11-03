@@ -118,10 +118,17 @@ struct MenuItem: Codable {
 struct MenuData: Codable {
     var menu: [MenuItem]
     var description: String
+    var startTime: Int
+    var endTime: Int
+}
+
+struct DayMenus: Codable {
+    var menus: [MenuData]
+    var date: String
 }
 
 struct WeekMenus: Codable {
-    var weekMenus: [MenuData]
+    var weeksMenus: [DayMenus]
     var id: String
 }
 
@@ -210,7 +217,7 @@ class API {
                 switch result {
                     case .success(let placeNames):
                         System.places = placeNames.map { placeName in
-                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weekMenus: [], id: placeName.id))
+                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
                         }
                         completion(true)
                     case .failure(let error):
