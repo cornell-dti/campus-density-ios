@@ -349,15 +349,17 @@ class API {
         ]
 
         let parameters = [
-            "id": place.id
+            "facility": place.id
         ]
 
         Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
+                print(result)
                 switch result {
                     case .success(let menulist):
+                        print(menulist)
                         menulist.forEach({menu in
                             let index = System.places.firstIndex(where: { place -> Bool in
                                 return place.id == menu.id
