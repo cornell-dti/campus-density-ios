@@ -53,8 +53,9 @@ class Place: ListDiffable {
     var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
+    var menuString: [Int: String]
 
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus, menuString: [Int: String]) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -63,6 +64,7 @@ class Place: ListDiffable {
         self.history = history
         self.region = region
         self.menus = menus
+        self.menuString = menuString
     }
 
     func diffIdentifier() -> NSObjectProtocol {
@@ -217,7 +219,7 @@ class API {
                 switch result {
                     case .success(let placeNames):
                         System.places = placeNames.map { placeName in
-                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id), menuString: [:])
                         }
                         completion(true)
                     case .failure(let error):
@@ -270,7 +272,6 @@ class API {
                     print(result)
                     switch result {
                         case .success(let hoursResponseArray):
-                            print(hoursResponseArray)
                             let hoursResponse = hoursResponseArray[0]
                             var hours = [Int: String]()
                             var index: Int = 0
@@ -341,6 +342,22 @@ class API {
                 }
         }
     }
+    
+    static func convertToMenuString(menudata: DayMenus) -> String {
+        let menus = menudata.menus
+        
+        var resultString = ""
+        for menu in menus {
+            let menuitemlist = menu.menu
+            for menuitem in menuitemlist {
+                for item in menuitem.items {
+                    resultString += item + "\n"
+                }
+            }
+        }
+        
+        return resultString
+    }
 
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
@@ -349,23 +366,43 @@ class API {
         ]
 
         let parameters = [
-            "facility": place.id
+           "facility": place.id
         ]
 
-        Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
+        Alamofire.request("\(url)/menuData", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
                 print(result)
                 switch result {
                     case .success(let menulist):
-                        print(menulist)
+                        //print("in case cucess of menus")
+                        let menuResponse = menulist[0]
+                        print(menuResponse)
+                        var menus = [Int: String]()
+                        var index = 1
+                        print(menuResponse.weeksMenus.count)
+                        while index < menuResponse.weeksMenus.count {
+                            
+                            let ithDayMenu = menuResponse.weeksMenus[index]
+                            
+                            if let menuString = menus[index] {
+                                menus[index] = menuString + convertToMenuString(menudata: ithDayMenu)
+                            } else {
+                                menus[index] = convertToMenuString(menudata: ithDayMenu)
+                            }
+                            
+                            print(menus[index]!)
+                            index+=1
+                        }
+                        
                         menulist.forEach({menu in
                             let index = System.places.firstIndex(where: { place -> Bool in
                                 return place.id == menu.id
                             })
                             guard let placeIndex = index else { return }
                             System.places[placeIndex].menus = menu
+                            System.places[placeIndex].menuString = menus
                         })
                         completion(true)
 
