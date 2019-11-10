@@ -348,9 +348,14 @@ class API {
             "Authorization": "Bearer \(token)"
         ]
 
+        print("PLACE: \(place.id)")
+
         let parameters = [
             "facility": place.id
         ]
+        
+        print(headers)
+        print(token)
 
         Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
@@ -360,6 +365,7 @@ class API {
                 switch result {
                     case .success(let menulist):
                         print(menulist)
+                        print("LENGTH: \(menulist[0].weeksMenus.count)")
                         menulist.forEach({menu in
                             let index = System.places.firstIndex(where: { place -> Bool in
                                 return place.id == menu.id

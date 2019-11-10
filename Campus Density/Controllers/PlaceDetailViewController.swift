@@ -56,6 +56,7 @@ class PlaceDetailViewController: UIViewController {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
             getHours()
+            getMenus()
         } else {
             loadingBarsView.removeFromSuperview()
             loadingHours = false
@@ -74,6 +75,18 @@ class PlaceDetailViewController: UIViewController {
                 }
             } else {
                 self?.alertError(completion: { self?.getHours() })
+            }
+        }
+    }
+    
+    func getMenus() {
+        API.menus(place: place) { gotMenus in
+            if gotMenus {
+                DispatchQueue.main.async {
+                    print("success")
+                }
+            } else {
+                print("fail")
             }
         }
     }
