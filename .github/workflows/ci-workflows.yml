@@ -24,4 +24,4 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Build
-        run: xcodebuild -scheme "Pods-Campus Density" -workspace "Campus Density.xcworkspace" build
+        run: xcodebuild -scheme "Pods-Campus Density" -workspace "Campus Density.xcworkspace" -quiet clean build
