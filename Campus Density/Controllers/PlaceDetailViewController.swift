@@ -84,9 +84,11 @@ class PlaceDetailViewController: UIViewController {
     func getMenus() {
         API.menus(place: place) { gotMenus in
             if gotMenus {
-                print("success")
+                DispatchQueue.main.async {
+                    print("success")
+                }
             } else {
-                print("failure")
+                print("fail")
             }
         }
     }

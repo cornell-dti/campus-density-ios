@@ -365,9 +365,14 @@ class API {
             "Authorization": "Bearer \(token)"
         ]
 
+        print("PLACE: \(place.id)")
+
         let parameters = [
            "facility": place.id
         ]
+        
+        print(headers)
+        print(token)
 
         Alamofire.request("\(url)/menuData", headers: headers)
             .responseData { response in
@@ -376,6 +381,7 @@ class API {
                 print(result)
                 switch result {
                     case .success(let menulist):
+
                         //print("in case cucess of menus")
                         let menuResponse = menulist[0]
                         print(menuResponse)
