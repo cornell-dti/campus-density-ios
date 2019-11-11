@@ -20,7 +20,8 @@ class PlaceDetailViewController: UIViewController {
     var densityMap = [Int: Double]()
     var adapter: ListAdapter!
     var loadingHours: Bool = true
-
+    var loadingMenus: Bool = true
+    
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
@@ -56,14 +57,19 @@ class PlaceDetailViewController: UIViewController {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
             getHours()
-            getMenus()
-        } else {
+        }
+        else {
             loadingBarsView.removeFromSuperview()
             loadingHours = false
             setup()
         }
-        
-        
+        if ((place?.menus.weeksMenus)!.isEmpty) {
+            getMenus()
+        }
+        else {
+            loadingMenus = false
+            setup()
+        }
 
     }
 
@@ -85,7 +91,8 @@ class PlaceDetailViewController: UIViewController {
         API.menus(place: place) { gotMenus in
             if gotMenus {
                 DispatchQueue.main.async {
-                    print("success")
+                    self.loadingMenus = false
+                    self.setup()
                 }
             } else {
                 print("fail")
@@ -207,9 +214,10 @@ class PlaceDetailViewController: UIViewController {
 
     @objc func didBecomeActive() {
         if let nav = navigationController, let _ = nav.topViewController as? PlaceDetailViewController {
-            if !loadingHours {
+            if !loadingHours || !loadingMenus {
                 update()
             }
+            
         }
     }
 

@@ -91,3 +91,5 @@ iOSInjectionProject/
 
 # System Files
 .DS_Store
+Secrets/
+

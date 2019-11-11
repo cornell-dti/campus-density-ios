@@ -19,8 +19,15 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         let weekday = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
         var hours = "No hours available"
+        var menus = NSMutableAttributedString(string: "No menus available")
         if let selectedWeekdayHours = place.hours[selectedWeekday] {
             hours = selectedWeekdayHours
+        }
+        if let selectedWeekdayMenus = place.menuString[selectedWeekday + 1] {
+            menus = selectedWeekdayMenus
+        }
+        if menus.string.trimmingCharacters(in: .whitespaces) == "" {
+            menus = NSMutableAttributedString(string: "No menus available")
         }
         return [
             SpaceModel(space: Constants.smallPadding),
@@ -35,7 +42,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.mediumPadding),
             HoursModel(hours: hours),
-            SpaceModel(space: Constants.largePadding)
+            MenuModel(menu: menus)
         ]
     }
 
@@ -58,9 +65,13 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is HoursHeaderModel {
             let hoursHeaderModel = object as! HoursHeaderModel
             return HoursHeaderSectionController(hoursHeaderModel: hoursHeaderModel)
-        } else {
+        } else if object is HoursModel {
             let hoursModel = object as! HoursModel
             return HoursSectionController(hoursModel: hoursModel)
+        }
+        else {
+            let menuModel = object as! MenuModel
+            return MenuSectionController(menuModel: menuModel)
         }
     }
 

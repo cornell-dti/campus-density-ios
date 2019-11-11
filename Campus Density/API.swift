@@ -53,9 +53,9 @@ class Place: ListDiffable {
     var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
-    var menuString: [Int: String]
+    var menuString: [Int: NSMutableAttributedString]
 
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus, menuString: [Int: String]) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus, menuString: [Int: NSMutableAttributedString]) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -269,7 +269,6 @@ class API {
                 .responseData { response in
                     let decoder = JSONDecoder()
                     let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
-                    print(result)
                     switch result {
                         case .success(let hoursResponseArray):
                             let hoursResponse = hoursResponseArray[0]
@@ -343,16 +342,28 @@ class API {
         }
     }
     
-    static func convertToMenuString(menudata: DayMenus) -> String {
+    static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
         let menus = menudata.menus
-        
-        var resultString = ""
+        let newLine = NSAttributedString(string: "\n")
+        let resultString = NSMutableAttributedString(string: "")
         for menu in menus {
+            let desc = NSMutableAttributedString(string: menu.description)
+            desc.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: desc.mutableString.range(of : menu.description))
+            desc.addAttribute(NSAttributedString.Key.font, value: UIFont.eighteenBold, range: desc.mutableString.range(of : menu.description))
             let menuitemlist = menu.menu
+            if (menuitemlist.count != 0) {
+                resultString.append(desc)
+                resultString.append(newLine)
+            }
             for menuitem in menuitemlist {
                 for item in menuitem.items {
-                    resultString += item + "\n"
+                    let itemNS = NSAttributedString(string: item)
+                    resultString.append(itemNS)
+                    resultString.append(newLine)
                 }
+            }
+            if (menuitemlist.count != 0) {
+                resultString.append(newLine)
             }
         }
         
@@ -367,38 +378,32 @@ class API {
 
         print("PLACE: \(place.id)")
 
+        
         let parameters = [
            "facility": place.id
         ]
         
-        print(headers)
-        print(token)
-
-        Alamofire.request("\(url)/menuData", headers: headers)
+        Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
-                print(result)
                 switch result {
                     case .success(let menulist):
 
                         //print("in case cucess of menus")
                         let menuResponse = menulist[0]
-                        print(menuResponse)
-                        var menus = [Int: String]()
+                        var menus = [Int: NSMutableAttributedString]()
                         var index = 1
-                        print(menuResponse.weeksMenus.count)
                         while index < menuResponse.weeksMenus.count {
                             
                             let ithDayMenu = menuResponse.weeksMenus[index]
                             
-                            if let menuString = menus[index] {
-                                menus[index] = menuString + convertToMenuString(menudata: ithDayMenu)
+                            if menus[index] != nil {
+                                menus[index]?.append(convertToMenuString(menudata: ithDayMenu))
                             } else {
                                 menus[index] = convertToMenuString(menudata: ithDayMenu)
                             }
-                            
-                            print(menus[index]!)
+
                             index+=1
                         }
                         
