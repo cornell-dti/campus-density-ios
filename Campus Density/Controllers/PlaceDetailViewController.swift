@@ -10,8 +10,15 @@ import UIKit
 import IGListKit
 import Firebase
 
-class PlaceDetailViewController: UIViewController {
+enum Meal: String {
+    case breakfast = "Breakfast"
+    case brunch = "Brunch"
+    case lunch = "Lunch"
+    case dinner = "Dinner"
+}
 
+class PlaceDetailViewController: UIViewController {
+    
     // MARK: - Data vars
     var place: Place!
     var selectedWeekday: Int = 0
@@ -30,7 +37,6 @@ class PlaceDetailViewController: UIViewController {
     let largeLoadingBarsLength: CGFloat = 63
     let linkTopOffset: CGFloat = 5
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
