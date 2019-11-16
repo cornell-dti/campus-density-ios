@@ -49,8 +49,35 @@ class MenuCell: UICollectionViewCell {
         }
     }
 
-    func configure(with menu: NSMutableAttributedString) {
-        menuLabel.attributedText = menu
+    func getMenuString(menudata: [String: [String: [String]]]) -> NSMutableAttributedString {
+        let res = NSMutableAttributedString(string: "")
+        let newLine = NSAttributedString(string: "\n")
+        for (meal, categories) in menudata {
+            let mealString = NSMutableAttributedString(string: meal)
+            mealString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: mealString.mutableString.range(of: meal))
+            if (menudata[meal]?.count != 0) {
+                res.append(mealString)
+                res.append(newLine)
+                for (category, items) in categories {
+                    let categoryString = NSMutableAttributedString(string: category)
+                    categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: categoryString.mutableString.range(of: category))
+                    res.append(categoryString)
+                    res.append(newLine)
+                    let itemString = NSMutableAttributedString()
+                    for item in items {
+                        itemString.append(NSAttributedString(string: item))
+                        itemString.append(newLine)
+                    }
+                    res.append(itemString)
+                    res.append(newLine)
+                }
+            }
+        }
+        return res
+    }
+    
+    func configure(with menu: [String: [String: [String]]]) {
+        menuLabel.attributedText = getMenuString(menudata: menu)
         if (menuLabel.text == "No menus available") {
             menuLabel.font = .eighteenBold
         }
