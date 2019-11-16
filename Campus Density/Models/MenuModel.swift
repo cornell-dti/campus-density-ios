@@ -11,10 +11,10 @@ import IGListKit
 
 class MenuModel {
 
-    var menu: NSMutableAttributedString
+    var menu: [String: [String: [String]]]
     let identifier = UUID().uuidString
 
-    init(menu: NSMutableAttributedString) {
+    init(menu: [String: [String: [String]]]) {
         self.menu = menu
     }
 

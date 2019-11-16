@@ -17,16 +17,16 @@ class MenuSectionController: ListSectionController {
     init(menuModel: MenuModel) {
         self.menuModel = menuModel
     }
-
+    
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let menuHeight = menuModel.menu.string.height(withConstrainedWidth: containerSize.width, font: .eighteenBold)
+        let menuHeight = MenuCell().getMenuString(menudata: menuModel.menu).string.height(withConstrainedWidth: containerSize.width, font: .eighteenBold)
         return CGSize(width: containerSize.width, height: menuHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
-        cell.configure(with: menuModel.menu)
+        cell.configure(with: menuModel!.menu)
         return cell
     }
 

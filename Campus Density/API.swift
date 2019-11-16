@@ -53,9 +53,9 @@ class Place: ListDiffable {
     var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
-    var menuString: [Int: NSMutableAttributedString]
+    var menuString: [Int: [String: [String: [String]]]]
 
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus, menuString: [Int: NSMutableAttributedString]) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus, menuString: [Int: [String: [String: [String]]]]) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -370,6 +370,19 @@ class API {
         return resultString
     }
 
+    static func convertToDict(menudata: DayMenus) -> [String: [String: [String]]] {
+        let menus = menudata.menus
+        var res = [String: [String: [String]]]()
+        for menu in menus {
+            res[menu.description] = [String: [String]]()
+            for station in menu.menu {
+                res[menu.description]?[station.category] = station.items
+            }
+        }
+        print(res)
+        return res
+    }
+    
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -393,14 +406,14 @@ class API {
                         //print("in case cucess of menus")
                         let menuResponse = menulist[0]
                         print(menuResponse)
-                        var menus = [Int: NSMutableAttributedString]()
+                        var menus = [Int: [String: [String: [String]]]]()
                         var index = 1
                         while index < menuResponse.weeksMenus.count {
                             
                             let ithDayMenu = menuResponse.weeksMenus[index]
                             
                             if menus[index] == nil {
-                                menus[index] = convertToMenuString(menudata: ithDayMenu)
+                                menus[index] = convertToDict(menudata: ithDayMenu)
                             }
 
                             index+=1
