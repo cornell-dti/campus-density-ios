@@ -31,16 +31,7 @@ class MenuFilterView: UIView {
     }
     
     func mealLabel(meal: Meal) -> String {
-        switch meal {
-        case .breakfast:
-            return "Breakfast"
-        case .brunch:
-            return "Brunch"
-        case .lunch:
-            return "Lunch"
-        case .dinner:
-            return "Dinner"
-        }
+        return meal.rawValue
     }
     
     @objc func mealFilterButtonPressed(sender: UIButton) {

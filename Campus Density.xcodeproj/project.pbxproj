@@ -59,6 +59,8 @@
 		EE93BF13237FB6AF00219902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE93BF11237FB6AF00219902 /* GoogleService-Info.plist */; };
 		EE93BF14237FB6AF00219902 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE93BF12237FB6AF00219902 /* Keys.plist */; };
 		EE93BF162380920500219902 /* MenuFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF152380920500219902 /* MenuFilterView.swift */; };
+		EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF172380A44300219902 /* MealFilterCell.swift */; };
+		EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF192380A89F00219902 /* MealFiltersModel.swift */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
 /* End PBXBuildFile section */
 
@@ -143,6 +145,8 @@
 		EE93BF11237FB6AF00219902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Campus Density/Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		EE93BF12237FB6AF00219902 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = "Campus Density/Secrets/Keys.plist"; sourceTree = SOURCE_ROOT; };
 		EE93BF152380920500219902 /* MenuFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFilterView.swift; sourceTree = "<group>"; };
+		EE93BF172380A44300219902 /* MealFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFilterCell.swift; sourceTree = "<group>"; };
+		EE93BF192380A89F00219902 /* MealFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFiltersModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +201,7 @@
 				0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */,
 				0C8B6D6A22324B8000058AE6 /* HoursModel.swift */,
 				08F679812378E8D7005B7810 /* MenuModel.swift */,
+				EE93BF192380A89F00219902 /* MealFiltersModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -286,6 +291,7 @@
 				0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */,
 				0CB3BF852232CEB100A5B371 /* HoursCell.swift */,
 				08F6797F2378E7BA005B7810 /* MenuCell.swift */,
+				EE93BF172380A44300219902 /* MealFilterCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -538,6 +544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C8B6D7422324FFA00058AE6 /* CurrentDensityCell.swift in Sources */,
+				EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */,
 				0CB3BF7A2232C0F700A5B371 /* GraphHeaderCell.swift in Sources */,
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
 				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
@@ -546,6 +553,7 @@
 				0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */,
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */,
+				EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,

@@ -10,11 +10,11 @@ import UIKit
 import IGListKit
 import Firebase
 
-enum Meal {
-    case breakfast
-    case brunch
-    case lunch
-    case dinner
+enum Meal: String {
+    case breakfast = "Breakfast"
+    case brunch = "Brunch"
+    case lunch = "Lunch"
+    case dinner = "Dinner"
 }
 
 class PlaceDetailViewController: UIViewController {
