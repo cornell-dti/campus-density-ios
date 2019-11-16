@@ -58,6 +58,7 @@
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		EE93BF13237FB6AF00219902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE93BF11237FB6AF00219902 /* GoogleService-Info.plist */; };
 		EE93BF14237FB6AF00219902 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE93BF12237FB6AF00219902 /* Keys.plist */; };
+		EE93BF162380920500219902 /* MenuFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF152380920500219902 /* MenuFilterView.swift */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +142,7 @@
 		B792838E50BEC810AD8F4BF1 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE93BF11237FB6AF00219902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Campus Density/Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		EE93BF12237FB6AF00219902 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = "Campus Density/Secrets/Keys.plist"; sourceTree = SOURCE_ROOT; };
+		EE93BF152380920500219902 /* MenuFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFilterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 				0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */,
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
+				EE93BF152380920500219902 /* MenuFilterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */,
 				08F679802378E7BA005B7810 /* MenuCell.swift in Sources */,
+				EE93BF162380920500219902 /* MenuFilterView.swift in Sources */,
 				0C209B11224824250007AFA9 /* PlaceSectionController.swift in Sources */,
 				0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */,
 				0C209B1B22482DDB0007AFA9 /* FiltersSectionController.swift in Sources */,

@@ -18,12 +18,6 @@ enum Filter {
     case central
 }
 
-enum Meal {
-    case breakfast
-    case brunch
-    case lunch
-    case dinner
-}
 
 class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
