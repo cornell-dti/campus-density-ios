@@ -44,7 +44,7 @@ class MenuCell: UICollectionViewCell {
         
         menuLabel.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.top.equalTo(Constants. smallPadding * 3.5)
+            make.top.equalTo(Constants.smallPadding * 3.5)
 //            make.left.equalToSuperview().offset(Constants.smallPadding)
         }
     }
