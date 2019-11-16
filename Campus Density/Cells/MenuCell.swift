@@ -49,22 +49,22 @@ class MenuCell: UICollectionViewCell {
         }
     }
 
-    func getMenuString(menudata: [String: [String: [String]]]) -> NSMutableAttributedString {
+    func getMenuString(todaysMenu: DayMenus) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
         let newLine = NSAttributedString(string: "\n")
-        for (meal, categories) in menudata {
-            let mealString = NSMutableAttributedString(string: meal)
-            mealString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: mealString.mutableString.range(of: meal))
-            if (menudata[meal]?.count != 0) {
+        for meal in todaysMenu.menus {
+            let mealString = NSMutableAttributedString(string: meal.description)
+            mealString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: mealString.mutableString.range(of: meal.description))
+            if (meal.menu.count != 0) {
                 res.append(mealString)
                 res.append(newLine)
-                for (category, items) in categories {
-                    let categoryString = NSMutableAttributedString(string: category)
-                    categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: categoryString.mutableString.range(of: category))
+                for station in meal.menu {
+                    let categoryString = NSMutableAttributedString(string: station.category)
+                    categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: categoryString.mutableString.range(of: station.category))
                     res.append(categoryString)
                     res.append(newLine)
                     let itemString = NSMutableAttributedString()
-                    for item in items {
+                    for item in station.items {
                         itemString.append(NSAttributedString(string: item))
                         itemString.append(newLine)
                     }
@@ -76,8 +76,8 @@ class MenuCell: UICollectionViewCell {
         return res
     }
     
-    func configure(with menu: [String: [String: [String]]]) {
-        menuLabel.attributedText = getMenuString(menudata: menu)
+    func configure(with menu: DayMenus) {
+        menuLabel.attributedText = getMenuString(todaysMenu: menu)
         if (menuLabel.text == "No menus available") {
             menuLabel.font = .eighteenBold
         }

@@ -19,7 +19,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         let weekday = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
         var hours = "No hours available"
-        var menus = [String: [String: [String]]]()
+        var menus = DayMenus(menus: [], date: "help")
         if let selectedWeekdayHours = place.hours[selectedWeekday] {
             hours = selectedWeekdayHours
         }
@@ -31,8 +31,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             menuDay = 7
         }
         print(menuDay)
-        if let selectedWeekdayMenus = place.menuString[menuDay] {
-            menus = selectedWeekdayMenus
+        if place.menus.weeksMenus.count != 0 {
+            menus = place.menus.weeksMenus[menuDay]
         }
         return [
             SpaceModel(space: Constants.smallPadding),

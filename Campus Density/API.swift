@@ -53,9 +53,8 @@ class Place: ListDiffable {
     var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
-    var menuString: [Int: [String: [String: [String]]]]
 
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus, menuString: [Int: [String: [String: [String]]]]) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -64,7 +63,6 @@ class Place: ListDiffable {
         self.history = history
         self.region = region
         self.menus = menus
-        self.menuString = menuString
     }
 
     func diffIdentifier() -> NSObjectProtocol {
@@ -219,7 +217,7 @@ class API {
                 switch result {
                     case .success(let placeNames):
                         System.places = placeNames.map { placeName in
-                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id), menuString: [:])
+                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
                         }
                         completion(true)
                     case .failure(let error):
@@ -402,30 +400,12 @@ class API {
                 let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
                 switch result {
                     case .success(let menulist):
-
-                        //print("in case cucess of menus")
-                        let menuResponse = menulist[0]
-                        print(menuResponse)
-                        var menus = [Int: [String: [String: [String]]]]()
-                        var index = 1
-                        while index < menuResponse.weeksMenus.count {
-                            
-                            let ithDayMenu = menuResponse.weeksMenus[index]
-                            
-                            if menus[index] == nil {
-                                menus[index] = convertToDict(menudata: ithDayMenu)
-                            }
-
-                            index+=1
-                        }
-                        
                         menulist.forEach({menu in
                             let index = System.places.firstIndex(where: { place -> Bool in
                                 return place.id == menu.id
                             })
                             guard let placeIndex = index else { return }
                             System.places[placeIndex].menus = menu
-                            System.places[placeIndex].menuString = menus
                         })
                         completion(true)
 

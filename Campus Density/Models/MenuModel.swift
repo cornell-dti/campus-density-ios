@@ -11,10 +11,10 @@ import IGListKit
 
 class MenuModel {
 
-    var menu: [String: [String: [String]]]
+    var menu: DayMenus
     let identifier = UUID().uuidString
 
-    init(menu: [String: [String: [String]]]) {
+    init(menu: DayMenus) {
         self.menu = menu
     }
 
