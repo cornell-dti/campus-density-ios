@@ -392,15 +392,14 @@ class API {
 
                         //print("in case cucess of menus")
                         let menuResponse = menulist[0]
+                        print(menuResponse)
                         var menus = [Int: NSMutableAttributedString]()
                         var index = 1
                         while index < menuResponse.weeksMenus.count {
                             
                             let ithDayMenu = menuResponse.weeksMenus[index]
                             
-                            if menus[index] != nil {
-                                menus[index]?.append(convertToMenuString(menudata: ithDayMenu))
-                            } else {
+                            if menus[index] == nil {
                                 menus[index] = convertToMenuString(menudata: ithDayMenu)
                             }
 
