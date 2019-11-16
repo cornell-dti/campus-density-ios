@@ -23,7 +23,15 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         if let selectedWeekdayHours = place.hours[selectedWeekday] {
             hours = selectedWeekdayHours
         }
-        if let selectedWeekdayMenus = place.menuString[selectedWeekday + 1] {
+        var menuDay = selectedWeekday + 1 - getWeekday()
+        if (menuDay < 0) {
+            menuDay = 7 + menuDay
+        }
+        if (menuDay == 0) {
+            menuDay = 7
+        }
+        print(menuDay)
+        if let selectedWeekdayMenus = place.menuString[menuDay] {
             menus = selectedWeekdayMenus
         }
         if menus.string.trimmingCharacters(in: .whitespaces) == "" {
