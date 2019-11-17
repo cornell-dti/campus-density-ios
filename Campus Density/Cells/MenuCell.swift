@@ -49,35 +49,37 @@ class MenuCell: UICollectionViewCell {
         }
     }
 
-    func getMenuString(todaysMenu: DayMenus) -> NSMutableAttributedString {
+    func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
         let newLine = NSAttributedString(string: "\n")
         for meal in todaysMenu.menus {
-            let mealString = NSMutableAttributedString(string: meal.description)
-            mealString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: mealString.mutableString.range(of: meal.description))
-            if (meal.menu.count != 0) {
-                res.append(mealString)
-                res.append(newLine)
-                for station in meal.menu {
-                    let categoryString = NSMutableAttributedString(string: station.category)
-                    categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: categoryString.mutableString.range(of: station.category))
-                    res.append(categoryString)
+            if (meal.description == selectedMeal.rawValue) {
+                let mealString = NSMutableAttributedString(string: meal.description)
+                mealString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: mealString.mutableString.range(of: meal.description))
+                if (meal.menu.count != 0) {
+                    res.append(mealString)
                     res.append(newLine)
-                    let itemString = NSMutableAttributedString()
-                    for item in station.items {
-                        itemString.append(NSAttributedString(string: item))
-                        itemString.append(newLine)
+                    for station in meal.menu {
+                        let categoryString = NSMutableAttributedString(string: station.category)
+                        categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: categoryString.mutableString.range(of: station.category))
+                        res.append(categoryString)
+                        res.append(newLine)
+                        let itemString = NSMutableAttributedString()
+                        for item in station.items {
+                            itemString.append(NSAttributedString(string: item))
+                            itemString.append(newLine)
+                        }
+                        res.append(itemString)
+                        res.append(newLine)
                     }
-                    res.append(itemString)
-                    res.append(newLine)
                 }
             }
         }
         return res
     }
     
-    func configure(with menu: DayMenus) {
-        menuLabel.attributedText = getMenuString(todaysMenu: menu)
+    func configure(with menu: DayMenus, selectedMeal: Meal) {
+        menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: selectedMeal)
         if (menuLabel.text == "No menus available") {
             menuLabel.font = .eighteenBold
         }

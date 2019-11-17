@@ -23,6 +23,7 @@ class PlaceDetailViewController: UIViewController {
     var place: Place!
     var selectedWeekday: Int = 0
     var selectedHour: Int = 0
+    var selectedMeal: Meal = .breakfast
     var weekdays = [Int]()
     var densityMap = [Int: Double]()
     var adapter: ListAdapter!

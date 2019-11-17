@@ -30,9 +30,16 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         if (menuDay == 0) {
             menuDay = 7
         }
-        print(menuDay)
         if place.menus.weeksMenus.count != 0 {
             menus = place.menus.weeksMenus[menuDay]
+        }
+        var meals = [Meal]()
+        if (menus.menus.count != 0) {
+            for meal in menus.menus {
+                if (meal.menu.count != 0) {
+                    meals.append(Meal(rawValue: meal.description)!)
+                }
+            }
         }
         return [
             SpaceModel(space: Constants.smallPadding),
@@ -47,7 +54,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.mediumPadding),
             HoursModel(hours: hours),
-            MenuModel(menu: menus)
+            MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
+            SpaceModel(space: Constants.smallPadding),
+            MenuModel(menu: menus, selectedMeal: selectedMeal),
         ]
     }
 
@@ -73,10 +82,13 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is HoursModel {
             let hoursModel = object as! HoursModel
             return HoursSectionController(hoursModel: hoursModel)
-        }
-        else {
+        } else if object is MenuModel {
             let menuModel = object as! MenuModel
             return MenuSectionController(menuModel: menuModel)
+        }
+        else {
+            let mealFiltersModel = object as! MealFiltersModel
+            return MealsFilterSectionController(mealModel: mealFiltersModel, delegate: self)
         }
     }
 
@@ -93,6 +105,15 @@ extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
         UIApplication.shared.open(url)
     }
 
+}
+
+extension PlaceDetailViewController: MealsFilterSectionControllerDelegate {
+    
+    func menuFilterViewDidSelectFilter(selectedMeal: Meal) {
+        self.selectedMeal = selectedMeal
+        adapter.performUpdates(animated: false, completion: nil)
+    }
+    
 }
 
 extension PlaceDetailViewController: GraphHeaderSectionControllerDelegate {
