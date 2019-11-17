@@ -40,7 +40,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                     meals.append(Meal(rawValue: meal.description)!)
                 }
             }
-            if !meals.contains(selectedMeal) {
+            if !meals.contains(selectedMeal) && meals.count > 0 {
                 selectedMeal = meals[0]
             }
         }

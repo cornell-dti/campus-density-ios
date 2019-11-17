@@ -26,7 +26,7 @@ class MenuCell: UICollectionViewCell {
         
         menuLabel = UILabel()
         menuLabel.textColor = .warmGray
-        menuLabel.textAlignment = .center
+        menuLabel.textAlignment = .left
         menuLabel.numberOfLines = 0
         menuLabel.font = .eighteenBold
         addSubview(menuLabel)
@@ -45,6 +45,8 @@ class MenuCell: UICollectionViewCell {
         menuLabel.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.top.equalTo(Constants.smallPadding * 3.5)
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+
 //            make.left.equalToSuperview().offset(Constants.smallPadding)
         }
     }
@@ -54,14 +56,10 @@ class MenuCell: UICollectionViewCell {
         let newLine = NSAttributedString(string: "\n")
         for meal in todaysMenu.menus {
             if (meal.description == selectedMeal.rawValue) {
-                let mealString = NSMutableAttributedString(string: meal.description)
-                mealString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: mealString.mutableString.range(of: meal.description))
                 if (meal.menu.count != 0) {
-                    res.append(mealString)
-                    res.append(newLine)
                     for station in meal.menu {
                         let categoryString = NSMutableAttributedString(string: station.category)
-                        categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: categoryString.mutableString.range(of: station.category))
+                        categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: categoryString.mutableString.range(of: station.category))
                         res.append(categoryString)
                         res.append(newLine)
                         let itemString = NSMutableAttributedString()
