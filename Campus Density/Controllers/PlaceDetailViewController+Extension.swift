@@ -35,12 +35,14 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         }
         var meals = [Meal]()
         if (menus.menus.count != 0) {
-            for meal in menus.menus {
+            for meal in menus.menus.reversed() {
                 if (meal.menu.count != 0) {
                     meals.append(Meal(rawValue: meal.description)!)
+                    selectedMeal = Meal(rawValue: meal.description)!
                 }
             }
         }
+        meals.reverse()
         return [
             SpaceModel(space: Constants.smallPadding),
             CurrentDensityModel(place: place),
