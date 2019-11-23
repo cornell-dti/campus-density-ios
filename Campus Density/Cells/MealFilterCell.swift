@@ -64,25 +64,20 @@ class MealFilterCell: UICollectionViewCell {
             make.height.equalTo(headerLabelTextHeight)
         }
 
-        var padding: CGFloat = frame.width - labelHorizontalPadding * 2 * CGFloat(filterButtons.count)
-        mealModel.meals.forEach { meal in
-            let width = self.mealLabel(meal: meal).widthWithConstrainedHeight(buttonHeight, font: .sixteen)
-            padding -= width
-        }
-        padding = padding / CGFloat(filterButtons.count + 1)
-        var index: Int = 0
-        var buttonLeftOffset: CGFloat = padding
-        filterButtons.forEach { button in
-            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .sixteen) + labelHorizontalPadding * 2
+        let padding: CGFloat = Constants.smallPadding
+        var index: Int = mealModel.meals.count - 1
+        var buttonRightOffset: CGFloat = -padding
+        filterButtons.reversed().forEach { button in
+            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .fourteen) + labelHorizontalPadding * 2
             button.snp.makeConstraints({ make in
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
-                make.left.equalToSuperview().offset(buttonLeftOffset)
-                make.top.equalTo(headerLabel.snp.bottom).offset(Constants.smallPadding)
+                make.top.equalTo(headerLabel.snp.top)
+                make.right.equalToSuperview().offset(buttonRightOffset)
                 make.bottom.equalToSuperview()
             })
-            index += 1
-            buttonLeftOffset += buttonWidth + padding
+            index -= 1
+            buttonRightOffset -= buttonWidth + padding
         }
     }
 
@@ -102,7 +97,7 @@ class MealFilterCell: UICollectionViewCell {
             button.tag = index
             button.backgroundColor = meal == mealModel.selectedMeal ? .whiteTwo : .white
             button.setTitle(mealLabel(meal: meal), for: .normal)
-            button.titleLabel?.font = .sixteen
+            button.titleLabel?.font = .fourteen
             button.setTitleColor(meal == mealModel.selectedMeal ? .grayishBrown : .densityDarkGray, for: .normal)
             button.clipsToBounds = true
             button.layer.cornerRadius = self.buttonHeight / 2
