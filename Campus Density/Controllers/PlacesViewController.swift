@@ -18,7 +18,6 @@ enum Filter {
     case central
 }
 
-
 class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Data vars

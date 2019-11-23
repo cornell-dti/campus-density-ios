@@ -13,7 +13,7 @@ class MenuCell: UICollectionViewCell {
     // MARK: - View vars
     var menuLabel: UILabel!
     var headerLabel: UILabel!
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -23,7 +23,7 @@ class MenuCell: UICollectionViewCell {
         headerLabel.textAlignment = .left
         headerLabel.font = .thirtyBold
         addSubview(headerLabel)
-        
+
         menuLabel = UILabel()
         menuLabel.textColor = .warmGray
         menuLabel.textAlignment = .left
@@ -34,14 +34,14 @@ class MenuCell: UICollectionViewCell {
     }
 
     func setupConstraints() {
-        
+
         headerLabel.snp.makeConstraints { make in
             make.width.equalToSuperview().inset(Constants.smallPadding)
             make.left.equalToSuperview().offset(Constants.smallPadding)
             let headerLabelTextHeight = "Menus".height(withConstrainedWidth: frame.width - Constants.smallPadding * 2, font: headerLabel.font)
             make.height.equalTo(headerLabelTextHeight)
         }
-        
+
         menuLabel.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.top.equalTo(Constants.smallPadding * 3.5)
@@ -75,7 +75,7 @@ class MenuCell: UICollectionViewCell {
         }
         return res
     }
-    
+
     func configure(with menu: DayMenus, selectedMeal: Meal) {
         menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: selectedMeal)
         if (menuLabel.text == "No menus available") {

@@ -8,10 +8,9 @@
 
 import UIKit
 
-protocol MealFilterCellDelegate : class {
+protocol MealFilterCellDelegate: class {
     func mealFilterCellDidSelectFilter(selectedMeal: Meal)
 }
-
 
 class MealFilterCell: UICollectionViewCell {
 
@@ -30,7 +29,6 @@ class MealFilterCell: UICollectionViewCell {
         super.init(frame: frame)
     }
 
-
     @objc func filterButtonPressed(sender: UIButton) {
         delegate?.mealFilterCellDidSelectFilter(selectedMeal: mealModel.meals[sender.tag])
     }
@@ -45,7 +43,7 @@ class MealFilterCell: UICollectionViewCell {
     func mealLabel(meal: Meal) -> String {
         return meal.rawValue
     }
-    
+
     func setupConstraints() {
         var padding: CGFloat = frame.width - labelHorizontalPadding * 2 * CGFloat(filterButtons.count)
         mealModel.meals.forEach { meal in
@@ -93,8 +91,7 @@ class MealFilterCell: UICollectionViewCell {
             if (meal == mealModel.selectedMeal) {
                 button.backgroundColor = .grayishBrown
                 button.setTitleColor(.white, for: .normal)
-            }
-            else {
+            } else {
                 button.layer.borderColor = UIColor.warmGray.cgColor
                 button.layer.borderWidth = 1
                 button.backgroundColor = .white
@@ -112,4 +109,3 @@ class MealFilterCell: UICollectionViewCell {
     }
 
 }
-
