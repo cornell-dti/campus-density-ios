@@ -41,7 +41,23 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                 }
             }
             if !meals.contains(selectedMeal) && meals.count > 0 {
-                selectedMeal = meals[0]
+                let date = Date()
+                let calendar = Calendar.current
+                let hour = calendar.component(.hour, from: date)
+                if (hour>=0 && hour<=12){
+                    selectedMeal = meals[0]
+                }
+                else if (hour>12 && hour<=17){
+                    if meals.count==3{
+                        selectedMeal = meals[1]
+                    }
+                    else{
+                        selectedMeal = meals[0]
+                    }
+                }
+                else{
+                    selectedMeal = meals[-1]
+                }
             }
         }
         return [
