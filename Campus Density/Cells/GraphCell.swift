@@ -27,6 +27,7 @@ class GraphCell: UICollectionViewCell {
     var selectedView: UIView!
     var axis: UIView!
     var bars = [UIView]()
+    var feedbackGenerator: UISelectionFeedbackGenerator?
 
     // MARK: - Constants
     let descriptionLabelHeight: CGFloat = 40
@@ -67,12 +68,15 @@ class GraphCell: UICollectionViewCell {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let location = touches.first?.location(in: self) {
+            feedbackGenerator = UISelectionFeedbackGenerator()
+            feedbackGenerator?.prepare()
             respondToTouch(location: location)
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let location = touches.first?.location(in: self) {
+            feedbackGenerator = nil
             let index = bars.firstIndex { bar -> Bool in
                 return bar.frame.contains(location)
             }
@@ -89,9 +93,12 @@ class GraphCell: UICollectionViewCell {
         }
         guard let barIndex = index else { return }
 
-        if !bars[barIndex].isHidden {
+        if !bars[barIndex].isHidden && selectedHour != bars[barIndex].tag {
 
             selectedHour = bars[barIndex].tag
+
+            feedbackGenerator?.selectionChanged()
+            feedbackGenerator?.prepare()
 
             descriptionLabelText = "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
             descriptionLabel.text = descriptionLabelText
