@@ -47,7 +47,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                 if (hour>=0 && hour<=12){
                     selectedMeal = meals[0]
                 }
-                else if (hour>12 && hour<=17){
+                else if (hour>12 && hour<=16){
                     if meals.count==3{
                         selectedMeal = meals[1]
                     }
