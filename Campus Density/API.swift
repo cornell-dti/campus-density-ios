@@ -339,15 +339,15 @@ class API {
                 }
         }
     }
-    
+
     static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
         let menus = menudata.menus
         let newLine = NSAttributedString(string: "\n")
         let resultString = NSMutableAttributedString(string: "")
         for menu in menus {
             let desc = NSMutableAttributedString(string: menu.description)
-            desc.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: desc.mutableString.range(of : menu.description))
-            desc.addAttribute(NSAttributedString.Key.font, value: UIFont.eighteenBold, range: desc.mutableString.range(of : menu.description))
+            desc.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: desc.mutableString.range(of: menu.description))
+            desc.addAttribute(NSAttributedString.Key.font, value: UIFont.eighteenBold, range: desc.mutableString.range(of: menu.description))
             let menuitemlist = menu.menu
             if (menuitemlist.count != 0) {
                 resultString.append(desc)
@@ -364,7 +364,7 @@ class API {
                 resultString.append(newLine)
             }
         }
-        
+
         return resultString
     }
 
@@ -380,7 +380,7 @@ class API {
         print(res)
         return res
     }
-    
+
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -389,11 +389,10 @@ class API {
 
         print("PLACE: \(place.id)")
 
-        
         let parameters = [
            "facility": place.id
         ]
-        
+
         Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()

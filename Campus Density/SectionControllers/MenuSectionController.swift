@@ -17,7 +17,7 @@ class MenuSectionController: ListSectionController {
     init(menuModel: MenuModel) {
         self.menuModel = menuModel
     }
-    
+
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         let menuHeight = MenuCell().getMenuString(todaysMenu: menuModel.menu, selectedMeal: menuModel.selectedMeal).string.height(withConstrainedWidth: containerSize.width, font: .eighteenBold)

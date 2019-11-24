@@ -18,7 +18,7 @@ enum Meal: String {
 }
 
 class PlaceDetailViewController: UIViewController {
-    
+
     // MARK: - Data vars
     var place: Place!
     var selectedWeekday: Int = 0
@@ -29,7 +29,7 @@ class PlaceDetailViewController: UIViewController {
     var adapter: ListAdapter!
     var loadingHours: Bool = true
     var loadingMenus: Bool = true
-    
+
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
@@ -64,16 +64,14 @@ class PlaceDetailViewController: UIViewController {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
             getHours()
-        }
-        else {
+        } else {
             loadingBarsView.removeFromSuperview()
             loadingHours = false
             setup()
         }
         if ((place?.menus.weeksMenus)!.isEmpty) {
             getMenus()
-        }
-        else {
+        } else {
             loadingMenus = false
             setup()
         }
@@ -93,7 +91,7 @@ class PlaceDetailViewController: UIViewController {
             }
         }
     }
-    
+
     func getMenus() {
         API.menus(place: place) { gotMenus in
             if gotMenus {
@@ -224,7 +222,7 @@ class PlaceDetailViewController: UIViewController {
             if !loadingHours || !loadingMenus {
                 update()
             }
-            
+
         }
     }
 

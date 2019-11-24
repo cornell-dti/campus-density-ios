@@ -57,9 +57,10 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.mediumPadding),
             HoursModel(hours: hours),
+            SpaceModel(space: Constants.largePadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding),
-            MenuModel(menu: menus, selectedMeal: selectedMeal),
+            MenuModel(menu: menus, selectedMeal: selectedMeal)
         ]
     }
 
@@ -88,8 +89,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is MenuModel {
             let menuModel = object as! MenuModel
             return MenuSectionController(menuModel: menuModel)
-        }
-        else {
+        } else {
             let mealFiltersModel = object as! MealFiltersModel
             return MealsFilterSectionController(mealModel: mealFiltersModel, delegate: self)
         }
@@ -111,12 +111,12 @@ extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
 }
 
 extension PlaceDetailViewController: MealsFilterSectionControllerDelegate {
-    
+
     func menuFilterViewDidSelectFilter(selectedMeal: Meal) {
         self.selectedMeal = selectedMeal
         adapter.performUpdates(animated: false, completion: nil)
     }
-    
+
 }
 
 extension PlaceDetailViewController: GraphHeaderSectionControllerDelegate {

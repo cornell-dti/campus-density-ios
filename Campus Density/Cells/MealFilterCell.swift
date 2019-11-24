@@ -8,10 +8,9 @@
 
 import UIKit
 
-protocol MealFilterCellDelegate : class {
+protocol MealFilterCellDelegate: class {
     func mealFilterCellDidSelectFilter(selectedMeal: Meal)
 }
-
 
 class MealFilterCell: UICollectionViewCell {
 
@@ -20,16 +19,25 @@ class MealFilterCell: UICollectionViewCell {
     weak var delegate: MealFilterCellDelegate?
 
     // MARK: - View vars
+    var headerLabel: UILabel!
     var filterButtons = [UIButton]()
 
     // MARK: - Constants
+    let headerLabelText = "Menus"
     let labelHorizontalPadding: CGFloat = 10
     let buttonHeight: CGFloat = 35
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
 
+        headerLabel = UILabel()
+        headerLabel.text = headerLabelText
+        headerLabel.textColor = .grayishBrown
+        headerLabel.textAlignment = .left
+        headerLabel.font = .thirtyBold
+        addSubview(headerLabel)
+
+    }
 
     @objc func filterButtonPressed(sender: UIButton) {
         delegate?.mealFilterCellDidSelectFilter(selectedMeal: mealModel.meals[sender.tag])
@@ -45,26 +53,31 @@ class MealFilterCell: UICollectionViewCell {
     func mealLabel(meal: Meal) -> String {
         return meal.rawValue
     }
-    
+
     func setupConstraints() {
-        var padding: CGFloat = frame.width - labelHorizontalPadding * 2 * CGFloat(filterButtons.count)
-        mealModel.meals.forEach { meal in
-            let width = self.mealLabel(meal: meal).widthWithConstrainedHeight(buttonHeight, font: .sixteen)
-            padding -= width
+
+        let headerLabelTextHeight = headerLabelText.height(withConstrainedWidth: frame.width - Constants.smallPadding * 2, font: headerLabel.font)
+
+        headerLabel.snp.makeConstraints { make in
+            make.width.equalToSuperview().inset(Constants.smallPadding)
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.height.equalTo(headerLabelTextHeight)
         }
-        padding = padding / CGFloat(filterButtons.count + 1)
-        var index: Int = 0
-        var buttonLeftOffset: CGFloat = padding
-        filterButtons.forEach { button in
-            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .sixteen) + labelHorizontalPadding * 2
+
+        let padding: CGFloat = Constants.smallPadding
+        var index: Int = mealModel.meals.count - 1
+        var buttonRightOffset: CGFloat = -padding
+        filterButtons.reversed().forEach { button in
+            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .fourteen) + labelHorizontalPadding * 2
             button.snp.makeConstraints({ make in
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
-                make.left.equalToSuperview().offset(buttonLeftOffset)
+                make.top.equalTo(headerLabel.snp.top)
+                make.right.equalToSuperview().offset(buttonRightOffset)
                 make.bottom.equalToSuperview()
             })
-            index += 1
-            buttonLeftOffset += buttonWidth + padding
+            index -= 1
+            buttonRightOffset -= buttonWidth + padding
         }
     }
 
@@ -84,7 +97,7 @@ class MealFilterCell: UICollectionViewCell {
             button.tag = index
             button.backgroundColor = meal == mealModel.selectedMeal ? .whiteTwo : .white
             button.setTitle(mealLabel(meal: meal), for: .normal)
-            button.titleLabel?.font = .sixteen
+            button.titleLabel?.font = .fourteen
             button.setTitleColor(meal == mealModel.selectedMeal ? .grayishBrown : .densityDarkGray, for: .normal)
             button.clipsToBounds = true
             button.layer.cornerRadius = self.buttonHeight / 2
@@ -93,8 +106,7 @@ class MealFilterCell: UICollectionViewCell {
             if (meal == mealModel.selectedMeal) {
                 button.backgroundColor = .grayishBrown
                 button.setTitleColor(.white, for: .normal)
-            }
-            else {
+            } else {
                 button.layer.borderColor = UIColor.warmGray.cgColor
                 button.layer.borderWidth = 1
                 button.backgroundColor = .white
@@ -102,6 +114,12 @@ class MealFilterCell: UICollectionViewCell {
             }
             self.filterButtons.append(button)
             index += 1
+        }
+
+        if filterButtons.isEmpty {
+            headerLabel.isHidden = true
+        } else {
+            headerLabel.isHidden = false
         }
 
         setupConstraints()
@@ -112,4 +130,3 @@ class MealFilterCell: UICollectionViewCell {
     }
 
 }
-

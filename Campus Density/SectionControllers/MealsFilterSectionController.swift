@@ -9,7 +9,7 @@
 import Foundation
 import IGListKit
 
-protocol MealsFilterSectionControllerDelegate : class {
+protocol MealsFilterSectionControllerDelegate: class {
     func menuFilterViewDidSelectFilter(selectedMeal: Meal)
 }
 
@@ -46,7 +46,7 @@ class MealsFilterSectionController: ListSectionController {
 
 extension MealsFilterSectionController: MealFilterCellDelegate {
     func mealFilterCellDidSelectFilter(selectedMeal: Meal) {
-        
+
         delegate?.menuFilterViewDidSelectFilter(selectedMeal: selectedMeal)
     }
 
