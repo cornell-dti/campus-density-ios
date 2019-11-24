@@ -32,16 +32,7 @@ class FiltersCell: UICollectionViewCell {
     }
 
     func filterLabel(filter: Filter) -> String {
-        switch filter {
-            case .all:
-                return "All"
-            case .central:
-                return "Central"
-            case .north:
-                return "North"
-            case .west:
-                return "West"
-        }
+        return filter.rawValue
     }
 
     @objc func filterButtonPressed(sender: UIButton) {
