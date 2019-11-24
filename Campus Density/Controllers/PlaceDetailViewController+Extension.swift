@@ -19,8 +19,43 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         let weekday = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
         var hours = "No hours available"
+        var menus = DayMenus(menus: [], date: "help")
         if let selectedWeekdayHours = place.hours[selectedWeekday] {
             hours = selectedWeekdayHours
+        }
+        var menuDay = selectedWeekday + 1 - getWeekday()
+        if (menuDay < 0) {
+            menuDay = 7 + menuDay
+        }
+        if (menuDay == 0) {
+            menuDay = 7
+        }
+        if place.menus.weeksMenus.count != 0 {
+            menus = place.menus.weeksMenus[menuDay]
+        }
+        var meals = [Meal]()
+        if (menus.menus.count != 0) {
+            for meal in menus.menus {
+                if (meal.menu.count != 0) {
+                    meals.append(Meal(rawValue: meal.description)!)
+                }
+            }
+            if !meals.contains(selectedMeal) && meals.count > 0 {
+                let date = Date()
+                let calendar = Calendar.current
+                let hour = calendar.component(.hour, from: date)
+                if (hour>=0 && hour<=12) {
+                    selectedMeal = meals[0]
+                } else if (hour>12 && hour<=16) {
+                    if meals.count==3 {
+                        selectedMeal = meals[1]
+                    } else {
+                        selectedMeal = meals[0]
+                    }
+                } else {
+                    selectedMeal = meals[-1]
+                }
+            }
         }
         return [
             SpaceModel(space: Constants.smallPadding),
@@ -35,7 +70,10 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.mediumPadding),
             HoursModel(hours: hours),
-            SpaceModel(space: Constants.largePadding)
+            SpaceModel(space: Constants.largePadding),
+            MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
+            SpaceModel(space: Constants.smallPadding),
+            MenuModel(menu: menus, selectedMeal: selectedMeal)
         ]
     }
 
@@ -58,9 +96,15 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is HoursHeaderModel {
             let hoursHeaderModel = object as! HoursHeaderModel
             return HoursHeaderSectionController(hoursHeaderModel: hoursHeaderModel)
-        } else {
+        } else if object is HoursModel {
             let hoursModel = object as! HoursModel
             return HoursSectionController(hoursModel: hoursModel)
+        } else if object is MenuModel {
+            let menuModel = object as! MenuModel
+            return MenuSectionController(menuModel: menuModel)
+        } else {
+            let mealFiltersModel = object as! MealFiltersModel
+            return MealsFilterSectionController(mealModel: mealFiltersModel, delegate: self)
         }
     }
 
@@ -75,6 +119,15 @@ extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
     func formLinkSectionControllerDidPressLinkButton(link: String) {
         guard let url = URL(string: feedbackForm) else { return }
         UIApplication.shared.open(url)
+    }
+
+}
+
+extension PlaceDetailViewController: MealsFilterSectionControllerDelegate {
+
+    func menuFilterViewDidSelectFilter(selectedMeal: Meal) {
+        self.selectedMeal = selectedMeal
+        adapter.performUpdates(animated: false, completion: nil)
     }
 
 }

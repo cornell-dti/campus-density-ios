@@ -41,7 +41,6 @@ struct PlaceInfo: Codable {
     var campusLocation: Region
     var nextOpen: Double
     var closingAt: Double
-
 }
 
 class Place: ListDiffable {
@@ -53,8 +52,9 @@ class Place: ListDiffable {
     var hours: [Int: String]
     var history: [String: [String: Double]]
     var region: Region
+    var menus: WeekMenus
 
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -62,6 +62,7 @@ class Place: ListDiffable {
         self.hours = hours
         self.history = history
         self.region = region
+        self.menus = menus
     }
 
     func diffIdentifier() -> NSObjectProtocol {
@@ -107,6 +108,28 @@ struct HistoricalData: Codable {
     var id: String
     var hours: [String: [String: Double]]
 
+}
+
+struct MenuItem: Codable {
+    var items: [String]
+    var category: String
+}
+
+struct MenuData: Codable {
+    var menu: [MenuItem]
+    var description: String
+    var startTime: Int
+    var endTime: Int
+}
+
+struct DayMenus: Codable {
+    var menus: [MenuData]
+    var date: String
+}
+
+struct WeekMenus: Codable {
+    var weeksMenus: [DayMenus]
+    var id: String
 }
 
 class API {
@@ -194,7 +217,7 @@ class API {
                 switch result {
                     case .success(let placeNames):
                         System.places = placeNames.map { placeName in
-                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north)
+                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
                         }
                         completion(true)
                     case .failure(let error):
@@ -314,6 +337,81 @@ class API {
                         print(error)
                         completion(false)
                 }
+        }
+    }
+
+    static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
+        let menus = menudata.menus
+        let newLine = NSAttributedString(string: "\n")
+        let resultString = NSMutableAttributedString(string: "")
+        for menu in menus {
+            let desc = NSMutableAttributedString(string: menu.description)
+            desc.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: desc.mutableString.range(of: menu.description))
+            desc.addAttribute(NSAttributedString.Key.font, value: UIFont.eighteenBold, range: desc.mutableString.range(of: menu.description))
+            let menuitemlist = menu.menu
+            if (menuitemlist.count != 0) {
+                resultString.append(desc)
+                resultString.append(newLine)
+            }
+            for menuitem in menuitemlist {
+                for item in menuitem.items {
+                    let itemNS = NSAttributedString(string: item)
+                    resultString.append(itemNS)
+                    resultString.append(newLine)
+                }
+            }
+            if (menuitemlist.count != 0) {
+                resultString.append(newLine)
+            }
+        }
+
+        return resultString
+    }
+
+    static func convertToDict(menudata: DayMenus) -> [String: [String: [String]]] {
+        let menus = menudata.menus
+        var res = [String: [String: [String]]]()
+        for menu in menus {
+            res[menu.description] = [String: [String]]()
+            for station in menu.menu {
+                res[menu.description]?[station.category] = station.items
+            }
+        }
+        print(res)
+        return res
+    }
+
+    static func menus(place: Place, completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+
+        print("PLACE: \(place.id)")
+
+        let parameters = [
+           "facility": place.id
+        ]
+
+        Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
+                switch result {
+                    case .success(let menulist):
+                        menulist.forEach({menu in
+                            let index = System.places.firstIndex(where: { place -> Bool in
+                                return place.id == menu.id
+                            })
+                            guard let placeIndex = index else { return }
+                            System.places[placeIndex].menus = menu
+                        })
+                        completion(true)
+
+                    case .failure(let error):
+                        print(error)
+                        completion(false)
+            }
         }
     }
 }

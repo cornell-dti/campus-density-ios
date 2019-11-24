@@ -10,16 +10,25 @@ import UIKit
 import IGListKit
 import Firebase
 
+enum Meal: String {
+    case breakfast = "Breakfast"
+    case brunch = "Brunch"
+    case lunch = "Lunch"
+    case dinner = "Dinner"
+}
+
 class PlaceDetailViewController: UIViewController {
 
     // MARK: - Data vars
     var place: Place!
     var selectedWeekday: Int = 0
     var selectedHour: Int = 0
+    var selectedMeal: Meal = .breakfast
     var weekdays = [Int]()
     var densityMap = [Int: Double]()
     var adapter: ListAdapter!
     var loadingHours: Bool = true
+    var loadingMenus: Bool = true
 
     // MARK: - View vars
     var collectionView: UICollectionView!
@@ -29,7 +38,6 @@ class PlaceDetailViewController: UIViewController {
     let largeLoadingBarsLength: CGFloat = 63
     let linkTopOffset: CGFloat = 5
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,6 +69,12 @@ class PlaceDetailViewController: UIViewController {
             loadingHours = false
             setup()
         }
+        if ((place?.menus.weeksMenus)!.isEmpty) {
+            getMenus()
+        } else {
+            loadingMenus = false
+            setup()
+        }
 
     }
 
@@ -74,6 +88,19 @@ class PlaceDetailViewController: UIViewController {
                 }
             } else {
                 self?.alertError(completion: { self?.getHours() })
+            }
+        }
+    }
+
+    func getMenus() {
+        API.menus(place: place) { gotMenus in
+            if gotMenus {
+                DispatchQueue.main.async {
+                    self.loadingMenus = false
+                    self.setup()
+                }
+            } else {
+                print("fail")
             }
         }
     }
@@ -192,9 +219,10 @@ class PlaceDetailViewController: UIViewController {
 
     @objc func didBecomeActive() {
         if let nav = navigationController, let _ = nav.topViewController as? PlaceDetailViewController {
-            if !loadingHours {
+            if !loadingHours || !loadingMenus {
                 update()
             }
+
         }
     }
 

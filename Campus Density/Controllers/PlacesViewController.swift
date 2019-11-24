@@ -11,11 +11,11 @@ import SnapKit
 import Firebase
 import IGListKit
 
-enum Filter {
-    case all
-    case north
-    case west
-    case central
+enum Filter: String {
+    case all = "All"
+    case north = "North"
+    case west = "West"
+    case central = "Central"
 }
 
 class PlacesViewController: UIViewController, UIScrollViewDelegate {
@@ -50,6 +50,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "Eateries"
         Auth.auth().addIDTokenDidChangeListener { (_, user) in
             if let user = user {
                 user.getIDToken { (token, error) in
@@ -291,7 +292,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(collectionView)
 
         let updater = ListAdapterUpdater()
-        adapter = ListAdapter(updater: updater, viewController: nil)
+        adapter = ListAdapter(updater: updater, viewController: nil, workingRangeSize: 1)
         adapter.collectionView = collectionView
         adapter.dataSource = self
         adapter.scrollViewDelegate = self

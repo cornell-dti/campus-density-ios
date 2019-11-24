@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */; };
+		08F679802378E7BA005B7810 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6797F2378E7BA005B7810 /* MenuCell.swift */; };
+		08F679822378E8D7005B7810 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F679812378E8D7005B7810 /* MenuModel.swift */; };
+		08F679842378E976005B7810 /* MenuSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F679832378E976005B7810 /* MenuSectionController.swift */; };
 		0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C209B0E224823560007AFA9 /* LogoModel.swift */; };
 		0C209B11224824250007AFA9 /* PlaceSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C209B10224824250007AFA9 /* PlaceSectionController.swift */; };
 		0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C209B12224825AF0007AFA9 /* PlaceCell.swift */; };
@@ -17,11 +21,7 @@
 		0C209B1D22482E650007AFA9 /* FiltersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C209B1C22482E650007AFA9 /* FiltersCell.swift */; };
 		0C29A760219E1F4200515D01 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29A75F219E1F4200515D01 /* API.swift */; };
 		0C316AD52223773400AE4BE3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C316AD42223773400AE4BE3 /* Utils.swift */; };
-		0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */; };
 		0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */; };
-		0C8B6D382231D83C00058AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */; };
-		0C8B6D392231D83C00058AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */; };
-		0C8B6D3A2231D83C00058AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */; };
 		0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D5E2232436600058AE6 /* SpaceModel.swift */; };
 		0C8B6D612232441C00058AE6 /* CurrentDensityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */; };
 		0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D62223244B700058AE6 /* FormLinkModel.swift */; };
@@ -54,9 +54,12 @@
 		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
-		0CF2766D21FA8ECE0051E819 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0CF2766C21FA8ECE0051E819 /* Keys.plist */; };
 		69FBE3A7C9A2FABCC58E8B38 /* Pods_Campus_DensityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */; };
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
+		EE1D973F238471FD0051BA1A /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE1D973D238471FD0051BA1A /* Keys.plist */; };
+		EE1D9740238471FD0051BA1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE1D973E238471FD0051BA1A /* GoogleService-Info.plist */; };
+		EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF172380A44300219902 /* MealFilterCell.swift */; };
+		EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF192380A89F00219902 /* MealFiltersModel.swift */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +81,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsFilterSectionController.swift; sourceTree = "<group>"; };
+		08F6797F2378E7BA005B7810 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		08F679812378E8D7005B7810 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
+		08F679832378E976005B7810 /* MenuSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSectionController.swift; sourceTree = "<group>"; };
 		0C209B0E224823560007AFA9 /* LogoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoModel.swift; sourceTree = "<group>"; };
 		0C209B10224824250007AFA9 /* PlaceSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSectionController.swift; sourceTree = "<group>"; };
 		0C209B12224825AF0007AFA9 /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
@@ -88,9 +95,7 @@
 		0C209B1C22482E650007AFA9 /* FiltersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCell.swift; sourceTree = "<group>"; };
 		0C29A75F219E1F4200515D01 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		0C316AD42223773400AE4BE3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
-		0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0C8B6D5E2232436600058AE6 /* SpaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceModel.swift; sourceTree = "<group>"; };
 		0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityModel.swift; sourceTree = "<group>"; };
 		0C8B6D62223244B700058AE6 /* FormLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkModel.swift; sourceTree = "<group>"; };
@@ -127,7 +132,6 @@
 		0CC6B74121B0A43C00E7B359 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		0CC6B74521B0AF1400E7B359 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
-		0CF2766C21FA8ECE0051E819 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_Density.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33A9A060DE6722A4C153ECF9 /* Pods-Campus DensityUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A221D5B742F7968E952C70F /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +141,10 @@
 		573401CD5348E8AFE9E49108 /* Pods-Campus DensityUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A3D2E62F6EC303C49446BDB3 /* Pods-Campus Density.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.release.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.release.xcconfig"; sourceTree = "<group>"; };
 		B792838E50BEC810AD8F4BF1 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EE1D973D238471FD0051BA1A /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = Secrets/Keys.plist; sourceTree = SOURCE_ROOT; };
+		EE1D973E238471FD0051BA1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		EE93BF172380A44300219902 /* MealFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFilterCell.swift; sourceTree = "<group>"; };
+		EE93BF192380A89F00219902 /* MealFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFiltersModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,7 +178,6 @@
 		0C4B2A2A2198E09B00CE7D69 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0C4B2A2B2198E0B000CE7D69 /* FilterView.swift */,
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
 			);
@@ -189,6 +196,8 @@
 				0C8B6D6622324A7A00058AE6 /* GraphModel.swift */,
 				0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */,
 				0C8B6D6A22324B8000058AE6 /* HoursModel.swift */,
+				08F679812378E8D7005B7810 /* MenuModel.swift */,
+				EE93BF192380A89F00219902 /* MealFiltersModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -206,6 +215,8 @@
 				0C209B10224824250007AFA9 /* PlaceSectionController.swift */,
 				0C209B142248281E0007AFA9 /* LogoSectionController.swift */,
 				0C209B1A22482DDB0007AFA9 /* FiltersSectionController.swift */,
+				08F679832378E976005B7810 /* MenuSectionController.swift */,
+				081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */,
 			);
 			path = SectionControllers;
 			sourceTree = "<group>";
@@ -276,6 +287,8 @@
 				0C209B16224829280007AFA9 /* LogoCell.swift */,
 				0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */,
 				0CB3BF852232CEB100A5B371 /* HoursCell.swift */,
+				08F6797F2378E7BA005B7810 /* MenuCell.swift */,
+				EE93BF172380A44300219902 /* MealFilterCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -283,8 +296,8 @@
 		0CF2766B21FA8EBB0051E819 /* Secrets */ = {
 			isa = PBXGroup;
 			children = (
-				0C8B6D372231D83C00058AE6 /* GoogleService-Info.plist */,
-				0CF2766C21FA8ECE0051E819 /* Keys.plist */,
+				EE1D973E238471FD0051BA1A /* GoogleService-Info.plist */,
+				EE1D973D238471FD0051BA1A /* Keys.plist */,
 			);
 			path = Secrets;
 			sourceTree = "<group>";
@@ -425,8 +438,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CF2766D21FA8ECE0051E819 /* Keys.plist in Resources */,
-				0C8B6D382231D83C00058AE6 /* GoogleService-Info.plist in Resources */,
+				EE1D973F238471FD0051BA1A /* Keys.plist in Resources */,
+				EE1D9740238471FD0051BA1A /* GoogleService-Info.plist in Resources */,
 				0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */,
 				0CA3F4C72173EA8100988A46 /* Assets.xcassets in Resources */,
 			);
@@ -436,7 +449,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C8B6D392231D83C00058AE6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +456,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C8B6D3A2231D83C00058AE6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C8B6D7422324FFA00058AE6 /* CurrentDensityCell.swift in Sources */,
+				EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */,
 				0CB3BF7A2232C0F700A5B371 /* GraphHeaderCell.swift in Sources */,
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
 				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
@@ -538,11 +550,13 @@
 				0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */,
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */,
+				EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
+				081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */,
 				0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */,
 				0CB3BF782232BF3200A5B371 /* GraphHeaderSectionController.swift in Sources */,
 				0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */,
@@ -551,6 +565,7 @@
 				0C8B6D652232459900058AE6 /* GraphHeaderModel.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */,
+				08F679802378E7BA005B7810 /* MenuCell.swift in Sources */,
 				0C209B11224824250007AFA9 /* PlaceSectionController.swift in Sources */,
 				0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */,
 				0C209B1B22482DDB0007AFA9 /* FiltersSectionController.swift in Sources */,
@@ -565,9 +580,10 @@
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */,
 				0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */,
+				08F679842378E976005B7810 /* MenuSectionController.swift in Sources */,
 				0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */,
-				0C4B2A2C2198E0B000CE7D69 /* FilterView.swift in Sources */,
 				0C209B152248281E0007AFA9 /* LogoSectionController.swift in Sources */,
+				08F679822378E8D7005B7810 /* MenuModel.swift in Sources */,
 				0C209B1D22482E650007AFA9 /* FiltersCell.swift in Sources */,
 				0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */,
 				0CB3BF862232CEB100A5B371 /* HoursCell.swift in Sources */,
@@ -737,7 +753,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7KX5HJT49K;
+				DEVELOPMENT_TEAM = WLCD63PZUT;
 				INFOPLIST_FILE = "Campus Density/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -756,7 +772,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7KX5HJT49K;
+				DEVELOPMENT_TEAM = WLCD63PZUT;
 				INFOPLIST_FILE = "Campus Density/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
