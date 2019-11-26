@@ -34,26 +34,26 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             menus = place.menus.weeksMenus[menuDay]
         }
         var meals = [Meal]()
+        var endTimes = [Int]()
         if (menus.menus.count != 0) {
             for meal in menus.menus {
                 if (meal.menu.count != 0) {
                     meals.append(Meal(rawValue: meal.description)!)
+                    endTimes.append(meal.endTime)
                 }
             }
             if !meals.contains(selectedMeal) && meals.count > 0 {
-                let date = Date()
-                let calendar = Calendar.current
-                let hour = calendar.component(.hour, from: date)
-                if (hour>=0 && hour<=12) {
-                    selectedMeal = meals[0]
-                } else if (hour>12 && hour<=16) {
-                    if meals.count==3 {
-                        selectedMeal = meals[1]
+                let currentTime = Int(Date().timeIntervalSince1970)
+                print("Current Time: \(currentTime)")
+                selectedMeal = meals[0]
+                for (index, endTime) in endTimes.enumerated() {
+                    if currentTime < endTime {
+                        print("\(currentTime) < \(endTime) at index \(index), which is \(meals[index]), choosing this")
+                        selectedMeal = meals[index]
+                        break
                     } else {
-                        selectedMeal = meals[0]
+                        print("\(currentTime) > \(endTime) at index \(index), which is \(meals[index])")
                     }
-                } else {
-                    selectedMeal = meals[-1]
                 }
             }
         }

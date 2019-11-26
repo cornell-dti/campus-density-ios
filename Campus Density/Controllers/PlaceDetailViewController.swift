@@ -11,6 +11,7 @@ import IGListKit
 import Firebase
 
 enum Meal: String {
+    case none = "No"
     case breakfast = "Breakfast"
     case brunch = "Brunch"
     case lunch = "Lunch"
@@ -23,7 +24,7 @@ class PlaceDetailViewController: UIViewController {
     var place: Place!
     var selectedWeekday: Int = 0
     var selectedHour: Int = 0
-    var selectedMeal: Meal = .breakfast
+    var selectedMeal: Meal = .none
     var weekdays = [Int]()
     var densityMap = [Int: Double]()
     var adapter: ListAdapter!
