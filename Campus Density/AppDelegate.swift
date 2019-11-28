@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     var placesViewController: PlacesViewController!
     var locationManager: CLLocationManager!
+    var gymsViewController: GymsViewController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -24,8 +25,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         FirebaseApp.configure()
 
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.sixteenBold]
+        
+        let tabBarController = UITabBarController()
 
         placesViewController = PlacesViewController()
+        placesViewController.title = "Eateries"
+        placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: nil, tag: 0)
+        
+        gymsViewController = GymsViewController()
+        gymsViewController.title = "Gyms"
+        gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: nil, tag: 1)
+        
+        let controllers = [placesViewController, gymsViewController]
+        tabBarController.viewControllers = controllers as! [UIViewController]
 
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -34,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.startUpdatingLocation()
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: placesViewController)
+        window?.rootViewController = UINavigationController(rootViewController: tabBarController)
         window?.makeKeyAndVisible()
 
         return true

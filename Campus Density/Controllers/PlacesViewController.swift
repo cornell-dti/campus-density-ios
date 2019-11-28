@@ -153,7 +153,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     func getHistory() {
         API.history { gotHistory in
             if gotHistory {
-                self.title = "Places"
+                self.title = "Eateries"
                 sortPlaces()
                 self.filter(by: self.selectedFilter)
                 self.loadingBarsView.stopAnimating()
