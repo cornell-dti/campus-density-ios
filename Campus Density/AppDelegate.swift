@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     var placesViewController: PlacesViewController!
     var locationManager: CLLocationManager!
+    var tabBarController: UITabBarController!
     var gymsViewController: GymsViewController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -26,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.sixteenBold]
         
-        let tabBarController = UITabBarController()
+        tabBarController = UITabBarController()
 
         placesViewController = PlacesViewController()
         placesViewController.title = "Eateries"
