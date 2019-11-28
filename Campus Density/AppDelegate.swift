@@ -26,19 +26,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         FirebaseApp.configure()
 
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.sixteenBold]
-        
+
         tabBarController = UITabBarController()
 
         placesViewController = PlacesViewController()
         placesViewController.title = "Eateries"
         placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: nil, tag: 0)
-        
+
         gymsViewController = GymsViewController()
         gymsViewController.title = "Gyms"
         gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: nil, tag: 1)
-        
+
         let controllers = [placesViewController, gymsViewController]
-        tabBarController.viewControllers = controllers as! [UIViewController]
+        tabBarController.viewControllers = controllers as? [UIViewController]
 
         locationManager = CLLocationManager()
         locationManager.delegate = self
