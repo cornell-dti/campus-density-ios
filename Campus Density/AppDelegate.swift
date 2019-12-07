@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var placesViewController: PlacesViewController!
     var locationManager: CLLocationManager!
     var tabBarController: UITabBarController!
-    var gymsViewController: GymsViewController!
+    //var gymsViewController: GymsViewController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -31,13 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
         placesViewController = PlacesViewController()
         placesViewController.title = "Eateries"
-        placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: nil, tag: 0)
+        placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: UIImage(named: "food"), tag: 0)
+       // placesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+        let placesViewNav = UINavigationController(rootViewController: placesViewController)
 
-        gymsViewController = GymsViewController()
+        let gymsViewController = UINavigationController(rootViewController: GymsViewController())
         gymsViewController.title = "Gyms"
-        gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: nil, tag: 1)
+        gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: UIImage(named: "fitness"), tag: 1)
 
-        let controllers = [placesViewController, gymsViewController]
+        let controllers = [placesViewNav, gymsViewController]
         tabBarController.viewControllers = controllers as? [UIViewController]
 
         locationManager = CLLocationManager()
@@ -47,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.startUpdatingLocation()
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: tabBarController)
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
 
         return true
