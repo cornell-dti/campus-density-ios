@@ -224,7 +224,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        //self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = false
         updatePlaces()
     }
 

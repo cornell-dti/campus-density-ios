@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: UIImage(named: "fitness"), tag: 1)
 
         let controllers = [placesViewNav, gymsViewController]
-        tabBarController.viewControllers = controllers as? [UIViewController]
+        tabBarController.viewControllers = controllers as [UIViewController]
 
         locationManager = CLLocationManager()
         locationManager.delegate = self
