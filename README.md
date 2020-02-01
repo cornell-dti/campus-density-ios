@@ -38,6 +38,9 @@ _Screenshots showing major parts of app_
 ​
 ## Contributors
 **2019-2020**
+* **Ansh Godha** - iOS Developer
+
+**2019-2020**
  * **Changyuan Lin** - iOS Developer
 
 **2018-2019**

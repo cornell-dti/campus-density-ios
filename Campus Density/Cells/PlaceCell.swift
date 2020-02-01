@@ -52,10 +52,15 @@ class PlaceCell: UICollectionViewCell {
     func setupViews() {
         background = UIView()
         background.backgroundColor = .white
-        background.clipsToBounds = true
+        background.clipsToBounds = false
+        background.layer.masksToBounds = false
         background.layer.cornerRadius = backgroundCornerRadius
+        background.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+        background.layer.shadowOpacity = 0.1
         background.layer.borderColor = UIColor.whiteTwo.cgColor
-        background.layer.borderWidth = 1
+        background.layer.borderWidth = 0.5
+        background.layer.shadowRadius = 5
+        background.layer.shadowOffset = CGSize(width: 0, height: 3)
         contentView.addSubview(background)
 
         nameLabel = UILabel()

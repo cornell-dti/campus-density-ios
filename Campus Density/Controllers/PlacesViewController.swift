@@ -73,6 +73,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         signIn()
 
         view.backgroundColor = .white
+        navigationController?.navigationBar.topItem?.title = "Eateries"
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.barTintColor = .white
@@ -153,7 +154,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     func getHistory() {
         API.history { gotHistory in
             if gotHistory {
-                self.title = "Places"
+                self.title = "Eateries"
                 sortPlaces()
                 self.filter(by: self.selectedFilter)
                 self.loadingBarsView.stopAnimating()
@@ -217,9 +218,11 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         updatePlaces()
     }
 
