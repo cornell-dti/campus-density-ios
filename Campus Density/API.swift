@@ -405,6 +405,7 @@ class API {
                             })
                             guard let placeIndex = index else { return }
                             System.places[placeIndex].menus = menu
+                            print(menu)
                         })
                         completion(true)
 

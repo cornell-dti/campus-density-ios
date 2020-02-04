@@ -9,13 +9,20 @@
 import Foundation
 import IGListKit
 
+protocol MenuSectionControllerDelegate: class {
+    func menuSectionControllerDidSwipeRightOnMenuLabel()
+    func menuSectionControllerDidSwipeLeftOnMenuLabel()
+}
+
 class MenuSectionController: ListSectionController {
 
     // MARK: - Data vars
     var menuModel: MenuModel!
-
-    init(menuModel: MenuModel) {
+    weak var delegate: MenuSectionControllerDelegate?
+    
+    init(menuModel: MenuModel, delegate: MenuSectionControllerDelegate) {
         self.menuModel = menuModel
+        self.delegate = delegate
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
@@ -26,7 +33,7 @@ class MenuSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
-        cell.configure(with: menuModel!.menu, selectedMeal: menuModel!.selectedMeal)
+        cell.configure(with: menuModel!.menu, selectedMeal: menuModel!.selectedMeal, delegate: self)
         return cell
     }
 
@@ -34,4 +41,14 @@ class MenuSectionController: ListSectionController {
         menuModel = object as? MenuModel
     }
 
+}
+
+extension MenuSectionController: MenuCellDelegate {
+    func menucelldidSwipeRightOnMenus() {
+        delegate?.menuSectionControllerDidSwipeRightOnMenuLabel()
+    }
+    
+    func menucelldidSwipeLeftOnMenus() {
+        delegate?.menuSectionControllerDidSwipeLeftOnMenuLabel()
+    }
 }
