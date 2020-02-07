@@ -19,7 +19,7 @@ class MenuSectionController: ListSectionController {
     // MARK: - Data vars
     var menuModel: MenuModel!
     weak var delegate: MenuSectionControllerDelegate?
-    
+
     init(menuModel: MenuModel, delegate: MenuSectionControllerDelegate) {
         self.menuModel = menuModel
         self.delegate = delegate
@@ -47,7 +47,7 @@ extension MenuSectionController: MenuCellDelegate {
     func menucelldidSwipeRightOnMenus() {
         delegate?.menuSectionControllerDidSwipeRightOnMenuLabel()
     }
-    
+
     func menucelldidSwipeLeftOnMenus() {
         delegate?.menuSectionControllerDidSwipeLeftOnMenuLabel()
     }

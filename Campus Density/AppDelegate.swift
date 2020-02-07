@@ -35,8 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: UIImage(named: "food"), tag: 0)
        // placesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let placesViewNav = UINavigationController(rootViewController: placesViewController)
-        
-        
+
         //Setting up GymViewController
         let gymsViewController = UINavigationController(rootViewController: GymsViewController())
         gymsViewController.title = "Gyms"

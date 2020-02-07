@@ -31,7 +31,7 @@ class MenuCell: UICollectionViewCell {
 
         }
     }
-    
+
     func setupViews() {
         menuLabel = UILabel()
         menuLabel.textColor = .warmGray
@@ -39,15 +39,15 @@ class MenuCell: UICollectionViewCell {
         menuLabel.numberOfLines = 0
         menuLabel.font = .eighteenBold
         menuLabel.isUserInteractionEnabled = true
-        
+
         let swipeRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedRightOnMenus(sender:)))
         swipeRecognizerRight.direction = .right
         menuLabel.addGestureRecognizer(swipeRecognizerRight)
-        
+
         let swipeRecognizerLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedLeftOnMenus(sender:)))
         swipeRecognizerRight.direction = .left
         menuLabel.addGestureRecognizer(swipeRecognizerLeft)
-        
+
         addSubview(menuLabel)
     }
 
@@ -79,11 +79,11 @@ class MenuCell: UICollectionViewCell {
     @objc func swipedRightOnMenus(sender: UISwipeGestureRecognizer) {
         delegate?.menucelldidSwipeRightOnMenus()
     }
-    
+
     @objc func swipedLeftOnMenus(sender: UISwipeGestureRecognizer) {
         delegate?.menucelldidSwipeLeftOnMenus()
     }
-    
+
     func configure(with menu: DayMenus, selectedMeal: Meal, delegate: MenuCellDelegate) {
         menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: selectedMeal)
         if (menuLabel.text == "No menus available") {

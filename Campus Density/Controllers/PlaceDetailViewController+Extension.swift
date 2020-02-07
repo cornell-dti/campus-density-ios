@@ -42,9 +42,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                     endTimes.append(meal.endTime)
                 }
             }
-            
+
             self.mealList = meals
-            
+
             if !meals.contains(selectedMeal) && meals.count > 0 {
                 let currentTime = Int(Date().timeIntervalSince1970)
                 print("Current Time: \(currentTime)")
@@ -114,7 +114,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return nil
     }
-    
+
     func getIndexOfSelectedMeal() -> Int {
         var index = -1
         for i in (0 ..< mealList.count) {
@@ -159,16 +159,16 @@ extension PlaceDetailViewController: GraphHeaderSectionControllerDelegate {
 
 extension PlaceDetailViewController: MenuSectionControllerDelegate {
     func menuSectionControllerDidSwipeRightOnMenuLabel() {
-        
+
         let index = getIndexOfSelectedMeal()
         if index < mealList.count - 1 {
             self.selectedMeal = mealList[index+1]
             adapter.performUpdates(animated: true, completion: nil)
         }
     }
-    
+
     func menuSectionControllerDidSwipeLeftOnMenuLabel() {
-        
+
         let index = getIndexOfSelectedMeal()
         if index > 0 {
             self.selectedMeal = mealList[index-1]

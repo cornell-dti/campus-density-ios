@@ -37,7 +37,6 @@ struct PlaceName: Codable {
     var id: String
 }
 
-
 /**
  PlaceDensity stores the `Density` of an eatery, and the identifier the eatery is referred to in the Firebase Database.
 
