@@ -10,24 +10,45 @@ import UIKit
 import Alamofire
 import IGListKit
 
+/// APIErrors enumerates the possible errors that could arise when processing the response data
 enum APIError: Error {
+    /// decodeError Used when the `data` attribute from the `DataResponse` instance could not be decoded by the JSONDecoder
     case decodeError
+    /// noData Used when the `data` attribute from the `DataResponse` instance is `null`
     case noData
 }
 
+/// Region enumerates the different parts of campus where the dining halls are located.
 enum Region: String, Codable {
     case north
     case central
     case west
 }
 
+/**
+ PlaceName contains information about an eatery's Display Name, and the identifier the eatery is referred to in the Firebase Database.
+ 
+ **Properties**
+    * `displayName`: The name for the eatery that is displayed on PlaceViewController and PlaceDetailViewController
+    * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+*/
 struct PlaceName: Codable {
-
     var displayName: String
     var id: String
-
 }
 
+
+/**
+ PlaceDensity stores the `Density` of an eatery, and the identifier the eatery is referred to in the Firebase Database.
+
+ **Properties**
+    * `density`: The `Density` for the eatery
+    * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ 
+ - Remark: Should we be using the `id` property in various places (i.e., `PlaceDensity` and `PlaceInfo`)?
+ 
+ - SeeAlso: `Density`
+*/
 struct PlaceDensity: Codable {
 
     var id: String
@@ -35,6 +56,17 @@ struct PlaceDensity: Codable {
 
 }
 
+/**
+ PlaceInfo stores the `Region` of an eatery (specifying its location on campus), and the identifier the eatery is referred to in the Firebase Database.
+ 
+ **Properties**
+ * `density`: The `Density` for the eatery
+ * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ 
+ - Remark: Should we be using the `id` property in various places (i.e., `PlaceDensity` and `PlaceInfo`)?
+ 
+ - SeeAlso: `Density`
+ */
 struct PlaceInfo: Codable {
 
     var id: String
