@@ -10,7 +10,7 @@ import UIKit
 import IGListKit
 import Firebase
 
-enum Meal: String {
+enum Meal: String, CaseIterable {
     case none = "No"
     case breakfast = "Breakfast"
     case brunch = "Brunch"
@@ -24,6 +24,7 @@ class PlaceDetailViewController: UIViewController {
     var place: Place!
     var selectedWeekday: Int = 0
     var selectedHour: Int = 0
+    var mealList = [Meal]()
     var selectedMeal: Meal = .none
     var weekdays = [Int]()
     var densityMap = [Int: Double]()
@@ -41,7 +42,9 @@ class PlaceDetailViewController: UIViewController {
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("\n")
+        print(place.id)
+        print(place.menus.weeksMenus)
         view.backgroundColor = .white
         title = place.displayName
         navigationController?.navigationBar.prefersLargeTitles = false

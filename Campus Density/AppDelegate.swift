@@ -29,16 +29,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
         tabBarController = UITabBarController()
 
+        //Setting up PlacesViewController
         placesViewController = PlacesViewController()
         placesViewController.title = "Eateries"
         placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: UIImage(named: "food"), tag: 0)
        // placesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let placesViewNav = UINavigationController(rootViewController: placesViewController)
 
+        //Setting up GymViewController
         let gymsViewController = UINavigationController(rootViewController: GymsViewController())
         gymsViewController.title = "Gyms"
         gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: UIImage(named: "fitness"), tag: 1)
 
+        //Adding view controllers to the tab bar
         let controllers = [placesViewNav, gymsViewController]
         tabBarController.viewControllers = controllers as [UIViewController]
 

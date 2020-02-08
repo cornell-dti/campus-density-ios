@@ -8,21 +8,20 @@
 
 import UIKit
 
+protocol MenuCellDelegate: class {
+    func menucelldidSwipeRightOnMenus()
+    func menucelldidSwipeLeftOnMenus()
+}
+
 class MenuCell: UICollectionViewCell {
 
     // MARK: - View vars
     var menuLabel: UILabel!
+    weak var delegate: MenuCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        menuLabel = UILabel()
-        menuLabel.textColor = .warmGray
-        menuLabel.textAlignment = .left
-        menuLabel.numberOfLines = 0
-        menuLabel.font = .eighteenBold
-        addSubview(menuLabel)
-
+        setupViews()
     }
 
     func setupConstraints() {
@@ -30,8 +29,26 @@ class MenuCell: UICollectionViewCell {
             make.width.equalToSuperview()
             make.left.equalToSuperview().offset(Constants.smallPadding)
 
-//            make.left.equalToSuperview().offset(Constants.smallPadding)
         }
+    }
+
+    func setupViews() {
+        menuLabel = UILabel()
+        menuLabel.textColor = .warmGray
+        menuLabel.textAlignment = .left
+        menuLabel.numberOfLines = 0
+        menuLabel.font = .eighteenBold
+        menuLabel.isUserInteractionEnabled = true
+
+        let swipeRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedRightOnMenus(sender:)))
+        swipeRecognizerRight.direction = .right
+        menuLabel.addGestureRecognizer(swipeRecognizerRight)
+
+        let swipeRecognizerLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedLeftOnMenus(sender:)))
+        swipeRecognizerRight.direction = .left
+        menuLabel.addGestureRecognizer(swipeRecognizerLeft)
+
+        addSubview(menuLabel)
     }
 
     func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
@@ -59,11 +76,20 @@ class MenuCell: UICollectionViewCell {
         return res
     }
 
-    func configure(with menu: DayMenus, selectedMeal: Meal) {
+    @objc func swipedRightOnMenus(sender: UISwipeGestureRecognizer) {
+        delegate?.menucelldidSwipeRightOnMenus()
+    }
+
+    @objc func swipedLeftOnMenus(sender: UISwipeGestureRecognizer) {
+        delegate?.menucelldidSwipeLeftOnMenus()
+    }
+
+    func configure(with menu: DayMenus, selectedMeal: Meal, delegate: MenuCellDelegate) {
         menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: selectedMeal)
         if (menuLabel.text == "No menus available") {
             menuLabel.font = .eighteenBold
         }
+        self.delegate = delegate
         setupConstraints()
     }
 
