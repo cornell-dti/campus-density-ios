@@ -14,7 +14,7 @@ protocol GraphCellDelegate: class {
 
 }
 
-class GraphCell: UICollectionViewCell {
+class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     // MARK: - Data vars
     var descriptionLabelText: String!
@@ -27,7 +27,7 @@ class GraphCell: UICollectionViewCell {
     var selectedView: UIView!
     var axis: UIView!
     var bars = [UIView]()
-    var feedbackGenerator: UISelectionFeedbackGenerator?
+    var feedbackGenerator = UISelectionFeedbackGenerator()
 
     // MARK: - Constants
     let descriptionLabelHeight: CGFloat = 40
@@ -55,6 +55,7 @@ class GraphCell: UICollectionViewCell {
         let numBars = CGFloat(end - start + 3)
         let barWidth: CGFloat = (frame.width - horizontalPadding * 2) / numBars
         layoutAxis(barWidth: barWidth)
+        setupGestureRecognizers()
 
     }
 
@@ -62,43 +63,56 @@ class GraphCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func setupGestureRecognizers() {
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureChange(_:)))
+        panRecognizer.delegate = self
+        addGestureRecognizer(panRecognizer)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureChange(_:)))
+        tapRecognizer.delegate = self
+        addGestureRecognizer(tapRecognizer)
+    }
+
+    @objc func panGestureChange(_ sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .began, .changed:
+            respondToTouch(location: sender.location(in: self))
+        case .ended, .failed, .cancelled, .possible:
+            break
+        }
+    }
+
+    @objc func tapGestureChange(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            respondToTouch(location: sender.location(in: self))
+        }
+    }
+
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let panRecognizer = gestureRecognizer as? UIPanGestureRecognizer else {
+            return super.gestureRecognizerShouldBegin(gestureRecognizer)
+        }
+
+        // Sometimes want to scroll up/down
+        let v = panRecognizer.velocity(in: self)
+        return abs(v.x) > abs(v.y)
+    }
+
     func didTapBar(bar: UIView) {
-        delegate?.graphCellDidSelectHour(selectedHour: bar.tag)
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let location = touches.first?.location(in: self) {
-            feedbackGenerator = UISelectionFeedbackGenerator()
-            feedbackGenerator?.prepare()
-            respondToTouch(location: location)
-        }
-    }
-
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let location = touches.first?.location(in: self) {
-            feedbackGenerator = nil
-            let index = bars.firstIndex { bar -> Bool in
-                return bar.frame.contains(location)
-            }
-            guard let barIndex = index else { return }
-            if !bars[barIndex].isHidden {
-                didTapBar(bar: bars[barIndex])
-            }
-        }
+        delegate?.graphCellDidSelectHour(selectedHour: bar.tag) // What this do?
     }
 
     func respondToTouch(location: CGPoint) {
         let index = bars.firstIndex { bar -> Bool in
-            return bar.frame.contains(location)
+            return location.x < bar.frame.maxX && location.x > bar.frame.minX
         }
         guard let barIndex = index else { return }
 
-        if !bars[barIndex].isHidden && selectedHour != bars[barIndex].tag {
+        if selectedHour != bars[barIndex].tag {
 
             selectedHour = bars[barIndex].tag
 
-            feedbackGenerator?.selectionChanged()
-            feedbackGenerator?.prepare()
+            feedbackGenerator.selectionChanged()
+            feedbackGenerator.prepare()
 
             descriptionLabelText = "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
             descriptionLabel.text = descriptionLabelText
@@ -119,12 +133,7 @@ class GraphCell: UICollectionViewCell {
                 update.bottom.equalTo(bars[barIndex].snp.top)
                 update.centerX.equalTo(bars[barIndex])
             }
-        }
-    }
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let location = touches.first?.location(in: self) {
-            respondToTouch(location: location)
         }
     }
 
