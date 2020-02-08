@@ -25,7 +25,6 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var filters: [Filter]!
     var selectedFilter: Filter = .all
     var gettingDensities = false
-    var lastOffset: CGFloat = 0
     var adapter: ListAdapter!
 
     // MARK: - View vars
@@ -34,8 +33,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var refreshBarsView: LoadingBarsView!
 
     // MARK: - Constants
-    let contentOffsetBound: CGFloat = 200
-    let minOffset: CGFloat = 150
+    let refreshOffset: CGFloat = 146
     let cellAnimationDuration: TimeInterval = 0.2
     let cellScale: CGFloat = 0.95
     let placeTableViewCellHeight: CGFloat = 105
@@ -160,6 +158,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
                 self.loadingBarsView.stopAnimating()
                 self.collectionView.isHidden = false
                 self.adapter.performUpdates(animated: false, completion: nil)
+                self.setupRefreshControl()
             } else {
                 self.alertError()
             }
@@ -261,25 +260,23 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func setupRefreshControl() {
-        if #available(iOS 10.0, *) {
-            if refreshBarsView != nil {
-                refreshBarsView.removeFromSuperview()
-            }
-            collectionView.refreshControl?.removeFromSuperview()
-            let refreshControl = UIRefreshControl()
-            refreshControl.tintColor = .white
-            refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-            refreshBarsView = LoadingBarsView()
-            refreshBarsView.configure(with: .small)
-            refreshBarsView.alpha = 0.0
-            refreshBarsView.startAnimating()
-            refreshControl.addSubview(refreshBarsView)
-            refreshBarsView.snp.makeConstraints { make in
-                make.width.height.equalTo(smallLoadingBarsLength)
-                make.center.equalToSuperview()
-            }
-            collectionView.refreshControl = refreshControl
+        if refreshBarsView != nil {
+            refreshBarsView.removeFromSuperview()
         }
+        collectionView.refreshControl?.removeFromSuperview()
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white // Basically invisible
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        refreshBarsView = LoadingBarsView()
+        refreshBarsView.configure(with: .small)
+        refreshBarsView.setBarHeights(fraction: 0)
+        refreshBarsView.alpha = 0.0
+        refreshControl.addSubview(refreshBarsView)
+        refreshBarsView.snp.makeConstraints { make in
+            make.width.height.equalTo(smallLoadingBarsLength)
+            make.center.equalToSuperview()
+        }
+        collectionView.refreshControl = refreshControl
     }
 
     func setupViews() {
@@ -334,13 +331,20 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offset = -scrollView.contentOffset.y
-        let fraction = offset / contentOffsetBound
+        let headerOffset = 116 // Found experimentally lol
+        let offset = -(scrollView.contentOffset.y + CGFloat(headerOffset))
+        let fraction = offset > 25 ? offset / refreshOffset : 0 // Minimum offset required
         let alpha = min(1, fraction)
-        if offset > minOffset || lastOffset > offset {
-            refreshBarsView.alpha = alpha
+        refreshBarsView.alpha = alpha
+        if !refreshBarsView.animating && fraction >= 1 && collectionView.refreshControl?.isRefreshing ?? false {
+            refreshBarsView.startAnimating()
         }
-        lastOffset = offset
+        if !refreshBarsView.animating && fraction >= 0 {
+            refreshBarsView.setBarHeights(fraction: fraction)
+        }
+        if refreshBarsView.animating && offset <= 25 {
+            refreshBarsView.stopAnimating()
+        }
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
