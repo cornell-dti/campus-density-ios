@@ -14,8 +14,8 @@ class GymDensityModel {
     var maxCardioCount: Int
     var currentWeightCount: Int
     let identifier = UUID().uuidString
-    
-    init (currentCardioCount: Int, maxCardioCount: Int, currentWeightCount:Int) {
+
+    init (currentCardioCount: Int, maxCardioCount: Int, currentWeightCount: Int) {
         self.currentCardioCount = currentCardioCount
         self.maxCardioCount = maxCardioCount
         self.currentWeightCount = currentWeightCount
@@ -26,7 +26,7 @@ extension GymDensityModel: ListDiffable {
     func diffIdentifier() -> NSObjectProtocol {
         return identifier as NSString
     }
-    
+
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if object === self {return true}
         guard let object = object as? GymDensityModel else {return false}

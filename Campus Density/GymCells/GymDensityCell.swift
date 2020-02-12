@@ -9,35 +9,35 @@
 import UIKit
 
 class GymDensityCell: UICollectionViewCell {
-    
+
     var cardioView: UIView!
     var weightView: UIView!
     var cardioLabel: UILabel!
     var weightLabel: UILabel!
-    
+
     let padding: CGFloat = 20
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
     }
-    
+
     func setUpViews() {
         cardioView = UIView()
         cardioView.layer.cornerRadius = cardioView.frame.height/10
         contentView.addSubview(cardioView)
-        
+
         weightView = UIView()
         weightView.layer.cornerRadius = weightView.frame.height/10
         contentView.addSubview(weightView)
-        
+
         cardioLabel = makeLabel(withText: "Cardio")
         cardioView.addSubview(cardioLabel)
-        
+
         weightLabel = makeLabel(withText: "Weights")
         weightView.addSubview(weightLabel)
     }
-    
+
     func makeLabel(withText text: String) -> UILabel {
         let label = UILabel()
         label.adjustsFontSizeToFitWidth = true
@@ -47,36 +47,36 @@ class GymDensityCell: UICollectionViewCell {
         label.text = text
         return label
     }
-    
+
     func setUpConstraints() {
-        
+
         let boxDimensions = (frame.width - 3 * padding)/2
-        
+
         cardioView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(padding)
             make.height.equalTo(boxDimensions)
             make.width.equalTo(boxDimensions)
             make.left.equalToSuperview().offset(padding)
         }
-        
+
         weightView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(padding)
             make.height.equalTo(boxDimensions)
             make.width.equalTo(boxDimensions)
             make.right.equalToSuperview().inset(padding)
         }
-        
+
         cardioLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(5)
             make.left.equalToSuperview().offset(5)
         }
-        
+
         weightLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(5)
             make.left.equalToSuperview().offset(5)
         }
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
