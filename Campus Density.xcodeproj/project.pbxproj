@@ -63,6 +63,7 @@
 		EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */; };
 		EE9BED4F23F4B90C00A37464 /* GymDensityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */; };
 		EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA307C0238B28F400566BF7 /* GymsViewController.swift */; };
+		EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +152,7 @@
 		EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensityModel.swift; sourceTree = "<group>"; };
 		EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensityCell.swift; sourceTree = "<group>"; };
 		EEA307C0238B28F400566BF7 /* GymsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymsViewController.swift; sourceTree = "<group>"; };
+		EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensitySectionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,8 +259,8 @@
 				0CC6B74521B0AF1400E7B359 /* System.swift */,
 				0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */,
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
-				EE9BED4923F4B79800A37464 /* GymSectionControllers */,
 				0C8B6D6C22324C1200058AE6 /* SectionControllers */,
+				EE9BED4923F4B79800A37464 /* GymSectionControllers */,
 				0C8B6D5D2232430600058AE6 /* Models */,
 				EE9BED4A23F4B7BF00A37464 /* GymModels */,
 				0C4B2A2A2198E09B00CE7D69 /* Views */,
@@ -338,6 +340,7 @@
 		EE9BED4923F4B79800A37464 /* GymSectionControllers */ = {
 			isa = PBXGroup;
 			children = (
+				EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */,
 			);
 			path = GymSectionControllers;
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
 				0C8B6D612232441C00058AE6 /* CurrentDensityModel.swift in Sources */,
 				0C316AD52223773400AE4BE3 /* Utils.swift in Sources */,
+				EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */,
 				0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */,
 				0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */,
 				0C209B1922482D610007AFA9 /* FiltersModel.swift in Sources */,

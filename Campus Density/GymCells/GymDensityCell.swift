@@ -14,8 +14,9 @@ class GymDensityCell: UICollectionViewCell {
     var weightView: UIView!
     var cardioLabel: UILabel!
     var weightLabel: UILabel!
-
+    var boxDimensions: CGFloat!
     let padding: CGFloat = 20
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,10 +26,12 @@ class GymDensityCell: UICollectionViewCell {
     func setUpViews() {
         cardioView = UIView()
         cardioView.layer.cornerRadius = cardioView.frame.height/10
+        cardioView.layer.borderColor = UIColor.densityLightGray.cgColor
         contentView.addSubview(cardioView)
 
         weightView = UIView()
         weightView.layer.cornerRadius = weightView.frame.height/10
+        weightView.layer.borderColor = UIColor.densityLightGray.cgColor
         contentView.addSubview(weightView)
 
         cardioLabel = makeLabel(withText: "Cardio")
@@ -49,8 +52,8 @@ class GymDensityCell: UICollectionViewCell {
     }
 
     func setUpConstraints() {
-
-        let boxDimensions = (frame.width - 3 * padding)/2
+        
+        self.boxDimensions = (frame.width - 3 * padding)/2
 
         cardioView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(padding)
