@@ -97,8 +97,8 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         return abs(v.x) > abs(v.y)
     }
 
-    func didTapBar(bar: UIView) {
-        delegate?.graphCellDidSelectHour(selectedHour: bar.tag) // What this do?
+    func didSelectHour(selectedHour: Int) {
+        delegate?.graphCellDidSelectHour(selectedHour: selectedHour)
     }
 
     func respondToTouch(location: CGPoint) {
@@ -319,6 +319,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
 
     override func prepareForReuse() {
+        didSelectHour(selectedHour: selectedHour)
         for bar in bars {
             bar.removeFromSuperview()
         }
