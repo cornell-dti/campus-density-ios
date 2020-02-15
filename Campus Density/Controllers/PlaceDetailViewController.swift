@@ -83,6 +83,10 @@ class PlaceDetailViewController: UIViewController {
 
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+    }
+
     func getHours() {
         API.hours(place: place) { [weak self] gotHours in
             if gotHours {

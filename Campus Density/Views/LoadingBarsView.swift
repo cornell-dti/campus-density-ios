@@ -112,7 +112,7 @@ class LoadingBarsView: UIView {
 
     func startAnimating() {
         animating = true
-        self.isHidden = false
+        alpha = 1
         rise(bar: barOne)
         rise(bar: barTwo)
         rise(bar: barThree)
@@ -122,7 +122,7 @@ class LoadingBarsView: UIView {
     func stopAnimating() {
         animating = false
         shouldLayout = [false, false, false, false]
-        self.isHidden = true
+        alpha = 0
     }
 
     func rise(bar: UIView) {
@@ -165,8 +165,22 @@ class LoadingBarsView: UIView {
         }
     }
 
+    func setHeight(bar: UIView, height: CGFloat) {
+        bar.snp.updateConstraints({ update in
+            update.height.equalTo(height)
+        })
+    }
+
     func randomHeight() -> CGFloat {
         return CGFloat(Float(arc4random()) / Float(UINT32_MAX)) * maxBarHeight
+    }
+
+    func setBarHeights(fraction: CGFloat) {
+        let height = fraction * maxBarHeight
+        setHeight(bar: barOne, height: height)
+        setHeight(bar: barTwo, height: height)
+        setHeight(bar: barThree, height: height)
+        setHeight(bar: barFour, height: height)
     }
 
     required init?(coder aDecoder: NSCoder) {
