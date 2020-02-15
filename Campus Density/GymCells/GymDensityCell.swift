@@ -16,7 +16,6 @@ class GymDensityCell: UICollectionViewCell {
     var weightLabel: UILabel!
     var boxDimensions: CGFloat!
     let padding: CGFloat = 20
-    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,7 +51,7 @@ class GymDensityCell: UICollectionViewCell {
     }
 
     func setUpConstraints() {
-        
+
         self.boxDimensions = (frame.width - 3 * padding)/2
 
         cardioView.snp.makeConstraints { make in

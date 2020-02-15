@@ -64,6 +64,7 @@
 		EE9BED4F23F4B90C00A37464 /* GymDensityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */; };
 		EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA307C0238B28F400566BF7 /* GymsViewController.swift */; };
 		EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */; };
+		EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEED3D2A23F87752000E0220 /* GymDetailViewController.swift */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
 /* End PBXBuildFile section */
 
@@ -153,6 +154,7 @@
 		EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensityCell.swift; sourceTree = "<group>"; };
 		EEA307C0238B28F400566BF7 /* GymsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymsViewController.swift; sourceTree = "<group>"; };
 		EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensitySectionController.swift; sourceTree = "<group>"; };
+		EEED3D2A23F87752000E0220 /* GymDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +194,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		0C8B6D5D2232430600058AE6 /* Models */ = {
+		0C8B6D5D2232430600058AE6 /* DiningModels */ = {
 			isa = PBXGroup;
 			children = (
 				0C8B6D5E2232436600058AE6 /* SpaceModel.swift */,
@@ -207,7 +209,7 @@
 				08F679812378E8D7005B7810 /* MenuModel.swift */,
 				EE93BF192380A89F00219902 /* MealFiltersModel.swift */,
 			);
-			path = Models;
+			path = DiningModels;
 			sourceTree = "<group>";
 		};
 		0C8B6D6C22324C1200058AE6 /* SectionControllers */ = {
@@ -261,12 +263,13 @@
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
 				0C8B6D6C22324C1200058AE6 /* SectionControllers */,
 				EE9BED4923F4B79800A37464 /* GymSectionControllers */,
-				0C8B6D5D2232430600058AE6 /* Models */,
+				0C8B6D5D2232430600058AE6 /* DiningModels */,
 				EE9BED4A23F4B7BF00A37464 /* GymModels */,
 				0C4B2A2A2198E09B00CE7D69 /* Views */,
-				0CA3F4F02173ED2C00988A46 /* Cells */,
+				0CA3F4F02173ED2C00988A46 /* DiningCells */,
 				EE9BED4D23F4B8E500A37464 /* GymCells */,
 				0CA3F4ED2173EB5F00988A46 /* Controllers */,
+				EEED3D2923F87717000E0220 /* GymControllers */,
 				0CA3F4C62173EA8100988A46 /* Assets.xcassets */,
 				0CA3F4C82173EA8100988A46 /* LaunchScreen.storyboard */,
 				0CA3F4CB2173EA8100988A46 /* Info.plist */,
@@ -281,12 +284,11 @@
 				0CA3F4EE2173ECD500988A46 /* PlacesViewController+Extension.swift */,
 				0CB3BF872232CF9F00A5B371 /* PlaceDetailViewController.swift */,
 				0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */,
-				EEA307C0238B28F400566BF7 /* GymsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		0CA3F4F02173ED2C00988A46 /* Cells */ = {
+		0CA3F4F02173ED2C00988A46 /* DiningCells */ = {
 			isa = PBXGroup;
 			children = (
 				0C8B6D6F22324DDE00058AE6 /* SpaceCell.swift */,
@@ -302,7 +304,7 @@
 				08F6797F2378E7BA005B7810 /* MenuCell.swift */,
 				EE93BF172380A44300219902 /* MealFilterCell.swift */,
 			);
-			path = Cells;
+			path = DiningCells;
 			sourceTree = "<group>";
 		};
 		0CF2766B21FA8EBB0051E819 /* Secrets */ = {
@@ -359,6 +361,15 @@
 				EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */,
 			);
 			path = GymCells;
+			sourceTree = "<group>";
+		};
+		EEED3D2923F87717000E0220 /* GymControllers */ = {
+			isa = PBXGroup;
+			children = (
+				EEA307C0238B28F400566BF7 /* GymsViewController.swift */,
+				EEED3D2A23F87752000E0220 /* GymDetailViewController.swift */,
+			);
+			path = GymControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -595,6 +606,7 @@
 				081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */,
 				0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */,
 				EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */,
+				EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */,
 				0CB3BF782232BF3200A5B371 /* GraphHeaderSectionController.swift in Sources */,
 				0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */,
 				0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */,
