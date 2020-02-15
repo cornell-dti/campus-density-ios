@@ -19,6 +19,7 @@ class GymDensityCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .red
         setUpViews()
     }
 
@@ -26,12 +27,12 @@ class GymDensityCell: UICollectionViewCell {
         cardioView = UIView()
         cardioView.layer.cornerRadius = cardioView.frame.height/10
         cardioView.layer.borderColor = UIColor.densityLightGray.cgColor
-        contentView.addSubview(cardioView)
+        addSubview(cardioView)
 
         weightView = UIView()
         weightView.layer.cornerRadius = weightView.frame.height/10
         weightView.layer.borderColor = UIColor.densityLightGray.cgColor
-        contentView.addSubview(weightView)
+        addSubview(weightView)
 
         cardioLabel = makeLabel(withText: "Cardio")
         cardioView.addSubview(cardioLabel)

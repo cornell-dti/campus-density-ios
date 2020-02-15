@@ -9,9 +9,33 @@
 import UIKit
 import IGListKit
 
-class GymDetailViewController: UIViewController {
+class GymDetailViewController: UIViewController, UIScrollViewDelegate {
+    var collectionView: UICollectionView!
+    var adapter: ListAdapter!
 
     override func viewDidLoad() {
+        view.backgroundColor = .white
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.isHidden = true
+        collectionView.alwaysBounceVertical = true
+        collectionView.bounces = true
+        view.addSubview(collectionView)
+        
+        let updater = ListAdapterUpdater()
+        adapter = ListAdapter(updater: updater, viewController: nil, workingRangeSize: 1)
+        adapter.collectionView = collectionView
+        adapter.dataSource = self
+        adapter.scrollViewDelegate = self
+        
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        adapter.performUpdates(animated: false, completion: nil)
         super.viewDidLoad()
     }
 }

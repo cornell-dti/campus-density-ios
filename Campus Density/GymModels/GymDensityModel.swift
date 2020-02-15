@@ -9,6 +9,7 @@
 import Foundation
 import IGListKit
 
+///TODO: Modify this structure according to the new designs
 class GymDensityModel {
     var currentCardioCount: Int
     var maxCardioCount: Int
