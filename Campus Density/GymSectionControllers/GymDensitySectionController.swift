@@ -18,13 +18,13 @@ class GymDensitySectionController: ListSectionController {
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero}
-        //let boxHeight = GymDensityCell().boxDimensions!
-        return CGSize(width: containerSize.width, height: 200)
+        let boxHeight = GymDensityCell().boxDimensions!
+        return CGSize(width: containerSize.width, height: boxHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: GymDensityCell.self, for: self, at: index) as! GymDensityCell
-        //TODO: add configure method
+        cell.configure()
         return cell
     }
 

@@ -19,19 +19,23 @@ class GymDensityCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .red
         setUpViews()
+        setUpConstraints()
     }
 
     func setUpViews() {
         cardioView = UIView()
-        cardioView.layer.cornerRadius = cardioView.frame.height/10
-        cardioView.layer.borderColor = UIColor.densityLightGray.cgColor
+        cardioView.clipsToBounds = true
+        cardioView.layer.borderWidth = 1.0
+        cardioView.layer.cornerRadius = 20
+        cardioView.layer.borderColor = UIColor.densityDarkGray.cgColor
         addSubview(cardioView)
 
         weightView = UIView()
-        weightView.layer.cornerRadius = weightView.frame.height/10
-        weightView.layer.borderColor = UIColor.densityLightGray.cgColor
+        weightView.clipsToBounds = true
+        weightView.layer.borderWidth = 1.0
+        weightView.layer.cornerRadius = 20
+        weightView.layer.borderColor = UIColor.densityDarkGray.cgColor
         addSubview(weightView)
 
         cardioLabel = makeLabel(withText: "Cardio")
@@ -57,6 +61,7 @@ class GymDensityCell: UICollectionViewCell {
 
         cardioView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(padding)
+            //TODO: Change constraints
             make.height.equalTo(boxDimensions)
             make.width.equalTo(boxDimensions)
             make.left.equalToSuperview().offset(padding)
@@ -70,14 +75,20 @@ class GymDensityCell: UICollectionViewCell {
         }
 
         cardioLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(5)
-            make.left.equalToSuperview().offset(5)
+            make.top.equalToSuperview().offset(10)
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().inset(10)
         }
 
         weightLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(5)
-            make.left.equalToSuperview().offset(5)
+            make.top.equalToSuperview().offset(10)
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().inset(10)
         }
+    }
+
+    func configure() {
+        setUpConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
