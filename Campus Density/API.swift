@@ -59,8 +59,10 @@ struct PlaceDensity: Codable {
  PlaceInfo stores the `Region` of an eatery (specifying its location on campus), and the identifier the eatery is referred to in the Firebase Database.
  
  **Properties**
- * `density`: The `Density` for the eatery
  * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ * `campusLocation`: The `Region` where the eatery is located on campus
+ * `nextOpen`: A timestamp representing the time this eatery will open again. If it is already open, this value is -1.0
+ * `closingAt`: A timestamp representing the time this eatery will close. If it is already closed, this value is -1.0
  
  - Remark: Should we be using the `id` property in various places (i.e., `PlaceDensity` and `PlaceInfo`)?
  

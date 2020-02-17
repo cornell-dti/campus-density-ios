@@ -56,7 +56,7 @@ class GymDensityCell: UICollectionViewCell {
     }
 
     func setUpConstraints() {
-
+        //TODO: Change dimensions
         self.boxDimensions = (frame.width - 3 * padding)/2
 
         cardioView.snp.makeConstraints { make in
