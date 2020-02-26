@@ -103,15 +103,6 @@ class MealFilterCell: UICollectionViewCell {
             button.layer.cornerRadius = self.buttonHeight / 2
             button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
             contentView.addSubview(button)
-            if (meal == mealModel.selectedMeal) {
-                button.backgroundColor = .grayishBrown
-                button.setTitleColor(.white, for: .normal)
-            } else {
-                button.layer.borderColor = UIColor.warmGray.cgColor
-                button.layer.borderWidth = 1
-                button.backgroundColor = .white
-                button.setTitleColor(.grayishBrown, for: .normal)
-            }
             self.filterButtons.append(button)
             index += 1
         }
