@@ -9,12 +9,21 @@
 import UIKit
 import IGListKit
 
+enum EquipmentType: String, CaseIterable {
+    case none = "No"
+    case cardio = "Cardio"
+    case weights = "Weights"
+}
+
 class GymDetailViewController: UIViewController, UIScrollViewDelegate {
     var collectionView: UICollectionView!
     var adapter: ListAdapter!
+    var selectedType: EquipmentType = .cardio
+    var equipmentTypes = [EquipmentType]()
 
     override func viewDidLoad() {
-       setupViews()
+        setupViews()
+    
     }
 
     func setupViews() {
@@ -44,22 +53,35 @@ class GymDetailViewController: UIViewController, UIScrollViewDelegate {
 
 extension GymDetailViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
+        for type in EquipmentType.allCases {
+            if !equipmentTypes.contains(type) && type.rawValue != "No" {
+                equipmentTypes.append(type)
+            }
+        }
         return [
             //This is hardcoded for now
-            GymDensityModel(currentCardioCount: 5, maxCardioCount: 10, currentWeightCount: 30)
+            GymFiltersModel(equipmentTypes: equipmentTypes, selectedEquipmentType: selectedType),
+            //GymDensityModel(currentCardioCount: 5, maxCardioCount: 10, currentWeightCount: 30)
         ]
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        if object is GymDensityModel {
-            return GymDensitySectionController(densityModel: object as! GymDensityModel)
-        }
-
-        //temporary stub
-        return GymDensitySectionController(densityModel: object as! GymDensityModel)
+       
+        return GymFilterSectionController(equipmentModel: object as! GymFiltersModel, delegate: self)
+        
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return nil
     }
+}
+
+extension GymDetailViewController: GymFiltersSectionControllerDelegate {
+    func gymFilterViewDidSelectEquipment(selectedEquipmentType: EquipmentType) {
+        self.selectedType = selectedEquipmentType
+        print(self.selectedType)
+        adapter.performUpdates(animated: false, completion: nil)
+    }
+    
+    
 }

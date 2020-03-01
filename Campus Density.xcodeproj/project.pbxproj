@@ -58,6 +58,9 @@
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		EE03ED9123EBDA800064266B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */; };
 		EE03ED9223EBDA800064266B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED9023EBDA800064266B /* Keys.plist */; };
+		EE64E0D7240B09DC003E449E /* GymFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */; };
+		EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */; };
+		EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */; };
 		EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF172380A44300219902 /* MealFilterCell.swift */; };
 		EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF192380A89F00219902 /* MealFiltersModel.swift */; };
 		EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */; };
@@ -148,6 +151,9 @@
 		B792838E50BEC810AD8F4BF1 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		EE03ED9023EBDA800064266B /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = Secrets/Keys.plist; sourceTree = SOURCE_ROOT; };
+		EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersModel.swift; sourceTree = "<group>"; };
+		EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersSectionController.swift; sourceTree = "<group>"; };
+		EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFilterCell.swift; sourceTree = "<group>"; };
 		EE93BF172380A44300219902 /* MealFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFilterCell.swift; sourceTree = "<group>"; };
 		EE93BF192380A89F00219902 /* MealFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFiltersModel.swift; sourceTree = "<group>"; };
 		EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensityModel.swift; sourceTree = "<group>"; };
@@ -342,6 +348,7 @@
 		EE9BED4923F4B79800A37464 /* GymSectionControllers */ = {
 			isa = PBXGroup;
 			children = (
+				EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */,
 				EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */,
 			);
 			path = GymSectionControllers;
@@ -350,6 +357,7 @@
 		EE9BED4A23F4B7BF00A37464 /* GymModels */ = {
 			isa = PBXGroup;
 			children = (
+				EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */,
 				EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */,
 			);
 			path = GymModels;
@@ -359,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */,
+				EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */,
 			);
 			path = GymCells;
 			sourceTree = "<group>";
@@ -595,8 +604,10 @@
 				0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */,
 				0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */,
 				0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */,
+				EE64E0D7240B09DC003E449E /* GymFiltersModel.swift in Sources */,
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */,
+				EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */,
 				EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
@@ -633,6 +644,7 @@
 				0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */,
 				08F679842378E976005B7810 /* MenuSectionController.swift in Sources */,
 				0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */,
+				EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */,
 				0C209B152248281E0007AFA9 /* LogoSectionController.swift in Sources */,
 				08F679822378E8D7005B7810 /* MenuModel.swift in Sources */,
 				0C209B1D22482E650007AFA9 /* FiltersCell.swift in Sources */,
