@@ -33,7 +33,9 @@ class MenuSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
-        cell.configure(with: menuModel!.menu, selectedMeal: menuModel!.selectedMeal, delegate: self)
+        cell.configure(with: self, delegate: self)
+//        cell.configure(with: menuModel!.menu, selectedMeal: menuModel!.selectedMeal, delegate: self)
+        // do something here with selected meal
         return cell
     }
 
@@ -41,6 +43,20 @@ class MenuSectionController: ListSectionController {
         menuModel = object as? MenuModel
     }
 
+}
+
+extension MenuSectionController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return menuModel.mealNames.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInteriorCell.identifier, for: indexPath) as! MenuInteriorCell
+        let mealName = menuModel.mealNames[indexPath.item]
+        print("MEAL NAME: \(mealName)")
+        cell.configure(with: menuModel!.menu, forMeal: mealName)
+        return cell
+    }
 }
 
 extension MenuSectionController: MenuCellDelegate {

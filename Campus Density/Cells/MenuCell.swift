@@ -16,20 +16,44 @@ protocol MenuCellDelegate: class {
 class MenuCell: UICollectionViewCell {
 
     // MARK: - View vars
+    var menuCollectionView: MenuCollectionView!
     var menuLabel: UILabel!
     weak var delegate: MenuCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        menuCollectionView = MenuCollectionView(frame: .zero, collectionViewLayout: layout)
+        menuCollectionView.register(MenuInteriorCell.self, forCellWithReuseIdentifier: MenuInteriorCell.identifier)
+        menuCollectionView.backgroundColor = .blue
+        contentView.addSubview(menuCollectionView)
+//        addSubview(menuCollectionView)
+//        setupViews()
+        menuCollectionView.snp.makeConstraints { make in
+            make.height.equalToSuperview()
+            make.width.equalToSuperview()
+            make.left.equalToSuperview()
+        }
     }
 
     func setupConstraints() {
-        menuLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.left.equalToSuperview().offset(Constants.smallPadding)
-
+//        menuCollectionView.snp.makeConstraints { make in
+//            make.width.equalToSuperview()
+//            make.left.equalToSuperview()
+//            make.top.equalToSuperview()
+//        }
+        if #available(iOS 12.0, *) {
+            print("Visible size: \(menuCollectionView.visibleSize)")
+        } else {
+            // Fallback on earlier versions
         }
+        print("Visible cells: \(menuCollectionView.visibleCells)")
+//        menuLabel.snp.makeConstraints { make in
+//            make.width.equalToSuperview()
+//            make.left.equalToSuperview().offset(Constants.smallPadding)
+//
+//        }
     }
 
     func setupViews() {
@@ -84,11 +108,12 @@ class MenuCell: UICollectionViewCell {
         delegate?.menucelldidSwipeLeftOnMenus()
     }
 
-    func configure(with menu: DayMenus, selectedMeal: Meal, delegate: MenuCellDelegate) {
-        menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: selectedMeal)
-        if (menuLabel.text == "No menus available") {
-            menuLabel.font = .eighteenBold
-        }
+    func configure(with dataSource: UICollectionViewDataSource, delegate: MenuCellDelegate) {
+//        menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: selectedMeal)
+//        if (menuLabel.text == "No menus available") {
+//            menuLabel.font = .eighteenBold
+//        }
+        menuCollectionView.dataSource = dataSource
         self.delegate = delegate
         setupConstraints()
     }
