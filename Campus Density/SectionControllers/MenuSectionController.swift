@@ -10,8 +10,7 @@ import Foundation
 import IGListKit
 
 protocol MenuSectionControllerDelegate: class {
-    func menuSectionControllerDidSwipeRightOnMenuLabel()
-    func menuSectionControllerDidSwipeLeftOnMenuLabel()
+    func menuSectionControllerDidChangeSelectedMeal(meal: Meal)
 }
 
 class MenuSectionController: ListSectionController {
@@ -45,7 +44,8 @@ class MenuSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
-        cell.configure(with: self, delegate: self)
+        let index = menuModel.mealNames.index(of: menuModel.selectedMeal)!
+        cell.configure(dataSource: self, selected: index, delegate: self)
         return cell
     }
 
@@ -70,12 +70,11 @@ extension MenuSectionController: UICollectionViewDataSource {
     }
 }
 
-extension MenuSectionController: MenuCellDelegate {
-    func menucelldidSwipeRightOnMenus() {
-        delegate?.menuSectionControllerDidSwipeRightOnMenuLabel()
-    }
-
-    func menucelldidSwipeLeftOnMenus() {
-        delegate?.menuSectionControllerDidSwipeLeftOnMenuLabel()
+extension MenuSectionController: UICollectionViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index: Int = Int(scrollView.contentOffset.x / scrollView.frame.width)
+        menuModel.selectedMeal = self.menuModel.mealNames[index]
+        print(menuModel.selectedMeal)
+        delegate?.menuSectionControllerDidChangeSelectedMeal(meal: menuModel.selectedMeal)
     }
 }

@@ -115,16 +115,6 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         return nil
     }
 
-    func getIndexOfSelectedMeal() -> Int {
-        var index = -1
-        for i in (0 ..< mealList.count) {
-            if mealList[i] == self.selectedMeal {
-                index = i
-                break
-            }
-        }
-        return index
-    }
 }
 
 extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
@@ -158,23 +148,12 @@ extension PlaceDetailViewController: GraphHeaderSectionControllerDelegate {
 }
 
 extension PlaceDetailViewController: MenuSectionControllerDelegate {
-    func menuSectionControllerDidSwipeRightOnMenuLabel() {
 
-        let index = getIndexOfSelectedMeal()
-        if index < mealList.count - 1 {
-            self.selectedMeal = mealList[index+1]
-            adapter.performUpdates(animated: true, completion: nil)
-        }
+    func menuSectionControllerDidChangeSelectedMeal(meal: Meal) {
+        self.selectedMeal = meal
+        adapter.performUpdates(animated: false, completion: nil)
     }
 
-    func menuSectionControllerDidSwipeLeftOnMenuLabel() {
-
-        let index = getIndexOfSelectedMeal()
-        if index > 0 {
-            self.selectedMeal = mealList[index-1]
-            adapter.performUpdates(animated: true, completion: nil)
-        }
-    }
 }
 
 extension PlaceDetailViewController: GraphSectionControllerDelegate {

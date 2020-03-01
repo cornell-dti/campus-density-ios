@@ -18,7 +18,6 @@ class MenuCell: UICollectionViewCell {
     // MARK: - View vars
     var menuCollectionView: MenuCollectionView!
     var menuLabel: UILabel!
-    weak var delegate: MenuCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +26,7 @@ class MenuCell: UICollectionViewCell {
         layout.itemSize = self.frame.size
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        menuCollectionView = MenuCollectionView(frame: .zero, collectionViewLayout: layout)
+        menuCollectionView = MenuCollectionView(frame: frame, collectionViewLayout: layout)
         menuCollectionView.register(MenuInteriorCell.self, forCellWithReuseIdentifier: MenuInteriorCell.identifier)
         menuCollectionView.backgroundColor = .blue
         menuCollectionView.isPagingEnabled = true
@@ -50,13 +49,13 @@ class MenuCell: UICollectionViewCell {
         menuLabel.font = .eighteenBold
         menuLabel.isUserInteractionEnabled = true
 
-        let swipeRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedRightOnMenus(sender:)))
-        swipeRecognizerRight.direction = .right
-        menuLabel.addGestureRecognizer(swipeRecognizerRight)
+//        let swipeRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedRightOnMenus(sender:)))
+//        swipeRecognizerRight.direction = .right
+//        menuLabel.addGestureRecognizer(swipeRecognizerRight)
 
-        let swipeRecognizerLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedLeftOnMenus(sender:)))
-        swipeRecognizerRight.direction = .left
-        menuLabel.addGestureRecognizer(swipeRecognizerLeft)
+//        let swipeRecognizerLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedLeftOnMenus(sender:)))
+//        swipeRecognizerRight.direction = .left
+//        menuLabel.addGestureRecognizer(swipeRecognizerLeft)
 
         addSubview(menuLabel)
     }
@@ -86,22 +85,21 @@ class MenuCell: UICollectionViewCell {
         return res
     }
 
-    @objc func swipedRightOnMenus(sender: UISwipeGestureRecognizer) {
-        delegate?.menucelldidSwipeRightOnMenus()
-    }
-
-    @objc func swipedLeftOnMenus(sender: UISwipeGestureRecognizer) {
-        delegate?.menucelldidSwipeLeftOnMenus()
-    }
-
-    func configure(with dataSource: UICollectionViewDataSource, delegate: MenuCellDelegate) {
+    func configure(dataSource: UICollectionViewDataSource, selected: Int, delegate: UICollectionViewDelegate) {
 //        menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: selectedMeal)
 //        if (menuLabel.text == "No menus available") {
 //            menuLabel.font = .eighteenBold
 //        }
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = self.frame.size
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        menuCollectionView.collectionViewLayout = layout
         menuCollectionView.dataSource = dataSource
-        self.delegate = delegate
+        menuCollectionView.delegate = delegate
         setupConstraints()
+        menuCollectionView.contentOffset.x = self.frame.width * CGFloat(selected)
     }
 
     required init?(coder aDecoder: NSCoder) {
