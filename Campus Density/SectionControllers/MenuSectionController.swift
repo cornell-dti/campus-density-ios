@@ -26,7 +26,7 @@ class MenuSectionController: ListSectionController {
         self.delegate = delegate
         tallestMenu = findLongestMenu(menuModel: menuModel)
     }
-    
+
     func findLongestMenu(menuModel: MenuModel) -> CGFloat {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         var maxHeight: CGFloat = 0
@@ -56,15 +56,15 @@ class MenuSectionController: ListSectionController {
 
 }
 
+// For the collection view inside the menu cell, returning interior cells
 extension MenuSectionController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return menuModel.mealNames.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInteriorCell.identifier, for: indexPath) as! MenuInteriorCell
         let mealName = menuModel.mealNames[indexPath.item]
-        print("MEAL NAME: \(mealName)")
         cell.configure(with: menuModel!.menu, forMeal: mealName)
         return cell
     }
@@ -74,7 +74,7 @@ extension MenuSectionController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index: Int = Int(scrollView.contentOffset.x / scrollView.frame.width)
         menuModel.selectedMeal = self.menuModel.mealNames[index]
-        print(menuModel.selectedMeal)
+        print("Swiped to \(menuModel.selectedMeal)")
         delegate?.menuSectionControllerDidChangeSelectedMeal(meal: menuModel.selectedMeal)
     }
 }

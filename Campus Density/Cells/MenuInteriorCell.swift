@@ -9,23 +9,21 @@
 import UIKit
 
 class MenuInteriorCell: UICollectionViewCell {
-    
+
     static let identifier: String = "MenuInteriorCell"
 
     // MARK: - View vars
-    var menuCollectionView: MenuCollectionView!
     var menuLabel: UILabel!
-//    weak var delegate: MenuCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setupConstraints() {
         menuLabel.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -40,10 +38,6 @@ class MenuInteriorCell: UICollectionViewCell {
         menuLabel.numberOfLines = 0
         menuLabel.font = .eighteenBold
         menuLabel.isUserInteractionEnabled = true
-        
-        self.backgroundColor = .systemBlue
-
-        // TODO: contentview?
         contentView.addSubview(menuLabel)
     }
 
@@ -73,12 +67,10 @@ class MenuInteriorCell: UICollectionViewCell {
     }
 
     func configure(with menu: DayMenus, forMeal meal: Meal) {
-        print("Configuring interior cell for \(meal)")
         menuLabel.attributedText = MenuInteriorCell.getMenuString(todaysMenu: menu, selectedMeal: meal)
         if (menuLabel.text == "No menus available") {
             menuLabel.font = .eighteenBold
         }
-        print("Text: \(String(describing: menuLabel.text))")
         setupConstraints()
     }
 
