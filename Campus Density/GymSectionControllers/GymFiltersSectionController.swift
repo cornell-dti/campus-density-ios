@@ -16,25 +16,25 @@ protocol GymFiltersSectionControllerDelegate: class {
 class GymFilterSectionController: ListSectionController {
     var gymFilterModel: GymFiltersModel!
     weak var delegate: GymFiltersSectionControllerDelegate?
-    
+
     let cellHeight: CGFloat = 50
-    
+
     init(equipmentModel: GymFiltersModel, delegate: GymFiltersSectionControllerDelegate) {
         self.gymFilterModel = equipmentModel
         self.delegate = delegate
     }
-    
+
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: GymFilterCell.self, for: self, at: index) as! GymFilterCell
         cell.configure(gymFilterModel: gymFilterModel, delegate: self)
         return cell
     }
-    
+
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         return CGSize(width: containerSize.width, height: cellHeight)
     }
-    
+
     override func didUpdate(to object: Any) {
         print("updated")
         gymFilterModel = object as? GymFiltersModel

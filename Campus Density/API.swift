@@ -119,7 +119,6 @@ class Place: ListDiffable {
         self.menus = menus
     }
 
-    
     //The following two functions are required rto conform to the ListDiffabe protocol
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString

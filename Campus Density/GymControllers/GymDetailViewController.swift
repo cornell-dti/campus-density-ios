@@ -23,7 +23,7 @@ class GymDetailViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         setupViews()
-    
+
     }
 
     func setupViews() {
@@ -60,15 +60,15 @@ extension GymDetailViewController: ListAdapterDataSource {
         }
         return [
             //This is hardcoded for now
-            GymFiltersModel(equipmentTypes: equipmentTypes, selectedEquipmentType: selectedType),
+            GymFiltersModel(equipmentTypes: equipmentTypes, selectedEquipmentType: selectedType)
             //GymDensityModel(currentCardioCount: 5, maxCardioCount: 10, currentWeightCount: 30)
         ]
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-       
+
         return GymFilterSectionController(equipmentModel: object as! GymFiltersModel, delegate: self)
-        
+
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
@@ -82,6 +82,5 @@ extension GymDetailViewController: GymFiltersSectionControllerDelegate {
         print(self.selectedType)
         adapter.performUpdates(animated: false, completion: nil)
     }
-    
-    
+
 }
