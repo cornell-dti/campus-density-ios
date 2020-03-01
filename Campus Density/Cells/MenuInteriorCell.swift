@@ -27,10 +27,10 @@ class MenuInteriorCell: UICollectionViewCell {
     }
     
     func setupConstraints() {
-//        menuLabel.snp.makeConstraints { make in
-//            make.width.equalToSuperview()
-//            make.left.equalToSuperview().offset(Constants.smallPadding)
-//        }
+        menuLabel.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+        }
     }
 
     func setupViews() {
@@ -47,7 +47,7 @@ class MenuInteriorCell: UICollectionViewCell {
         contentView.addSubview(menuLabel)
     }
 
-    func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
+    static func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
         let newLine = NSAttributedString(string: "\n")
         for meal in todaysMenu.menus {
@@ -74,7 +74,7 @@ class MenuInteriorCell: UICollectionViewCell {
 
     func configure(with menu: DayMenus, forMeal meal: Meal) {
         print("Configuring interior cell for \(meal)")
-        menuLabel.attributedText = getMenuString(todaysMenu: menu, selectedMeal: meal)
+        menuLabel.attributedText = MenuInteriorCell.getMenuString(todaysMenu: menu, selectedMeal: meal)
         if (menuLabel.text == "No menus available") {
             menuLabel.font = .eighteenBold
         }

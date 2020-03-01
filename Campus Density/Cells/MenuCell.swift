@@ -24,36 +24,22 @@ class MenuCell: UICollectionViewCell {
         super.init(frame: frame)
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.itemSize = self.frame.size
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         menuCollectionView = MenuCollectionView(frame: .zero, collectionViewLayout: layout)
         menuCollectionView.register(MenuInteriorCell.self, forCellWithReuseIdentifier: MenuInteriorCell.identifier)
         menuCollectionView.backgroundColor = .blue
+        menuCollectionView.isPagingEnabled = true
+        menuCollectionView.showsHorizontalScrollIndicator = false
         contentView.addSubview(menuCollectionView)
-//        addSubview(menuCollectionView)
-//        setupViews()
-        menuCollectionView.snp.makeConstraints { make in
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
-            make.left.equalToSuperview()
-        }
     }
 
     func setupConstraints() {
-//        menuCollectionView.snp.makeConstraints { make in
-//            make.width.equalToSuperview()
-//            make.left.equalToSuperview()
-//            make.top.equalToSuperview()
-//        }
-        if #available(iOS 12.0, *) {
-            print("Visible size: \(menuCollectionView.visibleSize)")
-        } else {
-            // Fallback on earlier versions
+        menuCollectionView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
         }
-        print("Visible cells: \(menuCollectionView.visibleCells)")
-//        menuLabel.snp.makeConstraints { make in
-//            make.width.equalToSuperview()
-//            make.left.equalToSuperview().offset(Constants.smallPadding)
-//
-//        }
     }
 
     func setupViews() {

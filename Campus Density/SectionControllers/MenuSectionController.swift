@@ -18,29 +18,40 @@ class MenuSectionController: ListSectionController {
 
     // MARK: - Data vars
     var menuModel: MenuModel!
+    var tallestMenu: CGFloat = 0
     weak var delegate: MenuSectionControllerDelegate?
 
     init(menuModel: MenuModel, delegate: MenuSectionControllerDelegate) {
+        super.init()
         self.menuModel = menuModel
         self.delegate = delegate
+        tallestMenu = findLongestMenu(menuModel: menuModel)
+    }
+    
+    func findLongestMenu(menuModel: MenuModel) -> CGFloat {
+        guard let containerSize = collectionContext?.containerSize else { return .zero }
+        var maxHeight: CGFloat = 0
+        for meal in menuModel.mealNames {
+            let menuHeight = MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).string.height(withConstrainedWidth: containerSize.width, font: .eighteenBold)
+            maxHeight = CGFloat.maximum(tallestMenu, menuHeight)
+        }
+        return maxHeight
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let menuHeight = MenuCell().getMenuString(todaysMenu: menuModel.menu, selectedMeal: menuModel.selectedMeal).string.height(withConstrainedWidth: containerSize.width, font: .eighteenBold)
-        return CGSize(width: containerSize.width, height: menuHeight)
+        return CGSize(width: containerSize.width, height: tallestMenu)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
         cell.configure(with: self, delegate: self)
-//        cell.configure(with: menuModel!.menu, selectedMeal: menuModel!.selectedMeal, delegate: self)
-        // do something here with selected meal
         return cell
     }
 
     override func didUpdate(to object: Any) {
         menuModel = object as? MenuModel
+        tallestMenu = findLongestMenu(menuModel: menuModel)
     }
 
 }
