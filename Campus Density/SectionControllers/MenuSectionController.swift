@@ -44,8 +44,9 @@ class MenuSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
-        let index = menuModel.mealNames.index(of: menuModel.selectedMeal)!
-        cell.configure(dataSource: self, selected: index, delegate: self)
+        if let index = menuModel.mealNames.index(of: menuModel.selectedMeal) {
+            cell.configure(dataSource: self, selected: index, delegate: self)
+        }
         return cell
     }
 
