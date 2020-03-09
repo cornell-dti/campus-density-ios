@@ -12,11 +12,13 @@ import IGListKit
 class MenuModel {
 
     var menu: DayMenus
+    var mealNames: [Meal]
     var selectedMeal: Meal
     let identifier = UUID().uuidString
 
-    init(menu: DayMenus, selectedMeal: Meal) {
+    init(menu: DayMenus, mealNames: [Meal], selectedMeal: Meal) {
         self.menu = menu
+        self.mealNames = mealNames
         self.selectedMeal = selectedMeal
     }
 
