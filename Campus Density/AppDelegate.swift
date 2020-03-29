@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let placesViewNav = UINavigationController(rootViewController: placesViewController)
 
         //Setting up GymViewController
-        let gymsViewController = UINavigationController(rootViewController: GymsViewController())
+        //TODO: Change up GymDetailViewController -> GymViewController
+        let gymsViewController = UINavigationController(rootViewController: GymDetailViewController())
         gymsViewController.title = "Gyms"
         gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: UIImage(named: "fitness"), tag: 1)
 

@@ -26,6 +26,8 @@ enum Region: String, Codable {
 }
 
 /**
+ Represents the information of an eatery's name
+ 
  PlaceName contains information about an eatery's Display Name, and the identifier the eatery is referred to in the Firebase Database.
  
  **Properties**
@@ -38,6 +40,8 @@ struct PlaceName: Codable {
 }
 
 /**
+ Represents the crowdedness of an eatery
+ 
  PlaceDensity stores the `Density` of an eatery, and the identifier the eatery is referred to in the Firebase Database.
 
  **Properties**
@@ -56,11 +60,15 @@ struct PlaceDensity: Codable {
 }
 
 /**
- PlaceInfo stores the `Region` of an eatery (specifying its location on campus), and the identifier the eatery is referred to in the Firebase Database.
+ Represents the location and open times of an eatery
+ 
+ PlaceInfo stores the `Region` of an eatery (specifying its location on campus), the identifier the eatery is referred to in the Firebase Database, and the next time it opens/closes.
  
  **Properties**
- * `density`: The `Density` for the eatery
  * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ * `campusLocation`: The `Region` where the eatery is located on campus
+ * `nextOpen`: A timestamp representing the time this eatery will open again. If it is already open, this value is -1.0
+ * `closingAt`: A timestamp representing the time this eatery will close. If it is already closed, this value is -1.0
  
  - Remark: Should we be using the `id` property in various places (i.e., `PlaceDensity` and `PlaceInfo`)?
  
@@ -74,6 +82,10 @@ struct PlaceInfo: Codable {
     var closingAt: Double
 }
 
+/**
+ Represents all the information about that is displayed on the `PlaceDetailViewController` view for a specific eatery.
+*/
+
 class Place: ListDiffable {
 
     var displayName: String
@@ -85,6 +97,17 @@ class Place: ListDiffable {
     var region: Region
     var menus: WeekMenus
 
+    /// Initilizes a new Place object with the eatety's display name, it's corresponding FIrebase id, its `Density`, whether it is closed or not, its hours, history, location and its week's menus.
+    ///
+    /// - Parameters:
+    ///   - displayName: A string representing the label this eatery will be identified by on the PlaceVC PlaceDetailVC pages
+    ///   - id: The corresponding Firebase id
+    ///   - density: Represents how crowded this eatery is. `density` is an instance of `Density`
+    ///   - isClosed: Whether this place is closed or not
+    ///   - hours: A dictionary where the key [TODO]
+    ///   - history: TODO
+    ///   - region: A `Region` instance specifying where this object is located on campus
+    ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
     init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
@@ -96,6 +119,7 @@ class Place: ListDiffable {
         self.menus = menus
     }
 
+    //The following two functions are required rto conform to the ListDiffabe protocol
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString
     }
@@ -108,6 +132,7 @@ class Place: ListDiffable {
 
 }
 
+/** Represents the authorization token required for Firebase authentication */
 class Token: Codable {
 
     var token: String
@@ -165,6 +190,7 @@ struct WeekMenus: Codable {
 
 class API {
 
+    //sets up the base url for fetching data
     static var url: String {
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) else { return "" }
         #if DEBUG
@@ -176,6 +202,7 @@ class API {
         return value
     }
 
+    /// Fetches the information about the opening/closing times of all the eateries (as specified in the `PlaceInfo` definition, and then sets the `region` and `isClosed` properties of this eateries corresponding `Place` instance in System.places based on this fetched data
     static func status(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -184,9 +211,11 @@ class API {
         Alamofire.request("\(url)/facilityInfo", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
+                //resulting JSON array should be parsed into a PlaceInfo object array
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
                 switch result {
                     case .success(let placeInfos):
+                        //find corresponding instances of `Place` in System.places for every element in the resulting PlaceInfo array, and set the values of `region` and `isClosed` accordingly.
                         placeInfos.forEach { placeInfo in
                             let index = System.places.firstIndex(where: { place -> Bool in
                                 return place.id == placeInfo.id
@@ -197,6 +226,7 @@ class API {
                         }
                         completion(true)
                     case .failure(let error):
+                        //handle errors
                         print(error)
                         UserDefaults.standard.removeObject(forKey: "token")
                         UserDefaults.standard.removeObject(forKey: "authKey")
@@ -408,7 +438,6 @@ class API {
                 res[menu.description]?[station.category] = station.items
             }
         }
-        print(res)
         return res
     }
 
@@ -436,7 +465,6 @@ class API {
                             })
                             guard let placeIndex = index else { return }
                             System.places[placeIndex].menus = menu
-                            print(menu)
                         })
                         completion(true)
 
