@@ -1,5 +1,5 @@
 //
-//  GraphHeaderCell.swift
+//  DaySelectionCell.swift
 //  Campus Density
 //
 //  Created by Matthew Coufal on 3/8/19.
@@ -8,47 +8,47 @@
 
 import UIKit
 
-protocol GraphHeaderCellDelegate: class {
+protocol DaySelectionCellDelegate: class {
 
-    func graphHeaderCellDidSelectWeekday(selectedWeekday: Int)
+    func daySelectionCellDidSelectWeekday(selectedWeekday: Int)
 
 }
 
-class GraphHeaderCell: UICollectionViewCell {
+class DaySelectionCell: UICollectionViewCell {
 
     // MARK: - Data vars
     var weekdays: [Int]!
     var selectedWeekday: Int!
-    weak var delegate: GraphHeaderCellDelegate?
+    weak var delegate: DaySelectionCellDelegate?
 
     // MARK: - View vars
     var headerLabel: UILabel!
     var buttons = [UIButton]()
 
     // MARK: - Constants
-    let headerLabelText = "Popular Times"
+//    let headerLabelText = "Popular Times"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        headerLabel = UILabel()
-        headerLabel.text = headerLabelText
-        headerLabel.textColor = .grayishBrown
-        headerLabel.textAlignment = .left
-        headerLabel.font = .thirtyBold
-        addSubview(headerLabel)
+//        headerLabel = UILabel()
+//        headerLabel.text = headerLabelText
+//        headerLabel.textColor = .grayishBrown
+//        headerLabel.textAlignment = .left
+//        headerLabel.font = .thirtyBold
+//        addSubview(headerLabel)
 
     }
 
     func setupConstraints() {
 
-        let headerLabelTextHeight = headerLabelText.height(withConstrainedWidth: frame.width - Constants.smallPadding * 2, font: headerLabel.font)
-
-        headerLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview().inset(Constants.smallPadding)
-            make.left.equalToSuperview().offset(Constants.smallPadding)
-            make.height.equalTo(headerLabelTextHeight)
-        }
+//        let headerLabelTextHeight = headerLabelText.height(withConstrainedWidth: frame.width - Constants.smallPadding * 2, font: headerLabel.font)
+//
+//        headerLabel.snp.makeConstraints { make in
+//            make.width.equalToSuperview().inset(Constants.smallPadding)
+//            make.left.equalToSuperview().offset(Constants.smallPadding)
+//            make.height.equalTo(headerLabelTextHeight)
+//        }
 
         for button in buttons {
             button.removeFromSuperview()
@@ -83,7 +83,7 @@ class GraphHeaderCell: UICollectionViewCell {
 
             button.snp.makeConstraints { make in
                 make.left.equalTo(buttonLeft)
-                make.top.equalTo(headerLabel.snp.bottom).offset(Constants.smallPadding)
+//                make.top.equalTo(headerLabel.snp.bottom).offset(Constants.smallPadding)
                 make.width.height.equalTo(buttonLength)
             }
 
@@ -94,10 +94,10 @@ class GraphHeaderCell: UICollectionViewCell {
     }
 
     @objc func weekdayButtonPressed(sender: UIButton) {
-        delegate?.graphHeaderCellDidSelectWeekday(selectedWeekday: sender.tag)
+        delegate?.daySelectionCellDidSelectWeekday(selectedWeekday: sender.tag)
     }
 
-    func configure(weekdays: [Int], selectedWeekday: Int, delegate: GraphHeaderCellDelegate) {
+    func configure(weekdays: [Int], selectedWeekday: Int, delegate: DaySelectionCellDelegate) {
         self.weekdays = weekdays
         self.selectedWeekday = selectedWeekday
         self.delegate = delegate
