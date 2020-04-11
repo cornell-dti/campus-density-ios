@@ -66,7 +66,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: linkTopOffset),
             FormLinkModel(feedbackForm: feedbackForm),
             SpaceModel(space: Constants.smallPadding),
-            GraphHeaderModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
+            DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.largePadding),
             GraphModel(description: description, densityMap: densityMap, selectedHour: selectedHour),
             SpaceModel(space: Constants.largePadding),
@@ -90,9 +90,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is FormLinkModel {
             let formLinkModel = object as! FormLinkModel
             return FormLinkSectionController(formLinkModel: formLinkModel, delegate: self)
-        } else if object is GraphHeaderModel {
-            let graphHeaderModel = object as! GraphHeaderModel
-            return GraphHeaderSectionController(graphHeaderModel: graphHeaderModel, delegate: self)
+        } else if object is DaySelectionModel {
+            let daySelectionModel = object as! DaySelectionModel
+            return DaySelectionSectionController(daySelectionModel: daySelectionModel, delegate: self)
         } else if object is GraphModel {
             let graphModel = object as! GraphModel
             return GraphSectionController(graphModel: graphModel, delegate: self)
@@ -135,9 +135,9 @@ extension PlaceDetailViewController: MealsFilterSectionControllerDelegate {
 
 }
 
-extension PlaceDetailViewController: GraphHeaderSectionControllerDelegate {
+extension PlaceDetailViewController: DaySelectionSectionControllerDelegate {
 
-    func graphHeaderSectionControllerDidSelectWeekday(selectedWeekday: Int) {
+    func daySelectionSectionControllerDidSelectWeekday(selectedWeekday: Int) {
         if selectedWeekday != self.selectedWeekday {
             self.selectedWeekday = selectedWeekday
             getDensityMap()

@@ -25,7 +25,7 @@
 		0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D5E2232436600058AE6 /* SpaceModel.swift */; };
 		0C8B6D612232441C00058AE6 /* CurrentDensityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */; };
 		0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D62223244B700058AE6 /* FormLinkModel.swift */; };
-		0C8B6D652232459900058AE6 /* GraphHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D642232459900058AE6 /* GraphHeaderModel.swift */; };
+		0C8B6D652232459900058AE6 /* DaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D642232459900058AE6 /* DaySelectionModel.swift */; };
 		0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6622324A7A00058AE6 /* GraphModel.swift */; };
 		0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */; };
 		0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6A22324B8000058AE6 /* HoursModel.swift */; };
@@ -41,8 +41,8 @@
 		0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */; };
 		0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */; };
 		0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */; };
-		0CB3BF782232BF3200A5B371 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF772232BF3200A5B371 /* GraphHeaderSectionController.swift */; };
-		0CB3BF7A2232C0F700A5B371 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF792232C0F700A5B371 /* GraphHeaderCell.swift */; };
+		0CB3BF782232BF3200A5B371 /* DaySelectionSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF772232BF3200A5B371 /* DaySelectionSectionController.swift */; };
+		0CB3BF7A2232C0F700A5B371 /* DaySelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF792232C0F700A5B371 /* DaySelectionCell.swift */; };
 		0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */; };
 		0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */; };
 		0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */; };
@@ -108,7 +108,7 @@
 		0C8B6D5E2232436600058AE6 /* SpaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceModel.swift; sourceTree = "<group>"; };
 		0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensityModel.swift; sourceTree = "<group>"; };
 		0C8B6D62223244B700058AE6 /* FormLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkModel.swift; sourceTree = "<group>"; };
-		0C8B6D642232459900058AE6 /* GraphHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderModel.swift; sourceTree = "<group>"; };
+		0C8B6D642232459900058AE6 /* DaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionModel.swift; sourceTree = "<group>"; };
 		0C8B6D6622324A7A00058AE6 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
 		0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderModel.swift; sourceTree = "<group>"; };
 		0C8B6D6A22324B8000058AE6 /* HoursModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursModel.swift; sourceTree = "<group>"; };
@@ -128,8 +128,8 @@
 		0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkSectionController.swift; sourceTree = "<group>"; };
 		0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkCell.swift; sourceTree = "<group>"; };
-		0CB3BF772232BF3200A5B371 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
-		0CB3BF792232C0F700A5B371 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
+		0CB3BF772232BF3200A5B371 /* DaySelectionSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionSectionController.swift; sourceTree = "<group>"; };
+		0CB3BF792232C0F700A5B371 /* DaySelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionCell.swift; sourceTree = "<group>"; };
 		0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSectionController.swift; sourceTree = "<group>"; };
 		0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCell.swift; sourceTree = "<group>"; };
 		0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 				0C209B1822482D610007AFA9 /* FiltersModel.swift */,
 				0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */,
 				0C8B6D62223244B700058AE6 /* FormLinkModel.swift */,
-				0C8B6D642232459900058AE6 /* GraphHeaderModel.swift */,
+				0C8B6D642232459900058AE6 /* DaySelectionModel.swift */,
 				0C8B6D6622324A7A00058AE6 /* GraphModel.swift */,
 				0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */,
 				0C8B6D6A22324B8000058AE6 /* HoursModel.swift */,
@@ -226,7 +226,7 @@
 				0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */,
 				0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */,
 				0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */,
-				0CB3BF772232BF3200A5B371 /* GraphHeaderSectionController.swift */,
+				0CB3BF772232BF3200A5B371 /* DaySelectionSectionController.swift */,
 				0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */,
 				0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */,
 				0CB3BF832232CE3400A5B371 /* HoursSectionController.swift */,
@@ -303,7 +303,7 @@
 				0C209B1C22482E650007AFA9 /* FiltersCell.swift */,
 				0C8B6D7322324FFA00058AE6 /* CurrentDensityCell.swift */,
 				0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */,
-				0CB3BF792232C0F700A5B371 /* GraphHeaderCell.swift */,
+				0CB3BF792232C0F700A5B371 /* DaySelectionCell.swift */,
 				0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */,
 				0C209B12224825AF0007AFA9 /* PlaceCell.swift */,
 				0C209B16224829280007AFA9 /* LogoCell.swift */,
@@ -601,7 +601,7 @@
 			files = (
 				0C8B6D7422324FFA00058AE6 /* CurrentDensityCell.swift in Sources */,
 				EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */,
-				0CB3BF7A2232C0F700A5B371 /* GraphHeaderCell.swift in Sources */,
+				0CB3BF7A2232C0F700A5B371 /* DaySelectionCell.swift in Sources */,
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
 				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
 				0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */,
@@ -621,11 +621,11 @@
 				0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */,
 				EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */,
 				EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */,
-				0CB3BF782232BF3200A5B371 /* GraphHeaderSectionController.swift in Sources */,
+				0CB3BF782232BF3200A5B371 /* DaySelectionSectionController.swift in Sources */,
 				0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */,
 				0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */,
 				0CB3BF842232CE3400A5B371 /* HoursSectionController.swift in Sources */,
-				0C8B6D652232459900058AE6 /* GraphHeaderModel.swift in Sources */,
+				0C8B6D652232459900058AE6 /* DaySelectionModel.swift in Sources */,
 				3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */,

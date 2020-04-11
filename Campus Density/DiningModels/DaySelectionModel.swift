@@ -1,5 +1,5 @@
 //
-//  GraphHeaderModel.swift
+//  DaySelectionModel.swift
 //  Campus Density
 //
 //  Created by Matthew Coufal on 3/8/19.
@@ -9,7 +9,7 @@
 import Foundation
 import IGListKit
 
-class GraphHeaderModel {
+class DaySelectionModel {
 
     var selectedWeekday: Int
     var weekdays: [Int]
@@ -22,7 +22,7 @@ class GraphHeaderModel {
 
 }
 
-extension GraphHeaderModel: ListDiffable {
+extension DaySelectionModel: ListDiffable {
 
     func diffIdentifier() -> NSObjectProtocol {
         return identifier as NSString
@@ -30,7 +30,7 @@ extension GraphHeaderModel: ListDiffable {
 
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
-        guard let object = object as? GraphHeaderModel else { return false }
+        guard let object = object as? DaySelectionModel else { return false }
         return object.identifier == identifier
     }
 
