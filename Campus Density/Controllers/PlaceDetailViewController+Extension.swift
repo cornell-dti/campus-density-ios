@@ -67,13 +67,15 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             FormLinkModel(feedbackForm: feedbackForm),
             SpaceModel(space: Constants.smallPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
-            SpaceModel(space: Constants.largePadding),
+            SpaceModel(space: Constants.smallPadding),
+            GraphHeaderModel(),
+            SpaceModel(space: Constants.smallPadding),
             GraphModel(description: description, densityMap: densityMap, selectedHour: selectedHour),
-            SpaceModel(space: Constants.largePadding),
-            HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.mediumPadding),
+            HoursHeaderModel(weekday: weekday, date: date),
+            SpaceModel(space: Constants.smallPadding),
             HoursModel(hours: hours),
-            SpaceModel(space: Constants.largePadding),
+            SpaceModel(space: Constants.smallPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding),
             MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal)
@@ -93,6 +95,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is DaySelectionModel {
             let daySelectionModel = object as! DaySelectionModel
             return DaySelectionSectionController(daySelectionModel: daySelectionModel, delegate: self)
+        } else if object is GraphHeaderModel {
+            let graphHeaderModel = object as! GraphHeaderModel
+            return GraphHeaderSectionController(graphHeaderModel: graphHeaderModel)
         } else if object is GraphModel {
             let graphModel = object as! GraphModel
             return GraphSectionController(graphModel: graphModel, delegate: self)

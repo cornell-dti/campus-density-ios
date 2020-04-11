@@ -21,9 +21,6 @@ class DaySelectionSectionController: ListSectionController {
     var daySelectionModel: DaySelectionModel!
     weak var delegate: DaySelectionSectionControllerDelegate?
 
-    // MARK: - Constants
-//    let headerText = "Popular Times"
-
     init(daySelectionModel: DaySelectionModel, delegate: DaySelectionSectionControllerDelegate) {
         self.daySelectionModel = daySelectionModel
         self.delegate = delegate
@@ -32,8 +29,7 @@ class DaySelectionSectionController: ListSectionController {
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         let buttonHeight = (containerSize.width - CGFloat(daySelectionModel.weekdays.count + 1) * Constants.smallPadding) / CGFloat(daySelectionModel.weekdays.count)
-//        let textHeight = headerText.height(withConstrainedWidth: containerSize.width - Constants.smallPadding * 2, font: .thirtyBold)
-        return CGSize(width: containerSize.width, height: buttonHeight /*+ textHeight + Constants.smallPadding*/)
+        return CGSize(width: containerSize.width, height: buttonHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {

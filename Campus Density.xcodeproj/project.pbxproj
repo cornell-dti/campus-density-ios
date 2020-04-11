@@ -55,6 +55,9 @@
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
+		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
+		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
+		3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328C244219B000D42F59 /* GraphHeaderModel.swift */; };
 		69FBE3A7C9A2FABCC58E8B38 /* Pods_Campus_DensityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */; };
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		EE03ED9123EBDA800064266B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */; };
@@ -145,6 +148,9 @@
 		33A9A060DE6722A4C153ECF9 /* Pods-Campus DensityUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A221D5B742F7968E952C70F /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
+		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
+		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
+		3C87328C244219B000D42F59 /* GraphHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderModel.swift; sourceTree = "<group>"; };
 		4161DBCCBFDC9BA3D5E85BF0 /* Pods-Campus DensityTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.release.xcconfig"; sourceTree = "<group>"; };
 		4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_DensityTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_DensityUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +222,7 @@
 				0C8B6D6A22324B8000058AE6 /* HoursModel.swift */,
 				08F679812378E8D7005B7810 /* MenuModel.swift */,
 				EE93BF192380A89F00219902 /* MealFiltersModel.swift */,
+				3C87328C244219B000D42F59 /* GraphHeaderModel.swift */,
 			);
 			path = DiningModels;
 			sourceTree = "<group>";
@@ -235,6 +242,7 @@
 				0C209B1A22482DDB0007AFA9 /* FiltersSectionController.swift */,
 				08F679832378E976005B7810 /* MenuSectionController.swift */,
 				081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */,
+				3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */,
 			);
 			path = SectionControllers;
 			sourceTree = "<group>";
@@ -312,6 +320,7 @@
 				08F6797F2378E7BA005B7810 /* MenuCell.swift */,
 				EE93BF172380A44300219902 /* MealFilterCell.swift */,
 				3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */,
+				3C873288244218CA00D42F59 /* GraphHeaderCell.swift */,
 			);
 			path = DiningCells;
 			sourceTree = "<group>";
@@ -618,6 +627,7 @@
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
 				081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */,
+				3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */,
 				0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */,
 				EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */,
 				EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */,
@@ -641,8 +651,10 @@
 				0C316AD52223773400AE4BE3 /* Utils.swift in Sources */,
 				EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */,
 				0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */,
+				3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */,
 				0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */,
 				0C209B1922482D610007AFA9 /* FiltersModel.swift in Sources */,
+				3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */,
 				0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */,
