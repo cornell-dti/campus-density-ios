@@ -322,9 +322,7 @@ class API {
                         case .success(let hoursResponseArray):
                             let hoursResponse = hoursResponseArray[0]
                             var hours = [Int: String]()
-                            var index: Int = 0
-                            while index < hoursResponse.hours.count {
-                                let dailyInfo = hoursResponse.hours[index]
+                            for dailyInfo in hoursResponse.hours {
                                 let day = dailyInfo.dayOfWeek
                                 let dailyHours = dailyInfo.dailyHours
                                 let timeFormatter = DateFormatter()
@@ -334,16 +332,11 @@ class API {
                                 let close = Date(timeIntervalSince1970: closeTimestamp)
                                 let openTime = timeFormatter.string(from: open)
                                 let closeTime = timeFormatter.string(from: close)
-                                let isLastIndex = index == hoursResponse.hours.count - 1
                                 if let hoursString = hours[day] {
-                                    hours[day] = hoursString + "\(openTime) - \(closeTime)"
+                                    hours[day] = hoursString + "\n\(openTime) - \(closeTime)"
                                 } else {
                                     hours[day] = "\(openTime) - \(closeTime)"
                                 }
-                                if let hoursString = hours[day], !isLastIndex {
-                                    hours[day] = hoursString + "\n"
-                                }
-                                index += 1
                             }
                             if let placeIndex = System.places.firstIndex(where: { other -> Bool in
                                 return other.id == place.id
