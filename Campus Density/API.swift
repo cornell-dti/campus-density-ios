@@ -305,6 +305,8 @@ class API {
 
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd-yy"
+            // Always get hours based on the time in New York
+            formatter.timeZone = TimeZone(identifier: "America/New_York")
             let startDate = formatter.string(from: today)
             let endDate = formatter.string(from: sixDaysLater)
 
@@ -326,6 +328,8 @@ class API {
                                 let day = dailyInfo.dayOfWeek
                                 let dailyHours = dailyInfo.dailyHours
                                 let timeFormatter = DateFormatter()
+                                // Display hours in ET
+                                timeFormatter.timeZone = TimeZone(identifier: "America/New_York")
                                 timeFormatter.timeStyle = .short
                                 guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
                                 let open = Date(timeIntervalSince1970: openTimestamp)
