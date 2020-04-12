@@ -300,23 +300,13 @@ class API {
 
         var success = true
 
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
         let today = Date()
         if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
 
-            let start = formatter.string(from: today)
-            let end = formatter.string(from: sixDaysLater)
-            let startComponents = start.components(separatedBy: "/")
-            let startYear = String(startComponents[2].suffix(2))
-            let startDay = startComponents[1].count == 1 ? "0\(startComponents[1])" : startComponents[1]
-            let startMonth = startComponents[0].count == 1 ? "0\(startComponents[0])" : startComponents[0]
-            let endComponents = end.components(separatedBy: "/")
-            let endYear = String(endComponents[2].suffix(2))
-            let endDay = endComponents[1].count == 1 ? "0\(endComponents[1])" : endComponents[1]
-            let endMonth = endComponents[0].count == 1 ? "0\(endComponents[0])" : endComponents[0]
-            let startDate = "\(startMonth)-\(startDay)-\(startYear)"
-            let endDate = "\(endMonth)-\(endDay)-\(endYear)"
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM-dd-yy"
+            let startDate = formatter.string(from: today)
+            let endDate = formatter.string(from: sixDaysLater)
 
             let parameters = [
                 "id": place.id,
