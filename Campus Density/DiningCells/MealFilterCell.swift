@@ -65,19 +65,19 @@ class MealFilterCell: UICollectionViewCell {
         }
 
         let padding: CGFloat = Constants.smallPadding
-        var index: Int = mealModel.meals.count - 1
-        var buttonRightOffset: CGFloat = -padding
-        filterButtons.reversed().forEach { button in
-            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .fourteen) + labelHorizontalPadding * 2
+        var index: Int = 0
+        var buttonLeftOffset: CGFloat = padding
+        filterButtons.forEach { button in
+            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .sixteen) + labelHorizontalPadding * 2
             button.snp.makeConstraints({ make in
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
-                make.top.equalTo(headerLabel.snp.top)
-                make.right.equalToSuperview().offset(buttonRightOffset)
+                make.top.equalTo(headerLabel.snp.bottom).offset(Constants.smallPadding)
+                make.left.equalToSuperview().offset(buttonLeftOffset)
                 make.bottom.equalToSuperview()
             })
-            index -= 1
-            buttonRightOffset -= buttonWidth + padding
+            index += 1
+            buttonLeftOffset += buttonWidth + padding
         }
     }
 
@@ -97,7 +97,7 @@ class MealFilterCell: UICollectionViewCell {
             button.tag = index
             button.backgroundColor = meal == mealModel.selectedMeal ? .whiteTwo : .white
             button.setTitle(mealLabel(meal: meal), for: .normal)
-            button.titleLabel?.font = .fourteen
+            button.titleLabel?.font = .sixteen
             button.setTitleColor(meal == mealModel.selectedMeal ? .grayishBrown : .densityDarkGray, for: .normal)
             button.clipsToBounds = true
             button.layer.cornerRadius = self.buttonHeight / 2
