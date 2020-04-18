@@ -26,29 +26,12 @@ class DaySelectionCell: UICollectionViewCell {
     var buttons = [UIButton]()
 
     // MARK: - Constants
-//    let headerLabelText = "Popular Times"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-//        headerLabel = UILabel()
-//        headerLabel.text = headerLabelText
-//        headerLabel.textColor = .grayishBrown
-//        headerLabel.textAlignment = .left
-//        headerLabel.font = .thirtyBold
-//        addSubview(headerLabel)
-
     }
 
     func setupConstraints() {
-
-//        let headerLabelTextHeight = headerLabelText.height(withConstrainedWidth: frame.width - Constants.smallPadding * 2, font: headerLabel.font)
-//
-//        headerLabel.snp.makeConstraints { make in
-//            make.width.equalToSuperview().inset(Constants.smallPadding)
-//            make.left.equalToSuperview().offset(Constants.smallPadding)
-//            make.height.equalTo(headerLabelTextHeight)
-//        }
 
         for button in buttons {
             button.removeFromSuperview()
@@ -83,7 +66,6 @@ class DaySelectionCell: UICollectionViewCell {
 
             button.snp.makeConstraints { make in
                 make.left.equalTo(buttonLeft)
-//                make.top.equalTo(headerLabel.snp.bottom).offset(Constants.smallPadding)
                 make.width.height.equalTo(buttonLength)
             }
 
