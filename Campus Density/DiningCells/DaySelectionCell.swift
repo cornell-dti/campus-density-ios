@@ -22,7 +22,6 @@ class DaySelectionCell: UICollectionViewCell {
     weak var delegate: DaySelectionCellDelegate?
 
     // MARK: - View vars
-    var headerLabel: UILabel!
     var buttons = [UIButton]()
 
     // MARK: - Constants
@@ -40,10 +39,8 @@ class DaySelectionCell: UICollectionViewCell {
 
         let buttonLength = (frame.width - CGFloat(weekdays.count + 1) * Constants.smallPadding) / CGFloat(weekdays.count)
         var buttonLeft: CGFloat = Constants.smallPadding
-        var index = 0
 
-        while index < weekdays.count {
-            let weekday = weekdays[index]
+        for weekday in weekdays {
             let button = UIButton()
             button.tag = weekday
             button.addTarget(self, action: #selector(weekdayButtonPressed), for: .touchUpInside)
@@ -70,7 +67,6 @@ class DaySelectionCell: UICollectionViewCell {
             }
 
             buttonLeft += Constants.smallPadding + buttonLength
-            index += 1
         }
 
     }

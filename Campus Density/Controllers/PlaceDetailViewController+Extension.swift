@@ -24,11 +24,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             hours = selectedWeekdayHours
         }
         var menuDay = selectedWeekday + 1 - getWeekday()
-        if (menuDay < 0) {
+        if (menuDay <= 0) {
             menuDay = 7 + menuDay
-        }
-        if (menuDay == 0) {
-            menuDay = 7
         }
         if place.menus.weeksMenus.count != 0 {
             menus = place.menus.weeksMenus[menuDay]
