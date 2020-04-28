@@ -40,6 +40,8 @@ class PlaceDetailViewController: UIViewController {
     let largeLoadingBarsLength: CGFloat = 63
     let linkTopOffset: CGFloat = 5
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
+    let ithacaTime = TimeZone(identifier: "America/New_York")!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         print("\n")
@@ -198,7 +200,8 @@ class PlaceDetailViewController: UIViewController {
 
     func getCurrentHour() -> Int {
         let today = Date()
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = ithacaTime
         return calendar.component(.hour, from: today)
     }
 
@@ -306,7 +309,8 @@ class PlaceDetailViewController: UIViewController {
 
     func getWeekday() -> Int {
         let today = Date()
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = ithacaTime
         return calendar.component(.weekday, from: today) - 1
     }
 
@@ -336,11 +340,11 @@ class PlaceDetailViewController: UIViewController {
         guard let weekdayIndex = weekdays.firstIndex(of: selectedWeekday) else { return "" }
         guard let selectedDate = Calendar.current.date(byAdding: Calendar.Component.day, value: weekdayIndex, to: today) else { return "" }
         let formatter = DateFormatter()
-        formatter.timeStyle = .none
-        formatter.dateStyle = .long
-        let dateString = formatter.string(from: selectedDate)
-        let dateStringComponents = dateString.components(separatedBy: ",")
-        return dateStringComponents[0]
+        formatter.timeZone = ithacaTime
+        formatter.setLocalizedDateFormatFromTemplate("MMMM dd")
+        let text = formatter.string(from: selectedDate)
+          + ((TimeZone.current != ithacaTime) ? " (\(ithacaTime.abbreviation()!))" : "")
+        return text
     }
 
 }
