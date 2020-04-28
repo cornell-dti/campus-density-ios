@@ -41,6 +41,7 @@ class PlaceDetailViewController: UIViewController {
     let linkTopOffset: CGFloat = 5
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
     let ithacaTime = TimeZone(identifier: "America/New_York")!
+    var ithacaCalendar = Calendar.current
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,8 @@ class PlaceDetailViewController: UIViewController {
             make.width.height.equalTo(largeLoadingBarsLength)
             make.center.equalToSuperview()
         }
+
+        ithacaCalendar.timeZone = ithacaTime
 
         if place.hours.isEmpty {
             loadingBarsView.isHidden = false
@@ -200,9 +203,7 @@ class PlaceDetailViewController: UIViewController {
 
     func getCurrentHour() -> Int {
         let today = Date()
-        var calendar = Calendar.current
-        calendar.timeZone = ithacaTime
-        return calendar.component(.hour, from: today)
+        return ithacaCalendar.component(.hour, from: today)
     }
 
     func update() {
@@ -259,24 +260,7 @@ class PlaceDetailViewController: UIViewController {
     }
 
     func historyKey(weekday: Int) -> String {
-        switch weekday {
-            case 0:
-                return "SUN"
-            case 1:
-                return "MON"
-            case 2:
-                return "TUE"
-            case 3:
-                return "WED"
-            case 4:
-                return "THU"
-            case 5:
-                return "FRI"
-            case 6:
-                return "SAT"
-            default:
-                return "SUN"
-        }
+        return ithacaCalendar.shortStandaloneWeekdaySymbols[weekday].uppercased()
     }
 
     func getDensityMap() {
@@ -309,36 +293,17 @@ class PlaceDetailViewController: UIViewController {
 
     func getWeekday() -> Int {
         let today = Date()
-        var calendar = Calendar.current
-        calendar.timeZone = ithacaTime
-        return calendar.component(.weekday, from: today) - 1
+        return ithacaCalendar.component(.weekday, from: today) - 1
     }
 
     func selectedWeekdayText() -> String {
-        switch selectedWeekday {
-            case 0:
-                return "Sunday"
-            case 1:
-                return "Monday"
-            case 2:
-                return "Tuesday"
-            case 3:
-                return "Wednesday"
-            case 4:
-                return "Thursday"
-            case 5:
-                return "Friday"
-            case 6:
-                return "Saturday"
-            default:
-                return "Sunday"
-        }
+        return ithacaCalendar.weekdaySymbols[selectedWeekday]
     }
 
     func selectedDateText() -> String {
         let today = Date()
         guard let weekdayIndex = weekdays.firstIndex(of: selectedWeekday) else { return "" }
-        guard let selectedDate = Calendar.current.date(byAdding: Calendar.Component.day, value: weekdayIndex, to: today) else { return "" }
+        guard let selectedDate = ithacaCalendar.date(byAdding: Calendar.Component.day, value: weekdayIndex, to: today) else { return "" }
         let formatter = DateFormatter()
         formatter.timeZone = ithacaTime
         formatter.setLocalizedDateFormatFromTemplate("MMMM dd")
