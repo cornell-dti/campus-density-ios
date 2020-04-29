@@ -28,7 +28,7 @@ class DaySelectionSectionController: ListSectionController {
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let buttonHeight = (containerSize.width - CGFloat(daySelectionModel.weekdays.count + 1) * Constants.smallPadding) / CGFloat(daySelectionModel.weekdays.count)
+        let buttonHeight = (containerSize.width - Constants.smallPadding - CGFloat(daySelectionModel.weekdays.count + 1) * Constants.smallPadding / 2) / CGFloat(daySelectionModel.weekdays.count) * 1.5
         return CGSize(width: containerSize.width, height: buttonHeight)
     }
 

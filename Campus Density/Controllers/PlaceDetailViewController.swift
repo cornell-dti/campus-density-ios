@@ -194,7 +194,6 @@ class PlaceDetailViewController: UIViewController {
             let future = ithacaCalendar.date(byAdding: .day, value: i, to: today)!
             let weekday = ithacaCalendar.component(.weekday, from: future) - 1
             let dayNum = ithacaCalendar.component(.day, from: future)
-            print(dayNum)
             weekdays.append((weekday, dayNum))
         }
     }

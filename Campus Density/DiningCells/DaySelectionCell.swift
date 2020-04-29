@@ -37,7 +37,8 @@ class DaySelectionCell: UICollectionViewCell {
         }
         buttons = []
 
-        let buttonLength = (frame.width - CGFloat(weekdays.count + 1) * Constants.smallPadding) / CGFloat(weekdays.count)
+        let cornerRadius: CGFloat = 10
+        let buttonLength = (frame.width - Constants.smallPadding - CGFloat(weekdays.count + 1) * Constants.smallPadding / 2) / CGFloat(weekdays.count)
         var buttonLeft: CGFloat = Constants.smallPadding
 
         for weekday in weekdays {
@@ -45,17 +46,18 @@ class DaySelectionCell: UICollectionViewCell {
             button.tag = weekday.0
             button.addTarget(self, action: #selector(weekdayButtonPressed), for: .touchUpInside)
             button.clipsToBounds = true
-            button.layer.cornerRadius = buttonLength / 2
-            button.titleLabel?.font = .sixteen
-            button.setTitle(weekdayAbbreviation(weekday: button.tag), for: .normal)
+            button.layer.cornerRadius = cornerRadius
+            button.titleLabel?.lineBreakMode = .byWordWrapping
+            button.titleLabel?.textAlignment = .center
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 5
+            paragraphStyle.alignment = .center
+            let title = NSMutableAttributedString(string: weekdayAbbreviation(weekday: button.tag), attributes: [.foregroundColor: UIColor.warmGray, .font: UIFont.sixteen, .paragraphStyle: paragraphStyle])
+            title.append(NSAttributedString(string: "\n\(weekday.1)", attributes: [.foregroundColor: UIColor.grayishBrown, .font: UIFont.sixteenBold]))
+            button.setAttributedTitle(title, for: .normal)
             if button.tag == selectedWeekday {
-                button.backgroundColor = .grayishBrown
-                button.setTitleColor(.white, for: .normal)
-            } else {
                 button.layer.borderColor = UIColor.warmGray.cgColor
                 button.layer.borderWidth = 1
-                button.backgroundColor = .white
-                button.setTitleColor(.grayishBrown, for: .normal)
             }
 
             buttons.append(button)
@@ -63,10 +65,20 @@ class DaySelectionCell: UICollectionViewCell {
 
             button.snp.makeConstraints { make in
                 make.left.equalTo(buttonLeft)
-                make.width.height.equalTo(buttonLength)
+                make.width.equalTo(buttonLength)
+                make.height.equalTo(buttonLength * 1.5)
             }
 
-            buttonLeft += Constants.smallPadding + buttonLength
+            buttonLeft += Constants.smallPadding / 2 + buttonLength
+        }
+
+        let line = UIView()
+        line.backgroundColor = .warmGray
+        addSubview(line)
+        line.snp.makeConstraints { make in
+            make.left.equalTo(Constants.smallPadding + cornerRadius)
+            make.width.equalTo(frame.width - Constants.smallPadding * 2 - cornerRadius * 2)
+            make.height.equalTo(1)
         }
 
     }
