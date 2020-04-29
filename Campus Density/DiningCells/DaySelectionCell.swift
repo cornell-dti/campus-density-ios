@@ -17,7 +17,7 @@ protocol DaySelectionCellDelegate: class {
 class DaySelectionCell: UICollectionViewCell {
 
     // MARK: - Data vars
-    var weekdays: [Int]!
+    var weekdays: [(Int, Int)]!
     var selectedWeekday: Int!
     weak var delegate: DaySelectionCellDelegate?
 
@@ -42,13 +42,13 @@ class DaySelectionCell: UICollectionViewCell {
 
         for weekday in weekdays {
             let button = UIButton()
-            button.tag = weekday
+            button.tag = weekday.0
             button.addTarget(self, action: #selector(weekdayButtonPressed), for: .touchUpInside)
             button.clipsToBounds = true
             button.layer.cornerRadius = buttonLength / 2
             button.titleLabel?.font = .sixteen
-            button.setTitle(weekdayAbbreviation(weekday: weekday), for: .normal)
-            if weekday == selectedWeekday {
+            button.setTitle(weekdayAbbreviation(weekday: button.tag), for: .normal)
+            if button.tag == selectedWeekday {
                 button.backgroundColor = .grayishBrown
                 button.setTitleColor(.white, for: .normal)
             } else {
@@ -75,7 +75,7 @@ class DaySelectionCell: UICollectionViewCell {
         delegate?.daySelectionCellDidSelectWeekday(selectedWeekday: sender.tag)
     }
 
-    func configure(weekdays: [Int], selectedWeekday: Int, delegate: DaySelectionCellDelegate) {
+    func configure(weekdays: [(Int, Int)], selectedWeekday: Int, delegate: DaySelectionCellDelegate) {
         self.weekdays = weekdays
         self.selectedWeekday = selectedWeekday
         self.delegate = delegate
