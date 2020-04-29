@@ -16,14 +16,14 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         if !densityMap.isEmpty {
             description = "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
         }
-        let weekday = getWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
+        let weekday = getCurrentWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
         var hours = "No hours available"
         var menus = DayMenus(menus: [], date: "help")
         if let selectedWeekdayHours = place.hours[selectedWeekday] {
             hours = selectedWeekdayHours
         }
-        var menuDay = selectedWeekday + 1 - getWeekday()
+        var menuDay = selectedWeekday + 1 - getCurrentWeekday()
         if (menuDay <= 0) {
             menuDay = 7 + menuDay
         }

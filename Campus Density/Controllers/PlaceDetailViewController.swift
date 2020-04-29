@@ -26,7 +26,7 @@ class PlaceDetailViewController: UIViewController {
     var selectedHour: Int = 0
     var mealList = [Meal]()
     var selectedMeal: Meal = .none
-    var weekdays = [Int]()
+    var weekdays = [(Int, Int)]() // (weekday, dayNum) as in (0, 5) for Sunday the 5th
     var densityMap = [Int: Double]()
     var adapter: ListAdapter!
     var loadingHours: Bool = true
@@ -181,23 +181,21 @@ class PlaceDetailViewController: UIViewController {
 
     func setup() {
         setWeekdays()
-        selectedWeekday = getWeekday()
+        selectedWeekday = getCurrentWeekday()
         selectedHour = getCurrentHour()
         getDensityMap()
         setupViews()
     }
 
     func setWeekdays() {
-        let today = getWeekday()
-        let last = 6
-        weekdays = [today]
-        var weekday = today + 1 > last ? 0 : today + 1
-        while weekday != today {
-            weekdays.append(weekday)
-            weekday += 1
-            if weekday > last {
-                weekday = 0
-            }
+        let today = Date()
+        weekdays = []
+        for i in 0...6 {
+            let future = ithacaCalendar.date(byAdding: .day, value: i, to: today)!
+            let weekday = ithacaCalendar.component(.weekday, from: future) - 1
+            let dayNum = ithacaCalendar.component(.day, from: future)
+            print(dayNum)
+            weekdays.append((weekday, dayNum))
         }
     }
 
@@ -291,7 +289,7 @@ class PlaceDetailViewController: UIViewController {
         }
     }
 
-    func getWeekday() -> Int {
+    func getCurrentWeekday() -> Int {
         let today = Date()
         return ithacaCalendar.component(.weekday, from: today) - 1
     }
@@ -302,7 +300,7 @@ class PlaceDetailViewController: UIViewController {
 
     func selectedDateText() -> String {
         let today = Date()
-        guard let weekdayIndex = weekdays.firstIndex(of: selectedWeekday) else { return "" }
+        guard let weekdayIndex = weekdays.firstIndex(where: {$0.0 == selectedWeekday}) else { return "" }
         guard let selectedDate = ithacaCalendar.date(byAdding: Calendar.Component.day, value: weekdayIndex, to: today) else { return "" }
         let formatter = DateFormatter()
         formatter.timeZone = ithacaTime

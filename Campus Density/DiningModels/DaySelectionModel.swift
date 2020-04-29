@@ -12,10 +12,10 @@ import IGListKit
 class DaySelectionModel {
 
     var selectedWeekday: Int
-    var weekdays: [Int]
+    var weekdays: [(Int, Int)]
     let identifier = UUID().uuidString
 
-    init(selectedWeekday: Int, weekdays: [Int]) {
+    init(selectedWeekday: Int, weekdays: [(Int, Int)]) {
         self.selectedWeekday = selectedWeekday
         self.weekdays = weekdays
     }
