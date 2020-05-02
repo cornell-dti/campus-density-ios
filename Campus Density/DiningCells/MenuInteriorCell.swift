@@ -13,6 +13,7 @@ class MenuInteriorCell: UICollectionViewCell {
     static let identifier: String = "MenuInteriorCell"
 
     // MARK: - View vars
+    let wrapperView = UIView()
     var menuLabel: UILabel!
 
     override init(frame: CGRect) {
@@ -26,8 +27,13 @@ class MenuInteriorCell: UICollectionViewCell {
 
     func setupConstraints() {
         menuLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview()
             make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.right.equalToSuperview().offset(-Constants.smallPadding)
+        }
+        wrapperView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.right.equalToSuperview().offset(-Constants.smallPadding)
+            make.height.equalTo(menuLabel)
         }
     }
 
@@ -38,7 +44,11 @@ class MenuInteriorCell: UICollectionViewCell {
         menuLabel.numberOfLines = 0
         menuLabel.font = .eighteenBold
         menuLabel.isUserInteractionEnabled = true
-        contentView.addSubview(menuLabel)
+        wrapperView.layer.borderColor = UIColor.warmGray.cgColor
+        wrapperView.layer.borderWidth = 1
+        wrapperView.layer.cornerRadius = 10
+        wrapperView.addSubview(menuLabel)
+        contentView.addSubview(wrapperView)
     }
 
     static func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {

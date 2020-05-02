@@ -30,8 +30,9 @@ class MenuSectionController: ListSectionController {
     func findLongestMenu(menuModel: MenuModel) -> CGFloat {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         var maxHeight: CGFloat = 0
+        let width = containerSize.width - 4 * Constants.smallPadding // 2 each for the exterior cell and interior cell
         for meal in menuModel.mealNames {
-            let menuHeight = MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).string.height(withConstrainedWidth: containerSize.width, font: .eighteenBold)
+            let menuHeight = MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).string.height(withConstrainedWidth: width, font: .eighteenBold)
             maxHeight = CGFloat.maximum(tallestMenu, menuHeight)
         }
         return maxHeight
