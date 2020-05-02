@@ -52,13 +52,15 @@ class DaySelectionCell: UICollectionViewCell {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 5
             paragraphStyle.alignment = .center
-            let title = NSMutableAttributedString(string: weekdayAbbreviation(weekday: button.tag), attributes: [.foregroundColor: UIColor.warmGray, .font: UIFont.sixteen, .paragraphStyle: paragraphStyle])
-            title.append(NSAttributedString(string: "\n\(weekday.1)", attributes: [.foregroundColor: UIColor.grayishBrown, .font: UIFont.sixteenBold]))
-            button.setAttributedTitle(title, for: .normal)
+            var textColor = UIColor.warmGray
             if button.tag == selectedWeekday {
+                textColor = .grayishBrown
                 button.layer.borderColor = UIColor.warmGray.cgColor
                 button.layer.borderWidth = 1
             }
+            let title = NSMutableAttributedString(string: weekdayAbbreviation(weekday: button.tag), attributes: [.foregroundColor: textColor, .font: UIFont.sixteen, .paragraphStyle: paragraphStyle])
+            title.append(NSAttributedString(string: "\n\(weekday.1)", attributes: [.foregroundColor: textColor, .font: UIFont.sixteenBold]))
+            button.setAttributedTitle(title, for: .normal)
 
             buttons.append(button)
             addSubview(button)
@@ -70,15 +72,6 @@ class DaySelectionCell: UICollectionViewCell {
             }
 
             buttonLeft += Constants.smallPadding / 2 + buttonLength
-        }
-
-        let line = UIView()
-        line.backgroundColor = .warmGray
-        addSubview(line)
-        line.snp.makeConstraints { make in
-            make.left.equalTo(Constants.smallPadding + cornerRadius)
-            make.width.equalTo(frame.width - Constants.smallPadding * 2 - cornerRadius * 2)
-            make.height.equalTo(1)
         }
 
     }
