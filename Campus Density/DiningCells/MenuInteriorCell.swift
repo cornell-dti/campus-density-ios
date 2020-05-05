@@ -54,21 +54,27 @@ class MenuInteriorCell: UICollectionViewCell {
     static func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
         let newLine = NSAttributedString(string: "\n")
+        let empty = NSAttributedString(string: "")
         for meal in todaysMenu.menus {
             if (meal.description == selectedMeal.rawValue) {
-                if (meal.menu.count != 0) {
-                    for station in meal.menu {
-                        let categoryString = NSMutableAttributedString(string: station.category)
-                        categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: categoryString.mutableString.range(of: station.category))
-                        res.append(categoryString)
+                for station in meal.menu {
+                    if (res != empty) {
                         res.append(newLine)
-                        let itemString = NSMutableAttributedString()
-                        for item in station.items {
-                            itemString.append(NSAttributedString(string: item))
+                        res.append(newLine)
+                    }
+                    let categoryString = NSMutableAttributedString(string: station.category)
+                    categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: categoryString.mutableString.range(of: station.category))
+                    res.append(categoryString)
+                    let itemString = NSMutableAttributedString()
+                    for item in station.items {
+                        if (itemString != empty) {
                             itemString.append(newLine)
                         }
-                        res.append(itemString)
+                        itemString.append(NSAttributedString(string: item))
+                    }
+                    if (itemString != empty) {
                         res.append(newLine)
+                        res.append(itemString)
                     }
                 }
             }
