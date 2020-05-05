@@ -27,13 +27,14 @@ class MenuInteriorCell: UICollectionViewCell {
 
     func setupConstraints() {
         menuLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(Constants.smallPadding)
+            make.bottom.equalToSuperview().offset(-Constants.smallPadding)
             make.left.equalToSuperview().offset(Constants.smallPadding)
             make.right.equalToSuperview().offset(-Constants.smallPadding)
         }
         wrapperView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(Constants.smallPadding)
             make.right.equalToSuperview().offset(-Constants.smallPadding)
-            make.height.equalTo(menuLabel)
         }
     }
 
@@ -44,7 +45,7 @@ class MenuInteriorCell: UICollectionViewCell {
         menuLabel.numberOfLines = 0
         menuLabel.font = .eighteenBold
         menuLabel.isUserInteractionEnabled = true
-        wrapperView.layer.borderColor = UIColor.warmGray.cgColor
+        wrapperView.layer.borderColor = UIColor.whiteTwo.cgColor
         wrapperView.layer.borderWidth = 1
         wrapperView.layer.cornerRadius = 10
         wrapperView.addSubview(menuLabel)

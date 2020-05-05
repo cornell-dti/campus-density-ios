@@ -75,7 +75,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: Constants.smallPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding),
-            MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal)
+            MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
+            SpaceModel(space: Constants.smallPadding)
         ]
     }
 
