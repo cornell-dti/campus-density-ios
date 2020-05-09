@@ -18,6 +18,14 @@ enum APIError: Error {
     case noData
 }
 
+// Density enumerates all possible levels of crowdedness.
+enum Density: Int, Codable {
+    case veryBusy = 3
+    case prettyBusy = 2
+    case somewhatBusy = 1
+    case notBusy = 0
+}
+
 /// Region enumerates the different parts of campus where the dining halls are located.
 enum Region: String, Codable {
     case north
@@ -82,18 +90,30 @@ struct PlaceInfo: Codable {
     var closingAt: Double
 }
 
-/**
- Represents all the information about that is displayed on the `PlaceDetailViewController` view for a specific eatery.
-*/
 
-class Place: ListDiffable {
-
+class MetaInfo {
     var displayName: String
     var id: String
-    var density: Density
     var isClosed: Bool
     var hours: [Int: String]
     var history: [String: [String: Double]]
+    var density: Density
+    
+    init(displayName: String, id: String, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], density: Density) {
+        self.displayName = displayName
+        self.id = id
+        self.isClosed = isClosed
+        self.hours = hours
+        self.history = history
+        self.density = density
+    }
+}
+
+/**
+ Represents all the information about that is displayed on the `PlaceDetailViewController` view for a specific eatery.
+ */
+class Place: MetaInfo, ListDiffable {
+
     var region: Region
     var menus: WeekMenus
 
@@ -109,14 +129,9 @@ class Place: ListDiffable {
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
     init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
-        self.displayName = displayName
-        self.id = id
-        self.density = density
-        self.isClosed = isClosed
-        self.hours = hours
-        self.history = history
         self.region = region
         self.menus = menus
+        super.init(displayName: displayName, id: id, isClosed: isClosed, hours: hours, history: history, density: density)
     }
 
     //The following two functions are required rto conform to the ListDiffabe protocol
@@ -130,6 +145,29 @@ class Place: ListDiffable {
         return place.id == id
     }
 
+}
+
+class Gym: MetaInfo, ListDiffable {
+    
+    var cardioInfo: CardioInfo
+    var weightsInfo: WeightsInfo
+    
+    init(displayName: String, id: String, density: Density, cardioInfo: CardioInfo, weightsInfo: WeightsInfo,
+         isClosed: Bool, hours: [Int: String], history: [String: [String: Double]]) {
+        self.cardioInfo = cardioInfo
+        self.weightsInfo = weightsInfo
+        super.init(displayName: displayName, id: id, isClosed: isClosed, hours: hours, history: history, density: density)
+    }
+    
+    func diffIdentifier() -> NSObjectProtocol {
+        return id as NSString
+    }
+    
+    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+        if self === object { return true }
+        guard let place = object as? Place else { return false }
+        return place.id == id
+    }
 }
 
 /** Represents the authorization token required for Firebase authentication */
@@ -186,6 +224,20 @@ struct DayMenus: Codable {
 struct WeekMenus: Codable {
     var weeksMenus: [DayMenus]
     var id: String
+}
+
+struct CardioInfo: Codable {
+    var amts: Int
+    var bikes: Int
+    var ellipticals: Int
+    var treadmills: Int
+}
+
+struct WeightsInfo: Codable {
+    var powerRacks: Int
+    var dumbbells: Int
+    var benchPress: Int
+    var other: Int
 }
 
 class API {
