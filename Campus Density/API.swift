@@ -61,10 +61,17 @@ struct PlaceName: Codable {
  - SeeAlso: `Density`
 */
 struct PlaceDensity: Codable {
-
     var id: String
     var density: Density
+}
 
+/**
+ - TODO: Figure out density calculation for gyms!
+*/
+struct GymDensity: Codable {
+    var id: String
+    var cardio: CardioInfo
+    var weights: WeightsInfo
 }
 
 /**
@@ -462,6 +469,39 @@ class API {
                         print(error)
                         completion(false)
                 }
+        }
+    }
+    
+    static func gymDensities(completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        
+        Alamofire.request("\(url)/gymHowDense", headers: headers)
+            .responseData{ response in
+                let decoder = JSONDecoder()
+                let result: Result<[GymDensity]> = decoder.decodeResponse(from: response)
+                
+                switch result {
+                case .success(let gymDensities):
+                    gymDensities.forEach { gymDensity in
+                        let index = System.gyms.firstIndex(where: { (gym) -> Bool in
+                            gym.id == gymDensity.id
+                        })
+                        
+                        guard let gymIndex = index else { return }
+                        System.gyms[gymIndex].cardioInfo = gymDensity.cardio
+                        System.gyms[gymIndex].weightsInfo = gymDensity.weights
+                        // System.places[gymIndex].
+                    }
+                    completion(true)
+                    
+                case .failure(let error):
+                    print(error)
+                    completion(false)
+            }
+                
         }
     }
 
