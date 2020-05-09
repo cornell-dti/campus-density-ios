@@ -97,7 +97,6 @@ struct PlaceInfo: Codable {
     var closingAt: Double
 }
 
-
 class MetaInfo {
     var displayName: String
     var id: String
@@ -105,7 +104,7 @@ class MetaInfo {
     var hours: [Int: String]
     var history: [String: [String: Double]]
     var density: Density
-    
+
     init(displayName: String, id: String, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], density: Density) {
         self.displayName = displayName
         self.id = id
@@ -158,21 +157,21 @@ class Place: MetaInfo, ListDiffable {
  Represents the information about a specific gym
 */
 class Gym: MetaInfo, ListDiffable {
-    
+
     var cardioInfo: CardioInfo
     var weightsInfo: WeightsInfo
-    
+
     init(displayName: String, id: String, density: Density, cardioInfo: CardioInfo, weightsInfo: WeightsInfo,
          isClosed: Bool, hours: [Int: String], history: [String: [String: Double]]) {
         self.cardioInfo = cardioInfo
         self.weightsInfo = weightsInfo
         super.init(displayName: displayName, id: id, isClosed: isClosed, hours: hours, history: history, density: density)
     }
-    
+
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString
     }
-    
+
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
         guard let place = object as? Place else { return false }
@@ -327,7 +326,7 @@ class API {
                 }
         }
     }
-    
+
     static func facilityListHelper(endpoint: String, fetchingPlaces: Bool, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -345,10 +344,10 @@ class API {
                         }
                     } else {
                         System.gyms = responseNames.map { responseName in
-                            return Gym(displayName: responseName.displayName, id: responseName.id, density: .notBusy, cardioInfo: CardioInfo(amts: -1, bikes: -1, ellipticals: -1, treadmills: -1), weightsInfo: WeightsInfo(powerRacks: -1, dumbbells: -1, benchPress: -1, other: -1) , isClosed: false, hours: [:], history: [:])
+                            return Gym(displayName: responseName.displayName, id: responseName.id, density: .notBusy, cardioInfo: CardioInfo(amts: -1, bikes: -1, ellipticals: -1, treadmills: -1), weightsInfo: WeightsInfo(powerRacks: -1, dumbbells: -1, benchPress: -1, other: -1), isClosed: false, hours: [:], history: [:])
                         }
                     }
-                    
+
                     completion(true)
                 case .failure(let error):
                     print(error)
@@ -369,12 +368,11 @@ class API {
     static func places(completion: @escaping (Bool) -> Void) {
         facilityListHelper(endpoint: "facilityList", fetchingPlaces: true, completion: completion)
     }
-    
+
     // get all the gyms
     static func gyms(completion: @escaping (Bool) -> Void) {
         facilityListHelper(endpoint: "gymFacilityList", fetchingPlaces: false, completion: completion)
     }
-    
 
     static func hours(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
@@ -471,37 +469,37 @@ class API {
                 }
         }
     }
-    
+
     static func gymDensities(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        
+
         Alamofire.request("\(url)/gymHowDense", headers: headers)
-            .responseData{ response in
+            .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[GymDensity]> = decoder.decodeResponse(from: response)
-                
+
                 switch result {
                 case .success(let gymDensities):
                     gymDensities.forEach { gymDensity in
                         let index = System.gyms.firstIndex(where: { (gym) -> Bool in
                             gym.id == gymDensity.id
                         })
-                        
+
                         guard let gymIndex = index else { return }
                         System.gyms[gymIndex].cardioInfo = gymDensity.cardio
                         System.gyms[gymIndex].weightsInfo = gymDensity.weights
                         // System.places[gymIndex].
                     }
                     completion(true)
-                    
+
                 case .failure(let error):
                     print(error)
                     completion(false)
             }
-                
+
         }
     }
 
