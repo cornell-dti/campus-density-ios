@@ -125,7 +125,7 @@ class Place: MetaInfo, ListDiffable {
     ///   - density: Represents how crowded this eatery is. `density` is an instance of `Density`
     ///   - isClosed: Whether this place is closed or not
     ///   - hours: A dictionary where the key [TODO]
-    ///   - history: TODO
+    ///   - history: A dictionary where the key represents the 3-character capitalized abbreviation for the day (e.g.: SUN, MON, FRI, etc.), and the value is another dictionary, where the key of the inner dictionary is a string representing the hour of the day in 24-hour time ("1", "2", ...., "23"), and the value is the computed crowdedness.
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
     init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
@@ -147,6 +147,9 @@ class Place: MetaInfo, ListDiffable {
 
 }
 
+/**
+ Represents the information about a specific gym
+*/
 class Gym: MetaInfo, ListDiffable {
     
     var cardioInfo: CardioInfo
@@ -317,32 +320,54 @@ class API {
                 }
         }
     }
-
-    static func places(completion: @escaping (Bool) -> Void) {
+    
+    static func facilityListHelper(endpoint: String, fetchingPlaces: Bool, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("\(url)/facilityList", headers: headers)
+        Alamofire.request("\(url)/\(endpoint)", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let placeNames):
-                        System.places = placeNames.map { placeName in
-                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                case .success(let responseNames):
+                    if fetchingPlaces {
+                        System.places = responseNames.map { responseName in
+                            return Place(displayName: responseName.displayName, id: responseName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: responseName.id))
                         }
-                        completion(true)
-                    case .failure(let error):
-                        print(error)
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
+                    } else {
+                        System.gyms = responseNames.map { responseName in
+                            return Gym(displayName: responseName.displayName, id: responseName.id, density: .notBusy, cardioInfo: CardioInfo(amts: -1, bikes: -1, ellipticals: -1, treadmills: -1), weightsInfo: WeightsInfo(powerRacks: -1, dumbbells: -1, benchPress: -1, other: -1) , isClosed: false, hours: [:], history: [:])
+                        }
+                    }
+                    
+                    completion(true)
+                case .failure(let error):
+                    print(error)
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    if fetchingPlaces {
                         System.places = []
-                        completion(false)
+                    } else {
+                        System.gyms = []
+                    }
+                    completion(false)
                 }
         }
     }
+
+    // get all eateries
+    static func places(completion: @escaping (Bool) -> Void) {
+        facilityListHelper(endpoint: "facilityList", fetchingPlaces: true, completion: completion)
+    }
+    
+    // get all the gyms
+    static func gyms(completion: @escaping (Bool) -> Void) {
+        facilityListHelper(endpoint: "gymFacilityList", fetchingPlaces: false, completion: completion)
+    }
+    
 
     static func hours(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }

@@ -13,5 +13,6 @@ struct System {
     static var token: String?
     static var authKey: String?
     static var places = [Place]()
+    static var gyms = [Gym]()
     static var currentUserLocation: CLLocation?
 }
