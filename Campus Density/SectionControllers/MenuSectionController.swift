@@ -32,8 +32,8 @@ class MenuSectionController: ListSectionController {
         var maxHeight: CGFloat = 0
         let width = containerSize.width - 4 * Constants.smallPadding // 2 each for the exterior cell and interior cell
         for meal in menuModel.mealNames {
-            let menuHeight = MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).string.height(withConstrainedWidth: width, font: .eighteenBold) + 2 * Constants.smallPadding
-            maxHeight = CGFloat.maximum(tallestMenu, menuHeight)
+            let menuHeight = ceil(MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height) + 2 * Constants.smallPadding
+            maxHeight = CGFloat.maximum(maxHeight, menuHeight)
         }
         return maxHeight
     }

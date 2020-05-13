@@ -40,10 +40,8 @@ class MenuInteriorCell: UICollectionViewCell {
 
     func setupViews() {
         menuLabel = UILabel()
-        menuLabel.textColor = .warmGray
         menuLabel.textAlignment = .left
         menuLabel.numberOfLines = 0
-        menuLabel.font = .eighteenBold
         menuLabel.isUserInteractionEnabled = true
         wrapperView.layer.borderColor = UIColor.whiteTwo.cgColor
         wrapperView.layer.borderWidth = 1
@@ -54,7 +52,7 @@ class MenuInteriorCell: UICollectionViewCell {
 
     static func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
-        let newLine = NSAttributedString(string: "\n")
+        let newLine = NSAttributedString(string: "\n", attributes: [NSAttributedString.Key.font: UIFont.fourteen])
         let empty = NSAttributedString(string: "")
         for meal in todaysMenu.menus {
             if (meal.description == selectedMeal.rawValue) {
@@ -64,7 +62,7 @@ class MenuInteriorCell: UICollectionViewCell {
                         res.append(newLine)
                     }
                     let categoryString = NSMutableAttributedString(string: station.category)
-                    categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: categoryString.mutableString.range(of: station.category))
+                    categoryString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.eighteenBold], range: NSRange(location: 0, length: categoryString.length))
                     res.append(categoryString)
                     let itemString = NSMutableAttributedString()
                     for item in station.items {
@@ -73,6 +71,7 @@ class MenuInteriorCell: UICollectionViewCell {
                         }
                         itemString.append(NSAttributedString(string: item))
                     }
+                    itemString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.warmGray, NSAttributedString.Key.font: UIFont.sixteen], range: NSRange(location: 0, length: itemString.length))
                     if (itemString != empty) {
                         res.append(newLine)
                         res.append(itemString)
@@ -80,6 +79,9 @@ class MenuInteriorCell: UICollectionViewCell {
                 }
             }
         }
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.15
+        res.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: res.length))
         return res
     }
 

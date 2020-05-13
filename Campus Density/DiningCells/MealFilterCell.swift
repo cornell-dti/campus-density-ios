@@ -95,12 +95,15 @@ class MealFilterCell: UICollectionViewCell {
         mealModel.meals.forEach { meal in
             let button = UIButton()
             button.tag = index
-            button.backgroundColor = meal == mealModel.selectedMeal ? .whiteTwo : .white
             button.setTitle(mealLabel(meal: meal), for: .normal)
             button.titleLabel?.font = .sixteen
             button.setTitleColor(meal == mealModel.selectedMeal ? .grayishBrown : .densityDarkGray, for: .normal)
             button.clipsToBounds = true
-            button.layer.cornerRadius = self.buttonHeight / 2
+            if (meal == mealModel.selectedMeal) {
+                button.layer.borderColor = UIColor.grayishBrown.cgColor
+                button.layer.borderWidth = 1
+            }
+            button.layer.cornerRadius = 10
             button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
             contentView.addSubview(button)
             self.filterButtons.append(button)
