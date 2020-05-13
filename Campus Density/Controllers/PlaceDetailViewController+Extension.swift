@@ -72,7 +72,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.smallPadding),
             HoursModel(hours: hours),
-            SpaceModel(space: Constants.smallPadding),
+            SpaceModel(space: Constants.mediumPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding),
             MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),

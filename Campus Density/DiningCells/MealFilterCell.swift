@@ -85,29 +85,27 @@ class MealFilterCell: UICollectionViewCell {
         self.mealModel = mealModel
         self.delegate = delegate
 
-        var index: Int = 0
-
         for subview in contentView.subviews {
             subview.removeFromSuperview()
         }
         filterButtons.removeAll()
 
-        mealModel.meals.forEach { meal in
+        for (index, meal) in mealModel.meals.enumerated() {
             let button = UIButton()
             button.tag = index
             button.setTitle(mealLabel(meal: meal), for: .normal)
             button.titleLabel?.font = .sixteen
-            button.setTitleColor(meal == mealModel.selectedMeal ? .grayishBrown : .densityDarkGray, for: .normal)
+            button.setTitleColor(.warmGray, for: .normal)
             button.clipsToBounds = true
             if (meal == mealModel.selectedMeal) {
-                button.layer.borderColor = UIColor.grayishBrown.cgColor
+                button.setTitleColor(.grayishBrown, for: .normal)
+                button.layer.borderColor = UIColor.warmGray.cgColor
                 button.layer.borderWidth = 1
             }
             button.layer.cornerRadius = 10
             button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
             contentView.addSubview(button)
             self.filterButtons.append(button)
-            index += 1
         }
 
         if filterButtons.isEmpty {

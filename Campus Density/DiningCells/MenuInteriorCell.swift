@@ -56,7 +56,8 @@ class MenuInteriorCell: UICollectionViewCell {
         let empty = NSAttributedString(string: "")
         for meal in todaysMenu.menus {
             if (meal.description == selectedMeal.rawValue) {
-                for station in meal.menu {
+                let stations = organizeCategories(menu: meal.menu)
+                for station in stations {
                     if (res != empty) {
                         res.append(newLine)
                         res.append(newLine)
@@ -83,6 +84,20 @@ class MenuInteriorCell: UICollectionViewCell {
         paragraphStyle.lineHeightMultiple = 1.15
         res.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: res.length))
         return res
+    }
+
+    /**
+     Organize the menu items, currently moves "Additional Items" to the last position if present
+     - Parameter menu: a list of stations/menuitems
+     - Returns: custom sorted list of stations
+     */
+    static func organizeCategories(menu: [MenuItem]) -> [MenuItem] {
+        var organized = menu
+        if let additionalItemsIndex = organized.firstIndex(where: {station in station.category == "Additional Items"}) {
+            let additionalItemsStation = organized.remove(at: additionalItemsIndex)
+            organized.append(additionalItemsStation)
+        }
+        return organized
     }
 
     func configure(with menu: DayMenus, forMeal meal: Meal) {
