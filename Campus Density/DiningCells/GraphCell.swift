@@ -243,14 +243,15 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
                     bar.backgroundColor = .orangeyRed
                 }
                 barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage)
+                bar.clipsToBounds = true
+                bar.layer.cornerRadius = 5
+                bar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                bar.layer.borderColor = UIColor.white.cgColor
+                bar.layer.borderWidth = 0.5
             } else {
-                bar.isHidden = true
+                bar.backgroundColor = .whiteTwo
+                barHeight = maxBarHeight
             }
-            bar.clipsToBounds = true
-            bar.layer.cornerRadius = 5
-            bar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            bar.layer.borderColor = UIColor.white.cgColor
-            bar.layer.borderWidth = 0.5
             addSubview(bar)
 
             bar.snp.makeConstraints { make in
