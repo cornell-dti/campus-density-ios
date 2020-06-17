@@ -5,7 +5,6 @@
 //  Created by Matthew Coufal on 11/15/18.
 //  Copyright © 2018 Cornell DTI. All rights reserved.
 //
-
 import UIKit
 import Alamofire
 import IGListKit
@@ -16,14 +15,6 @@ enum APIError: Error {
     case decodeError
     /// noData Used when the `data` attribute from the `DataResponse` instance is `null`
     case noData
-}
-
-// Density enumerates all possible levels of crowdedness.
-enum Density: Int, Codable {
-    case veryBusy = 3
-    case prettyBusy = 2
-    case somewhatBusy = 1
-    case notBusy = 0
 }
 
 /// Region enumerates the different parts of campus where the dining halls are located.
@@ -39,9 +30,9 @@ enum Region: String, Codable {
  PlaceName contains information about an eatery's Display Name, and the identifier the eatery is referred to in the Firebase Database.
  
  **Properties**
-    * `displayName`: The name for the eatery that is displayed on PlaceViewController and PlaceDetailViewController
-    * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
-*/
+ * `displayName`: The name for the eatery that is displayed on PlaceViewController and PlaceDetailViewController
+ * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ */
 struct PlaceName: Codable {
     var displayName: String
     var id: String
@@ -51,27 +42,19 @@ struct PlaceName: Codable {
  Represents the crowdedness of an eatery
  
  PlaceDensity stores the `Density` of an eatery, and the identifier the eatery is referred to in the Firebase Database.
-
  **Properties**
-    * `density`: The `Density` for the eatery
-    * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ * `density`: The `Density` for the eatery
+ * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
  
  - Remark: Should we be using the `id` property in various places (i.e., `PlaceDensity` and `PlaceInfo`)?
  
  - SeeAlso: `Density`
-*/
+ */
 struct PlaceDensity: Codable {
+    
     var id: String
     var density: Density
-}
-
-/**
- - TODO: Figure out density calculation for gyms!
-*/
-struct GymDensity: Codable {
-    var id: String
-    var cardio: CardioInfo
-    var weights: WeightsInfo
+    
 }
 
 /**
@@ -90,39 +73,28 @@ struct GymDensity: Codable {
  - SeeAlso: `Density`
  */
 struct PlaceInfo: Codable {
-
+    
     var id: String
     var campusLocation: Region
     var nextOpen: Double
     var closingAt: Double
 }
 
-class MetaInfo {
-    var displayName: String
-    var id: String
-    var isClosed: Bool
-    var hours: [Int: String]
-    var history: [String: [String: Double]]
-    var density: Density
-
-    init(displayName: String, id: String, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], density: Density) {
-        self.displayName = displayName
-        self.id = id
-        self.isClosed = isClosed
-        self.hours = hours
-        self.history = history
-        self.density = density
-    }
-}
-
 /**
  Represents all the information about that is displayed on the `PlaceDetailViewController` view for a specific eatery.
  */
-class Place: MetaInfo, ListDiffable {
 
+class Place: ListDiffable {
+    
+    var displayName: String
+    var id: String
+    var density: Density
+    var isClosed: Bool
+    var hours: [Int: String]
+    var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
-
+    
     /// Initilizes a new Place object with the eatety's display name, it's corresponding FIrebase id, its `Density`, whether it is closed or not, its hours, history, location and its week's menus.
     ///
     /// - Parameters:
@@ -131,86 +103,65 @@ class Place: MetaInfo, ListDiffable {
     ///   - density: Represents how crowded this eatery is. `density` is an instance of `Density`
     ///   - isClosed: Whether this place is closed or not
     ///   - hours: A dictionary where the key [TODO]
-    ///   - history: A dictionary where the key represents the 3-character capitalized abbreviation for the day (e.g.: SUN, MON, FRI, etc.), and the value is another dictionary, where the key of the inner dictionary is a string representing the hour of the day in 24-hour time ("1", "2", ...., "23"), and the value is the computed crowdedness.
+    ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
     init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+        self.displayName = displayName
+        self.id = id
+        self.density = density
+        self.isClosed = isClosed
+        self.hours = hours
+        self.history = history
         self.region = region
         self.menus = menus
-        super.init(displayName: displayName, id: id, isClosed: isClosed, hours: hours, history: history, density: density)
     }
-
+    
     //The following two functions are required rto conform to the ListDiffabe protocol
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString
     }
-
+    
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
         guard let place = object as? Place else { return false }
         return place.id == id
     }
-
-}
-
-/**
- Represents the information about a specific gym
-*/
-class Gym: MetaInfo, ListDiffable {
-
-    var cardioInfo: CardioInfo
-    var weightsInfo: WeightsInfo
-
-    init(displayName: String, id: String, density: Density, cardioInfo: CardioInfo, weightsInfo: WeightsInfo,
-         isClosed: Bool, hours: [Int: String], history: [String: [String: Double]]) {
-        self.cardioInfo = cardioInfo
-        self.weightsInfo = weightsInfo
-        super.init(displayName: displayName, id: id, isClosed: isClosed, hours: hours, history: history, density: density)
-    }
-
-    func diffIdentifier() -> NSObjectProtocol {
-        return id as NSString
-    }
-
-    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        if self === object { return true }
-        guard let place = object as? Place else { return false }
-        return place.id == id
-    }
+    
 }
 
 /** Represents the authorization token required for Firebase authentication */
 class Token: Codable {
-
+    
     var token: String
-
+    
     init(token: String) {
         self.token = token
     }
 }
 
 struct DailyInfo: Codable {
-
+    
     var dailyHours: [String: Double]
     var date: String
     var dayOfWeek: Int
     var status: String
     var statusText: String
-
+    
 }
 
 struct HoursResponse: Codable {
-
+    
     var hours: [DailyInfo]
     var id: String
-
+    
 }
 
 struct HistoricalData: Codable {
-
+    
     var id: String
     var hours: [String: [String: Double]]
-
+    
 }
 
 struct MenuItem: Codable {
@@ -235,22 +186,8 @@ struct WeekMenus: Codable {
     var id: String
 }
 
-struct CardioInfo: Codable {
-    var amts: Int
-    var bikes: Int
-    var ellipticals: Int
-    var treadmills: Int
-}
-
-struct WeightsInfo: Codable {
-    var powerRacks: Int
-    var dumbbells: Int
-    var benchPress: Int
-    var other: Int
-}
-
 class API {
-
+    
     //sets up the base url for fetching data
     static var url: String {
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) else { return "" }
@@ -262,7 +199,7 @@ class API {
         guard let value = dict[key] as? String else { return "" }
         return value
     }
-
+    
     /// Fetches the information about the opening/closing times of all the eateries (as specified in the `PlaceInfo` definition, and then sets the `region` and `isClosed` properties of this eateries corresponding `Place` instance in System.places based on this fetched data
     static func status(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
@@ -275,29 +212,29 @@ class API {
                 //resulting JSON array should be parsed into a PlaceInfo object array
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let placeInfos):
-                        //find corresponding instances of `Place` in System.places for every element in the resulting PlaceInfo array, and set the values of `region` and `isClosed` accordingly.
-                        placeInfos.forEach { placeInfo in
-                            let index = System.places.firstIndex(where: { place -> Bool in
-                                return place.id == placeInfo.id
-                            })
-                            guard let placeIndex = index else { return }
-                            System.places[placeIndex].region = placeInfo.campusLocation
-                            System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
-                        }
-                        completion(true)
-                    case .failure(let error):
-                        //handle errors
-                        print(error)
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        System.places = []
-                        completion(false)
+                case .success(let placeInfos):
+                    //find corresponding instances of `Place` in System.places for every element in the resulting PlaceInfo array, and set the values of `region` and `isClosed` accordingly.
+                    placeInfos.forEach { placeInfo in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == placeInfo.id
+                        })
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].region = placeInfo.campusLocation
+                        System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
+                    }
+                    completion(true)
+                case .failure(let error):
+                    //handle errors
+                    print(error)
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    System.places = []
+                    completion(false)
                 }
         }
     }
-
+    
     static func history(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -308,132 +245,111 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let data):
-                        data.forEach { placeData in
-                            guard let index = System.places.firstIndex(where: { place in
-                                return place.id == placeData.id
-                            }) else { return }
-                            System.places[index].history = placeData.hours
-                        }
-                        completion(true)
-                    case .failure(let error):
-                        print(error)
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        System.places = []
-                        completion(false)
-                }
-        }
-    }
-
-    static func facilityListHelper(endpoint: String, fetchingPlaces: Bool, completion: @escaping (Bool) -> Void) {
-        guard let token = System.token else { return }
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)"
-        ]
-        Alamofire.request("\(url)/\(endpoint)", headers: headers)
-            .responseData { response in
-                let decoder = JSONDecoder()
-                let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
-                switch result {
-                case .success(let responseNames):
-                    if fetchingPlaces {
-                        System.places = responseNames.map { responseName in
-                            return Place(displayName: responseName.displayName, id: responseName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: responseName.id))
-                        }
-                    } else {
-                        System.gyms = responseNames.map { responseName in
-                            return Gym(displayName: responseName.displayName, id: responseName.id, density: .notBusy, cardioInfo: CardioInfo(amts: -1, bikes: -1, ellipticals: -1, treadmills: -1), weightsInfo: WeightsInfo(powerRacks: -1, dumbbells: -1, benchPress: -1, other: -1), isClosed: false, hours: [:], history: [:])
-                        }
+                case .success(let data):
+                    data.forEach { placeData in
+                        guard let index = System.places.firstIndex(where: { place in
+                            return place.id == placeData.id
+                        }) else { return }
+                        System.places[index].history = placeData.hours
                     }
-
                     completion(true)
                 case .failure(let error):
                     print(error)
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
-                    if fetchingPlaces {
-                        System.places = []
-                    } else {
-                        System.gyms = []
-                    }
+                    System.places = []
                     completion(false)
                 }
         }
     }
-
-    // get all eateries
+    
     static func places(completion: @escaping (Bool) -> Void) {
-        facilityListHelper(endpoint: "facilityList", fetchingPlaces: true, completion: completion)
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        Alamofire.request("\(url)/facilityList", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let placeNames):
+                    System.places = placeNames.map { placeName in
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                    }
+                    completion(true)
+                case .failure(let error):
+                    print(error)
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    System.places = []
+                    completion(false)
+                }
+        }
     }
-
-    // get all the gyms
-    static func gyms(completion: @escaping (Bool) -> Void) {
-        facilityListHelper(endpoint: "gymFacilityList", fetchingPlaces: false, completion: completion)
-    }
-
+    
     static func hours(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-
+        
         var success = true
-
+        
         let today = Date()
         if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
-
+            
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd-yy"
             // Always get hours based on the time in New York
             formatter.timeZone = TimeZone(identifier: "America/New_York")
             let startDate = formatter.string(from: today)
             let endDate = formatter.string(from: sixDaysLater)
-
+            
             let parameters = [
                 "id": place.id,
                 "startDate": startDate,
                 "endDate": endDate
             ]
-
+            
             Alamofire.request("\(url)/facilityHours", parameters: parameters, headers: headers)
                 .responseData { response in
                     let decoder = JSONDecoder()
                     let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
                     switch result {
-                        case .success(let hoursResponseArray):
-                            let hoursResponse = hoursResponseArray[0]
-                            var hours = [Int: String]()
-                            for dailyInfo in hoursResponse.hours {
-                                let day = dailyInfo.dayOfWeek
-                                let dailyHours = dailyInfo.dailyHours
-                                let timeFormatter = DateFormatter()
-                                // Display hours in ET
-                                timeFormatter.timeZone = TimeZone(identifier: "America/New_York")
-                                timeFormatter.timeStyle = .short
-                                guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
-                                let open = Date(timeIntervalSince1970: openTimestamp)
-                                let close = Date(timeIntervalSince1970: closeTimestamp)
-                                let openTime = timeFormatter.string(from: open)
-                                let closeTime = timeFormatter.string(from: close)
-                                if let hoursString = hours[day] {
-                                    hours[day] = hoursString + "\n\(openTime) - \(closeTime)"
-                                } else {
-                                    hours[day] = "\(openTime) - \(closeTime)"
-                                }
-                            }
-                            if let placeIndex = System.places.firstIndex(where: { other -> Bool in
-                                return other.id == place.id
-                            }) {
-                                System.places[placeIndex].hours = hours
+                    case .success(let hoursResponseArray):
+                        let hoursResponse = hoursResponseArray[0]
+                        var hours = [Int: String]()
+                        for dailyInfo in hoursResponse.hours {
+                            let day = dailyInfo.dayOfWeek
+                            let dailyHours = dailyInfo.dailyHours
+                            let timeFormatter = DateFormatter()
+                            // Display hours in ET
+                            timeFormatter.timeZone = TimeZone(identifier: "America/New_York")
+                            timeFormatter.timeStyle = .short
+                            guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
+                            let open = Date(timeIntervalSince1970: openTimestamp)
+                            let close = Date(timeIntervalSince1970: closeTimestamp)
+                            let openTime = timeFormatter.string(from: open)
+                            let closeTime = timeFormatter.string(from: close)
+                            if let hoursString = hours[day] {
+                                hours[day] = hoursString + "\n\(openTime) - \(closeTime)"
                             } else {
-                                success = false
+                                hours[day] = "\(openTime) - \(closeTime)"
                             }
-                        case .failure(let error):
-                            print(error)
+                        }
+                        if let placeIndex = System.places.firstIndex(where: { other -> Bool in
+                            return other.id == place.id
+                        }) {
+                            System.places[placeIndex].hours = hours
+                        } else {
                             success = false
+                        }
+                    case .failure(let error):
+                        print(error)
+                        success = false
                     }
                     completion(success)
             }
@@ -441,9 +357,9 @@ class API {
             success = false
             completion(success)
         }
-
+        
     }
-
+    
     static func densities(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -454,55 +370,22 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let densities):
-                        densities.forEach({ placeDensity in
-                            let index = System.places.firstIndex(where: { place -> Bool in
-                                return place.id == placeDensity.id
-                            })
-                            guard let placeIndex = index else { return }
-                            System.places[placeIndex].density = placeDensity.density
+                case .success(let densities):
+                    densities.forEach({ placeDensity in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == placeDensity.id
                         })
-                        completion(true)
-                    case .failure(let error):
-                        print(error)
-                        completion(false)
-                }
-        }
-    }
-
-    static func gymDensities(completion: @escaping (Bool) -> Void) {
-        guard let token = System.token else { return }
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)"
-        ]
-
-        Alamofire.request("\(url)/gymHowDense", headers: headers)
-            .responseData { response in
-                let decoder = JSONDecoder()
-                let result: Result<[GymDensity]> = decoder.decodeResponse(from: response)
-
-                switch result {
-                case .success(let gymDensities):
-                    gymDensities.forEach { gymDensity in
-                        let index = System.gyms.firstIndex(where: { (gym) -> Bool in
-                            gym.id == gymDensity.id
-                        })
-
-                        guard let gymIndex = index else { return }
-                        System.gyms[gymIndex].cardioInfo = gymDensity.cardio
-                        System.gyms[gymIndex].weightsInfo = gymDensity.weights
-                        // System.places[gymIndex].
-                    }
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].density = placeDensity.density
+                    })
                     completion(true)
-
                 case .failure(let error):
                     print(error)
                     completion(false)
-            }
-
+                }
         }
     }
-
+    
     static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
         let menus = menudata.menus
         let newLine = NSAttributedString(string: "\n")
@@ -527,10 +410,10 @@ class API {
                 resultString.append(newLine)
             }
         }
-
+        
         return resultString
     }
-
+    
     static func convertToDict(menudata: DayMenus) -> [String: [String: [String]]] {
         let menus = menudata.menus
         var res = [String: [String: [String]]]()
@@ -542,38 +425,38 @@ class API {
         }
         return res
     }
-
+    
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-
+        
         print("PLACE: \(place.id)")
-
+        
         let parameters = [
-           "facility": place.id
+            "facility": place.id
         ]
-
+        
         Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let menulist):
-                        menulist.forEach({menu in
-                            let index = System.places.firstIndex(where: { place -> Bool in
-                                return place.id == menu.id
-                            })
-                            guard let placeIndex = index else { return }
-                            System.places[placeIndex].menus = menu
+                case .success(let menulist):
+                    menulist.forEach({menu in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == menu.id
                         })
-                        completion(true)
-
-                    case .failure(let error):
-                        print(error)
-                        completion(false)
-            }
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].menus = menu
+                    })
+                    completion(true)
+                    
+                case .failure(let error):
+                    print(error)
+                    completion(false)
+                }
         }
     }
 }
@@ -583,11 +466,11 @@ extension JSONDecoder {
         if let error = response.error {
             return .failure(error)
         }
-
+        
         guard let responseData = response.data else {
             return .failure(APIError.noData)
         }
-
+        
         do {
             let item = try decode(T.self, from: responseData)
             return .success(item)

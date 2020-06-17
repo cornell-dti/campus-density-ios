@@ -8,6 +8,13 @@
 
 import UIKit
 
+enum Density: Int, Codable {
+    case veryBusy = 3
+    case prettyBusy = 2
+    case somewhatBusy = 1
+    case notBusy = 0
+}
+
 class PlaceCell: UICollectionViewCell {
 
     // MARK: - Data vars

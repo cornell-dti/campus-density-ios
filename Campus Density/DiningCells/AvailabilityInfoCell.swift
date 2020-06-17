@@ -17,7 +17,7 @@ class AvailabilityInfoCell: UICollectionViewCell {
     let containerCornerRadius: CGFloat = 15
     let imageWidth: CGFloat = 40
 
-    // MARK:- UI component declarations
+    // MARK: - UI component declarations
     var container: UIView!
     var numberAndImageContainer: UIView!
     var rangeLabel: UILabel!
@@ -75,7 +75,6 @@ class AvailabilityInfoCell: UICollectionViewCell {
         }
 
         rangeLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.left.equalToSuperview()
             make.height.equalToSuperview()
             make.top.equalToSuperview()
@@ -102,16 +101,16 @@ class AvailabilityInfoCell: UICollectionViewCell {
         } else {
             switch place.density {
                 case .veryBusy:
-                    rangeString = NSMutableAttributedString(string: "\(Int(0.85 * maxLimit)) - \(maxLimit)")
+                    rangeString = NSMutableAttributedString(string: "> \(Int(0.85 * maxLimit))")
                     container.backgroundColor = .orangeyRed
                 case .prettyBusy:
-                    rangeString = NSMutableAttributedString(string: "\(Int(0.50 * maxLimit)) - \(Int(0.85 * maxLimit))")
+                    rangeString = NSMutableAttributedString(string: "\(Int(0.50 * maxLimit))-\(Int(0.85 * maxLimit))")
                     container.backgroundColor = .peach
                 case .somewhatBusy:
-                    rangeString = NSMutableAttributedString(string: "\(Int(0.26 * maxLimit)) - \(Int(0.50 * maxLimit))")
+                    rangeString = NSMutableAttributedString(string: "\(Int(0.26 * maxLimit))-\(Int(0.50 * maxLimit))")
                     container.backgroundColor = .wheat
                 case .notBusy:
-                    rangeString = NSMutableAttributedString(string: "0 - \(Int(0.26 * maxLimit))")
+                    rangeString = NSMutableAttributedString(string: "< \(Int(0.26 * maxLimit))")
                     container.backgroundColor = .lightTeal
             }
         }
@@ -119,11 +118,11 @@ class AvailabilityInfoCell: UICollectionViewCell {
         // Replace with the place's max limit.
         maxLimitString = NSMutableAttributedString(string: "Max Limit: \(Int(maxLimit))")
         maxLimitString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: maxLimitString.mutableString.length))
-        maxLimitString.addAttribute(.font, value: UIFont.fourteen, range: NSRange(location: 0, length: maxLimitString.mutableString.length))
+        maxLimitString.addAttribute(.font, value: UIFont.sixteen, range: NSRange(location: 0, length: maxLimitString.mutableString.length))
         maxLimitLabel.attributedText = maxLimitString
 
         rangeString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: rangeString.mutableString.length))
-        rangeString.addAttribute(.font, value: UIFont.fortyFourBold, range: NSRange(location: 0, length: rangeString.mutableString.length))
+        rangeString.addAttribute(.font, value: UIFont.thirtySixBold, range: NSRange(location: 0, length: rangeString.mutableString.length))
         rangeLabel.attributedText = rangeString
     }
 
