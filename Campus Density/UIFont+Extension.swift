@@ -20,5 +20,5 @@ extension UIFont {
     static let thirtyBold = UIFont.boldSystemFont(ofSize: 30.0)
     static let twentyBold = UIFont.boldSystemFont(ofSize: 20.0)
     static let twentyFiveBold = UIFont.boldSystemFont(ofSize: 25.0)
-
+    static let fortyFourBold = UIFont.boldSystemFont(ofSize: 44.0)
 }

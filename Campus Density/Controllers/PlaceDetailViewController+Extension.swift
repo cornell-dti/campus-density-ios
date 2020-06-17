@@ -59,7 +59,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         }
         return [
             SpaceModel(space: Constants.smallPadding),
-            CurrentDensityModel(place: place),
+            AvailabilityInfoModel(place: place),
             SpaceModel(space: linkTopOffset),
             FormLinkModel(feedbackForm: feedbackForm),
             SpaceModel(space: Constants.smallPadding),
@@ -107,6 +107,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is MenuModel {
             let menuModel = object as! MenuModel
             return MenuSectionController(menuModel: menuModel, delegate: self)
+        } else if object is AvailabilityInfoModel {
+            let availabilityModel = object as! AvailabilityInfoModel
+            return AvailabilityInfoSectionController(availabilityModel: availabilityModel)
         } else {
             let mealFiltersModel = object as! MealFiltersModel
             return MealsFilterSectionController(mealModel: mealFiltersModel, delegate: self)
