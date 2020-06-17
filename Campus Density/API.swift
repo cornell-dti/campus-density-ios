@@ -51,10 +51,10 @@ struct PlaceName: Codable {
  - SeeAlso: `Density`
  */
 struct PlaceDensity: Codable {
-    
+
     var id: String
     var density: Density
-    
+
 }
 
 /**
@@ -73,7 +73,7 @@ struct PlaceDensity: Codable {
  - SeeAlso: `Density`
  */
 struct PlaceInfo: Codable {
-    
+
     var id: String
     var campusLocation: Region
     var nextOpen: Double
@@ -85,7 +85,7 @@ struct PlaceInfo: Codable {
  */
 
 class Place: ListDiffable {
-    
+
     var displayName: String
     var id: String
     var density: Density
@@ -94,7 +94,7 @@ class Place: ListDiffable {
     var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
-    
+
     /// Initilizes a new Place object with the eatety's display name, it's corresponding FIrebase id, its `Density`, whether it is closed or not, its hours, history, location and its week's menus.
     ///
     /// - Parameters:
@@ -116,52 +116,52 @@ class Place: ListDiffable {
         self.region = region
         self.menus = menus
     }
-    
+
     //The following two functions are required rto conform to the ListDiffabe protocol
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSString
     }
-    
+
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
         guard let place = object as? Place else { return false }
         return place.id == id
     }
-    
+
 }
 
 /** Represents the authorization token required for Firebase authentication */
 class Token: Codable {
-    
+
     var token: String
-    
+
     init(token: String) {
         self.token = token
     }
 }
 
 struct DailyInfo: Codable {
-    
+
     var dailyHours: [String: Double]
     var date: String
     var dayOfWeek: Int
     var status: String
     var statusText: String
-    
+
 }
 
 struct HoursResponse: Codable {
-    
+
     var hours: [DailyInfo]
     var id: String
-    
+
 }
 
 struct HistoricalData: Codable {
-    
+
     var id: String
     var hours: [String: [String: Double]]
-    
+
 }
 
 struct MenuItem: Codable {
@@ -187,7 +187,7 @@ struct WeekMenus: Codable {
 }
 
 class API {
-    
+
     //sets up the base url for fetching data
     static var url: String {
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) else { return "" }
@@ -199,7 +199,7 @@ class API {
         guard let value = dict[key] as? String else { return "" }
         return value
     }
-    
+
     /// Fetches the information about the opening/closing times of all the eateries (as specified in the `PlaceInfo` definition, and then sets the `region` and `isClosed` properties of this eateries corresponding `Place` instance in System.places based on this fetched data
     static func status(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
@@ -234,7 +234,7 @@ class API {
                 }
         }
     }
-    
+
     static func history(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -263,7 +263,7 @@ class API {
                 }
         }
     }
-    
+
     static func places(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -289,31 +289,31 @@ class API {
                 }
         }
     }
-    
+
     static func hours(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        
+
         var success = true
-        
+
         let today = Date()
         if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
-            
+
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd-yy"
             // Always get hours based on the time in New York
             formatter.timeZone = TimeZone(identifier: "America/New_York")
             let startDate = formatter.string(from: today)
             let endDate = formatter.string(from: sixDaysLater)
-            
+
             let parameters = [
                 "id": place.id,
                 "startDate": startDate,
                 "endDate": endDate
             ]
-            
+
             Alamofire.request("\(url)/facilityHours", parameters: parameters, headers: headers)
                 .responseData { response in
                     let decoder = JSONDecoder()
@@ -357,9 +357,9 @@ class API {
             success = false
             completion(success)
         }
-        
+
     }
-    
+
     static func densities(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -385,7 +385,7 @@ class API {
                 }
         }
     }
-    
+
     static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
         let menus = menudata.menus
         let newLine = NSAttributedString(string: "\n")
@@ -410,10 +410,10 @@ class API {
                 resultString.append(newLine)
             }
         }
-        
+
         return resultString
     }
-    
+
     static func convertToDict(menudata: DayMenus) -> [String: [String: [String]]] {
         let menus = menudata.menus
         var res = [String: [String: [String]]]()
@@ -425,19 +425,19 @@ class API {
         }
         return res
     }
-    
+
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        
+
         print("PLACE: \(place.id)")
-        
+
         let parameters = [
             "facility": place.id
         ]
-        
+
         Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
@@ -452,7 +452,7 @@ class API {
                         System.places[placeIndex].menus = menu
                     })
                     completion(true)
-                    
+
                 case .failure(let error):
                     print(error)
                     completion(false)
@@ -466,11 +466,11 @@ extension JSONDecoder {
         if let error = response.error {
             return .failure(error)
         }
-        
+
         guard let responseData = response.data else {
             return .failure(APIError.noData)
         }
-        
+
         do {
             let item = try decode(T.self, from: responseData)
             return .success(item)
