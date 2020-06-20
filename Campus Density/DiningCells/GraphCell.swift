@@ -26,12 +26,12 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     var descriptionLabel: UILabel!
     var selectedView: UIView!
     var axis: UIView!
-    var bars = [UIView]()
+    var bars = [BarView]()
     var feedbackGenerator = UISelectionFeedbackGenerator()
 
     // MARK: - Constants
     let descriptionLabelHeight: CGFloat = 40
-    let descriptionLabelVerticalPadding: CGFloat = 50
+    let descriptionLabelVerticalPadding: CGFloat = 0
     let descriptionLabelHorizontalPadding: CGFloat = 15
     let maxBarHeight: CGFloat = 150
     let axisLabelVerticalPadding: CGFloat = 10
@@ -130,7 +130,12 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             selectedView.snp.remakeConstraints { update in
                 update.width.equalTo(selectedViewWidth)
                 update.top.equalTo(descriptionLabel.snp.bottom)
-                update.bottom.equalTo(bars[barIndex].snp.top)
+                if bars[barIndex].isClosedTime {
+                    selectedView.superview?.bringSubviewToFront(selectedView)
+                    update.bottom.equalTo(bars[barIndex].snp.bottom)
+                } else {
+                    update.bottom.equalTo(bars[barIndex].snp.top)
+                }
                 update.centerX.equalTo(bars[barIndex])
             }
 
@@ -229,7 +234,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         let endHour: Int = end
         var barLeftOffset: CGFloat = barWidth
         while startHour <= endHour {
-            let bar = UIView()
+            let bar = BarView()
             bar.tag = startHour
             var barHeight: CGFloat = 1
             if let historicalAverage = densityMap[startHour] {
@@ -237,18 +242,19 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
                     bar.backgroundColor = .lightTeal
                 } else if historicalAverage < 0.5 {
                     bar.backgroundColor = .wheat
-                } else if historicalAverage < 0.75 {
+                } else if historicalAverage < 0.85 {
                     bar.backgroundColor = .peach
                 } else {
                     bar.backgroundColor = .orangeyRed
                 }
-                barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage)
+                barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage) // Minimum bar height of 0.075
                 bar.clipsToBounds = true
                 bar.layer.cornerRadius = 5
                 bar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
                 bar.layer.borderColor = UIColor.white.cgColor
                 bar.layer.borderWidth = 0.5
             } else {
+                bar.isClosedTime = true
                 bar.backgroundColor = .whiteTwo
                 barHeight = maxBarHeight
             }
@@ -337,5 +343,11 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         self.densityMap = densityMap
         setupConstraints()
     }
+
+}
+
+class BarView: UIView {
+
+    var isClosedTime: Bool = false
 
 }
