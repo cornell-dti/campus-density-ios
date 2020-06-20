@@ -12,10 +12,7 @@ import IGListKit
 extension PlaceDetailViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        var description = "Closed"
-        if !densityMap.isEmpty {
-            description = "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
-        }
+        let description = GraphCell.descriptionLabelText(selectedHour: selectedHour, densityMap: densityMap)
         let weekday = getCurrentWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
         var hours = "No hours available"
