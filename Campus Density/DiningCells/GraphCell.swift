@@ -31,8 +31,6 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     // MARK: - Constants
     let descriptionLabelHeight: CGFloat = 40
-    let descriptionLabelVerticalPadding: CGFloat = 0
-    let descriptionLabelHorizontalPadding: CGFloat = 15
     let maxBarHeight: CGFloat = 150
     let axisLabelVerticalPadding: CGFloat = 10
     let axisLabelHeight: CGFloat = 15
@@ -45,7 +43,8 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let numTicks: Int = 3
     let smallTickHeight: CGFloat = 5
     let largeTickHeight: CGFloat = 10
-    let barGraphViewVerticalPadding: CGFloat = 50
+    let barToLabelGap: CGFloat = Constants.largePadding
+    let greyBarExtraHeight: CGFloat = Constants.largePadding / 2
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -156,7 +155,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         axis.snp.makeConstraints { make in
             make.width.equalToSuperview().inset(Constants.smallPadding)
             make.height.equalTo(axisHeight)
-            make.top.equalTo(descriptionLabelHeight + Constants.largePadding + maxBarHeight)
+            make.top.equalTo(maxBarHeight + barToLabelGap + descriptionLabelHeight)
             make.centerX.equalToSuperview()
         }
 
@@ -227,7 +226,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
                 barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage) // Minimum bar height of 0.075
             } else {
                 bar.configureClosed()
-                barHeight = maxBarHeight
+                barHeight = maxBarHeight + greyBarExtraHeight
             }
             addSubview(bar)
 
