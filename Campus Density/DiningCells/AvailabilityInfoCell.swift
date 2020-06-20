@@ -97,7 +97,7 @@ class AvailabilityInfoCell: UICollectionViewCell {
 
         if place.isClosed {
             rangeString = NSMutableAttributedString(string: "Closed")
-            container.backgroundColor = .whiteTwo
+            container.backgroundColor = .densityDarkGray
         } else {
             switch place.density {
                 case .veryBusy:

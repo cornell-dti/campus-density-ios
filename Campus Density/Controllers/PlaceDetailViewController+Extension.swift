@@ -59,6 +59,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         }
         return [
             SpaceModel(space: Constants.smallPadding),
+            AvailabilityHeaderModel(),
+            SpaceModel(space: Constants.smallPadding),
             AvailabilityInfoModel(place: place),
             SpaceModel(space: linkTopOffset),
             FormLinkModel(feedbackForm: feedbackForm),
@@ -110,9 +112,12 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is AvailabilityInfoModel {
             let availabilityModel = object as! AvailabilityInfoModel
             return AvailabilityInfoSectionController(availabilityModel: availabilityModel)
-        } else {
+        } else if object is MealFiltersModel {
             let mealFiltersModel = object as! MealFiltersModel
             return MealsFilterSectionController(mealModel: mealFiltersModel, delegate: self)
+        } else {
+            let availabilityHeaderModel = object as! AvailabilityHeaderModel
+            return AvailabilityHeaderSectionController(headerModel: availabilityHeaderModel)
         }
     }
 

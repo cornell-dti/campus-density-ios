@@ -73,6 +73,9 @@
 		EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */; };
 		EE9BED4F23F4B90C00A37464 /* GymDensityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */; };
 		EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA307C0238B28F400566BF7 /* GymsViewController.swift */; };
+		EEA4117D249E841200190A30 /* AvailabilityHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA4117C249E841200190A30 /* AvailabilityHeaderCell.swift */; };
+		EEA4117F249E849100190A30 /* AvailabilityHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA4117E249E849100190A30 /* AvailabilityHeaderModel.swift */; };
+		EEA41181249E85C700190A30 /* AvailabilityHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA41180249E85C700190A30 /* AvailabilityHeaderSectionController.swift */; };
 		EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */; };
 		EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEED3D2A23F87752000E0220 /* GymDetailViewController.swift */; };
 		F2637D895511D1999AA40615 /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */; };
@@ -173,6 +176,9 @@
 		EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensityModel.swift; sourceTree = "<group>"; };
 		EE9BED4E23F4B90C00A37464 /* GymDensityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensityCell.swift; sourceTree = "<group>"; };
 		EEA307C0238B28F400566BF7 /* GymsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymsViewController.swift; sourceTree = "<group>"; };
+		EEA4117C249E841200190A30 /* AvailabilityHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityHeaderCell.swift; sourceTree = "<group>"; };
+		EEA4117E249E849100190A30 /* AvailabilityHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityHeaderModel.swift; sourceTree = "<group>"; };
+		EEA41180249E85C700190A30 /* AvailabilityHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityHeaderSectionController.swift; sourceTree = "<group>"; };
 		EEED3D2723F86C7C000E0220 /* GymDensitySectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensitySectionController.swift; sourceTree = "<group>"; };
 		EEED3D2A23F87752000E0220 /* GymDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -230,6 +236,7 @@
 				EE93BF192380A89F00219902 /* MealFiltersModel.swift */,
 				3C87328C244219B000D42F59 /* GraphHeaderModel.swift */,
 				EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */,
+				EEA4117E249E849100190A30 /* AvailabilityHeaderModel.swift */,
 			);
 			path = DiningModels;
 			sourceTree = "<group>";
@@ -251,6 +258,7 @@
 				081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */,
 				3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */,
 				EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */,
+				EEA41180249E85C700190A30 /* AvailabilityHeaderSectionController.swift */,
 			);
 			path = SectionControllers;
 			sourceTree = "<group>";
@@ -330,6 +338,7 @@
 				EE93BF172380A44300219902 /* MealFilterCell.swift */,
 				3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */,
 				3C873288244218CA00D42F59 /* GraphHeaderCell.swift */,
+				EEA4117C249E841200190A30 /* AvailabilityHeaderCell.swift */,
 			);
 			path = DiningCells;
 			sourceTree = "<group>";
@@ -630,11 +639,13 @@
 				0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */,
 				EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */,
 				EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */,
+				EEA4117F249E849100190A30 /* AvailabilityHeaderModel.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
+				EEA41181249E85C700190A30 /* AvailabilityHeaderSectionController.swift in Sources */,
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
 				081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */,
 				3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */,
@@ -678,6 +689,7 @@
 				0C209B1D22482E650007AFA9 /* FiltersCell.swift in Sources */,
 				0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */,
 				EE9BED4F23F4B90C00A37464 /* GymDensityCell.swift in Sources */,
+				EEA4117D249E841200190A30 /* AvailabilityHeaderCell.swift in Sources */,
 				0CB3BF862232CEB100A5B371 /* HoursCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
