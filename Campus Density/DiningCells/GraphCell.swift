@@ -223,24 +223,10 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             bar.tag = startHour
             var barHeight: CGFloat = 1
             if let historicalAverage = densityMap[startHour] {
-                if historicalAverage < 0.25 {
-                    bar.backgroundColor = .lightTeal
-                } else if historicalAverage < 0.5 {
-                    bar.backgroundColor = .wheat
-                } else if historicalAverage < 0.85 {
-                    bar.backgroundColor = .peach
-                } else {
-                    bar.backgroundColor = .orangeyRed
-                }
+                bar.configureOpen(historicalAverage: historicalAverage)
                 barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage) // Minimum bar height of 0.075
-                bar.clipsToBounds = true
-                bar.layer.cornerRadius = 5
-                bar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-                bar.layer.borderColor = UIColor.white.cgColor
-                bar.layer.borderWidth = 0.5
             } else {
-                bar.isClosedTime = true
-                bar.backgroundColor = .whiteTwo
+                bar.configureClosed()
                 barHeight = maxBarHeight
             }
             addSubview(bar)
@@ -317,5 +303,27 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 class BarView: UIView {
 
     var isClosedTime: Bool = false
+
+    func configureOpen(historicalAverage: Double) {
+        if historicalAverage < 0.25 {
+            backgroundColor = .lightTeal
+        } else if historicalAverage < 0.5 {
+            backgroundColor = .wheat
+        } else if historicalAverage < 0.85 {
+            backgroundColor = .peach
+        } else {
+            backgroundColor = .orangeyRed
+        }
+        clipsToBounds = true
+        layer.cornerRadius = 5
+        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        layer.borderColor = UIColor.white.cgColor
+        layer.borderWidth = 0.5
+    }
+
+    func configureClosed() {
+        isClosedTime = true
+        backgroundColor = .whiteTwo
+    }
 
 }
