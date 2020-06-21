@@ -45,9 +45,6 @@ class PlaceDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\n")
-        print(place.id)
-        print(place.menus.weeksMenus)
         view.backgroundColor = .white
         title = place.displayName
         navigationController?.navigationBar.prefersLargeTitles = false

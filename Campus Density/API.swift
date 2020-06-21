@@ -5,7 +5,6 @@
 //  Created by Matthew Coufal on 11/15/18.
 //  Copyright © 2018 Cornell DTI. All rights reserved.
 //
-
 import UIKit
 import Alamofire
 import IGListKit
@@ -31,9 +30,9 @@ enum Region: String, Codable {
  PlaceName contains information about an eatery's Display Name, and the identifier the eatery is referred to in the Firebase Database.
  
  **Properties**
-    * `displayName`: The name for the eatery that is displayed on PlaceViewController and PlaceDetailViewController
-    * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
-*/
+ * `displayName`: The name for the eatery that is displayed on PlaceViewController and PlaceDetailViewController
+ * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ */
 struct PlaceName: Codable {
     var displayName: String
     var id: String
@@ -43,15 +42,14 @@ struct PlaceName: Codable {
  Represents the crowdedness of an eatery
  
  PlaceDensity stores the `Density` of an eatery, and the identifier the eatery is referred to in the Firebase Database.
-
  **Properties**
-    * `density`: The `Density` for the eatery
-    * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
+ * `density`: The `Density` for the eatery
+ * `id`: The id of the eatery. The `id` in the `PlaceName` struct should **always** be set to its corresponding identifier in the Firebase Database.
  
  - Remark: Should we be using the `id` property in various places (i.e., `PlaceDensity` and `PlaceInfo`)?
  
  - SeeAlso: `Density`
-*/
+ */
 struct PlaceDensity: Codable {
 
     var id: String
@@ -84,7 +82,7 @@ struct PlaceInfo: Codable {
 
 /**
  Represents all the information about that is displayed on the `PlaceDetailViewController` view for a specific eatery.
-*/
+ */
 
 class Place: ListDiffable {
 
@@ -214,25 +212,25 @@ class API {
                 //resulting JSON array should be parsed into a PlaceInfo object array
                 let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let placeInfos):
-                        //find corresponding instances of `Place` in System.places for every element in the resulting PlaceInfo array, and set the values of `region` and `isClosed` accordingly.
-                        placeInfos.forEach { placeInfo in
-                            let index = System.places.firstIndex(where: { place -> Bool in
-                                return place.id == placeInfo.id
-                            })
-                            guard let placeIndex = index else { return }
-                            System.places[placeIndex].region = placeInfo.campusLocation
-                            System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
-                        }
-                        completion(true)
-                    case .failure(let error):
-                        //handle errors
-                        print(error)
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        System.places = []
-                        completion(false)
+                case .success(let placeInfos):
+                    //find corresponding instances of `Place` in System.places for every element in the resulting PlaceInfo array, and set the values of `region` and `isClosed` accordingly.
+                    placeInfos.forEach { placeInfo in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == placeInfo.id
+                        })
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].region = placeInfo.campusLocation
+                        System.places[placeIndex].isClosed = placeInfo.closingAt == -1.0
+                    }
+                    completion(true)
+                case .failure(let error):
+                    //handle errors
+                    print(error)
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    System.places = []
+                    completion(false)
                 }
         }
     }
@@ -247,21 +245,21 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let data):
-                        data.forEach { placeData in
-                            guard let index = System.places.firstIndex(where: { place in
-                                return place.id == placeData.id
-                            }) else { return }
-                            System.places[index].history = placeData.hours
-                        }
-                        completion(true)
-                    case .failure(let error):
-                        print(error)
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        System.places = []
-                        completion(false)
+                case .success(let data):
+                    data.forEach { placeData in
+                        guard let index = System.places.firstIndex(where: { place in
+                            return place.id == placeData.id
+                        }) else { return }
+                        System.places[index].history = placeData.hours
+                    }
+                    completion(true)
+                case .failure(let error):
+                    print(error)
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    System.places = []
+                    completion(false)
                 }
         }
     }
@@ -276,18 +274,18 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let placeNames):
-                        System.places = placeNames.map { placeName in
-                            return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
-                        }
-                        completion(true)
-                    case .failure(let error):
-                        print(error)
-                        UserDefaults.standard.removeObject(forKey: "token")
-                        UserDefaults.standard.removeObject(forKey: "authKey")
-                        UserDefaults.standard.synchronize()
-                        System.places = []
-                        completion(false)
+                case .success(let placeNames):
+                    System.places = placeNames.map { placeName in
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                    }
+                    completion(true)
+                case .failure(let error):
+                    print(error)
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "authKey")
+                    UserDefaults.standard.synchronize()
+                    System.places = []
+                    completion(false)
                 }
         }
     }
@@ -321,37 +319,37 @@ class API {
                     let decoder = JSONDecoder()
                     let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
                     switch result {
-                        case .success(let hoursResponseArray):
-                            let hoursResponse = hoursResponseArray[0]
-                            var hours = [Int: String]()
-                            for dailyInfo in hoursResponse.hours {
-                                let day = dailyInfo.dayOfWeek
-                                let dailyHours = dailyInfo.dailyHours
-                                let timeFormatter = DateFormatter()
-                                // Display hours in ET
-                                timeFormatter.timeZone = TimeZone(identifier: "America/New_York")
-                                timeFormatter.timeStyle = .short
-                                guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
-                                let open = Date(timeIntervalSince1970: openTimestamp)
-                                let close = Date(timeIntervalSince1970: closeTimestamp)
-                                let openTime = timeFormatter.string(from: open)
-                                let closeTime = timeFormatter.string(from: close)
-                                if let hoursString = hours[day] {
-                                    hours[day] = hoursString + "\n\(openTime) - \(closeTime)"
-                                } else {
-                                    hours[day] = "\(openTime) - \(closeTime)"
-                                }
-                            }
-                            if let placeIndex = System.places.firstIndex(where: { other -> Bool in
-                                return other.id == place.id
-                            }) {
-                                System.places[placeIndex].hours = hours
+                    case .success(let hoursResponseArray):
+                        let hoursResponse = hoursResponseArray[0]
+                        var hours = [Int: String]()
+                        for dailyInfo in hoursResponse.hours {
+                            let day = dailyInfo.dayOfWeek
+                            let dailyHours = dailyInfo.dailyHours
+                            let timeFormatter = DateFormatter()
+                            // Display hours in ET
+                            timeFormatter.timeZone = TimeZone(identifier: "America/New_York")
+                            timeFormatter.timeStyle = .short
+                            guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
+                            let open = Date(timeIntervalSince1970: openTimestamp)
+                            let close = Date(timeIntervalSince1970: closeTimestamp)
+                            let openTime = timeFormatter.string(from: open)
+                            let closeTime = timeFormatter.string(from: close)
+                            if let hoursString = hours[day] {
+                                hours[day] = hoursString + "\n\(openTime) - \(closeTime)"
                             } else {
-                                success = false
+                                hours[day] = "\(openTime) - \(closeTime)"
                             }
-                        case .failure(let error):
-                            print(error)
+                        }
+                        if let placeIndex = System.places.firstIndex(where: { other -> Bool in
+                            return other.id == place.id
+                        }) {
+                            System.places[placeIndex].hours = hours
+                        } else {
                             success = false
+                        }
+                    case .failure(let error):
+                        print(error)
+                        success = false
                     }
                     completion(success)
             }
@@ -372,18 +370,18 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let densities):
-                        densities.forEach({ placeDensity in
-                            let index = System.places.firstIndex(where: { place -> Bool in
-                                return place.id == placeDensity.id
-                            })
-                            guard let placeIndex = index else { return }
-                            System.places[placeIndex].density = placeDensity.density
+                case .success(let densities):
+                    densities.forEach({ placeDensity in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == placeDensity.id
                         })
-                        completion(true)
-                    case .failure(let error):
-                        print(error)
-                        completion(false)
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].density = placeDensity.density
+                    })
+                    completion(true)
+                case .failure(let error):
+                    print(error)
+                    completion(false)
                 }
         }
     }
@@ -437,7 +435,7 @@ class API {
         print("PLACE: \(place.id)")
 
         let parameters = [
-           "facility": place.id
+            "facility": place.id
         ]
 
         Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
@@ -445,20 +443,20 @@ class API {
                 let decoder = JSONDecoder()
                 let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
                 switch result {
-                    case .success(let menulist):
-                        menulist.forEach({menu in
-                            let index = System.places.firstIndex(where: { place -> Bool in
-                                return place.id == menu.id
-                            })
-                            guard let placeIndex = index else { return }
-                            System.places[placeIndex].menus = menu
+                case .success(let menulist):
+                    menulist.forEach({menu in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == menu.id
                         })
-                        completion(true)
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].menus = menu
+                    })
+                    completion(true)
 
-                    case .failure(let error):
-                        print(error)
-                        completion(false)
-            }
+                case .failure(let error):
+                    print(error)
+                    completion(false)
+                }
         }
     }
 }
