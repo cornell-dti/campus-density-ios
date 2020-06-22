@@ -34,7 +34,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let maxBarHeight: CGFloat = 150
     let axisLabelVerticalPadding: CGFloat = 10
     let axisLabelHeight: CGFloat = 15
-    let axisHeight: CGFloat = 2
+    let axisHeight: CGFloat = 1
     let start: Int = 7
     let end: Int = 23
     let horizontalPadding: CGFloat = 15
@@ -140,7 +140,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         addSubview(descriptionLabel)
 
         axis = UIView()
-        axis.backgroundColor = .whiteTwo
+        axis.backgroundColor = .warmGray
         axis.clipsToBounds = true
         axis.layer.cornerRadius = axisHeight / 2
         addSubview(axis)
@@ -166,7 +166,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             let tick = UIView()
             tick.clipsToBounds = true
             tick.layer.cornerRadius = axisHeight / 2
-            tick.backgroundColor = .whiteTwo
+            tick.backgroundColor = .warmGray
             addSubview(tick)
 
             let shouldLabel = (endHour - startHour) % numTicks == 0
@@ -202,7 +202,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         let lastTick = UIView()
         lastTick.clipsToBounds = true
         lastTick.layer.cornerRadius = axisHeight / 2
-        lastTick.backgroundColor = .whiteTwo
+        lastTick.backgroundColor = .warmGray
         addSubview(lastTick)
 
         lastTick.snp.makeConstraints { make in
