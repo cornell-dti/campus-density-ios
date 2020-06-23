@@ -12,7 +12,6 @@ import IGListKit
 extension PlaceDetailViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        let description = GraphCell.descriptionLabelText(selectedHour: selectedHour, densityMap: densityMap)
         let weekday = getCurrentWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
         var hours = "No hours available"
@@ -64,7 +63,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: Constants.smallPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.mediumPadding),
-            GraphModel(description: description, densityMap: densityMap, selectedHour: selectedHour),
+            GraphModel(densityMap: densityMap, selectedHour: selectedHour),
             SpaceModel(space: Constants.mediumPadding),
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.smallPadding),

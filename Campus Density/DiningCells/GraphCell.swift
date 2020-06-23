@@ -63,7 +63,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
 
     /// Returns the text description of density at a certain hour
-    static func descriptionLabelText(selectedHour: Int, densityMap: [Int: Double]) -> String {
+    func descriptionLabelText(selectedHour: Int, densityMap: [Int: Double]) -> String {
         return "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
     }
 
@@ -118,7 +118,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             feedbackGenerator.selectionChanged()
             feedbackGenerator.prepare()
 
-            descriptionLabelText = GraphCell.descriptionLabelText(selectedHour: selectedHour, densityMap: densityMap)
+            descriptionLabelText = descriptionLabelText(selectedHour: selectedHour, densityMap: densityMap)
             descriptionLabel.text = descriptionLabelText
 
             setupConstraints()
@@ -285,12 +285,12 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         selectedView.snp.removeConstraints()
     }
 
-    func configure(description: String, densityMap: [Int: Double], selectedHour: Int, delegate: GraphCellDelegate) {
-        self.descriptionLabelText = description
-        descriptionLabel.text = description
+    func configure(densityMap: [Int: Double], selectedHour: Int, delegate: GraphCellDelegate) {
         self.selectedHour = selectedHour
         self.delegate = delegate
         self.densityMap = densityMap
+        descriptionLabelText = descriptionLabelText(selectedHour: selectedHour, densityMap: densityMap)
+        descriptionLabel.text = descriptionLabelText
         let numBars = CGFloat(end - start + 3)
         let barWidth: CGFloat = (frame.width - Constants.smallPadding * 2) / numBars
         layoutBars(barWidth: barWidth)

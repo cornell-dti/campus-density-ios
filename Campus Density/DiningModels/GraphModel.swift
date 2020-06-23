@@ -11,13 +11,11 @@ import IGListKit
 
 class GraphModel {
 
-    var description: String
     var densityMap: [Int: Double]
     var selectedHour: Int
     let identifier = UUID().uuidString
 
-    init(description: String, densityMap: [Int: Double], selectedHour: Int) {
-        self.description = description
+    init(densityMap: [Int: Double], selectedHour: Int) {
         self.densityMap = densityMap
         self.selectedHour = selectedHour
     }
