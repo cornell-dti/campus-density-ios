@@ -45,6 +45,15 @@ extension PlacesViewController: ListAdapterDataSource {
 
 }
 
+extension Date {
+
+    func roundedTo(seconds: Double) -> Date {
+        let multiples = Int(self.timeIntervalSince1970 / seconds)
+        return Date(timeIntervalSince1970: Double(multiples) * seconds)
+    }
+
+}
+
 extension PlacesViewController: FiltersSectionControllerDelegate {
 
     func filtersSectionControllerDidSelectFilter(selectedFilter: Filter) {
