@@ -9,57 +9,6 @@
 import UIKit
 import IGListKit
 
-extension Filter: Equatable {
-    public static func == (lhs: Filter, rhs: Filter) -> Bool {
-        switch lhs {
-            case .all:
-                switch rhs {
-                    case .all:
-                        return true
-                    case .central:
-                        return false
-                    case .north:
-                        return false
-                    case .west:
-                        return false
-                }
-            case .central:
-                switch rhs {
-                    case .all:
-                        return false
-                    case .central:
-                        return true
-                    case .north:
-                        return false
-                    case .west:
-                        return false
-                }
-            case .north:
-                switch rhs {
-                    case .all:
-                        return false
-                    case .central:
-                        return false
-                    case .north:
-                        return true
-                    case .west:
-                        return false
-                }
-            case .west:
-                switch rhs {
-                    case .all:
-                        return false
-                    case .central:
-                        return false
-                    case .north:
-                        return false
-                    case .west:
-                        return true
-                }
-            }
-    }
-}
-
 extension PlacesViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
