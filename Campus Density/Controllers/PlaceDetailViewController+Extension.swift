@@ -58,6 +58,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             }
         }
         return [
+            DetailControllerHeaderModel(place: place),
             SpaceModel(space: Constants.smallPadding),
             AvailabilityHeaderModel(),
             SpaceModel(space: Constants.smallPadding),
@@ -115,6 +116,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is MealFiltersModel {
             let mealFiltersModel = object as! MealFiltersModel
             return MealsFilterSectionController(mealModel: mealFiltersModel, delegate: self)
+        } else if object is DetailControllerHeaderModel {
+            let detailControllerHeaderModel = object as! DetailControllerHeaderModel
+            return DetailControllerHeaderSectionController(detailControllerHeaderModel: detailControllerHeaderModel)
         } else {
             let availabilityHeaderModel = object as! AvailabilityHeaderModel
             return AvailabilityHeaderSectionController(headerModel: availabilityHeaderModel)

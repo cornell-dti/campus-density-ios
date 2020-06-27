@@ -14,12 +14,14 @@ class DetailControllerHeaderCell: UICollectionViewCell {
     var displayLabel: UILabel!
     var timeString: NSMutableAttributedString!
     var timeLabel: UILabel!
+    var bottomBorder: UIView!
+
+    let spacing = 5
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupViews()
-        setupConstrains()
     }
 
     func setupViews() {
@@ -31,15 +33,34 @@ class DetailControllerHeaderCell: UICollectionViewCell {
         addSubview(timeLabel)
 
         displayLabel = UILabel()
-        displayLabel.text = place.displayName
-        displayLabel.textColor = .grayishBrown
+        displayLabel.textColor = .black
         displayLabel.textAlignment = .center
         displayLabel.font = .thirtyBold
         addSubview(displayLabel)
+
+        bottomBorder = UIView()
+        bottomBorder.backgroundColor = .densityDarkGray
+        addSubview(bottomBorder)
+
+        setupConstraints()
     }
 
-    func setupConstrains() {
+    func setupConstraints() {
+        displayLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(-5)
+            make.centerX.equalToSuperview()
+        }
 
+        timeLabel.snp.makeConstraints { make in
+            make.top.equalTo(displayLabel.snp.bottom).offset(spacing)
+            make.centerX.equalToSuperview()
+        }
+
+        bottomBorder.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+            make.width.equalToSuperview()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -48,5 +69,6 @@ class DetailControllerHeaderCell: UICollectionViewCell {
 
     func configure(with place: Place) {
         self.place = place
+        displayLabel.text = place.displayName
     }
 }
