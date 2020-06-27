@@ -65,6 +65,7 @@
 		EE1BC56224967C8A004DD427 /* AvailabilityInfoSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */; };
 		EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */; };
 		EE1BC56624969B28004DD427 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE1BC56524969B28004DD427 /* Assets.xcassets */; };
+		EE4C803F24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */; };
 		EE64E0D7240B09DC003E449E /* GymFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */; };
 		EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */; };
 		EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */; };
@@ -164,10 +165,11 @@
 		B792838E50BEC810AD8F4BF1 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		EE03ED9023EBDA800064266B /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = Secrets/Keys.plist; sourceTree = SOURCE_ROOT; };
-		EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AvailabilityInfoCell.swift; path = AvailabilityInfoCell.swift; sourceTree = "<group>"; };
+		EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoCell.swift; sourceTree = "<group>"; };
 		EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoSectionController.swift; sourceTree = "<group>"; };
 		EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoModel.swift; sourceTree = "<group>"; };
 		EE1BC56524969B28004DD427 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailControllerHeaderCell.swift; sourceTree = "<group>"; };
 		EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersModel.swift; sourceTree = "<group>"; };
 		EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersSectionController.swift; sourceTree = "<group>"; };
 		EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFilterCell.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 				3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */,
 				3C873288244218CA00D42F59 /* GraphHeaderCell.swift */,
 				EEA4117C249E841200190A30 /* AvailabilityHeaderCell.swift */,
+				EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */,
 			);
 			path = DiningCells;
 			sourceTree = "<group>";
@@ -644,6 +647,7 @@
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */,
+				EE4C803F24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				EEA41181249E85C700190A30 /* AvailabilityHeaderSectionController.swift in Sources */,
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
