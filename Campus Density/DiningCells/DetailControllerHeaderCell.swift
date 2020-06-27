@@ -69,6 +69,7 @@ class DetailControllerHeaderCell: UICollectionViewCell {
 
     func configure(with place: Place) {
         self.place = place
+        print(place.hours)
         displayLabel.text = place.displayName
     }
 }

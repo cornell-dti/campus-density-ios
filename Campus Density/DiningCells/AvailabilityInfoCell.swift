@@ -14,7 +14,7 @@ class AvailabilityInfoCell: UICollectionViewCell {
     // Mark :- Constants
     let padding: CGFloat = 10
     let rangeStringFontSize: CGFloat = 40
-    let containerCornerRadius: CGFloat = 15
+    let containerCornerRadius: CGFloat = 8
     let imageWidth: CGFloat = 40
 
     // MARK: - UI component declarations
@@ -62,8 +62,8 @@ class AvailabilityInfoCell: UICollectionViewCell {
 
     func setupContraints() {
         container.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(padding)
-            make.width.equalToSuperview().offset(-padding * 2)
+            make.left.equalToSuperview().offset(padding * 2.5)
+            make.width.equalToSuperview().offset(-padding * 5)
             make.height.equalToSuperview()
         }
 
@@ -95,6 +95,9 @@ class AvailabilityInfoCell: UICollectionViewCell {
 
     func setupConsts() {
 
+        place.isClosed = false
+        place.density = .notBusy
+
         if place.isClosed {
             rangeString = NSMutableAttributedString(string: "Closed")
             container.backgroundColor = .densityDarkGray
@@ -111,7 +114,7 @@ class AvailabilityInfoCell: UICollectionViewCell {
                     container.backgroundColor = .wheat
                 case .notBusy:
                     rangeString = NSMutableAttributedString(string: "< \(Int(0.26 * maxLimit))")
-                    container.backgroundColor = .lightTeal
+                    container.backgroundColor = .densityGreen
             }
         }
 

@@ -12,7 +12,7 @@ import IGListKit
 class AvailabilityInfoSectionController: ListSectionController {
 
     var availabilityModel: AvailabilityInfoModel!
-    let cellHeight: CGFloat = 100
+    let cellHeight: CGFloat = 80
 
     init(availabilityModel: AvailabilityInfoModel) {
         self.availabilityModel = availabilityModel
