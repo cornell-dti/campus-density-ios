@@ -95,9 +95,6 @@ class AvailabilityInfoCell: UICollectionViewCell {
 
     func setupConsts() {
 
-        place.isClosed = false
-        place.density = .notBusy
-
         if place.isClosed {
             rangeString = NSMutableAttributedString(string: "Closed")
             container.backgroundColor = .densityDarkGray

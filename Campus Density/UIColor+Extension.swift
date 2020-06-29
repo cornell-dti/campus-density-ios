@@ -15,7 +15,7 @@ extension UIColor {
     static let offWhite: UIColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0)
     static let densityLightGray: UIColor = UIColor(white: 239.0 / 255.0, alpha: 1.0)
     static let densityDarkGray: UIColor = UIColor(white: 181.0 / 255.0, alpha: 1.0)
-    static let densityGreen: UIColor = UIColor(red: 75.0 / 255.0, green: 200.0 / 255.0, blue: 115.0 / 255.0, alpha: 1.0)
+    static let densityGreen: UIColor = UIColor(red: 90.0 / 255.0, green: 217.0 / 255.0, blue: 147.0 / 255.0, alpha: 1.0)
     static let lightTeal: UIColor = UIColor(red: 135.0 / 255.0, green: 217.0 / 255.0, blue: 172.0 / 255.0, alpha: 1.0)
     static let wheat: UIColor = UIColor(red: 1.0, green: 224.0 / 255.0, blue: 130.0 / 255.0, alpha: 1.0)
     static let orangeyRed: UIColor = UIColor(red: 250.0 / 255.0, green: 71.0 / 255.0, blue: 53.0 / 255.0, alpha: 1.0)
