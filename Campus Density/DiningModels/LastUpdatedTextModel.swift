@@ -11,7 +11,12 @@ import IGListKit
 
 class LastUpdatedTextModel {
 
+    var lastUpdated: Date
     let identifier = UUID().uuidString
+
+    init(lastUpdated: Date) {
+        self.lastUpdated = lastUpdated
+    }
 
 }
 

@@ -13,9 +13,12 @@ extension PlacesViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         if collectionView.isHidden { return [] }
+        let lastUpdatedTime = Date().roundedToSince1970(seconds: 300)
         var objects = [ListDiffable]()
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
         objects.append(contentsOf: filteredPlaces)
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(LogoModel(length: logoLength, link: dtiWebsite))
         objects.append(SpaceModel(space: Constants.smallPadding))
@@ -32,6 +35,9 @@ extension PlacesViewController: ListAdapterDataSource {
         } else if object is FiltersModel {
             let filtersModel = object as! FiltersModel
             return FiltersSectionController(filtersModel: filtersModel, delegate: self)
+        } else if object is LastUpdatedTextModel {
+            let lastUpdatedTextModel = object as! LastUpdatedTextModel
+            return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel)
         } else if object is LogoModel {
             let logoModel = object as! LogoModel
             return LogoSectionController(logoModel: logoModel, delegate: self)
@@ -47,9 +53,9 @@ extension PlacesViewController: ListAdapterDataSource {
 
 extension Date {
 
-    func roundedTo(seconds: Double) -> Date {
-        let multiples = Int(self.timeIntervalSince1970 / seconds)
-        return Date(timeIntervalSince1970: Double(multiples) * seconds)
+    func roundedToSince1970(seconds: Double) -> Date {
+        let multiples = floor(self.timeIntervalSince1970 / seconds)
+        return Date(timeIntervalSince1970: multiples * seconds)
     }
 
 }
