@@ -14,20 +14,21 @@ class LastUpdatedTextSectionController: ListSectionController {
     // MARK: - 'Data' vars
     var lastUpdatedTextModel: LastUpdatedTextModel!
 
+    // MARK: - Constants
+    let cellHeight: CGFloat = 20
+
     init(lastUpdatedTextModel: LastUpdatedTextModel) {
         self.lastUpdatedTextModel = lastUpdatedTextModel
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-//        let textHeight = headerText.height(withConstrainedWidth: containerSize.width - Constants.smallPadding * 2, font: .thirtyBold)
-        let textHeight = Constants.mediumPadding
-        return CGSize(width: containerSize.width, height: textHeight)
+        return CGSize(width: containerSize.width, height: cellHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        let cell = collectionContext?.dequeueReusableCell(of: GraphHeaderCell.self, for: self, at: index) as! GraphHeaderCell
-        // cell configure
+        let cell = collectionContext?.dequeueReusableCell(of: LastUpdatedTextCell.self, for: self, at: index) as! LastUpdatedTextCell
+        cell.configure(lastUpdatedDate: lastUpdatedTextModel.lastUpdated)
         return cell
     }
 
