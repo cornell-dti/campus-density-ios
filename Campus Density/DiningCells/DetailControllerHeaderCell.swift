@@ -70,5 +70,8 @@ class DetailControllerHeaderCell: UICollectionViewCell {
     func configure(with place: Place) {
         self.place = place
         displayLabel.text = place.displayName
+        if place.displayName.count >= 23 {
+            displayLabel.font = .twentyEightBold
+        }
     }
 }
