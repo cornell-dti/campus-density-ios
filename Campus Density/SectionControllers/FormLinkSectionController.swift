@@ -36,7 +36,7 @@ class FormLinkSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: FormLinkCell.self, for: self, at: index) as! FormLinkCell
-        cell.configure(delegate: self, link: formLinkModel.feedbackForm)
+        cell.configure(delegate: self, link: formLinkModel.feedbackForm, lastUpdatedDate: formLinkModel.lastUpdated)
         return cell
     }
 
