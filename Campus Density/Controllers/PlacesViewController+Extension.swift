@@ -13,7 +13,7 @@ extension PlacesViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         if collectionView.isHidden { return [] }
-        let lastUpdatedTime = Date().roundedToSince1970(seconds: 300)
+        let lastUpdatedTime = API.lastUpdatedDensityTimeRounded(seconds: 300)
         var objects = [ListDiffable]()
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
         objects.append(contentsOf: filteredPlaces)
@@ -47,15 +47,6 @@ extension PlacesViewController: ListAdapterDataSource {
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return nil
-    }
-
-}
-
-extension Date {
-
-    func roundedToSince1970(seconds: Double) -> Date {
-        let multiples = floor(self.timeIntervalSince1970 / seconds)
-        return Date(timeIntervalSince1970: multiples * seconds)
     }
 
 }

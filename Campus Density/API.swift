@@ -188,6 +188,8 @@ struct WeekMenus: Codable {
 
 class API {
 
+    static var lastUpdatedDensityTime: Date?
+
     //sets up the base url for fetching data
     static var url: String {
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) else { return "" }
@@ -371,6 +373,7 @@ class API {
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let densities):
+                    self.lastUpdatedDensityTime = Date() // Set last updated density time to now
                     densities.forEach({ placeDensity in
                         let index = System.places.firstIndex(where: { place -> Bool in
                             return place.id == placeDensity.id
@@ -384,6 +387,11 @@ class API {
                     completion(false)
                 }
         }
+    }
+
+    static func lastUpdatedDensityTimeRounded(seconds: Double) -> Date {
+        let multiples = floor(lastUpdatedDensityTime!.timeIntervalSince1970 / seconds)
+        return Date(timeIntervalSince1970: multiples * seconds)
     }
 
     static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
