@@ -18,7 +18,7 @@ enum Meal: String, CaseIterable {
     case dinner = "Dinner"
 }
 
-class PlaceDetailViewController: UIViewController {
+class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Data vars
     var place: Place!
@@ -46,7 +46,7 @@ class PlaceDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        // title = place.displayName
+        title = ""
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.backgroundColor = .white
@@ -246,6 +246,7 @@ class PlaceDetailViewController: UIViewController {
         let updater = ListAdapterUpdater()
         adapter = ListAdapter(updater: updater, viewController: nil)
         adapter.collectionView = collectionView
+        adapter.scrollViewDelegate = self
         adapter.dataSource = self
 
         collectionView.snp.makeConstraints { make in
@@ -338,6 +339,15 @@ class PlaceDetailViewController: UIViewController {
         }
 
         return "Closed"
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let headerOffset: CGFloat = 15.0
+        if scrollView.contentOffset.y >= -headerOffset {
+            title = place.displayName
+        } else {
+            title = ""
+        }
     }
 
 }
