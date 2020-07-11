@@ -1,28 +1,26 @@
 //
-//  FormLinkModel.swift
+//  LastUpdatedTextModel.swift
 //  Campus Density
 //
-//  Created by Matthew Coufal on 3/8/19.
-//  Copyright © 2019 Cornell DTI. All rights reserved.
+//  Created by Changyuan Lin on 6/27/20.
+//  Copyright © 2020 Cornell DTI. All rights reserved.
 //
 
 import Foundation
 import IGListKit
 
-class FormLinkModel {
+class LastUpdatedTextModel {
 
-    var feedbackForm: String
     var lastUpdated: Date
     let identifier = UUID().uuidString
 
-    init(feedbackForm: String, lastUpdated: Date) {
-        self.feedbackForm = feedbackForm
+    init(lastUpdated: Date) {
         self.lastUpdated = lastUpdated
     }
 
 }
 
-extension FormLinkModel: ListDiffable {
+extension LastUpdatedTextModel: ListDiffable {
 
     func diffIdentifier() -> NSObjectProtocol {
         return identifier as NSString
@@ -30,7 +28,7 @@ extension FormLinkModel: ListDiffable {
 
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if self === object { return true }
-        guard let object = object as? FormLinkModel else { return false }
+        guard let object = object as? LastUpdatedTextModel else { return false }
         return object.identifier == identifier
     }
 

@@ -9,64 +9,16 @@
 import UIKit
 import IGListKit
 
-extension Filter: Equatable {
-    public static func == (lhs: Filter, rhs: Filter) -> Bool {
-        switch lhs {
-            case .all:
-                switch rhs {
-                    case .all:
-                        return true
-                    case .central:
-                        return false
-                    case .north:
-                        return false
-                    case .west:
-                        return false
-                }
-            case .central:
-                switch rhs {
-                    case .all:
-                        return false
-                    case .central:
-                        return true
-                    case .north:
-                        return false
-                    case .west:
-                        return false
-                }
-            case .north:
-                switch rhs {
-                    case .all:
-                        return false
-                    case .central:
-                        return false
-                    case .north:
-                        return true
-                    case .west:
-                        return false
-                }
-            case .west:
-                switch rhs {
-                    case .all:
-                        return false
-                    case .central:
-                        return false
-                    case .north:
-                        return false
-                    case .west:
-                        return true
-                }
-            }
-    }
-}
-
 extension PlacesViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         if collectionView.isHidden { return [] }
+        let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var objects = [ListDiffable]()
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
         objects.append(contentsOf: filteredPlaces)
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(LogoModel(length: logoLength, link: dtiWebsite))
         objects.append(SpaceModel(space: Constants.smallPadding))
@@ -83,6 +35,9 @@ extension PlacesViewController: ListAdapterDataSource {
         } else if object is FiltersModel {
             let filtersModel = object as! FiltersModel
             return FiltersSectionController(filtersModel: filtersModel, delegate: self)
+        } else if object is LastUpdatedTextModel {
+            let lastUpdatedTextModel = object as! LastUpdatedTextModel
+            return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel)
         } else if object is LogoModel {
             let logoModel = object as! LogoModel
             return LogoSectionController(logoModel: logoModel, delegate: self)
