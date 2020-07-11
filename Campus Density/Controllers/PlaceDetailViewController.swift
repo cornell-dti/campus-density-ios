@@ -67,8 +67,6 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
         ithacaCalendar.timeZone = ithacaTime
 
-        print(getNextClosingText())
-
         if place.hours.isEmpty {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
@@ -307,38 +305,6 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         let text = formatter.string(from: selectedDate)
           + ((TimeZone.current != ithacaTime) ? " (\(ithacaTime.abbreviation()!))" : "")
         return text
-    }
-
-    func getNextClosingText() -> String {
-        let currTime = Date()
-        let day = ithacaCalendar.component(.weekday, from: currTime)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm aa"
-        dateFormatter.timeZone = ithacaTime
-
-        guard let placeHoursStringified = place.hours[day - 1] else { return "Operating hours could not be found" }
-        print(placeHoursStringified)
-        let placeHours = placeHoursStringified.split(separator: "\n")
-        for s in placeHours {
-            let rangeSplit = String(s).split(separator: "-")
-            let startTime = String(rangeSplit[0])
-            let endTime = String(rangeSplit[1])
-
-            var newDate = Date(timeIntervalSinceReferenceDate: 0) // Initiates date at 2001-01-01 00:00:00 +0000
-            var newDate1 = Date(timeIntervalSinceReferenceDate: 0)
-
-            let newDateComponents = ithacaCalendar.dateComponents([.hour, .minute], from: currTime)
-            let newDate1Components = ithacaCalendar.dateComponents([.hour, .minute], from: dateFormatter.date(from: startTime)!)
-
-            newDate = ithacaCalendar.date(byAdding: newDateComponents, to: newDate)!
-            newDate1 = ithacaCalendar.date(byAdding: newDate1Components, to: newDate1)!
-
-            if newDate > newDate1 {
-                return endTime
-            }
-        }
-
-        return "Closed"
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

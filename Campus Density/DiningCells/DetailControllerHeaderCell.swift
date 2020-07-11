@@ -25,11 +25,8 @@ class DetailControllerHeaderCell: UICollectionViewCell {
     }
 
     func setupViews() {
-        timeString = NSMutableAttributedString(string: "Open until 8 pm")
-        timeString.addAttribute(.foregroundColor, value: UIColor.lightTeal, range: NSRange(location: 0, length: timeString.mutableString.length))
 
         timeLabel = UILabel()
-        timeLabel.attributedText = timeString
         addSubview(timeLabel)
 
         displayLabel = UILabel()
@@ -73,5 +70,53 @@ class DetailControllerHeaderCell: UICollectionViewCell {
         if place.displayName.count >= 23 {
             displayLabel.font = .twentyEightBold
         }
+
+        if place.isClosed {
+            timeString = NSMutableAttributedString(string: "Closed")
+            timeString.addAttribute(.foregroundColor, value: UIColor.orangeyRed, range: NSRange(location: 0, length: timeString.mutableString.length))
+        } else {
+            let closingString = getNextClosingText()
+            timeString = NSMutableAttributedString(string: "Open until `\(closingString)")
+            timeString.addAttribute(.foregroundColor, value: UIColor.lightTeal, range: NSRange(location: 0, length: timeString.mutableString.length))
+        }
+
+        timeLabel.attributedText = timeString
     }
+
+    func getNextClosingText() -> String {
+
+        let ithacaTime = TimeZone(identifier: "America/New_York")!
+        var ithacaCalendar = Calendar.current
+
+        ithacaCalendar.timeZone = ithacaTime
+
+        let currTime = Date()
+        let day = ithacaCalendar.component(.weekday, from: currTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm aa"
+        dateFormatter.timeZone = ithacaTime
+        guard let placeHoursStringified = place.hours[day - 1] else { return "Operating hours could not be found" }
+        let placeHours = placeHoursStringified.split(separator: "\n")
+        for s in placeHours {
+            let rangeSplit = String(s).split(separator: "-")
+            let endTime = String(rangeSplit[1]).trimmingCharacters(in: .whitespacesAndNewlines)
+            print("Endtime: " + endTime)
+
+            var currTimeRef = Date(timeIntervalSinceReferenceDate: 0) // Initiates date at 2001-01-01 00:00:00 +0000
+            var endTimeRef = Date(timeIntervalSinceReferenceDate: 0)
+
+            let currDateComponents = ithacaCalendar.dateComponents([.hour, .minute], from: currTime)
+            let endTimeComponents = ithacaCalendar.dateComponents([.hour, .minute], from: dateFormatter.date(from: endTime)!)
+
+            currTimeRef = ithacaCalendar.date(byAdding: currDateComponents, to: currTimeRef)!
+            endTimeRef = ithacaCalendar.date(byAdding: endTimeComponents, to: endTimeRef)!
+
+            if currTimeRef < endTimeRef {
+                return endTime
+            }
+        }
+
+        return "Closed"
+    }
+
 }
