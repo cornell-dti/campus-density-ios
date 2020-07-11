@@ -14,7 +14,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         let weekday = getCurrentWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
-        let lastUpdatedTime = API.lastUpdatedDensityTimeRounded(seconds: 300)
+        let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var hours = "No hours available"
         var menus = DayMenus(menus: [], date: "help")
         if let selectedWeekdayHours = place.hours[selectedWeekday] {

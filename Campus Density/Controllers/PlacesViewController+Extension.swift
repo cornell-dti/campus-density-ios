@@ -13,7 +13,7 @@ extension PlacesViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         if collectionView.isHidden { return [] }
-        let lastUpdatedTime = API.lastUpdatedDensityTimeRounded(seconds: 300)
+        let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var objects = [ListDiffable]()
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
         objects.append(contentsOf: filteredPlaces)

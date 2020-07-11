@@ -188,7 +188,9 @@ struct WeekMenus: Codable {
 
 class API {
 
+    /// API remembering when it last updated density
     static var lastUpdatedDensityTime: Date?
+    static let lastUpdatedRoundingSeconds: Double = 300
 
     //sets up the base url for fetching data
     static var url: String {
@@ -389,9 +391,9 @@ class API {
         }
     }
 
-    static func lastUpdatedDensityTimeRounded(seconds: Double) -> Date {
-        let multiples = floor(lastUpdatedDensityTime!.timeIntervalSince1970 / seconds)
-        return Date(timeIntervalSince1970: multiples * seconds)
+    static func getLastUpdatedDensityTime() -> Date {
+        let multiples = floor(lastUpdatedDensityTime!.timeIntervalSince1970 / lastUpdatedRoundingSeconds)
+        return Date(timeIntervalSince1970: multiples * lastUpdatedRoundingSeconds)
     }
 
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
