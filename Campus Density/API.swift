@@ -394,46 +394,6 @@ class API {
         return Date(timeIntervalSince1970: multiples * seconds)
     }
 
-    static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
-        let menus = menudata.menus
-        let newLine = NSAttributedString(string: "\n")
-        let resultString = NSMutableAttributedString(string: "")
-        for menu in menus {
-            let desc = NSMutableAttributedString(string: menu.description)
-            desc.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: desc.mutableString.range(of: menu.description))
-            desc.addAttribute(NSAttributedString.Key.font, value: UIFont.eighteenBold, range: desc.mutableString.range(of: menu.description))
-            let menuitemlist = menu.menu
-            if (menuitemlist.count != 0) {
-                resultString.append(desc)
-                resultString.append(newLine)
-            }
-            for menuitem in menuitemlist {
-                for item in menuitem.items {
-                    let itemNS = NSAttributedString(string: item)
-                    resultString.append(itemNS)
-                    resultString.append(newLine)
-                }
-            }
-            if (menuitemlist.count != 0) {
-                resultString.append(newLine)
-            }
-        }
-
-        return resultString
-    }
-
-    static func convertToDict(menudata: DayMenus) -> [String: [String: [String]]] {
-        let menus = menudata.menus
-        var res = [String: [String: [String]]]()
-        for menu in menus {
-            res[menu.description] = [String: [String]]()
-            for station in menu.menu {
-                res[menu.description]?[station.category] = station.items
-            }
-        }
-        return res
-    }
-
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
