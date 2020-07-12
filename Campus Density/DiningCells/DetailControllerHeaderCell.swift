@@ -83,6 +83,9 @@ class DetailControllerHeaderCell: UICollectionViewCell {
         timeLabel.attributedText = timeString
     }
 
+    /**
+     Returns a string representing the next closing time for this place, with the hh:mm aa format.
+    */
     func getNextClosingText() -> String {
 
         let ithacaTime = TimeZone(identifier: "America/New_York")!
