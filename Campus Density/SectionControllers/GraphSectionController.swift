@@ -36,7 +36,7 @@ class GraphSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: GraphCell.self, for: self, at: index) as! GraphCell
-        cell.configure(description: graphModel.description, densityMap: graphModel.densityMap, selectedHour: graphModel.selectedHour, delegate: self)
+        cell.configure(densityMap: graphModel.densityMap, selectedHour: graphModel.selectedHour, delegate: self)
         return cell
     }
 

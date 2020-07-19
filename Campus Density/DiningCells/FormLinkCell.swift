@@ -22,6 +22,7 @@ class FormLinkCell: UICollectionViewCell {
 
     // MARK: - View vars
     var linkButton: UIButton!
+    var lastUpdatedLabel: UILabel!
 
     // MARK: - Constants
     let linkButtonText = "Is this accurate?"
@@ -37,6 +38,12 @@ class FormLinkCell: UICollectionViewCell {
         linkButton.titleLabel?.textAlignment = .right
         addSubview(linkButton)
 
+        lastUpdatedLabel = UILabel()
+        lastUpdatedLabel.textColor = .densityDarkGray
+        lastUpdatedLabel.font = .fourteen
+        addSubview(lastUpdatedLabel)
+
+        setupConstraints()
     }
 
     func setupConstraints() {
@@ -44,11 +51,19 @@ class FormLinkCell: UICollectionViewCell {
             make.height.equalToSuperview()
             make.right.equalToSuperview().inset(Constants.smallPadding)
         }
+
+        lastUpdatedLabel.snp.makeConstraints { make in
+            make.height.equalToSuperview()
+            make.left.equalToSuperview().inset(Constants.smallPadding)
+        }
     }
 
-    func configure(delegate: FormLinkCellDelegate, link: String) {
+    func configure(delegate: FormLinkCellDelegate, link: String, lastUpdatedDate: Date) {
         self.delegate = delegate
         self.link = link
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        lastUpdatedLabel.text = "Last updated " + formatter.string(from: lastUpdatedDate)
         setupConstraints()
     }
 

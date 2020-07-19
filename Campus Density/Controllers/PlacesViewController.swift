@@ -202,6 +202,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
                 if gotDensities {
                     API.status { gotStatus in
                         if gotStatus {
+                            sortPlaces() // Maybe fixes a bug related to opening the app after a long time and refreshed densities being out of order
                             self.filter(by: self.selectedFilter)
                             self.adapter.performUpdates(animated: false, completion: nil)
                         }
@@ -314,6 +315,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
                 self.filter(by: self.selectedFilter)
             }
             refreshControl.endRefreshing()
+            self.adapter.performUpdates(animated: false, completion: nil) // After refreshing, reload with sorted places - otherwise may just have same order with updated density card on cell dequeue and configure (passing the place by reference and updating the places) ?
         }
     }
 

@@ -12,12 +12,9 @@ import IGListKit
 extension PlaceDetailViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        var description = "Closed"
-        if !densityMap.isEmpty {
-            description = "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
-        }
         let weekday = getCurrentWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
         let date = selectedDateText()
+        let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var hours = "No hours available"
         var menus = DayMenus(menus: [], date: "help")
         if let selectedWeekdayHours = place.hours[selectedWeekday] {
@@ -64,21 +61,22 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: Constants.smallPadding),
             AvailabilityInfoModel(place: place),
             SpaceModel(space: linkTopOffset),
-            FormLinkModel(feedbackForm: feedbackForm),
+            FormLinkModel(feedbackForm: feedbackForm, lastUpdated: lastUpdatedTime),
             SpaceModel(space: Constants.smallPadding),
             GraphHeaderModel(),
             SpaceModel(space: Constants.smallPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.mediumPadding),
-            GraphModel(description: description, densityMap: densityMap, selectedHour: selectedHour),
+            GraphModel(densityMap: densityMap, selectedHour: selectedHour),
             SpaceModel(space: Constants.mediumPadding),
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.smallPadding),
             HoursModel(hours: hours),
-            SpaceModel(space: Constants.smallPadding),
+            SpaceModel(space: Constants.mediumPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding),
-            MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal)
+            MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
+            SpaceModel(space: Constants.smallPadding)
         ]
     }
 

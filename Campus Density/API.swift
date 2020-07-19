@@ -188,6 +188,10 @@ struct WeekMenus: Codable {
 
 class API {
 
+    /// API remembering when it last updated density
+    static var lastUpdatedDensityTime: Date?
+    static let lastUpdatedRoundingSeconds: Double = 300
+
     //sets up the base url for fetching data
     static var url: String {
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) else { return "" }
@@ -371,6 +375,7 @@ class API {
                 let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let densities):
+                    self.lastUpdatedDensityTime = Date() // Set last updated density time to now
                     densities.forEach({ placeDensity in
                         let index = System.places.firstIndex(where: { place -> Bool in
                             return place.id == placeDensity.id
@@ -386,44 +391,9 @@ class API {
         }
     }
 
-    static func convertToMenuString(menudata: DayMenus) -> NSMutableAttributedString {
-        let menus = menudata.menus
-        let newLine = NSAttributedString(string: "\n")
-        let resultString = NSMutableAttributedString(string: "")
-        for menu in menus {
-            let desc = NSMutableAttributedString(string: menu.description)
-            desc.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: desc.mutableString.range(of: menu.description))
-            desc.addAttribute(NSAttributedString.Key.font, value: UIFont.eighteenBold, range: desc.mutableString.range(of: menu.description))
-            let menuitemlist = menu.menu
-            if (menuitemlist.count != 0) {
-                resultString.append(desc)
-                resultString.append(newLine)
-            }
-            for menuitem in menuitemlist {
-                for item in menuitem.items {
-                    let itemNS = NSAttributedString(string: item)
-                    resultString.append(itemNS)
-                    resultString.append(newLine)
-                }
-            }
-            if (menuitemlist.count != 0) {
-                resultString.append(newLine)
-            }
-        }
-
-        return resultString
-    }
-
-    static func convertToDict(menudata: DayMenus) -> [String: [String: [String]]] {
-        let menus = menudata.menus
-        var res = [String: [String: [String]]]()
-        for menu in menus {
-            res[menu.description] = [String: [String]]()
-            for station in menu.menu {
-                res[menu.description]?[station.category] = station.items
-            }
-        }
-        return res
+    static func getLastUpdatedDensityTime() -> Date {
+        let multiples = floor(lastUpdatedDensityTime!.timeIntervalSince1970 / lastUpdatedRoundingSeconds)
+        return Date(timeIntervalSince1970: multiples * lastUpdatedRoundingSeconds)
     }
 
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {

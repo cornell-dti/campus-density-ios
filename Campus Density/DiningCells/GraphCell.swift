@@ -26,17 +26,15 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     var descriptionLabel: UILabel!
     var selectedView: UIView!
     var axis: UIView!
-    var bars = [UIView]()
+    var bars = [BarView]()
     var feedbackGenerator = UISelectionFeedbackGenerator()
 
     // MARK: - Constants
     let descriptionLabelHeight: CGFloat = 40
-    let descriptionLabelVerticalPadding: CGFloat = 50
-    let descriptionLabelHorizontalPadding: CGFloat = 15
     let maxBarHeight: CGFloat = 150
     let axisLabelVerticalPadding: CGFloat = 10
     let axisLabelHeight: CGFloat = 15
-    let axisHeight: CGFloat = 2
+    let axisHeight: CGFloat = 1
     let start: Int = 7
     let end: Int = 23
     let horizontalPadding: CGFloat = 15
@@ -45,7 +43,8 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let numTicks: Int = 3
     let smallTickHeight: CGFloat = 5
     let largeTickHeight: CGFloat = 10
-    let barGraphViewVerticalPadding: CGFloat = 50
+    let barToLabelGap: CGFloat = Constants.largePadding
+    let greyBarExtraHeight: CGFloat = Constants.largePadding / 2
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,6 +60,11 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    /// Returns the text description of density at a certain hour
+    func descriptionLabelText(selectedHour: Int, densityMap: [Int: Double]) -> String {
+        return "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
     }
 
     func setupGestureRecognizers() {
@@ -114,25 +118,10 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             feedbackGenerator.selectionChanged()
             feedbackGenerator.prepare()
 
-            descriptionLabelText = "\(getHourLabel(selectedHour: selectedHour)) - \(getCurrentDensity(densityMap: densityMap, selectedHour: selectedHour))"
+            descriptionLabelText = descriptionLabelText(selectedHour: selectedHour, densityMap: densityMap)
             descriptionLabel.text = descriptionLabelText
-            let descriptionWidth = descriptionLabelText.widthWithConstrainedHeight(descriptionLabelHeight, font: descriptionLabel.font)
 
-            descriptionLabel.snp.remakeConstraints { update in
-                update.top.equalToSuperview()
-                update.width.equalTo(descriptionWidth + Constants.smallPadding * 2)
-                update.height.equalTo(descriptionLabelHeight)
-                update.centerX.equalTo(bars[barIndex]).priority(.high)
-                update.right.lessThanOrEqualToSuperview().offset(-Constants.smallPadding).priority(.required)
-                update.left.greaterThanOrEqualToSuperview().offset(Constants.smallPadding).priority(.required)
-            }
-
-            selectedView.snp.remakeConstraints { update in
-                update.width.equalTo(selectedViewWidth)
-                update.top.equalTo(descriptionLabel.snp.bottom)
-                update.bottom.equalTo(bars[barIndex].snp.top)
-                update.centerX.equalTo(bars[barIndex])
-            }
+            setupConstraints()
 
         }
     }
@@ -151,7 +140,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         addSubview(descriptionLabel)
 
         axis = UIView()
-        axis.backgroundColor = .whiteTwo
+        axis.backgroundColor = .warmGray
         axis.clipsToBounds = true
         axis.layer.cornerRadius = axisHeight / 2
         addSubview(axis)
@@ -166,7 +155,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         axis.snp.makeConstraints { make in
             make.width.equalToSuperview().inset(Constants.smallPadding)
             make.height.equalTo(axisHeight)
-            make.top.equalTo(descriptionLabelHeight + Constants.largePadding + maxBarHeight)
+            make.top.equalTo(maxBarHeight + barToLabelGap + descriptionLabelHeight)
             make.centerX.equalToSuperview()
         }
 
@@ -177,7 +166,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             let tick = UIView()
             tick.clipsToBounds = true
             tick.layer.cornerRadius = axisHeight / 2
-            tick.backgroundColor = .whiteTwo
+            tick.backgroundColor = .warmGray
             addSubview(tick)
 
             let shouldLabel = (endHour - startHour) % numTicks == 0
@@ -213,7 +202,7 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         let lastTick = UIView()
         lastTick.clipsToBounds = true
         lastTick.layer.cornerRadius = axisHeight / 2
-        lastTick.backgroundColor = .whiteTwo
+        lastTick.backgroundColor = .warmGray
         addSubview(lastTick)
 
         lastTick.snp.makeConstraints { make in
@@ -229,28 +218,16 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         let endHour: Int = end
         var barLeftOffset: CGFloat = barWidth
         while startHour <= endHour {
-            let bar = UIView()
+            let bar = BarView()
             bar.tag = startHour
             var barHeight: CGFloat = 1
             if let historicalAverage = densityMap[startHour] {
-                if historicalAverage < 0.25 {
-                    bar.backgroundColor = .lightTeal
-                } else if historicalAverage < 0.5 {
-                    bar.backgroundColor = .wheat
-                } else if historicalAverage < 0.75 {
-                    bar.backgroundColor = .peach
-                } else {
-                    bar.backgroundColor = .orangeyRed
-                }
-                barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage)
+                bar.configureOpen(historicalAverage: historicalAverage)
+                barHeight = maxBarHeight * CGFloat(historicalAverage < 0.075 ? 0.075 : historicalAverage) // Minimum bar height of 0.075
             } else {
-                bar.isHidden = true
+                bar.configureClosed()
+                barHeight = maxBarHeight + greyBarExtraHeight
             }
-            bar.clipsToBounds = true
-            bar.layer.cornerRadius = 5
-            bar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            bar.layer.borderColor = UIColor.white.cgColor
-            bar.layer.borderWidth = 0.5
             addSubview(bar)
 
             bar.snp.makeConstraints { make in
@@ -268,54 +245,34 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
 
     func setupConstraints() {
+        let descriptionWidth = descriptionLabelText.widthWithConstrainedHeight(descriptionLabelHeight, font: descriptionLabel.font)
 
-        if densityMap.isEmpty {
-            let descriptionWidth = descriptionLabelText.widthWithConstrainedHeight(descriptionLabelHeight, font: descriptionLabel.font)
-            let descriptionTopOffset = maxBarHeight / 2
+        let index = bars.firstIndex(where: { bar -> Bool in
+            return bar.tag == selectedHour
+        })
 
-            descriptionLabel.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(descriptionTopOffset)
-                make.width.equalTo(descriptionWidth + Constants.smallPadding * 2)
-                make.height.equalTo(descriptionLabelHeight)
-                make.centerX.equalToSuperview()
+        if let barIndex = index {
+            descriptionLabel.snp.remakeConstraints { update in
+                update.top.equalToSuperview()
+                update.width.equalTo(descriptionWidth + Constants.smallPadding * 2)
+                update.height.equalTo(descriptionLabelHeight)
+                update.centerX.equalTo(bars[barIndex]).priority(.high)
+                update.right.lessThanOrEqualToSuperview().offset(-Constants.smallPadding).priority(.required)
+                update.left.greaterThanOrEqualToSuperview().offset(Constants.smallPadding).priority(.required)
             }
-        } else {
-            let numBars = CGFloat(end - start + 3)
-            let barWidth: CGFloat = (frame.width - Constants.smallPadding * 2) / numBars
-            layoutBars(barWidth: barWidth)
 
-            let descriptionWidth = descriptionLabelText.widthWithConstrainedHeight(descriptionLabelHeight, font: descriptionLabel.font)
-
-            let index = bars.firstIndex(where: { bar -> Bool in
-                return bar.tag == selectedHour
-            })
-
-            if let barIndex = index, let _ = densityMap[selectedHour] {
-                descriptionLabel.snp.makeConstraints { make in
-                    make.top.equalToSuperview()
-                    make.width.equalTo(descriptionWidth + Constants.smallPadding * 2)
-                    make.height.equalTo(descriptionLabelHeight)
-                    make.centerX.equalTo(bars[barIndex]).priority(.high)
-                    make.right.lessThanOrEqualToSuperview().offset(-Constants.smallPadding).priority(.required)
-                    make.left.greaterThanOrEqualToSuperview().offset(Constants.smallPadding).priority(.required)
+            selectedView.snp.remakeConstraints { update in
+                update.width.equalTo(selectedViewWidth)
+                update.top.equalTo(descriptionLabel.snp.bottom)
+                if bars[barIndex].isClosedTime {
+                    selectedView.superview?.bringSubviewToFront(selectedView)
+                    update.bottom.equalTo(bars[barIndex].snp.bottom)
+                } else {
+                    update.bottom.equalTo(bars[barIndex].snp.top)
                 }
-
-                selectedView.snp.makeConstraints { make in
-                    make.width.equalTo(selectedViewWidth)
-                    make.top.equalTo(descriptionLabel.snp.bottom)
-                    make.bottom.equalTo(bars[barIndex].snp.top)
-                    make.centerX.equalTo(bars[barIndex])
-                }
-            } else {
-                descriptionLabel.snp.makeConstraints { make in
-                    make.top.equalToSuperview()
-                    make.width.equalTo(descriptionWidth + Constants.smallPadding * 2)
-                    make.height.equalTo(descriptionLabelHeight)
-                    make.centerX.equalToSuperview()
-                }
+                update.centerX.equalTo(bars[barIndex])
             }
         }
-
     }
 
     override func prepareForReuse() {
@@ -328,13 +285,44 @@ class GraphCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         selectedView.snp.removeConstraints()
     }
 
-    func configure(description: String, densityMap: [Int: Double], selectedHour: Int, delegate: GraphCellDelegate) {
-        self.descriptionLabelText = description
-        descriptionLabel.text = description
+    func configure(densityMap: [Int: Double], selectedHour: Int, delegate: GraphCellDelegate) {
         self.selectedHour = selectedHour
         self.delegate = delegate
         self.densityMap = densityMap
+        descriptionLabelText = descriptionLabelText(selectedHour: selectedHour, densityMap: densityMap)
+        descriptionLabel.text = descriptionLabelText
+        let numBars = CGFloat(end - start + 3)
+        let barWidth: CGFloat = (frame.width - Constants.smallPadding * 2) / numBars
+        layoutBars(barWidth: barWidth)
         setupConstraints()
+    }
+
+}
+
+class BarView: UIView {
+
+    var isClosedTime: Bool = false
+
+    func configureOpen(historicalAverage: Double) {
+        if historicalAverage < 0.25 {
+            backgroundColor = .lightTeal
+        } else if historicalAverage < 0.5 {
+            backgroundColor = .wheat
+        } else if historicalAverage < 0.85 {
+            backgroundColor = .peach
+        } else {
+            backgroundColor = .orangeyRed
+        }
+        clipsToBounds = true
+        layer.cornerRadius = 5
+        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        layer.borderColor = UIColor.white.cgColor
+        layer.borderWidth = 0.5
+    }
+
+    func configureClosed() {
+        isClosedTime = true
+        backgroundColor = .whiteTwo
     }
 
 }

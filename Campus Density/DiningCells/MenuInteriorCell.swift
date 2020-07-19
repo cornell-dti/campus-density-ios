@@ -13,6 +13,7 @@ class MenuInteriorCell: UICollectionViewCell {
     static let identifier: String = "MenuInteriorCell"
 
     // MARK: - View vars
+    let wrapperView = UIView()
     var menuLabel: UILabel!
 
     override init(frame: CGRect) {
@@ -26,44 +27,77 @@ class MenuInteriorCell: UICollectionViewCell {
 
     func setupConstraints() {
         menuLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview()
+            make.top.equalToSuperview().offset(Constants.smallPadding)
+            make.bottom.equalToSuperview().offset(-Constants.smallPadding)
             make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.right.equalToSuperview().offset(-Constants.smallPadding)
+        }
+        wrapperView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.right.equalToSuperview().offset(-Constants.smallPadding)
         }
     }
 
     func setupViews() {
         menuLabel = UILabel()
-        menuLabel.textColor = .warmGray
         menuLabel.textAlignment = .left
         menuLabel.numberOfLines = 0
-        menuLabel.font = .eighteenBold
         menuLabel.isUserInteractionEnabled = true
-        contentView.addSubview(menuLabel)
+        wrapperView.layer.borderColor = UIColor.whiteTwo.cgColor
+        wrapperView.layer.borderWidth = 1
+        wrapperView.layer.cornerRadius = 10
+        wrapperView.addSubview(menuLabel)
+        contentView.addSubview(wrapperView)
     }
 
     static func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
-        let newLine = NSAttributedString(string: "\n")
+        let newLine = NSAttributedString(string: "\n", attributes: [NSAttributedString.Key.font: UIFont.fourteen])
+        let empty = NSAttributedString(string: "")
         for meal in todaysMenu.menus {
             if (meal.description == selectedMeal.rawValue) {
-                if (meal.menu.count != 0) {
-                    for station in meal.menu {
-                        let categoryString = NSMutableAttributedString(string: station.category)
-                        categoryString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.grayishBrown, range: categoryString.mutableString.range(of: station.category))
-                        res.append(categoryString)
+                let stations = organizeCategories(menu: meal.menu)
+                for station in stations {
+                    if (res != empty) {
                         res.append(newLine)
-                        let itemString = NSMutableAttributedString()
-                        for item in station.items {
-                            itemString.append(NSAttributedString(string: item))
+                        res.append(newLine)
+                    }
+                    let categoryString = NSMutableAttributedString(string: station.category)
+                    categoryString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.eighteenBold], range: NSRange(location: 0, length: categoryString.length))
+                    res.append(categoryString)
+                    let itemString = NSMutableAttributedString()
+                    for item in station.items {
+                        if (itemString != empty) {
                             itemString.append(newLine)
                         }
-                        res.append(itemString)
+                        itemString.append(NSAttributedString(string: item))
+                    }
+                    itemString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.warmGray, NSAttributedString.Key.font: UIFont.sixteen], range: NSRange(location: 0, length: itemString.length))
+                    if (itemString != empty) {
                         res.append(newLine)
+                        res.append(itemString)
                     }
                 }
             }
         }
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.15
+        res.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: res.length))
         return res
+    }
+
+    /**
+     Organize the menu items, currently moves "Additional Items" to the last position if present
+     - Parameter menu: a list of stations/menuitems
+     - Returns: custom sorted list of stations
+     */
+    static func organizeCategories(menu: [MenuItem]) -> [MenuItem] {
+        var organized = menu
+        if let additionalItemsIndex = organized.firstIndex(where: {station in station.category == "Additional Items"}) {
+            let additionalItemsStation = organized.remove(at: additionalItemsIndex)
+            organized.append(additionalItemsStation)
+        }
+        return organized
     }
 
     func configure(with menu: DayMenus, forMeal meal: Meal) {

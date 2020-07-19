@@ -17,7 +17,7 @@ class SpaceCell: UICollectionViewCell {
         super.init(frame: frame)
 
         space = UIView()
-        space.backgroundColor = .white
+        space.backgroundColor = .clear
         addSubview(space)
 
         space.snp.makeConstraints { make in
