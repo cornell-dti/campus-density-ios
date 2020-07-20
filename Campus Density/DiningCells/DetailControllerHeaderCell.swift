@@ -96,7 +96,7 @@ class DetailControllerHeaderCell: UICollectionViewCell {
         let currTime = Date()
         let day = ithacaCalendar.component(.weekday, from: currTime)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm aa"
+        dateFormatter.timeStyle = .short
         dateFormatter.timeZone = ithacaTime
         guard let placeHoursStringified = place.hours[day - 1] else { return "Operating hours could not be found" }
         let placeHours = placeHoursStringified.split(separator: "\n")
