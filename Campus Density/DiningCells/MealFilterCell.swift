@@ -32,7 +32,7 @@ class MealFilterCell: UICollectionViewCell {
 
         headerLabel = UILabel()
         headerLabel.text = headerLabelText
-        headerLabel.textColor = .grayishBrown
+        headerLabel.textColor = .black
         headerLabel.textAlignment = .left
         headerLabel.font = .thirtyBold
         addSubview(headerLabel)

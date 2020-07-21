@@ -68,6 +68,9 @@
 		EE1BC56224967C8A004DD427 /* AvailabilityInfoSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */; };
 		EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */; };
 		EE1BC56624969B28004DD427 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE1BC56524969B28004DD427 /* Assets.xcassets */; };
+		EE4C803F24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */; };
+		EE4C804124A74E5300EB5FA4 /* DetailControllerHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C804024A74E5300EB5FA4 /* DetailControllerHeaderModel.swift */; };
+		EE4C804324A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C804224A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift */; };
 		EE64E0D7240B09DC003E449E /* GymFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */; };
 		EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */; };
 		EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */; };
@@ -174,6 +177,9 @@
 		EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoSectionController.swift; sourceTree = "<group>"; };
 		EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoModel.swift; sourceTree = "<group>"; };
 		EE1BC56524969B28004DD427 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailControllerHeaderCell.swift; sourceTree = "<group>"; };
+		EE4C804024A74E5300EB5FA4 /* DetailControllerHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailControllerHeaderModel.swift; sourceTree = "<group>"; };
+		EE4C804224A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailControllerHeaderSectionController.swift; sourceTree = "<group>"; };
 		EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersModel.swift; sourceTree = "<group>"; };
 		EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersSectionController.swift; sourceTree = "<group>"; };
 		EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFilterCell.swift; sourceTree = "<group>"; };
@@ -243,7 +249,9 @@
 				3C87328C244219B000D42F59 /* GraphHeaderModel.swift */,
 				EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */,
 				EEA4117E249E849100190A30 /* AvailabilityHeaderModel.swift */,
+				EE4C804024A74E5300EB5FA4 /* DetailControllerHeaderModel.swift */,
 				3CBCB12824A7C6B600543B3D /* LastUpdatedTextModel.swift */,
+
 			);
 			path = DiningModels;
 			sourceTree = "<group>";
@@ -266,6 +274,7 @@
 				3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */,
 				EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */,
 				EEA41180249E85C700190A30 /* AvailabilityHeaderSectionController.swift */,
+				EE4C804224A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift */,
 				3CBCB12A24A7C73000543B3D /* LastUpdatedTextSectionController.swift */,
 			);
 			path = SectionControllers;
@@ -347,6 +356,7 @@
 				3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */,
 				3C873288244218CA00D42F59 /* GraphHeaderCell.swift */,
 				EEA4117C249E841200190A30 /* AvailabilityHeaderCell.swift */,
+				EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */,
 				3CD56C8C24AEB21A004D4910 /* LastUpdatedTextCell.swift */,
 			);
 			path = DiningCells;
@@ -638,6 +648,7 @@
 				0C8B6D7422324FFA00058AE6 /* CurrentDensityCell.swift in Sources */,
 				3CBCB12B24A7C73000543B3D /* LastUpdatedTextSectionController.swift in Sources */,
 				EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */,
+				EE4C804124A74E5300EB5FA4 /* DetailControllerHeaderModel.swift in Sources */,
 				0CB3BF7A2232C0F700A5B371 /* DaySelectionCell.swift in Sources */,
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
 				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
@@ -652,8 +663,10 @@
 				EEA4117F249E849100190A30 /* AvailabilityHeaderModel.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
+				EE4C804324A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */,
+				EE4C803F24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				EEA41181249E85C700190A30 /* AvailabilityHeaderSectionController.swift in Sources */,
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
