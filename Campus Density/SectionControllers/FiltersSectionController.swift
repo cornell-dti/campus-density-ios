@@ -9,10 +9,6 @@
 import Foundation
 import IGListKit
 
-protocol FilterViewDelegate {
-    func filterViewDidSelectFilter(selectedFilter: Filter)
-}
-
 protocol FiltersSectionControllerDelegate: class {
     func filtersSectionControllerDidSelectFilter(selectedFilter: Filter)
 }

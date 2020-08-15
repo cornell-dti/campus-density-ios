@@ -98,13 +98,3 @@ extension String {
     }
 
 }
-
-extension PlacesViewController: FilterViewDelegate {
-
-    func filterViewDidSelectFilter(selectedFilter: Filter) {
-        self.selectedFilter = selectedFilter
-        filter(by: selectedFilter)
-        adapter.performUpdates(animated: false, completion: nil)
-    }
-
-}
