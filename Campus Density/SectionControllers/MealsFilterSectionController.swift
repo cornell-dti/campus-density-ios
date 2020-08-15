@@ -20,7 +20,6 @@ class MealsFilterSectionController: ListSectionController {
     weak var delegate: MealsFilterSectionControllerDelegate?
 
     // MARK: - Constants
-    let headerText = "Menus"
     let buttonHeight: CGFloat = 35
 
     init(mealModel: MealFiltersModel, delegate: MealsFilterSectionControllerDelegate) {
@@ -30,8 +29,7 @@ class MealsFilterSectionController: ListSectionController {
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let textHeight = headerText.height(withConstrainedWidth: containerSize.width - Constants.smallPadding * 2, font: .thirtyBold)
-        return CGSize(width: containerSize.width, height: textHeight + buttonHeight + Constants.smallPadding)
+        return CGSize(width: containerSize.width, height: buttonHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
@@ -47,8 +45,8 @@ class MealsFilterSectionController: ListSectionController {
 }
 
 extension MealsFilterSectionController: MealFilterCellDelegate {
-    func mealFilterCellDidSelectFilter(selectedMeal: Meal) {
 
+    func mealFilterCellDidSelectFilter(selectedMeal: Meal) {
         delegate?.menuFilterViewDidSelectFilter(selectedMeal: selectedMeal)
     }
 
