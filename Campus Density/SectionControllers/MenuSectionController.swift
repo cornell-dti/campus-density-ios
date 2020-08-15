@@ -27,20 +27,28 @@ class MenuSectionController: ListSectionController {
         tallestMenu = findLongestMenu(menuModel: menuModel)
     }
 
+    // Note: not currently in use as there should not be a gap between menu and hours in covid era flux
     func findLongestMenu(menuModel: MenuModel) -> CGFloat {
-        guard let containerSize = collectionContext?.containerSize else { return .zero }
         var maxHeight: CGFloat = 0
-        let width = containerSize.width - 4 * Constants.smallPadding // 2 each for the exterior cell and interior cell
         for meal in menuModel.mealNames {
-            let menuHeight = ceil(MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height) + 2 * Constants.smallPadding
+            let menuHeight = heightForMeal(meal: meal)
             maxHeight = CGFloat.maximum(maxHeight, menuHeight)
         }
         return maxHeight
     }
 
+    /// The height of the menu cell for a specific `Meal`
+    func heightForMeal(meal: Meal) -> CGFloat {
+        guard let containerSize = collectionContext?.containerSize else { return .zero }
+        let width = containerSize.width - 4 * Constants.smallPadding // 2 each for the exterior cell and interior cell
+        let menuHeight = ceil(MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height) + 2 * Constants.smallPadding
+        return menuHeight
+    }
+
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        return CGSize(width: containerSize.width, height: tallestMenu)
+        let meal = menuModel.selectedMeal // Swiping from a small meal to a larger one gives the warning
+        return CGSize(width: containerSize.width, height: heightForMeal(meal: meal)) // normally use tallestMenu for height
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
