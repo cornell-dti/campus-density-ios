@@ -12,6 +12,7 @@ class MenuCell: UICollectionViewCell {
 
     // MARK: - View vars
     var menuCollectionView: UICollectionView!
+    var unavailableLabel: UILabel!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,6 +27,11 @@ class MenuCell: UICollectionViewCell {
         menuCollectionView.isPagingEnabled = true
         menuCollectionView.showsHorizontalScrollIndicator = false
         contentView.addSubview(menuCollectionView)
+        unavailableLabel = UILabel()
+        unavailableLabel.textColor = .warmGray
+        unavailableLabel.font = .eighteenBold
+        unavailableLabel.text = "No menus available"
+        contentView.addSubview(unavailableLabel)
     }
 
     func setupConstraints() {
@@ -33,9 +39,15 @@ class MenuCell: UICollectionViewCell {
             make.width.equalToSuperview()
             make.height.equalToSuperview()
         }
+        unavailableLabel.snp.makeConstraints { make in
+            make.height.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
     }
 
     func configure(dataSource: UICollectionViewDataSource, selected: Int, delegate: UICollectionViewDelegate) {
+        menuCollectionView.isHidden = false
+        unavailableLabel.isHidden = true
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = self.frame.size
@@ -46,6 +58,12 @@ class MenuCell: UICollectionViewCell {
         menuCollectionView.delegate = delegate
         setupConstraints()
         menuCollectionView.contentOffset.x = self.frame.width * CGFloat(selected)
+    }
+
+    func configureAsNoMenus() {
+        menuCollectionView.isHidden = true
+        unavailableLabel.isHidden = false
+        setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -19,6 +19,7 @@ class MenuSectionController: ListSectionController {
     var menuModel: MenuModel!
     var tallestMenu: CGFloat = 0
     weak var delegate: MenuSectionControllerDelegate?
+    let unavailableText = "No menus available"
 
     init(menuModel: MenuModel, delegate: MenuSectionControllerDelegate) {
         super.init()
@@ -48,13 +49,19 @@ class MenuSectionController: ListSectionController {
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         let meal = menuModel.selectedMeal // Swiping from a small meal to a larger one gives the warning
-        return CGSize(width: containerSize.width, height: heightForMeal(meal: meal)) // normally use tallestMenu for height
+        if meal == .none {
+            return CGSize(width: containerSize.width, height: unavailableText.height(withConstrainedWidth: containerSize.width, font: .eighteenBold))
+        } else {
+            return CGSize(width: containerSize.width, height: heightForMeal(meal: meal)) // normally use tallestMenu for height
+        }
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
         if let index = menuModel.mealNames.index(of: menuModel.selectedMeal) {
             cell.configure(dataSource: self, selected: index, delegate: self)
+        } else {
+            cell.configureAsNoMenus()
         }
         return cell
     }
