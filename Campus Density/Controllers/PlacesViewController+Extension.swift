@@ -87,6 +87,9 @@ extension PlacesViewController: PlaceSectionControllerDelegate {
 extension PlacesViewController: SearchBarSectionControllerDelegate {
     func searchBarDidUpdateSearchText(searchText: String) {
         print(searchText)
+        filter(by: searchText)
+        adapter.performUpdates(animated: false, completion: nil)
+        //adapter.reloadObjects([self.adapter.objects()[2]])
     }
 }
 

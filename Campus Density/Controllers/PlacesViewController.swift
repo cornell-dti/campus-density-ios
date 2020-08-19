@@ -259,6 +259,18 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
     }
 
+    func filter(by text: String) {
+        if text == "" {
+            filteredPlaces = []
+            filteredPlaces.append(contentsOf: System.places)
+        } else {
+            filteredPlaces = System.places.filter({place -> Bool in
+                return place.displayName.lowercased().hasPrefix(text.lowercased())
+            })
+        }
+        filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
+    }
+
     func setupRefreshControl() {
         if refreshBarsView != nil {
             refreshBarsView.removeFromSuperview()
