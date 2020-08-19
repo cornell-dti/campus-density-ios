@@ -5,7 +5,6 @@
 //  Created by Matthew Coufal on 10/14/18.
 //  Copyright © 2018 Cornell DTI. All rights reserved.
 //
-
 import UIKit
 import SnapKit
 import Firebase
@@ -228,34 +227,34 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     func filterLabel(filter: Filter) -> String {
         switch filter {
-            case .all:
-                return "All"
-            case .central:
-                return "Central"
-            case .north:
-                return "North"
-            case .west:
-                return "West"
+        case .all:
+            return "All"
+        case .central:
+            return "Central"
+        case .north:
+            return "North"
+        case .west:
+            return "West"
         }
     }
 
     func filter(by selectedFilter: Filter) {
         switch selectedFilter {
-            case .all:
-                filteredPlaces = []
-                filteredPlaces.append(contentsOf: System.places)
-            case .north:
-                filteredPlaces = System.places.filter({ place -> Bool in
-                    return place.region == Region.north
-                })
-            case .west:
-                filteredPlaces = System.places.filter({ place -> Bool in
-                    return place.region == Region.west
-                })
-            case .central:
-                filteredPlaces = System.places.filter({ place -> Bool in
-                    return place.region == Region.central
-                })
+        case .all:
+            filteredPlaces = []
+            filteredPlaces.append(contentsOf: System.places)
+        case .north:
+            filteredPlaces = System.places.filter({ place -> Bool in
+                return place.region == Region.north
+            })
+        case .west:
+            filteredPlaces = System.places.filter({ place -> Bool in
+                return place.region == Region.west
+            })
+        case .central:
+            filteredPlaces = System.places.filter({ place -> Bool in
+                return place.region == Region.central
+            })
         }
         filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
     }

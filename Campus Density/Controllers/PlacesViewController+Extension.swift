@@ -16,6 +16,7 @@ extension PlacesViewController: ListAdapterDataSource {
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var objects = [ListDiffable]()
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
+        objects.append(SearchBarModel(searchText: ""))
         objects.append(contentsOf: filteredPlaces)
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
@@ -41,6 +42,9 @@ extension PlacesViewController: ListAdapterDataSource {
         } else if object is LogoModel {
             let logoModel = object as! LogoModel
             return LogoSectionController(logoModel: logoModel, delegate: self)
+        } else if object is SearchBarModel {
+            let searchBarModel = object as! SearchBarModel
+            return SearchBarSectionController(searchBarModel: searchBarModel, delegate: self)
         }
         return ListSectionController()
     }
@@ -78,6 +82,12 @@ extension PlacesViewController: PlaceSectionControllerDelegate {
         navigationController?.pushViewController(placeDetailViewController, animated: true)
     }
 
+}
+
+extension PlacesViewController: SearchBarSectionControllerDelegate {
+    func searchBarDidUpdateSearchText(searchText: String) {
+        print(searchText)
+    }
 }
 
 extension String {
