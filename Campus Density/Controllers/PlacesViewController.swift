@@ -23,6 +23,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var filteredPlaces = [Place]()
     var filters: [Filter]!
     var selectedFilter: Filter = .all
+    var searchText: String = ""
     var gettingDensities = false
     var adapter: ListAdapter!
 
@@ -239,6 +240,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func filter(by selectedFilter: Filter) {
+        print("Filtering by \(selectedFilter)")
         switch selectedFilter {
         case .all:
             filteredPlaces = []
@@ -260,6 +262,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func filter(by text: String) {
+        print("Filtering by \(text)")
         if text == "" {
             filteredPlaces = []
             filteredPlaces.append(contentsOf: System.places)

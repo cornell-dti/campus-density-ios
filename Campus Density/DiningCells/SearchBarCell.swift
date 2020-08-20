@@ -30,16 +30,16 @@ class SearchBarCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         searchBar.addTarget(self, action: #selector(searchBarTextChanged), for: .editingChanged)
-
+        contentView.addSubview(searchBar)
         setupContraints()
     }
 
     @objc func searchBarTextChanged(textField: UITextField) {
+        searchBarModel?.searchText = textField.text ?? ""
         delegate?.searchBarCellDidUpdateSearchText(searchText: textField.text ?? "")
     }
 
     func setupContraints() {
-        addSubview(searchBar)
         //searchBar.backgroundColor = .red
         searchBar.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(Constants.smallPadding)
@@ -49,8 +49,9 @@ class SearchBarCell: UICollectionViewCell {
         }
     }
 
-    func configure(delegate: SearchBarCellDelegate) {
+    func configure(delegate: SearchBarCellDelegate, searchText: String) {
         self.delegate = delegate
+        searchBar.text = searchText
     }
 
     required init?(coder aDecoder: NSCoder) {
