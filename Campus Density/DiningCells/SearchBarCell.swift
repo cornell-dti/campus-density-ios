@@ -35,7 +35,6 @@ class SearchBarCell: UICollectionViewCell {
     }
 
     @objc func searchBarTextChanged(textField: UITextField) {
-        searchBarModel?.searchText = textField.text ?? ""
         delegate?.searchBarCellDidUpdateSearchText(searchText: textField.text ?? "")
     }
 
@@ -49,9 +48,8 @@ class SearchBarCell: UICollectionViewCell {
         }
     }
 
-    func configure(delegate: SearchBarCellDelegate, searchText: String) {
+    func configure(delegate: SearchBarCellDelegate) {
         self.delegate = delegate
-        searchBar.text = searchText
     }
 
     required init?(coder aDecoder: NSCoder) {

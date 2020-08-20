@@ -11,29 +11,20 @@ import IGListKit
 
 class SearchBarModel {
 
-    var searchText: String
-    let identifier = UUID().uuidString
-
-    init(searchText: String) {
-        print("New search model with text: \(searchText)")
-        self.searchText = searchText
-    }
+    // Search bar has its own state based on the text field, not really using this model
+    let identifier = "a constant identifier makes it so this isn't refreshed every time"
 
 }
 
 extension SearchBarModel: ListDiffable {
     func diffIdentifier() -> NSObjectProtocol {
-        print("Asking for identifier \(searchText)")
-        return searchText as NSString
+        return identifier as NSString
     }
 
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        print("Trying to find if this is equal")
         if self === object { return true }
         guard let object = object as? SearchBarModel else { return false }
-        let isSame = object.searchText == searchText
-        print("Is this the same search model? \(isSame)")
-        return isSame
+        return object.identifier == identifier
     }
 
 }

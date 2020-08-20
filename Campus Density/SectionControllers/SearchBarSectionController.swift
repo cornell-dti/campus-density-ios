@@ -32,13 +32,11 @@ class SearchBarSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: SearchBarCell.self, for: self, at: index) as! SearchBarCell
-        print("Configuring a new search cell")
-        cell.configure(delegate: self, searchText: searchBarModel.searchText)
+        cell.configure(delegate: self)
         return cell
     }
 
     override func didUpdate(to object: Any) {
-        print("Updating search model in controller")
         searchBarModel = object as? SearchBarModel
     }
 

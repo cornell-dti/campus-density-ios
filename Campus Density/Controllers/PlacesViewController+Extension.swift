@@ -16,7 +16,7 @@ extension PlacesViewController: ListAdapterDataSource {
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var objects = [ListDiffable]()
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
-        objects.append(SearchBarModel(searchText: searchText))
+        objects.append(SearchBarModel())
         objects.append(contentsOf: filteredPlaces)
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
@@ -86,11 +86,10 @@ extension PlacesViewController: PlaceSectionControllerDelegate {
 
 extension PlacesViewController: SearchBarSectionControllerDelegate {
     func searchBarDidUpdateSearchText(searchText: String) {
-        print("Places view controller updating search text \(searchText)")
+        print("Search bar updated search text: \(searchText)")
         self.searchText = searchText
         filter(by: searchText)
         adapter.performUpdates(animated: false, completion: nil)
-        //adapter.reloadObjects([self.adapter.objects()[2]])
     }
 }
 
