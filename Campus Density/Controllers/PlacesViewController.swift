@@ -154,7 +154,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             if gotHistory {
                 self.title = "Eateries"
                 sortPlaces()
-                self.filter(by: self.selectedFilter)
+                self.updateFilteredPlaces()
                 self.loadingBarsView.stopAnimating()
                 self.collectionView.isHidden = false
                 self.adapter.performUpdates(animated: false, completion: nil)
@@ -203,7 +203,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
                     API.status { gotStatus in
                         if gotStatus {
                             sortPlaces() // Maybe fixes a bug related to opening the app after a long time and refreshed densities being out of order
-                            self.filter(by: self.selectedFilter)
+                            self.updateFilteredPlaces()
                             self.adapter.performUpdates(animated: false, completion: nil)
                         }
                     }
@@ -239,39 +239,46 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    func filter(by selectedFilter: Filter) {
+    /// Update `filteredPlaces` by filtering through current location filter and then search filter
+    func updateFilteredPlaces() {
+        filteredPlaces = filter(places: filter(places: System.places, by: self.selectedFilter), by: self.searchText)
+    }
+
+    func filter(places: [Place], by selectedFilter: Filter) -> [Place] {
+        var filteredPlaces: [Place] = []
         print("Filtering by \(selectedFilter)")
         switch selectedFilter {
         case .all:
-            filteredPlaces = []
-            filteredPlaces.append(contentsOf: System.places)
+            filteredPlaces.append(contentsOf: places)
         case .north:
-            filteredPlaces = System.places.filter({ place -> Bool in
+            filteredPlaces = places.filter({ place -> Bool in
                 return place.region == Region.north
             })
         case .west:
-            filteredPlaces = System.places.filter({ place -> Bool in
+            filteredPlaces = places.filter({ place -> Bool in
                 return place.region == Region.west
             })
         case .central:
-            filteredPlaces = System.places.filter({ place -> Bool in
+            filteredPlaces = places.filter({ place -> Bool in
                 return place.region == Region.central
             })
         }
         filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
+        return filteredPlaces
     }
 
-    func filter(by text: String) {
+    func filter(places: [Place], by text: String) -> [Place] {
+        var filteredPlaces: [Place] = []
         print("Filtering by \(text)")
         if text == "" {
-            filteredPlaces = []
-            filteredPlaces.append(contentsOf: System.places)
+            filteredPlaces.append(contentsOf: places)
         } else {
-            filteredPlaces = System.places.filter({place -> Bool in
+            filteredPlaces = places.filter({ place -> Bool in
                 return place.displayName.lowercased().hasPrefix(text.lowercased())
             })
         }
         filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
+        return filteredPlaces
     }
 
     func setupRefreshControl() {
@@ -326,7 +333,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         API.densities { gotDensities in
             if gotDensities {
                 sortPlaces()
-                self.filter(by: self.selectedFilter)
+                self.updateFilteredPlaces()
             }
             refreshControl.endRefreshing()
             self.adapter.performUpdates(animated: false, completion: nil) // After refreshing, reload with sorted places - otherwise may just have same order with updated density card on cell dequeue and configure (passing the place by reference and updating the places) ?

@@ -59,7 +59,7 @@ extension PlacesViewController: FiltersSectionControllerDelegate {
 
     func filtersSectionControllerDidSelectFilter(selectedFilter: Filter) {
         self.selectedFilter = selectedFilter
-        filter(by: selectedFilter)
+        updateFilteredPlaces()
         adapter.performUpdates(animated: false, completion: nil)
     }
 
@@ -86,9 +86,8 @@ extension PlacesViewController: PlaceSectionControllerDelegate {
 
 extension PlacesViewController: SearchBarSectionControllerDelegate {
     func searchBarDidUpdateSearchText(searchText: String) {
-        print("Search bar updated search text: \(searchText)")
         self.searchText = searchText
-        filter(by: searchText)
+        updateFilteredPlaces()
         adapter.performUpdates(animated: false, completion: nil)
     }
 }
