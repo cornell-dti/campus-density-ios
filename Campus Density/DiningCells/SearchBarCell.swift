@@ -29,6 +29,7 @@ class SearchBarCell: UICollectionViewCell {
         searchBar.layer.masksToBounds = true
         searchBar.placeholder = "Search for Eateries..."
         searchBar.addTarget(self, action: #selector(searchBarTextChanged), for: .editingChanged)
+        searchBar.delegate = self
         contentView.addSubview(searchBar)
         setupContraints()
     }
@@ -54,4 +55,11 @@ class SearchBarCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+}
+
+extension SearchBarCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
