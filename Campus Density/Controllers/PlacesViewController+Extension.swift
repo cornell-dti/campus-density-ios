@@ -15,7 +15,9 @@ extension PlacesViewController: ListAdapterDataSource {
         if collectionView.isHidden { return [] }
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var objects = [ListDiffable]()
+        objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
+        objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(SearchBarModel())
         objects.append(contentsOf: filteredPlaces)
         objects.append(SpaceModel(space: Constants.smallPadding))

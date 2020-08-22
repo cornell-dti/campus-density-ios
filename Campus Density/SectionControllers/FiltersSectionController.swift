@@ -20,7 +20,7 @@ class FiltersSectionController: ListSectionController {
     weak var delegate: FiltersSectionControllerDelegate?
 
     // MARK: - Constants
-    let cellHeight: CGFloat = 50
+    let cellHeight: CGFloat = 35
 
     init(filtersModel: FiltersModel, delegate: FiltersSectionControllerDelegate) {
         self.filtersModel = filtersModel

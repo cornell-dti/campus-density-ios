@@ -13,22 +13,21 @@ protocol SearchBarCellDelegate: class {
 }
 
 class SearchBarCell: UICollectionViewCell {
+
     var searchBarModel: SearchBarModel!
     weak var delegate: SearchBarCellDelegate?
 
-    var searchBar: UITextField = {
-        let tf = UITextField()
-        tf.borderStyle = .roundedRect
-        tf.layer.borderWidth = 1
-        tf.layer.borderColor = UIColor.warmGray.cgColor
-        tf.layer.cornerRadius = 5
-        tf.layer.masksToBounds = true
-        tf.placeholder = "Search for Eateries..."
-        return tf
-    }()
+    var searchBar: UITextField!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        searchBar = UITextField()
+        searchBar.borderStyle = .roundedRect
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = UIColor.whiteTwo.cgColor
+        searchBar.layer.cornerRadius = 10
+        searchBar.layer.masksToBounds = true
+        searchBar.placeholder = "Search for Eateries..."
         searchBar.addTarget(self, action: #selector(searchBarTextChanged), for: .editingChanged)
         contentView.addSubview(searchBar)
         setupContraints()
@@ -39,7 +38,6 @@ class SearchBarCell: UICollectionViewCell {
     }
 
     func setupContraints() {
-        //searchBar.backgroundColor = .red
         searchBar.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(Constants.smallPadding)
             make.top.equalToSuperview()
