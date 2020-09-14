@@ -62,20 +62,18 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             AvailabilityInfoModel(place: place),
             SpaceModel(space: linkTopOffset),
             FormLinkModel(feedbackForm: feedbackForm, lastUpdated: lastUpdatedTime),
-            SpaceModel(space: Constants.smallPadding),
-            GraphHeaderModel(),
+            SpaceModel(space: Constants.mediumPadding),
+            MenuHeaderModel(),
             SpaceModel(space: Constants.smallPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
-            SpaceModel(space: Constants.mediumPadding),
-            GraphModel(densityMap: densityMap, selectedHour: selectedHour),
+            SpaceModel(space: Constants.smallPadding),
+            MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
+            SpaceModel(space: Constants.smallPadding),
+            MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.mediumPadding),
             HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.smallPadding),
             HoursModel(hours: hours),
-            SpaceModel(space: Constants.mediumPadding),
-            MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
-            SpaceModel(space: Constants.smallPadding),
-            MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding)
         ]
     }
@@ -117,9 +115,12 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is DetailControllerHeaderModel {
             let detailControllerHeaderModel = object as! DetailControllerHeaderModel
             return DetailControllerHeaderSectionController(detailControllerHeaderModel: detailControllerHeaderModel)
-        } else {
+        } else if object is AvailabilityHeaderModel {
             let availabilityHeaderModel = object as! AvailabilityHeaderModel
             return AvailabilityHeaderSectionController(headerModel: availabilityHeaderModel)
+        } else {
+            let menuHeaderModel = object as! MenuHeaderModel
+            return MenuHeaderSectionController(menuHeaderModel: menuHeaderModel)
         }
     }
 
