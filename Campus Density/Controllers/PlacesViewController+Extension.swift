@@ -16,6 +16,9 @@ extension PlacesViewController: ListAdapterDataSource {
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var objects = [ListDiffable]()
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(PoliciesModel())
+        objects.append(SpaceModel(space: Constants.smallPadding / 3))
         objects.append(contentsOf: filteredPlaces)
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
@@ -41,6 +44,9 @@ extension PlacesViewController: ListAdapterDataSource {
         } else if object is LogoModel {
             let logoModel = object as! LogoModel
             return LogoSectionController(logoModel: logoModel, delegate: self)
+        } else if object is PoliciesModel {
+            let policiesModel = object as! PoliciesModel
+            return PolicySectionController(policiesModel: policiesModel)
         }
         return ListSectionController()
     }
