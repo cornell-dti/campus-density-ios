@@ -15,7 +15,7 @@ class MenuHeaderSectionController: ListSectionController {
     var menuHeaderModel: MenuHeaderModel!
 
     // MARK: - Constants
-    let headerText = "Menus"
+    let headerText = "Menu"
 
     init(menuHeaderModel: MenuHeaderModel) {
         self.menuHeaderModel = menuHeaderModel
