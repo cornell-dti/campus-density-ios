@@ -83,12 +83,10 @@ class PoliciesCell: UICollectionViewCell {
     }
 
     @objc func policyButtonPressed() {
-        print("policy button press")
         delegate?.policiesCellDelegateDidPressPoliciesButton()
     }
 
     @objc func closeButtonPressed() {
-        print("close pressed")
         delegate?.policiesCellDelegateDidPressCloseButton()
     }
 

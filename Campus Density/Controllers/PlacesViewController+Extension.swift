@@ -46,7 +46,7 @@ extension PlacesViewController: ListAdapterDataSource {
             return LogoSectionController(logoModel: logoModel, delegate: self)
         } else if object is PoliciesModel {
             let policiesModel = object as! PoliciesModel
-            return PolicySectionController(policiesModel: policiesModel)
+            return PoliciesSectionController(policiesModel: policiesModel, delegate: self)
         }
         return ListSectionController()
     }
@@ -65,6 +65,19 @@ extension PlacesViewController: FiltersSectionControllerDelegate {
         adapter.performUpdates(animated: false, completion: nil)
     }
 
+}
+
+extension PlacesViewController: PoliciesSectionControllerDelegate {
+    func policiesSectionControllerDidPressPoliciesButton() {
+        print("Policy button pressed in main VC")
+        if let url = URL(string: diningPolicyURL), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+
+    func policiesSectionControllerDidPressCloseButton() {
+        print("Close button pressed in main VC")
+    }
 }
 
 extension PlacesViewController: LogoSectionControllerDelegate {

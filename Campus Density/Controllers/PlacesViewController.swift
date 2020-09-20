@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Firebase
 import IGListKit
+import WebKit
 
 enum Filter: String {
     case all = "All"
@@ -31,6 +32,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
     var refreshBarsView: LoadingBarsView!
+    var webView: WKWebView!
 
     // MARK: - Constants
     let refreshOffset: CGFloat = 146
@@ -44,6 +46,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     let largeLoadingBarsLength: CGFloat = 63
     let logoLength: CGFloat = 50
     let dtiWebsite = "https://www.cornelldti.org/"
+    let diningPolicyURL = "https://scl.cornell.edu/news-events/news/guide-cornell-dining-fall-2020"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +89,6 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
         setupViews()
         setupConstraints()
-
     }
 
     func signIn() {
