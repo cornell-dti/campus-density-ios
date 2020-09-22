@@ -10,7 +10,6 @@ import UIKit
 
 protocol PoliciesCellDelegate: class {
     func policiesCellDelegateDidPressPoliciesButton()
-    func policiesCellDelegateDidPressCloseButton()
 }
 
 class PoliciesCell: UICollectionViewCell {
@@ -57,7 +56,7 @@ class PoliciesCell: UICollectionViewCell {
 
         faceCoveringLabel = UILabel()
         faceCoveringLabel.text = policyText
-        faceCoveringLabel.textAlignment = .center
+        faceCoveringLabel.textAlignment = .left
         faceCoveringLabel.numberOfLines = 0
         faceCoveringLabel.textColor = .grayishBrown
         faceCoveringLabel.font = .sixteenBold
@@ -68,15 +67,10 @@ class PoliciesCell: UICollectionViewCell {
         let diningPolicyButtonText = NSAttributedString(string: "View dining hall policies", attributes: [.foregroundColor: UIColor.white, .font: UIFont.sixteen])
         diningPolicyButton.setAttributedTitle(diningPolicyButtonText, for: .normal)
         diningPolicyButton.tintColor = .white
-        diningPolicyButton.backgroundColor = UIColor.wheat
+        diningPolicyButton.backgroundColor = UIColor.densityDarkGray
         diningPolicyButton.layer.cornerRadius = 8
         diningPolicyButton.addTarget(self, action: #selector(policyButtonPressed), for: .touchUpInside)
         addSubview(diningPolicyButton)
-
-        closeButton = UIButton()
-        closeButton.setImage(UIImage(named: "close"), for: .normal)
-        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
-        addSubview(closeButton)
 
         setupConstraints()
 
@@ -84,10 +78,6 @@ class PoliciesCell: UICollectionViewCell {
 
     @objc func policyButtonPressed() {
         delegate?.policiesCellDelegateDidPressPoliciesButton()
-    }
-
-    @objc func closeButtonPressed() {
-        delegate?.policiesCellDelegateDidPressCloseButton()
     }
 
     func setupConstraints() {
@@ -115,14 +105,6 @@ class PoliciesCell: UICollectionViewCell {
             make.width.equalTo(diningPolicyButton.snp.width)
             make.left.equalTo(diningPolicyButton.snp.left)
         }
-
-        closeButton.snp.makeConstraints { make in
-            make.height.equalTo(15)
-            make.width.equalTo(15)
-            make.top.equalToSuperview().offset(15)
-            make.right.equalToSuperview().offset(-15)
-        }
-
     }
 
     required init?(coder: NSCoder) {

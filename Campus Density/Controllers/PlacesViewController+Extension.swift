@@ -69,14 +69,9 @@ extension PlacesViewController: FiltersSectionControllerDelegate {
 
 extension PlacesViewController: PoliciesSectionControllerDelegate {
     func policiesSectionControllerDidPressPoliciesButton() {
-        print("Policy button pressed in main VC")
         if let url = URL(string: diningPolicyURL), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-    }
-
-    func policiesSectionControllerDidPressCloseButton() {
-        print("Close button pressed in main VC")
     }
 }
 

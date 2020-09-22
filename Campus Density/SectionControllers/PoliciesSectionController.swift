@@ -11,7 +11,6 @@ import IGListKit
 
 protocol PoliciesSectionControllerDelegate: class {
     func policiesSectionControllerDidPressPoliciesButton()
-    func policiesSectionControllerDidPressCloseButton()
 }
 
 class PoliciesSectionController: ListSectionController {
@@ -46,9 +45,5 @@ class PoliciesSectionController: ListSectionController {
 extension PoliciesSectionController: PoliciesCellDelegate {
     func policiesCellDelegateDidPressPoliciesButton() {
         delegate?.policiesSectionControllerDidPressPoliciesButton()
-    }
-
-    func policiesCellDelegateDidPressCloseButton() {
-        delegate?.policiesSectionControllerDidPressCloseButton()
     }
 }
