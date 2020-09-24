@@ -36,6 +36,7 @@ class PoliciesCell: UICollectionViewCell {
 
     func setupViews() {
 
+        // Enable shadows with rounded border
         background = UIView()
         background.backgroundColor = .white
         background.clipsToBounds = false
@@ -64,10 +65,11 @@ class PoliciesCell: UICollectionViewCell {
 
         diningPolicyButton = UIButton()
         diningPolicyButton.setTitle("", for: .normal)
-        let diningPolicyButtonText = NSAttributedString(string: "View dining hall policies", attributes: [.foregroundColor: UIColor.white, .font: UIFont.sixteen])
+        let diningPolicyButtonText = NSAttributedString(string: "View dining hall policies", attributes: [.foregroundColor: UIColor.warmGray, .font: UIFont.sixteen])
         diningPolicyButton.setAttributedTitle(diningPolicyButtonText, for: .normal)
         diningPolicyButton.tintColor = .white
-        diningPolicyButton.backgroundColor = UIColor.densityDarkGray
+        diningPolicyButton.layer.borderColor = UIColor.warmGray.cgColor
+        diningPolicyButton.layer.borderWidth = 1
         diningPolicyButton.layer.cornerRadius = 8
         diningPolicyButton.addTarget(self, action: #selector(policyButtonPressed), for: .touchUpInside)
         addSubview(diningPolicyButton)
