@@ -41,18 +41,18 @@ class MenuSectionController: ListSectionController {
     /// The height of the menu cell for a specific `Meal`
     func heightForMeal(meal: Meal) -> CGFloat {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let width = containerSize.width - 4 * Constants.smallPadding // 2 each for the exterior cell and interior cell
-        let menuHeight = ceil(MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height) + 2 * Constants.smallPadding
+        let width = containerSize.width - 2 * Constants.smallPadding
+        let menuHeight = ceil(MenuInteriorCell.getMenuString(todaysMenu: menuModel.menu, selectedMeal: meal).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height)
         return menuHeight
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let meal = menuModel.selectedMeal // Swiping from a small meal to a larger one gives the warning
+        let meal = menuModel.selectedMeal
         if meal == .none {
             return CGSize(width: containerSize.width, height: unavailableText.height(withConstrainedWidth: containerSize.width, font: .eighteenBold))
         } else {
-            return CGSize(width: containerSize.width, height: heightForMeal(meal: meal)) // normally use tallestMenu for height
+            return CGSize(width: containerSize.width, height: tallestMenu) // use heightForMeal(meal: meal) to change size every time
         }
     }
 
