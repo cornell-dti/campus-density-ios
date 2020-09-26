@@ -13,7 +13,11 @@ class MenuInteriorCell: UICollectionViewCell {
     static let identifier: String = "MenuInteriorCell"
 
     // MARK: - View vars
+    var hoursLabel: UILabel!
     var menuLabel: UILabel!
+
+    // MARK: - Constants
+    static let hoursLabelHeight: CGFloat = 22
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,19 +29,44 @@ class MenuInteriorCell: UICollectionViewCell {
     }
 
     func setupConstraints() {
-        menuLabel.snp.makeConstraints { make in
+        hoursLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
+            make.height.equalTo(MenuInteriorCell.hoursLabelHeight)
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+        }
+        menuLabel.snp.makeConstraints { make in
+            make.top.equalTo(hoursLabel.snp.bottom).offset(Constants.smallPadding)
             make.left.equalToSuperview().offset(Constants.smallPadding)
             make.right.equalToSuperview().offset(-Constants.smallPadding)
         }
     }
 
     func setupViews() {
+        hoursLabel = UILabel()
+        hoursLabel.font = .eighteenBold
+        hoursLabel.textColor = .black
+        hoursLabel.text = "No hours available"
+        contentView.addSubview(hoursLabel)
         menuLabel = UILabel()
         menuLabel.textAlignment = .left
         menuLabel.numberOfLines = 0
         menuLabel.isUserInteractionEnabled = true
         contentView.addSubview(menuLabel)
+    }
+
+    static func getHoursString(todaysMenu: DayMenus, selectedMeal: Meal) -> String {
+        var hoursString = ""
+        for meal in todaysMenu.menus {
+            if (meal.description == selectedMeal.rawValue) {
+                let formatter = DateFormatter()
+                formatter.timeZone = TimeZone(identifier: "America/New_York")
+                formatter.timeStyle = .short
+                let startString = formatter.string(from: Date(timeIntervalSince1970: Double(meal.startTime)))
+                let endString = formatter.string(from: Date(timeIntervalSince1970: Double(meal.endTime)))
+                hoursString = "Open from \(startString) - \(endString)"
+            }
+        }
+        return hoursString
     }
 
     static func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
@@ -91,6 +120,7 @@ class MenuInteriorCell: UICollectionViewCell {
     }
 
     func configure(with menu: DayMenus, forMeal meal: Meal) {
+        hoursLabel.text = MenuInteriorCell.getHoursString(todaysMenu: menu, selectedMeal: meal)
         menuLabel.attributedText = MenuInteriorCell.getMenuString(todaysMenu: menu, selectedMeal: meal)
         if (menuLabel.text == "No menus available") {
             menuLabel.font = .eighteenBold

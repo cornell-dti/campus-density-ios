@@ -52,7 +52,7 @@ class MenuSectionController: ListSectionController {
         if meal == .none {
             return CGSize(width: containerSize.width, height: unavailableText.height(withConstrainedWidth: containerSize.width, font: .eighteenBold))
         } else {
-            return CGSize(width: containerSize.width, height: tallestMenu) // use heightForMeal(meal: meal) to change size every time
+            return CGSize(width: containerSize.width, height: tallestMenu + (MenuInteriorCell.hoursLabelHeight + Constants.smallPadding)) // use heightForMeal(meal: meal) to change size every time
         }
     }
 
