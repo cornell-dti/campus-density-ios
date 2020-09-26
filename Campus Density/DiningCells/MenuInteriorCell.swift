@@ -45,7 +45,6 @@ class MenuInteriorCell: UICollectionViewCell {
         hoursLabel = UILabel()
         hoursLabel.font = .eighteenBold
         hoursLabel.textColor = .black
-        hoursLabel.text = "No hours available"
         contentView.addSubview(hoursLabel)
         menuLabel = UILabel()
         menuLabel.textAlignment = .left
@@ -54,49 +53,40 @@ class MenuInteriorCell: UICollectionViewCell {
         contentView.addSubview(menuLabel)
     }
 
-    static func getHoursString(todaysMenu: DayMenus, selectedMeal: Meal) -> String {
-        var hoursString = ""
-        for meal in todaysMenu.menus {
-            if (meal.description == selectedMeal.rawValue) {
-                let formatter = DateFormatter()
-                formatter.timeZone = TimeZone(identifier: "America/New_York")
-                formatter.timeStyle = .short
-                let startString = formatter.string(from: Date(timeIntervalSince1970: Double(meal.startTime)))
-                let endString = formatter.string(from: Date(timeIntervalSince1970: Double(meal.endTime)))
-                hoursString = "Open from \(startString) - \(endString)"
-            }
-        }
-        return hoursString
+    /// Get the hours from `menuData` (specific day and meal) in "Open from <start> - <end>" format
+    static func getHoursString(menuData: MenuData) -> String {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(identifier: "America/New_York")
+        formatter.timeStyle = .short
+        let startString = formatter.string(from: Date(timeIntervalSince1970: Double(menuData.startTime)))
+        let endString = formatter.string(from: Date(timeIntervalSince1970: Double(menuData.endTime)))
+        return "Open from \(startString) - \(endString)"
     }
 
-    static func getMenuString(todaysMenu: DayMenus, selectedMeal: Meal) -> NSMutableAttributedString {
+    static func getMenuString(menuData: MenuData) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
         let newLine = NSAttributedString(string: "\n", attributes: [NSAttributedString.Key.font: UIFont.fourteen])
         let empty = NSAttributedString(string: "")
-        for meal in todaysMenu.menus {
-            if (meal.description == selectedMeal.rawValue) {
-                let stations = organizeCategories(menu: meal.menu)
-                for station in stations {
-                    if (res != empty) {
-                        res.append(newLine)
-                        res.append(newLine)
-                    }
-                    let categoryString = NSMutableAttributedString(string: station.category)
-                    categoryString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.eighteenBold], range: NSRange(location: 0, length: categoryString.length))
-                    res.append(categoryString)
-                    let itemString = NSMutableAttributedString()
-                    for item in station.items {
-                        if (itemString != empty) {
-                            itemString.append(newLine)
-                        }
-                        itemString.append(NSAttributedString(string: item))
-                    }
-                    itemString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.warmGray, NSAttributedString.Key.font: UIFont.sixteen], range: NSRange(location: 0, length: itemString.length))
-                    if (itemString != empty) {
-                        res.append(newLine)
-                        res.append(itemString)
-                    }
+        let stations = organizeCategories(menu: menuData.menu)
+        for station in stations {
+            if (res != empty) {
+                res.append(newLine)
+                res.append(newLine)
+            }
+            let categoryString = NSMutableAttributedString(string: station.category)
+            categoryString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.eighteenBold], range: NSRange(location: 0, length: categoryString.length))
+            res.append(categoryString)
+            let itemString = NSMutableAttributedString()
+            for item in station.items {
+                if (itemString != empty) {
+                    itemString.append(newLine)
                 }
+                itemString.append(NSAttributedString(string: item))
+            }
+            itemString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.warmGray, NSAttributedString.Key.font: UIFont.sixteen], range: NSRange(location: 0, length: itemString.length))
+            if (itemString != empty) {
+                res.append(newLine)
+                res.append(itemString)
             }
         }
         let paragraphStyle = NSMutableParagraphStyle()
@@ -119,12 +109,9 @@ class MenuInteriorCell: UICollectionViewCell {
         return organized
     }
 
-    func configure(with menu: DayMenus, forMeal meal: Meal) {
-        hoursLabel.text = MenuInteriorCell.getHoursString(todaysMenu: menu, selectedMeal: meal)
-        menuLabel.attributedText = MenuInteriorCell.getMenuString(todaysMenu: menu, selectedMeal: meal)
-        if (menuLabel.text == "No menus available") {
-            menuLabel.font = .eighteenBold
-        }
+    func configure(menuData: MenuData) {
+        hoursLabel.text = MenuInteriorCell.getHoursString(menuData: menuData)
+        menuLabel.attributedText = MenuInteriorCell.getMenuString(menuData: menuData)
         setupConstraints()
     }
 
