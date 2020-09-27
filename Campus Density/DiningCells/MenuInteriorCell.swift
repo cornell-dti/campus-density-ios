@@ -13,11 +13,13 @@ class MenuInteriorCell: UICollectionViewCell {
     static let identifier: String = "MenuInteriorCell"
 
     // MARK: - View vars
+    var clockImageView: UIImageView!
     var hoursLabel: UILabel!
     var menuLabel: UILabel!
 
     // MARK: - Constants
     static let hoursLabelHeight: CGFloat = 22
+    static let clockHoursGap: CGFloat = 8
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,10 +31,15 @@ class MenuInteriorCell: UICollectionViewCell {
     }
 
     func setupConstraints() {
+        clockImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.height.width.equalTo(MenuInteriorCell.hoursLabelHeight)
+        }
         hoursLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.height.equalTo(MenuInteriorCell.hoursLabelHeight)
-            make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.left.equalTo(clockImageView.snp.right).offset(MenuInteriorCell.clockHoursGap)
         }
         menuLabel.snp.makeConstraints { make in
             make.top.equalTo(hoursLabel.snp.bottom).offset(Constants.smallPadding)
@@ -42,6 +49,9 @@ class MenuInteriorCell: UICollectionViewCell {
     }
 
     func setupViews() {
+        clockImageView = UIImageView()
+        clockImageView.image = UIImage(named: "clock")
+        contentView.addSubview(clockImageView)
         hoursLabel = UILabel()
         hoursLabel.font = .eighteenBold
         hoursLabel.textColor = .black
