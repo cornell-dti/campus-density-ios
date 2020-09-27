@@ -67,6 +67,8 @@
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		EE03ED9123EBDA800064266B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */; };
 		EE03ED9223EBDA800064266B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED9023EBDA800064266B /* Keys.plist */; };
+		EE0DEF7D251509A2001632C5 /* PoliciesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */; };
+		EE0DEF7F25151263001632C5 /* PoliciesSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0DEF7E25151263001632C5 /* PoliciesSectionController.swift */; };
 		EE1BC56024954239004DD427 /* AvailabilityInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */; };
 		EE1BC56224967C8A004DD427 /* AvailabilityInfoSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */; };
 		EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */; };
@@ -77,6 +79,7 @@
 		EE64E0D7240B09DC003E449E /* GymFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */; };
 		EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */; };
 		EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */; };
+		EE6E78F025117F2700B2F803 /* PoliciesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6E78EF25117F2700B2F803 /* PoliciesModel.swift */; };
 		EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF172380A44300219902 /* MealFilterCell.swift */; };
 		EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BF192380A89F00219902 /* MealFiltersModel.swift */; };
 		EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */; };
@@ -179,6 +182,8 @@
 		B792838E50BEC810AD8F4BF1 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		EE03ED9023EBDA800064266B /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = Secrets/Keys.plist; sourceTree = SOURCE_ROOT; };
+		EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoliciesCell.swift; sourceTree = "<group>"; };
+		EE0DEF7E25151263001632C5 /* PoliciesSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoliciesSectionController.swift; sourceTree = "<group>"; };
 		EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoCell.swift; sourceTree = "<group>"; };
 		EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoSectionController.swift; sourceTree = "<group>"; };
 		EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoModel.swift; sourceTree = "<group>"; };
@@ -189,6 +194,7 @@
 		EE64E0D6240B09DC003E449E /* GymFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersModel.swift; sourceTree = "<group>"; };
 		EE64E0D8240B0BD5003E449E /* GymFiltersSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFiltersSectionController.swift; sourceTree = "<group>"; };
 		EE64E0DA240B0DAC003E449E /* GymFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymFilterCell.swift; sourceTree = "<group>"; };
+		EE6E78EF25117F2700B2F803 /* PoliciesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoliciesModel.swift; sourceTree = "<group>"; };
 		EE93BF172380A44300219902 /* MealFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFilterCell.swift; sourceTree = "<group>"; };
 		EE93BF192380A89F00219902 /* MealFiltersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealFiltersModel.swift; sourceTree = "<group>"; };
 		EE9BED4B23F4B7ED00A37464 /* GymDensityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDensityModel.swift; sourceTree = "<group>"; };
@@ -258,6 +264,7 @@
 				EE4C804024A74E5300EB5FA4 /* DetailControllerHeaderModel.swift */,
 				3CBCB12824A7C6B600543B3D /* LastUpdatedTextModel.swift */,
 				3C9D93B524E85F03000C27A6 /* MenuHeaderModel.swift */,
+				EE6E78EF25117F2700B2F803 /* PoliciesModel.swift */,
 			);
 			path = DiningModels;
 			sourceTree = "<group>";
@@ -283,6 +290,7 @@
 				EE4C804224A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift */,
 				3CBCB12A24A7C73000543B3D /* LastUpdatedTextSectionController.swift */,
 				3C9D93B324E85BDF000C27A6 /* MenuHeaderSectionController.swift */,
+				EE0DEF7E25151263001632C5 /* PoliciesSectionController.swift */,
 			);
 			path = SectionControllers;
 			sourceTree = "<group>";
@@ -366,6 +374,7 @@
 				3C9D93B124E85A0C000C27A6 /* MenuHeaderCell.swift */,
 				EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */,
 				3CD56C8C24AEB21A004D4910 /* LastUpdatedTextCell.swift */,
+				EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */,
 			);
 			path = DiningCells;
 			sourceTree = "<group>";
@@ -686,6 +695,7 @@
 				EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */,
 				0CB3BF782232BF3200A5B371 /* DaySelectionSectionController.swift in Sources */,
 				3CD56C8D24AEB21A004D4910 /* LastUpdatedTextCell.swift in Sources */,
+				EE0DEF7D251509A2001632C5 /* PoliciesCell.swift in Sources */,
 				EE1BC56224967C8A004DD427 /* AvailabilityInfoSectionController.swift in Sources */,
 				0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */,
 				0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */,
@@ -713,9 +723,11 @@
 				0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */,
 				0C209B1922482D610007AFA9 /* FiltersModel.swift in Sources */,
 				3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */,
+				EE0DEF7F25151263001632C5 /* PoliciesSectionController.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */,
 				0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */,
+				EE6E78F025117F2700B2F803 /* PoliciesModel.swift in Sources */,
 				08F679842378E976005B7810 /* MenuSectionController.swift in Sources */,
 				0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */,
 				EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */,
@@ -894,6 +906,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WLCD63PZUT;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = "Campus Density/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -914,6 +927,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WLCD63PZUT;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = "Campus Density/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -229,7 +229,7 @@ class API {
                     completion(true)
                 case .failure(let error):
                     //handle errors
-                    print(error)
+                    print(error, "facilityInfo")
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -258,7 +258,7 @@ class API {
                     }
                     completion(true)
                 case .failure(let error):
-                    print(error)
+                    print(error, "historicalData")
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -284,7 +284,7 @@ class API {
                     }
                     completion(true)
                 case .failure(let error):
-                    print(error)
+                    print(error, "facilityList")
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -352,7 +352,7 @@ class API {
                             success = false
                         }
                     case .failure(let error):
-                        print(error)
+                        print(error, "faciliyHours")
                         success = false
                     }
                     completion(success)
@@ -385,7 +385,7 @@ class API {
                     })
                     completion(true)
                 case .failure(let error):
-                    print(error)
+                    print(error, "howDense")
                     completion(false)
                 }
         }
@@ -424,7 +424,7 @@ class API {
                     completion(true)
 
                 case .failure(let error):
-                    print(error)
+                    print(error, "menuData")
                     completion(false)
                 }
         }

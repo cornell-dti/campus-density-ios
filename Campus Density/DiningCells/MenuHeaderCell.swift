@@ -14,7 +14,7 @@ class MenuHeaderCell: UICollectionViewCell {
     var headerLabel: UILabel!
 
     // MARK: - Constants
-    let headerLabelText = "Menus"
+    let headerLabelText = "Menu"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
