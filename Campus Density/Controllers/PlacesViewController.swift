@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Firebase
 import IGListKit
-import WebKit
 
 enum Filter: String {
     case all = "All"
@@ -32,7 +31,6 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
     var refreshBarsView: LoadingBarsView!
-    var webView: WKWebView!
 
     // MARK: - Constants
     let refreshOffset: CGFloat = 146
