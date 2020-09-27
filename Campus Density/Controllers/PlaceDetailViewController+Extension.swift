@@ -12,14 +12,8 @@ import IGListKit
 extension PlaceDetailViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        let weekday = getCurrentWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
-        let date = selectedDateText()
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
-        var hours = "No hours available"
         var menus = DayMenus(menus: [], date: "help")
-        if let selectedWeekdayHours = place.hours[selectedWeekday] {
-            hours = selectedWeekdayHours
-        }
         var menuDay = selectedWeekday + 1 - getCurrentWeekday()
         if (menuDay <= 0) {
             menuDay = 7 + menuDay
@@ -70,10 +64,6 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding),
             MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
-            SpaceModel(space: Constants.mediumPadding),
-            HoursHeaderModel(weekday: weekday, date: date),
-            SpaceModel(space: Constants.smallPadding),
-            HoursModel(hours: hours),
             SpaceModel(space: Constants.smallPadding)
         ]
     }
@@ -97,12 +87,6 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is GraphModel {
             let graphModel = object as! GraphModel
             return GraphSectionController(graphModel: graphModel, delegate: self)
-        } else if object is HoursHeaderModel {
-            let hoursHeaderModel = object as! HoursHeaderModel
-            return HoursHeaderSectionController(hoursHeaderModel: hoursHeaderModel)
-        } else if object is HoursModel {
-            let hoursModel = object as! HoursModel
-            return HoursSectionController(hoursModel: hoursModel)
         } else if object is MenuModel {
             let menuModel = object as! MenuModel
             return MenuSectionController(menuModel: menuModel, delegate: self)

@@ -27,8 +27,6 @@
 		0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D62223244B700058AE6 /* FormLinkModel.swift */; };
 		0C8B6D652232459900058AE6 /* DaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D642232459900058AE6 /* DaySelectionModel.swift */; };
 		0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6622324A7A00058AE6 /* GraphModel.swift */; };
-		0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */; };
-		0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6A22324B8000058AE6 /* HoursModel.swift */; };
 		0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */; };
 		0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D6F22324DDE00058AE6 /* SpaceCell.swift */; };
 		0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */; };
@@ -44,10 +42,6 @@
 		0CB3BF7A2232C0F700A5B371 /* DaySelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF792232C0F700A5B371 /* DaySelectionCell.swift */; };
 		0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */; };
 		0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */; };
-		0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */; };
-		0CB3BF822232CC1E00A5B371 /* HoursHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */; };
-		0CB3BF842232CE3400A5B371 /* HoursSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF832232CE3400A5B371 /* HoursSectionController.swift */; };
-		0CB3BF862232CEB100A5B371 /* HoursCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF852232CEB100A5B371 /* HoursCell.swift */; };
 		0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF872232CF9F00A5B371 /* PlaceDetailViewController.swift */; };
 		0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */; };
 		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
@@ -128,8 +122,6 @@
 		0C8B6D62223244B700058AE6 /* FormLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLinkModel.swift; sourceTree = "<group>"; };
 		0C8B6D642232459900058AE6 /* DaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionModel.swift; sourceTree = "<group>"; };
 		0C8B6D6622324A7A00058AE6 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
-		0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderModel.swift; sourceTree = "<group>"; };
-		0C8B6D6A22324B8000058AE6 /* HoursModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursModel.swift; sourceTree = "<group>"; };
 		0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSectionController.swift; sourceTree = "<group>"; };
 		0C8B6D6F22324DDE00058AE6 /* SpaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCell.swift; sourceTree = "<group>"; };
 		0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDensitySectionController.swift; sourceTree = "<group>"; };
@@ -149,10 +141,6 @@
 		0CB3BF792232C0F700A5B371 /* DaySelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionCell.swift; sourceTree = "<group>"; };
 		0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSectionController.swift; sourceTree = "<group>"; };
 		0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCell.swift; sourceTree = "<group>"; };
-		0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderSectionController.swift; sourceTree = "<group>"; };
-		0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursHeaderCell.swift; sourceTree = "<group>"; };
-		0CB3BF832232CE3400A5B371 /* HoursSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursSectionController.swift; sourceTree = "<group>"; };
-		0CB3BF852232CEB100A5B371 /* HoursCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursCell.swift; sourceTree = "<group>"; };
 		0CB3BF872232CF9F00A5B371 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
 		0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceDetailViewController+Extension.swift"; sourceTree = "<group>"; };
 		0CC6B74121B0A43C00E7B359 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
@@ -248,8 +236,6 @@
 				0C8B6D62223244B700058AE6 /* FormLinkModel.swift */,
 				0C8B6D642232459900058AE6 /* DaySelectionModel.swift */,
 				0C8B6D6622324A7A00058AE6 /* GraphModel.swift */,
-				0C8B6D6822324B0A00058AE6 /* HoursHeaderModel.swift */,
-				0C8B6D6A22324B8000058AE6 /* HoursModel.swift */,
 				08F679812378E8D7005B7810 /* MenuModel.swift */,
 				EE93BF192380A89F00219902 /* MealFiltersModel.swift */,
 				3C87328C244219B000D42F59 /* GraphHeaderModel.swift */,
@@ -270,8 +256,6 @@
 				0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */,
 				0CB3BF772232BF3200A5B371 /* DaySelectionSectionController.swift */,
 				0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */,
-				0CB3BF7F2232CA3700A5B371 /* HoursHeaderSectionController.swift */,
-				0CB3BF832232CE3400A5B371 /* HoursSectionController.swift */,
 				0C209B10224824250007AFA9 /* PlaceSectionController.swift */,
 				0C209B142248281E0007AFA9 /* LogoSectionController.swift */,
 				0C209B1A22482DDB0007AFA9 /* FiltersSectionController.swift */,
@@ -356,8 +340,6 @@
 				0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */,
 				0C209B12224825AF0007AFA9 /* PlaceCell.swift */,
 				0C209B16224829280007AFA9 /* LogoCell.swift */,
-				0CB3BF812232CC1E00A5B371 /* HoursHeaderCell.swift */,
-				0CB3BF852232CEB100A5B371 /* HoursCell.swift */,
 				08F6797F2378E7BA005B7810 /* MenuCell.swift */,
 				EE93BF172380A44300219902 /* MealFilterCell.swift */,
 				3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */,
@@ -681,15 +663,12 @@
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
 				081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */,
 				3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */,
-				0C8B6D6922324B0A00058AE6 /* HoursHeaderModel.swift in Sources */,
 				EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */,
 				EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */,
 				0CB3BF782232BF3200A5B371 /* DaySelectionSectionController.swift in Sources */,
 				3CD56C8D24AEB21A004D4910 /* LastUpdatedTextCell.swift in Sources */,
 				EE1BC56224967C8A004DD427 /* AvailabilityInfoSectionController.swift in Sources */,
-				0C8B6D6B22324B8000058AE6 /* HoursModel.swift in Sources */,
 				0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */,
-				0CB3BF842232CE3400A5B371 /* HoursSectionController.swift in Sources */,
 				0C8B6D652232459900058AE6 /* DaySelectionModel.swift in Sources */,
 				3C9D93B424E85BDF000C27A6 /* MenuHeaderSectionController.swift in Sources */,
 				3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */,
@@ -701,7 +680,6 @@
 				EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */,
 				0C209B1B22482DDB0007AFA9 /* FiltersSectionController.swift in Sources */,
 				EE1BC56024954239004DD427 /* AvailabilityInfoCell.swift in Sources */,
-				0CB3BF822232CC1E00A5B371 /* HoursHeaderCell.swift in Sources */,
 				3CBCB12924A7C6B600543B3D /* LastUpdatedTextModel.swift in Sources */,
 				0C209B17224829280007AFA9 /* LogoCell.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
@@ -714,7 +692,6 @@
 				0C209B1922482D610007AFA9 /* FiltersModel.swift in Sources */,
 				3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
-				0CB3BF802232CA3700A5B371 /* HoursHeaderSectionController.swift in Sources */,
 				0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */,
 				08F679842378E976005B7810 /* MenuSectionController.swift in Sources */,
 				0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */,
@@ -725,7 +702,6 @@
 				0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */,
 				EE9BED4F23F4B90C00A37464 /* GymDensityCell.swift in Sources */,
 				EEA4117D249E841200190A30 /* AvailabilityHeaderCell.swift in Sources */,
-				0CB3BF862232CEB100A5B371 /* HoursCell.swift in Sources */,
 				3C9D93B624E85F03000C27A6 /* MenuHeaderModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

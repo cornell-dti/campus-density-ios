@@ -324,6 +324,8 @@ class API {
                     let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
                     switch result {
                     case .success(let hoursResponseArray):
+                        // TODO delete this preprocessing of hours data function when DetailControllerHeader isn't relying on it anymore
+                        // No longer used by any HoursCell as that has been moved into the menus
                         let hoursResponse = hoursResponseArray[0]
                         var hours = [Int: String]()
                         for dailyInfo in hoursResponse.hours {
