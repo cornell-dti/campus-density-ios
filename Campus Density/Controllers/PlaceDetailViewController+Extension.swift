@@ -57,11 +57,14 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: linkTopOffset),
             FormLinkModel(feedbackForm: feedbackForm, lastUpdated: lastUpdatedTime),
             SpaceModel(space: Constants.mediumPadding),
+            SectionDividerModel(lineWidth: dividerHeight),
+            SpaceModel(space: Constants.mediumPadding),
             MenuHeaderModel(),
             SpaceModel(space: Constants.smallPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.smallPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
+            SectionDividerModel(lineWidth: dividerHeight),
             SpaceModel(space: Constants.smallPadding),
             MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding)
@@ -72,6 +75,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         if object is SpaceModel {
             let spaceModel = object as! SpaceModel
             return SpaceSectionController(spaceModel: spaceModel)
+        } else if object is SectionDividerModel{
+            let sectionDividerModel = object as! SectionDividerModel
+            return SectionDividerSectionController(sectionDividerModel: sectionDividerModel)
         } else if object is CurrentDensityModel {
             let currentDensityModel = object as! CurrentDensityModel
             return CurrentDensitySectionController(currentDensityModel: currentDensityModel)
