@@ -48,15 +48,17 @@ class MealFilterCell: UICollectionViewCell {
         let padding: CGFloat = Constants.smallPadding
         var index: Int = 0
         var buttonLeftOffset: CGFloat = padding
+        let numOfMeals: CGFloat = CGFloat(filterButtons.count)
+        let buttonWidth = frame.width / numOfMeals
         filterButtons.forEach { button in
-            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .sixteen) + labelHorizontalPadding * 2
+            let buttonWidth = buttonWidth
             button.snp.makeConstraints({ make in
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
                 make.left.equalToSuperview().offset(buttonLeftOffset)
             })
             index += 1
-            buttonLeftOffset += buttonWidth + padding
+            buttonLeftOffset += buttonWidth
         }
     }
 
@@ -73,15 +75,16 @@ class MealFilterCell: UICollectionViewCell {
             let button = UIButton()
             button.tag = index
             button.setTitle(mealLabel(meal: meal), for: .normal)
-            button.titleLabel?.font = .sixteen
+            button.titleLabel?.font = .eighteen
             button.setTitleColor(.warmGray, for: .normal)
             button.clipsToBounds = true
             if (meal == mealModel.selectedMeal) {
-                button.setTitleColor(.grayishBrown, for: .normal)
-                button.layer.borderColor = UIColor.warmGray.cgColor
-                button.layer.borderWidth = 1
+                button.setTitleColor(.densityGreen, for: .normal)
+                button.titleLabel?.font = .eighteenBold
+                button.layer.borderColor = UIColor.densityGreen.cgColor
+                button.layer.borderWidth = 1.5
             }
-            button.layer.cornerRadius = 10
+            button.layer.cornerRadius = 0
             button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
             contentView.addSubview(button)
             self.filterButtons.append(button)
