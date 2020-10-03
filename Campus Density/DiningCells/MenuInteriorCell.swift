@@ -79,7 +79,7 @@ class MenuInteriorCell: UICollectionViewCell {
         let empty = NSAttributedString(string: "")
         let stations = organizeCategories(menu: menuData.menu)
         for station in stations {
-            if (res != empty) {
+            if res != empty {
                 res.append(newLine)
                 res.append(newLine)
             }
@@ -88,13 +88,13 @@ class MenuInteriorCell: UICollectionViewCell {
             res.append(categoryString)
             let itemString = NSMutableAttributedString()
             for item in station.items {
-                if (itemString != empty) {
+                if itemString != empty {
                     itemString.append(newLine)
                 }
                 itemString.append(NSAttributedString(string: item))
             }
             itemString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.warmGray, NSAttributedString.Key.font: UIFont.sixteen], range: NSRange(location: 0, length: itemString.length))
-            if (itemString != empty) {
+            if itemString != empty {
                 res.append(newLine)
                 res.append(itemString)
             }
