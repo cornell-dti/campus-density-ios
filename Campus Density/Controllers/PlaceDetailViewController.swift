@@ -39,6 +39,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
     let linkTopOffset: CGFloat = 5
+    let dividerHeight: CGFloat = 1.5
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
     let ithacaTime = TimeZone(identifier: "America/New_York")!
     var ithacaCalendar = Calendar.current
