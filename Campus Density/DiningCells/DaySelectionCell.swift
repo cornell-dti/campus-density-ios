@@ -54,8 +54,8 @@ class DaySelectionCell: UICollectionViewCell {
             paragraphStyle.alignment = .center
             var textColor = UIColor.warmGray
             if button.tag == selectedWeekday {
-                textColor = .grayishBrown
-                button.layer.borderColor = UIColor.warmGray.cgColor
+                textColor = .densityGreen
+                button.layer.borderColor = UIColor.densityGreen.cgColor
                 button.layer.borderWidth = 1
             }
             let title = NSMutableAttributedString(string: weekdayAbbreviation(weekday: button.tag), attributes: [.foregroundColor: textColor, .font: UIFont.sixteen, .paragraphStyle: paragraphStyle])
