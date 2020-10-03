@@ -14,7 +14,7 @@ class AvailabilityHeaderCell: UICollectionViewCell {
     var headerLabel: UILabel!
 
     // MARK: - Constants
-    let headerLabelText = "Availability"
+    let headerLabelText = "Current Availability"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
