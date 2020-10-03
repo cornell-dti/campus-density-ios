@@ -15,7 +15,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var menus = DayMenus(menus: [], date: "help")
         var menuDay = selectedWeekday + 1 - getCurrentWeekday()
-        if (menuDay <= 0) {
+        if menuDay <= 0 {
             menuDay = 7 + menuDay
         }
         if place.menus.weeksMenus.count != 0 {
@@ -23,9 +23,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         }
         var meals = [Meal]()
         var endTimes = [Int]()
-        if (menus.menus.count != 0) {
+        if menus.menus.count != 0 {
             for meal in menus.menus {
-                if (meal.menu.count != 0) {
+                if meal.menu.count != 0 {
                     meals.append(Meal(rawValue: meal.description)!)
                     endTimes.append(meal.endTime)
                 }

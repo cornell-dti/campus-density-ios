@@ -76,7 +76,7 @@ class MealFilterCell: UICollectionViewCell {
             button.titleLabel?.font = .sixteen
             button.setTitleColor(.warmGray, for: .normal)
             button.clipsToBounds = true
-            if (meal == mealModel.selectedMeal) {
+            if meal == mealModel.selectedMeal {
                 button.setTitleColor(.grayishBrown, for: .normal)
                 button.layer.borderColor = UIColor.warmGray.cgColor
                 button.layer.borderWidth = 1
