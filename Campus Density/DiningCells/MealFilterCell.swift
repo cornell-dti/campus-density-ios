@@ -45,9 +45,9 @@ class MealFilterCell: UICollectionViewCell {
     }
 
     func setupConstraints() {
-        let padding: CGFloat = Constants.smallPadding
+        //let padding: CGFloat = Constants.smallPadding
         var index: Int = 0
-        var buttonLeftOffset: CGFloat = padding
+        var buttonLeftOffset: CGFloat = 0
         let numOfMeals: CGFloat = CGFloat(filterButtons.count)
         let buttonWidth = frame.width / numOfMeals
         filterButtons.forEach { button in
