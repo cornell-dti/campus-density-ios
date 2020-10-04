@@ -58,6 +58,9 @@
 		3CBCB12B24A7C73000543B3D /* LastUpdatedTextSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCB12A24A7C73000543B3D /* LastUpdatedTextSectionController.swift */; };
 		3CD56C8D24AEB21A004D4910 /* LastUpdatedTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD56C8C24AEB21A004D4910 /* LastUpdatedTextCell.swift */; };
 		69FBE3A7C9A2FABCC58E8B38 /* Pods_Campus_DensityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */; };
+		77C4F6B72529AD5E0067551B /* SectionDividerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C4F6B62529AD5E0067551B /* SectionDividerModel.swift */; };
+		77C4F6B92529AD720067551B /* SectionDividerSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C4F6B82529AD720067551B /* SectionDividerSectionController.swift */; };
+		77C4F6BB2529ADA70067551B /* SectionDividerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C4F6BA2529ADA70067551B /* SectionDividerCell.swift */; };
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		EE03ED9123EBDA800064266B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */; };
 		EE03ED9223EBDA800064266B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED9023EBDA800064266B /* Keys.plist */; };
@@ -163,6 +166,9 @@
 		4D1B0CC1499D677A1BC9D1C8 /* Pods_Campus_DensityTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_DensityTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_DensityUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		573401CD5348E8AFE9E49108 /* Pods-Campus DensityUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.release.xcconfig"; sourceTree = "<group>"; };
+		77C4F6B62529AD5E0067551B /* SectionDividerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionDividerModel.swift; path = "../../../cdios/Campus Density/DiningModels/SectionDividerModel.swift"; sourceTree = "<group>"; };
+		77C4F6B82529AD720067551B /* SectionDividerSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionDividerSectionController.swift; path = "../../../cdios/Campus Density/SectionControllers/SectionDividerSectionController.swift"; sourceTree = "<group>"; };
+		77C4F6BA2529ADA70067551B /* SectionDividerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionDividerCell.swift; path = "../../../cdios/Campus Density/DiningCells/SectionDividerCell.swift"; sourceTree = "<group>"; };
 		A3D2E62F6EC303C49446BDB3 /* Pods-Campus Density.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.release.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.release.xcconfig"; sourceTree = "<group>"; };
 		B792838E50BEC810AD8F4BF1 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -229,6 +235,7 @@
 		0C8B6D5D2232430600058AE6 /* DiningModels */ = {
 			isa = PBXGroup;
 			children = (
+				77C4F6B62529AD5E0067551B /* SectionDividerModel.swift */,
 				0C8B6D5E2232436600058AE6 /* SpaceModel.swift */,
 				0C209B0E224823560007AFA9 /* LogoModel.swift */,
 				0C209B1822482D610007AFA9 /* FiltersModel.swift */,
@@ -251,6 +258,7 @@
 		0C8B6D6C22324C1200058AE6 /* SectionControllers */ = {
 			isa = PBXGroup;
 			children = (
+				77C4F6B82529AD720067551B /* SectionDividerSectionController.swift */,
 				0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */,
 				0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */,
 				0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */,
@@ -333,6 +341,7 @@
 			children = (
 				EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */,
 				0C8B6D6F22324DDE00058AE6 /* SpaceCell.swift */,
+				77C4F6BA2529ADA70067551B /* SectionDividerCell.swift */,
 				0C209B1C22482E650007AFA9 /* FiltersCell.swift */,
 				0C8B6D7322324FFA00058AE6 /* CurrentDensityCell.swift */,
 				0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */,
@@ -641,6 +650,7 @@
 				EE4C804124A74E5300EB5FA4 /* DetailControllerHeaderModel.swift in Sources */,
 				0CB3BF7A2232C0F700A5B371 /* DaySelectionCell.swift in Sources */,
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
+				77C4F6BB2529ADA70067551B /* SectionDividerCell.swift in Sources */,
 				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
 				0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */,
 				0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */,
@@ -654,6 +664,7 @@
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
 				EE4C804324A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift in Sources */,
+				77C4F6B92529AD720067551B /* SectionDividerSectionController.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */,
 				3C9D93B224E85A0C000C27A6 /* MenuHeaderCell.swift in Sources */,
@@ -688,6 +699,7 @@
 				EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */,
 				0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */,
 				3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */,
+				77C4F6B72529AD5E0067551B /* SectionDividerModel.swift in Sources */,
 				0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */,
 				0C209B1922482D610007AFA9 /* FiltersModel.swift in Sources */,
 				3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */,
