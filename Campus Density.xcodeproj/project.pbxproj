@@ -47,6 +47,7 @@
 		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
+		3AC098AA252AE07D00EEAD99 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AC098A9252AE07D00EEAD99 /* Keys.plist */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
@@ -63,7 +64,6 @@
 		77C4F6BB2529ADA70067551B /* SectionDividerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C4F6BA2529ADA70067551B /* SectionDividerCell.swift */; };
 		85FDD1AC6EB4680031023AA8 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE409273BF25EA7FB45E355 /* Pods_Campus_DensityUITests.framework */; };
 		EE03ED9123EBDA800064266B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */; };
-		EE03ED9223EBDA800064266B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED9023EBDA800064266B /* Keys.plist */; };
 		EE1BC56024954239004DD427 /* AvailabilityInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */; };
 		EE1BC56224967C8A004DD427 /* AvailabilityInfoSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */; };
 		EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */; };
@@ -152,6 +152,7 @@
 		2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_Density.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33A9A060DE6722A4C153ECF9 /* Pods-Campus DensityUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A221D5B742F7968E952C70F /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
+		3AC098A9252AE07D00EEAD99 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = ../../../Downloads/Keys.plist; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -172,7 +173,6 @@
 		A3D2E62F6EC303C49446BDB3 /* Pods-Campus Density.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.release.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.release.xcconfig"; sourceTree = "<group>"; };
 		B792838E50BEC810AD8F4BF1 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		EE03ED9023EBDA800064266B /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = Secrets/Keys.plist; sourceTree = SOURCE_ROOT; };
 		EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoCell.swift; sourceTree = "<group>"; };
 		EE1BC56124967C8A004DD427 /* AvailabilityInfoSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoSectionController.swift; sourceTree = "<group>"; };
 		EE1BC56324967CF4004DD427 /* AvailabilityInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoModel.swift; sourceTree = "<group>"; };
@@ -365,7 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */,
-				EE03ED9023EBDA800064266B /* Keys.plist */,
+				3AC098A9252AE07D00EEAD99 /* Keys.plist */,
 			);
 			path = Secrets;
 			sourceTree = "<group>";
@@ -542,7 +542,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE03ED9223EBDA800064266B /* Keys.plist in Resources */,
+				3AC098AA252AE07D00EEAD99 /* Keys.plist in Resources */,
 				0CA3F4CA2173EA8100988A46 /* LaunchScreen.storyboard in Resources */,
 				EE1BC56624969B28004DD427 /* Assets.xcassets in Resources */,
 				EE03ED9123EBDA800064266B /* GoogleService-Info.plist in Resources */,
