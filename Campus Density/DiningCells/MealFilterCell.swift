@@ -50,14 +50,14 @@ class MealFilterCell: UICollectionViewCell {
         let numOfMeals: CGFloat = CGFloat(filterButtons.count)
         let buttonWidth = frame.width / numOfMeals
         let sliderHeight = buttonHeight
-        for (meal, button) in zip(mealModel.meals, filterButtons){
+        for (meal, button) in zip(mealModel.meals, filterButtons) {
             let buttonWidth = buttonWidth
             button.snp.makeConstraints { make in
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
                 make.left.equalToSuperview().offset(buttonLeftOffset)
             }
-            if meal == mealModel.selectedMeal{
+            if meal == mealModel.selectedMeal {
                 let lineView = UIView(frame: CGRect(x: CGFloat(index)*buttonWidth, y: sliderHeight, width: buttonWidth, height: 2))
                 lineView.backgroundColor = .densityGreen
                 lineView.layer.borderColor = UIColor.densityGreen.cgColor
@@ -95,12 +95,10 @@ class MealFilterCell: UICollectionViewCell {
             contentView.addSubview(button)
             self.filterButtons.append(button)
         }
-        
 
         setupConstraints()
     }
 
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
