@@ -86,7 +86,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
         setupViews()
         setupConstraints()
-
+        setupGestureRecognizers()
     }
 
     func signIn() {
@@ -372,6 +372,17 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         refreshBarsView.alpha = 0
+    }
+
+    /// Setup a gesture recognizer to dismiss search bar keyboard on tap
+    func setupGestureRecognizers() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapRecognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapRecognizer)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
 }
