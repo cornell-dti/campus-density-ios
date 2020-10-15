@@ -20,6 +20,7 @@ class MealFilterCell: UICollectionViewCell {
 
     // MARK: - View vars
     var filterButtons = [UIButton]()
+    var lineView: UIView!
 
     // MARK: - Constants
     let labelHorizontalPadding: CGFloat = 10
@@ -58,7 +59,7 @@ class MealFilterCell: UICollectionViewCell {
                 make.left.equalToSuperview().offset(buttonLeftOffset)
             }
             if meal == mealModel.selectedMeal {
-                let lineView = UIView(frame: CGRect(x: CGFloat(index)*buttonWidth, y: sliderHeight, width: buttonWidth, height: 2))
+                lineView = UIView(frame: CGRect(x: CGFloat(index)*buttonWidth, y: sliderHeight, width: buttonWidth, height: 2))
                 lineView.backgroundColor = .densityGreen
                 lineView.layer.borderColor = UIColor.densityGreen.cgColor
                 lineView.layer.borderWidth = 1

@@ -62,7 +62,7 @@ class MenuCell: UICollectionViewCell {
 
     func configureAsNoMenus() {
         menuCollectionView.isHidden = true
-        unavailableLabel.isHidden = false
+        unavailableLabel.isHidden = true
         setupConstraints()
     }
 

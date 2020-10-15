@@ -22,6 +22,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Data vars
     var place: Place!
+    var unavailableLabel: UILabel!
     var selectedWeekday: Int = 0
     var selectedHour: Int = 0
     var mealList = [Meal]()
@@ -35,12 +36,15 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
+    var spinnerView: SpinnerView!
 
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
+    let spinnerHeight: CGFloat = 36
     let linkTopOffset: CGFloat = 5
     let dividerHeight: CGFloat = 1
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
+    let unavailableText = "No menus available"
     let ithacaTime = TimeZone(identifier: "America/New_York")!
     var ithacaCalendar = Calendar.current
 
@@ -66,11 +70,33 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             make.center.equalToSuperview()
         }
 
+        spinnerView = SpinnerView()
+        view.addSubview(spinnerView)
+
+        spinnerView.snp.makeConstraints { make in
+            make.width.height.equalTo(spinnerHeight)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(view.frame.height/3)
+        }
+
+        unavailableLabel = UILabel()
+        unavailableLabel.textColor = .warmGray
+        unavailableLabel.font = .eighteenBold
+        unavailableLabel.text = unavailableText
+        view.addSubview(unavailableLabel)
+
+        unavailableLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(view.frame.height/4)
+        }
+
         ithacaCalendar.timeZone = ithacaTime
 
         if place.hours.isEmpty {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
+            spinnerView.isHidden = true
+            unavailableLabel.isHidden = true
             getHours()
         } else {
             loadingBarsView.removeFromSuperview()
@@ -316,5 +342,4 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             title = ""
         }
     }
-
 }

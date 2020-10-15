@@ -26,14 +26,14 @@ class MenuHeaderCell: UICollectionViewCell {
         headerLabel.text = headerLabelText
         headerLabel.textColor = .black
         headerLabel.textAlignment = .left
-        headerLabel.font = .thirtyBold
+        headerLabel.font = .twentyFiveBold
         addSubview(headerLabel)
 
         detailsLabel = UILabel()
         detailsLabel.text = detailsLabelText
         detailsLabel.textColor = .warmGray
         detailsLabel.textAlignment = .left
-        detailsLabel.font = .sixteenBold
+        detailsLabel.font = .sixteen
         addSubview(detailsLabel)
 
         setupConstraints()

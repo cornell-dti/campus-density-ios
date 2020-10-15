@@ -47,6 +47,14 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                     }
                 }
             }
+        } else if place.menus.weeksMenus.count == 0 {
+            spinnerView.isHidden = false
+            spinnerView.animate()
+            view.addSubview(spinnerView)
+            print("No Menus Available")
+        } else {
+            unavailableLabel.isHidden = false
+            view.addSubview(unavailableLabel)
         }
         return [
             DetailControllerHeaderModel(place: place),
@@ -60,7 +68,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SectionDividerModel(lineWidth: dividerHeight),
             SpaceModel(space: Constants.mediumPadding),
             MenuHeaderModel(),
-            SpaceModel(space: Constants.largePadding),
+            SpaceModel(space: Constants.largerPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.smallPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),

@@ -76,7 +76,7 @@ class DetailControllerHeaderCell: UICollectionViewCell {
             timeString.addAttribute(.foregroundColor, value: UIColor.orangeyRed, range: NSRange(location: 0, length: timeString.mutableString.length))
         } else {
             let closingString = getNextClosingText()
-            timeString = NSMutableAttributedString(string: "Open until `\(closingString)")
+            timeString = NSMutableAttributedString(string: "Open until \(closingString)")
             timeString.addAttribute(.foregroundColor, value: UIColor.lightTeal, range: NSRange(location: 0, length: timeString.mutableString.length))
         }
 
