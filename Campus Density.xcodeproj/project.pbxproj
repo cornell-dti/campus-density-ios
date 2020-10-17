@@ -47,8 +47,8 @@
 		0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74121B0A43C00E7B359 /* LogoView.swift */; };
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
-		3A0D9F1F25318BCE00C411F6 /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0D9F1E25318BCE00C411F6 /* SpinnerView.swift */; };
 		3AC098AA252AE07D00EEAD99 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AC098A9252AE07D00EEAD99 /* Keys.plist */; };
+		3AF0B537253B9AD9002BB6C4 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0B536253B9AD9002BB6C4 /* ActivityView.swift */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
@@ -152,9 +152,9 @@
 		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
 		2C8EF9B51EE41D7D55329642 /* Pods_Campus_Density.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Campus_Density.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33A9A060DE6722A4C153ECF9 /* Pods-Campus DensityUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus DensityUITests/Pods-Campus DensityUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		3A0D9F1E25318BCE00C411F6 /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		3A221D5B742F7968E952C70F /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
 		3AC098A9252AE07D00EEAD99 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		3AF0B536253B9AD9002BB6C4 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 			children = (
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
-				3A0D9F1E25318BCE00C411F6 /* SpinnerView.swift */,
+				3AF0B536253B9AD9002BB6C4 /* ActivityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -693,7 +693,6 @@
 				0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */,
 				EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */,
 				0C209B1B22482DDB0007AFA9 /* FiltersSectionController.swift in Sources */,
-				3A0D9F1F25318BCE00C411F6 /* SpinnerView.swift in Sources */,
 				EE1BC56024954239004DD427 /* AvailabilityInfoCell.swift in Sources */,
 				3CBCB12924A7C6B600543B3D /* LastUpdatedTextModel.swift in Sources */,
 				0C209B17224829280007AFA9 /* LogoCell.swift in Sources */,
@@ -706,6 +705,7 @@
 				77C4F6B72529AD5E0067551B /* SectionDividerModel.swift in Sources */,
 				0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */,
 				0C209B1922482D610007AFA9 /* FiltersModel.swift in Sources */,
+				3AF0B537253B9AD9002BB6C4 /* ActivityView.swift in Sources */,
 				3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
 				0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */,

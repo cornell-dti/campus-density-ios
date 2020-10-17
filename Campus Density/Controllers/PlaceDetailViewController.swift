@@ -36,7 +36,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
-    var spinnerView: SpinnerView!
+    var spinnerView: ActivityView!
 
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
@@ -70,7 +70,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             make.center.equalToSuperview()
         }
 
-        spinnerView = SpinnerView()
+        spinnerView = ActivityView()
         view.addSubview(spinnerView)
 
         spinnerView.snp.makeConstraints { make in
