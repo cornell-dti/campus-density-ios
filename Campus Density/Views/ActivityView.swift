@@ -37,7 +37,7 @@ class ActivityView: UIView {
     func animate() {
         UIView.animate(withDuration: 1, delay: 0, options: .curveLinear, animations: {
             self.transform = CGAffineTransform(rotationAngle: .pi)
-        }) { (completed) in
+        }) { (_) in
             UIView.animate(withDuration: 1, delay: 0, options: .curveLinear, animations: {self.transform = CGAffineTransform(rotationAngle: 0)
             }) { (_) in
                 self.animate()
