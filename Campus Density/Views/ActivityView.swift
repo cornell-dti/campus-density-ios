@@ -21,7 +21,7 @@ class ActivityView: UIView {
         let path = UIBezierPath(ovalIn: outline)
         loadingCircle.path = path.cgPath
         loadingCircle.lineWidth = 3
-        loadingCircle.strokeEnd = 0.25
+        loadingCircle.strokeEnd = 0.45
         loadingCircle.lineCap = .round
 
         loadingCircle.strokeColor = UIColor.black.cgColor
