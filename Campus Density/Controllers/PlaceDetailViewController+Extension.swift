@@ -12,16 +12,10 @@ import IGListKit
 extension PlaceDetailViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        let weekday = getCurrentWeekday() == selectedWeekday ? "Today" : selectedWeekdayText()
-        let date = selectedDateText()
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
-        var hours = "No hours available"
         var menus = DayMenus(menus: [], date: "help")
-        if let selectedWeekdayHours = place.hours[selectedWeekday] {
-            hours = selectedWeekdayHours
-        }
         var menuDay = selectedWeekday + 1 - getCurrentWeekday()
-        if (menuDay <= 0) {
+        if menuDay <= 0 {
             menuDay = 7 + menuDay
         }
         if place.menus.weeksMenus.count != 0 {
@@ -29,9 +23,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         }
         var meals = [Meal]()
         var endTimes = [Int]()
-        if (menus.menus.count != 0) {
+        if menus.menus.count != 0 {
             for meal in menus.menus {
-                if (meal.menu.count != 0) {
+                if meal.menu.count != 0 {
                     meals.append(Meal(rawValue: meal.description)!)
                     endTimes.append(meal.endTime)
                 }
@@ -62,17 +56,11 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             AvailabilityInfoModel(place: place),
             SpaceModel(space: linkTopOffset),
             FormLinkModel(feedbackForm: feedbackForm, lastUpdated: lastUpdatedTime),
-            SpaceModel(space: Constants.smallPadding),
-            GraphHeaderModel(),
-            SpaceModel(space: Constants.smallPadding),
+            SpaceModel(space: Constants.mediumPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
-            SpaceModel(space: Constants.mediumPadding),
-            GraphModel(densityMap: densityMap, selectedHour: selectedHour),
-            SpaceModel(space: Constants.mediumPadding),
-            HoursHeaderModel(weekday: weekday, date: date),
             SpaceModel(space: Constants.smallPadding),
-            HoursModel(hours: hours),
-            SpaceModel(space: Constants.mediumPadding),
+            MenuHeaderModel(),
+            SpaceModel(space: Constants.smallPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding),
             MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
@@ -99,12 +87,6 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is GraphModel {
             let graphModel = object as! GraphModel
             return GraphSectionController(graphModel: graphModel, delegate: self)
-        } else if object is HoursHeaderModel {
-            let hoursHeaderModel = object as! HoursHeaderModel
-            return HoursHeaderSectionController(hoursHeaderModel: hoursHeaderModel)
-        } else if object is HoursModel {
-            let hoursModel = object as! HoursModel
-            return HoursSectionController(hoursModel: hoursModel)
         } else if object is MenuModel {
             let menuModel = object as! MenuModel
             return MenuSectionController(menuModel: menuModel, delegate: self)
@@ -117,9 +99,12 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is DetailControllerHeaderModel {
             let detailControllerHeaderModel = object as! DetailControllerHeaderModel
             return DetailControllerHeaderSectionController(detailControllerHeaderModel: detailControllerHeaderModel)
-        } else {
+        } else if object is AvailabilityHeaderModel {
             let availabilityHeaderModel = object as! AvailabilityHeaderModel
             return AvailabilityHeaderSectionController(headerModel: availabilityHeaderModel)
+        } else {
+            let menuHeaderModel = object as! MenuHeaderModel
+            return MenuHeaderSectionController(menuHeaderModel: menuHeaderModel)
         }
     }
 

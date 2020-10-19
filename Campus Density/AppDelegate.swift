@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     var placesViewController: PlacesViewController!
     var locationManager: CLLocationManager!
-    var tabBarController: UITabBarController!
-    //var gymsViewController: GymsViewController!
+//    var tabBarController: UITabBarController!
+//    var gymsViewController: GymsViewController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -27,24 +27,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.sixteenBold]
 
-        tabBarController = UITabBarController()
+//        tabBarController = UITabBarController()
 
         //Setting up PlacesViewController
         placesViewController = PlacesViewController()
-        placesViewController.title = "Eateries"
-        placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: UIImage(named: "food"), tag: 0)
+//        placesViewController.title = "Eateries"
+//        placesViewController.tabBarItem = UITabBarItem(title: "Eateries", image: UIImage(named: "food"), tag: 0)
        // placesViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let placesViewNav = UINavigationController(rootViewController: placesViewController)
 
         //Setting up GymViewController
         //TODO: Change up GymDetailViewController -> GymViewController
-        let gymsViewController = UINavigationController(rootViewController: GymDetailViewController())
-        gymsViewController.title = "Gyms"
-        gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: UIImage(named: "fitness"), tag: 1)
+//        let gymsViewController = UINavigationController(rootViewController: GymDetailViewController())
+//        gymsViewController.title = "Gyms"
+//        gymsViewController.tabBarItem = UITabBarItem(title: "Gyms", image: UIImage(named: "fitness"), tag: 1)
 
         //Adding view controllers to the tab bar
-        let controllers = [placesViewNav, gymsViewController]
-        tabBarController.viewControllers = controllers as [UIViewController]
+//        let controllers = [placesViewNav, gymsViewController]
+//        tabBarController.viewControllers = controllers as [UIViewController]
 
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.startUpdatingLocation()
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = tabBarController
+        window?.rootViewController = placesViewNav
         window?.makeKeyAndVisible()
 
         return true

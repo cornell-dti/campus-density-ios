@@ -11,6 +11,7 @@ import IGListKit
 
 /// APIErrors enumerates the possible errors that could arise when processing the response data
 enum APIError: Error {
+
     /// decodeError Used when the `data` attribute from the `DataResponse` instance could not be decoded by the JSONDecoder
     case decodeError
     /// noData Used when the `data` attribute from the `DataResponse` instance is `null`
@@ -210,11 +211,11 @@ class API {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("\(url)/facilityInfo", headers: headers)
+        AF.request("\(url)/facilityInfo", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
                 //resulting JSON array should be parsed into a PlaceInfo object array
-                let result: Result<[PlaceInfo]> = decoder.decodeResponse(from: response)
+                let result: AFResult<[PlaceInfo]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let placeInfos):
                     //find corresponding instances of `Place` in System.places for every element in the resulting PlaceInfo array, and set the values of `region` and `isClosed` accordingly.
@@ -229,7 +230,7 @@ class API {
                     completion(true)
                 case .failure(let error):
                     //handle errors
-                    print(error)
+                    print(error, "facilityInfo")
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -244,10 +245,10 @@ class API {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("\(url)/historicalData", headers: headers)
+        AF.request("\(url)/historicalData", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
-                let result: Result<[HistoricalData]> = decoder.decodeResponse(from: response)
+                let result: AFResult<[HistoricalData]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let data):
                     data.forEach { placeData in
@@ -258,7 +259,7 @@ class API {
                     }
                     completion(true)
                 case .failure(let error):
-                    print(error)
+                    print(error, "historicalData")
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -273,10 +274,10 @@ class API {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("\(url)/facilityList", headers: headers)
+        AF.request("\(url)/facilityList", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
-                let result: Result<[PlaceName]> = decoder.decodeResponse(from: response)
+                let result: AFResult<[PlaceName]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
@@ -284,7 +285,7 @@ class API {
                     }
                     completion(true)
                 case .failure(let error):
-                    print(error)
+                    print(error, "facilityList")
                     UserDefaults.standard.removeObject(forKey: "token")
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
@@ -318,12 +319,14 @@ class API {
                 "endDate": endDate
             ]
 
-            Alamofire.request("\(url)/facilityHours", parameters: parameters, headers: headers)
+            AF.request("\(url)/facilityHours", parameters: parameters, headers: headers)
                 .responseData { response in
                     let decoder = JSONDecoder()
-                    let result: Result<[HoursResponse]> = decoder.decodeResponse(from: response)
+                    let result: AFResult<[HoursResponse]> = decoder.decodeResponse(from: response)
                     switch result {
                     case .success(let hoursResponseArray):
+                        // TODO delete this preprocessing of hours data function when DetailControllerHeader isn't relying on it anymore
+                        // No longer used by any HoursCell as that has been moved into the menus
                         let hoursResponse = hoursResponseArray[0]
                         var hours = [Int: String]()
                         for dailyInfo in hoursResponse.hours {
@@ -352,7 +355,7 @@ class API {
                             success = false
                         }
                     case .failure(let error):
-                        print(error)
+                        print(error, "faciliyHours")
                         success = false
                     }
                     completion(success)
@@ -369,10 +372,10 @@ class API {
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
-        Alamofire.request("\(url)/howDense", headers: headers)
+        AF.request("\(url)/howDense", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
-                let result: Result<[PlaceDensity]> = decoder.decodeResponse(from: response)
+                let result: AFResult<[PlaceDensity]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let densities):
                     self.lastUpdatedDensityTime = Date() // Set last updated density time to now
@@ -385,7 +388,7 @@ class API {
                     })
                     completion(true)
                 case .failure(let error):
-                    print(error)
+                    print(error, "howDense")
                     completion(false)
                 }
         }
@@ -408,10 +411,10 @@ class API {
             "facility": place.id
         ]
 
-        Alamofire.request("\(url)/menuData", parameters: parameters, headers: headers)
+        AF.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
-                let result: Result<[WeekMenus]> = decoder.decodeResponse(from: response)
+                let result: AFResult<[WeekMenus]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let menulist):
                     menulist.forEach({menu in
@@ -424,7 +427,7 @@ class API {
                     completion(true)
 
                 case .failure(let error):
-                    print(error)
+                    print(error, "menuData")
                     completion(false)
                 }
         }
@@ -432,20 +435,20 @@ class API {
 }
 
 extension JSONDecoder {
-    func decodeResponse<T: Decodable>(from response: DataResponse<Data>) -> Result<T> {
+    func decodeResponse<T: Decodable>(from response: AFDataResponse<Data>) -> AFResult<T> {
         if let error = response.error {
             return .failure(error)
         }
 
         guard let responseData = response.data else {
-            return .failure(APIError.noData)
+            return .failure(AFError.responseValidationFailed(reason: .dataFileNil))
         }
 
         do {
             let item = try decode(T.self, from: responseData)
             return .success(item)
         } catch {
-            return .failure(APIError.decodeError)
+            return .failure(AFError.responseSerializationFailed(reason: .decodingFailed(error: APIError.noData)))
         }
     }
 }

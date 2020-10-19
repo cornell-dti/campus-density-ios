@@ -19,7 +19,6 @@ class DaySelectionModel {
         self.selectedWeekday = selectedWeekday
         self.weekdays = weekdays
     }
-
 }
 
 extension DaySelectionModel: ListDiffable {
