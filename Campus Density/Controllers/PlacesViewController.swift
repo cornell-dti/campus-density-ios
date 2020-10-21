@@ -275,7 +275,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             filteredPlaces.append(contentsOf: places)
         } else {
             filteredPlaces = places.filter({ place -> Bool in
-                return place.displayName.lowercased().hasPrefix(text.lowercased())
+                return place.displayName.lowercased().contains(text.lowercased())
             })
         }
         filteredPlaces = sortFilteredPlaces(places: filteredPlaces)

@@ -28,6 +28,7 @@ class SearchBarCell: UICollectionViewCell {
         searchBar.layer.cornerRadius = 10
         searchBar.layer.masksToBounds = true
         searchBar.placeholder = "Search for Eateries..."
+        searchBar.autocorrectionType = .no
         searchBar.addTarget(self, action: #selector(searchBarTextChanged), for: .editingChanged)
         searchBar.delegate = self
         contentView.addSubview(searchBar)
