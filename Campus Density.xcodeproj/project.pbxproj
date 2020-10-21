@@ -62,6 +62,9 @@
 		B5FEF147BD3A87C5E615B929 /* Pods_Campus_DensityUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80194801A983EB1F81C5848F /* Pods_Campus_DensityUITests.framework */; };
 		EE03ED9123EBDA800064266B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */; };
 		EE03ED9223EBDA800064266B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE03ED9023EBDA800064266B /* Keys.plist */; };
+		EE11414224E85E2F004C35F5 /* SearchBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE11414124E85E2F004C35F5 /* SearchBarModel.swift */; };
+		EE11414424E85F35004C35F5 /* SearchBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE11414324E85F35004C35F5 /* SearchBarCell.swift */; };
+		EE11414624E8669C004C35F5 /* SearchBarSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE11414524E8669C004C35F5 /* SearchBarSectionController.swift */; };
 		EE0DEF7D251509A2001632C5 /* PoliciesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */; };
 		EE0DEF7F25151263001632C5 /* PoliciesSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0DEF7E25151263001632C5 /* PoliciesSectionController.swift */; };
 		EE1BC56024954239004DD427 /* AvailabilityInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */; };
@@ -170,6 +173,9 @@
 		D7286C33939C471696050975 /* Pods-Campus Density.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.release.xcconfig"; path = "Target Support Files/Pods-Campus Density/Pods-Campus Density.release.xcconfig"; sourceTree = "<group>"; };
 		EE03ED8F23EBDA800064266B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Secrets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		EE03ED9023EBDA800064266B /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Keys.plist; path = Secrets/Keys.plist; sourceTree = SOURCE_ROOT; };
+		EE11414124E85E2F004C35F5 /* SearchBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarModel.swift; sourceTree = "<group>"; };
+		EE11414324E85F35004C35F5 /* SearchBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCell.swift; sourceTree = "<group>"; };
+		EE11414524E8669C004C35F5 /* SearchBarSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarSectionController.swift; sourceTree = "<group>"; };
 		EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoliciesCell.swift; sourceTree = "<group>"; };
 		EE0DEF7E25151263001632C5 /* PoliciesSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoliciesSectionController.swift; sourceTree = "<group>"; };
 		EE1BC55F24954238004DD427 /* AvailabilityInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityInfoCell.swift; sourceTree = "<group>"; };
@@ -259,6 +265,7 @@
 				EEA4117E249E849100190A30 /* AvailabilityHeaderModel.swift */,
 				EE4C804024A74E5300EB5FA4 /* DetailControllerHeaderModel.swift */,
 				3CBCB12824A7C6B600543B3D /* LastUpdatedTextModel.swift */,
+				EE11414124E85E2F004C35F5 /* SearchBarModel.swift */,
 				3C9D93B524E85F03000C27A6 /* MenuHeaderModel.swift */,
 				EE6E78EF25117F2700B2F803 /* PoliciesModel.swift */,
 			);
@@ -283,6 +290,7 @@
 				EEA41180249E85C700190A30 /* AvailabilityHeaderSectionController.swift */,
 				EE4C804224A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift */,
 				3CBCB12A24A7C73000543B3D /* LastUpdatedTextSectionController.swift */,
+				EE11414524E8669C004C35F5 /* SearchBarSectionController.swift */,
 				3C9D93B324E85BDF000C27A6 /* MenuHeaderSectionController.swift */,
 				EE0DEF7E25151263001632C5 /* PoliciesSectionController.swift */,
 			);
@@ -366,6 +374,7 @@
 				3C9D93B124E85A0C000C27A6 /* MenuHeaderCell.swift */,
 				EE4C803E24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift */,
 				3CD56C8C24AEB21A004D4910 /* LastUpdatedTextCell.swift */,
+				EE11414324E85F35004C35F5 /* SearchBarCell.swift */,
 				EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */,
 			);
 			path = DiningCells;
@@ -661,6 +670,7 @@
 				3CBCB12B24A7C73000543B3D /* LastUpdatedTextSectionController.swift in Sources */,
 				EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */,
 				EE4C804124A74E5300EB5FA4 /* DetailControllerHeaderModel.swift in Sources */,
+				EE11414624E8669C004C35F5 /* SearchBarSectionController.swift in Sources */,
 				0CB3BF7A2232C0F700A5B371 /* DaySelectionCell.swift in Sources */,
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
 				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
@@ -676,6 +686,8 @@
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
 				0CB3BF8A2232CFB600A5B371 /* PlaceDetailViewController+Extension.swift in Sources */,
 				EE4C804324A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift in Sources */,
+				EE11414224E85E2F004C35F5 /* SearchBarModel.swift in Sources */,
+				EE11414424E85F35004C35F5 /* SearchBarCell.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */,
 				3C9D93B224E85A0C000C27A6 /* MenuHeaderCell.swift in Sources */,

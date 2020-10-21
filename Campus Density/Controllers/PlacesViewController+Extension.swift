@@ -15,7 +15,10 @@ extension PlacesViewController: ListAdapterDataSource {
         if collectionView.isHidden { return [] }
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var objects = [ListDiffable]()
+        objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(FiltersModel(filters: filters, selectedFilter: selectedFilter))
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(SearchBarModel())
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(PoliciesModel())
         objects.append(SpaceModel(space: Constants.smallPadding / 3))
@@ -44,6 +47,9 @@ extension PlacesViewController: ListAdapterDataSource {
         } else if object is LogoModel {
             let logoModel = object as! LogoModel
             return LogoSectionController(logoModel: logoModel, delegate: self)
+        } else if object is SearchBarModel {
+            let searchBarModel = object as! SearchBarModel
+            return SearchBarSectionController(searchBarModel: searchBarModel, delegate: self)
         } else if object is PoliciesModel {
             let policiesModel = object as! PoliciesModel
             return PoliciesSectionController(policiesModel: policiesModel, delegate: self)
@@ -61,7 +67,7 @@ extension PlacesViewController: FiltersSectionControllerDelegate {
 
     func filtersSectionControllerDidSelectFilter(selectedFilter: Filter) {
         self.selectedFilter = selectedFilter
-        filter(by: selectedFilter)
+        updateFilteredPlaces()
         adapter.performUpdates(animated: false, completion: nil)
     }
 
@@ -94,6 +100,14 @@ extension PlacesViewController: PlaceSectionControllerDelegate {
 
 }
 
+extension PlacesViewController: SearchBarSectionControllerDelegate {
+    func searchBarDidUpdateSearchText(searchText: String) {
+        self.searchText = searchText
+        updateFilteredPlaces()
+        adapter.performUpdates(animated: false, completion: nil)
+    }
+}
+
 extension String {
 
     func widthWithConstrainedHeight(_ height: CGFloat, font: UIFont) -> CGFloat {
@@ -109,16 +123,6 @@ extension String {
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
 
         return ceil(boundingBox.height)
-    }
-
-}
-
-extension PlacesViewController: FilterViewDelegate {
-
-    func filterViewDidSelectFilter(selectedFilter: Filter) {
-        self.selectedFilter = selectedFilter
-        filter(by: selectedFilter)
-        adapter.performUpdates(animated: false, completion: nil)
     }
 
 }

@@ -5,7 +5,6 @@
 //  Created by Matthew Coufal on 10/14/18.
 //  Copyright © 2018 Cornell DTI. All rights reserved.
 //
-
 import UIKit
 import SnapKit
 import Firebase
@@ -24,6 +23,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var filteredPlaces = [Place]()
     var filters: [Filter]!
     var selectedFilter: Filter = .all
+    var searchText: String = ""
     var gettingDensities = false
     var adapter: ListAdapter!
 
@@ -87,6 +87,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
         setupViews()
         setupConstraints()
+        setupGestureRecognizers()
     }
 
     func signIn() {
@@ -154,7 +155,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             if gotHistory {
                 self.title = "Eateries"
                 sortPlaces()
-                self.filter(by: self.selectedFilter)
+                self.updateFilteredPlaces()
                 self.loadingBarsView.stopAnimating()
                 self.collectionView.isHidden = false
                 self.adapter.performUpdates(animated: false, completion: nil)
@@ -203,7 +204,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
                     API.status { gotStatus in
                         if gotStatus {
                             sortPlaces() // Maybe fixes a bug related to opening the app after a long time and refreshed densities being out of order
-                            self.filter(by: self.selectedFilter)
+                            self.updateFilteredPlaces()
                             self.adapter.performUpdates(animated: false, completion: nil)
                         }
                     }
@@ -228,36 +229,57 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     func filterLabel(filter: Filter) -> String {
         switch filter {
-            case .all:
-                return "All"
-            case .central:
-                return "Central"
-            case .north:
-                return "North"
-            case .west:
-                return "West"
+        case .all:
+            return "All"
+        case .central:
+            return "Central"
+        case .north:
+            return "North"
+        case .west:
+            return "West"
         }
     }
 
-    func filter(by selectedFilter: Filter) {
+    /// Update `filteredPlaces` by filtering through current location filter and then search filter
+    func updateFilteredPlaces() {
+        filteredPlaces = filter(places: filter(places: System.places, by: self.selectedFilter), by: self.searchText)
+    }
+
+    func filter(places: [Place], by selectedFilter: Filter) -> [Place] {
+        var filteredPlaces: [Place] = []
+        print("Filtering by \(selectedFilter)")
         switch selectedFilter {
-            case .all:
-                filteredPlaces = []
-                filteredPlaces.append(contentsOf: System.places)
-            case .north:
-                filteredPlaces = System.places.filter({ place -> Bool in
-                    return place.region == Region.north
-                })
-            case .west:
-                filteredPlaces = System.places.filter({ place -> Bool in
-                    return place.region == Region.west
-                })
-            case .central:
-                filteredPlaces = System.places.filter({ place -> Bool in
-                    return place.region == Region.central
-                })
+        case .all:
+            filteredPlaces.append(contentsOf: places)
+        case .north:
+            filteredPlaces = places.filter({ place -> Bool in
+                return place.region == Region.north
+            })
+        case .west:
+            filteredPlaces = places.filter({ place -> Bool in
+                return place.region == Region.west
+            })
+        case .central:
+            filteredPlaces = places.filter({ place -> Bool in
+                return place.region == Region.central
+            })
         }
         filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
+        return filteredPlaces
+    }
+
+    func filter(places: [Place], by text: String) -> [Place] {
+        var filteredPlaces: [Place] = []
+        print("Filtering by \(text)")
+        if text == "" {
+            filteredPlaces.append(contentsOf: places)
+        } else {
+            filteredPlaces = places.filter({ place -> Bool in
+                return place.displayName.lowercased().contains(text.lowercased())
+            })
+        }
+        filteredPlaces = sortFilteredPlaces(places: filteredPlaces)
+        return filteredPlaces
     }
 
     func setupRefreshControl() {
@@ -312,7 +334,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         API.densities { gotDensities in
             if gotDensities {
                 sortPlaces()
-                self.filter(by: self.selectedFilter)
+                self.updateFilteredPlaces()
             }
             refreshControl.endRefreshing()
             self.adapter.performUpdates(animated: false, completion: nil) // After refreshing, reload with sorted places - otherwise may just have same order with updated density card on cell dequeue and configure (passing the place by reference and updating the places) ?
@@ -351,6 +373,17 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         refreshBarsView.alpha = 0
+    }
+
+    /// Setup a gesture recognizer to dismiss search bar keyboard on tap
+    func setupGestureRecognizers() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapRecognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapRecognizer)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
 }
