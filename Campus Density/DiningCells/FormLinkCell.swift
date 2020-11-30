@@ -10,14 +10,13 @@ import UIKit
 
 protocol FormLinkCellDelegate: class {
 
-    func formLinkCellDidPressLinkButton(link: String)
+    func formLinkCellDidPressLinkButton()
 
 }
 
 class FormLinkCell: UICollectionViewCell {
 
     // MARK: - Data vars
-    var link: String!
     weak var delegate: FormLinkCellDelegate?
 
     // MARK: - View vars
@@ -58,9 +57,8 @@ class FormLinkCell: UICollectionViewCell {
         }
     }
 
-    func configure(delegate: FormLinkCellDelegate, link: String, lastUpdatedDate: Date) {
+    func configure(delegate: FormLinkCellDelegate, lastUpdatedDate: Date) {
         self.delegate = delegate
-        self.link = link
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         lastUpdatedLabel.text = "Last updated " + formatter.string(from: lastUpdatedDate)
@@ -72,7 +70,7 @@ class FormLinkCell: UICollectionViewCell {
     }
 
     @objc func linkButtonPressed() {
-        delegate?.formLinkCellDidPressLinkButton(link: link)
+        delegate?.formLinkCellDidPressLinkButton()
     }
 
 }

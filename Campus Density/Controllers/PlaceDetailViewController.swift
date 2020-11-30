@@ -35,11 +35,11 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
+    var feedbackBackdrop: UIButton!
 
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
     let linkTopOffset: CGFloat = 5
-    let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
     let ithacaTime = TimeZone(identifier: "America/New_York")!
     var ithacaCalendar = Calendar.current
 
@@ -251,6 +251,16 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             make.edges.equalToSuperview()
         }
 
+        feedbackBackdrop = UIButton()
+        feedbackBackdrop.addTarget(self, action: #selector(hideFeedbackForm), for: .touchUpInside)
+        feedbackBackdrop.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        feedbackBackdrop.isHidden = true
+        view.addSubview(feedbackBackdrop)
+
+        feedbackBackdrop.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         adapter.performUpdates(animated: false, completion: nil)
     }
 
@@ -314,6 +324,10 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         } else {
             title = ""
         }
+    }
+
+    @objc func hideFeedbackForm() {
+        feedbackBackdrop.isHidden = true
     }
 
 }

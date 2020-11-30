@@ -11,12 +11,10 @@ import IGListKit
 
 class FormLinkModel {
 
-    var feedbackForm: String
     var lastUpdated: Date
     let identifier = UUID().uuidString
 
-    init(feedbackForm: String, lastUpdated: Date) {
-        self.feedbackForm = feedbackForm
+    init(lastUpdated: Date) {
         self.lastUpdated = lastUpdated
     }
 
