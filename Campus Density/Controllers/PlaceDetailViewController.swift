@@ -264,6 +264,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
         feedbackViewController = FeedbackViewController()
         addChild(feedbackViewController)
+        feedbackViewController.parentHide = hideFeedbackForm
         feedbackViewController.view.isHidden = true
         view.addSubview(feedbackViewController.view)
 
