@@ -36,6 +36,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
     var feedbackBackdrop: UIButton!
+    var feedbackViewController: FeedbackViewController!
 
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
@@ -261,6 +262,16 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             make.edges.equalToSuperview()
         }
 
+        feedbackViewController = FeedbackViewController()
+        addChild(feedbackViewController)
+        feedbackViewController.view.isHidden = true
+        view.addSubview(feedbackViewController.view)
+
+        feedbackViewController.view.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(300)
+        }
+
         adapter.performUpdates(animated: false, completion: nil)
     }
 
@@ -328,6 +339,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
     @objc func hideFeedbackForm() {
         feedbackBackdrop.isHidden = true
+        feedbackViewController.view.isHidden = true
     }
 
 }

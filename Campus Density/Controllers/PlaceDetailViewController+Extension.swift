@@ -118,6 +118,7 @@ extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
 
     func formLinkSectionControllerDidPressLinkButton() {
         feedbackBackdrop.isHidden = false
+        feedbackViewController.view.isHidden = false
     }
 
 }
