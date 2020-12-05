@@ -35,7 +35,6 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
-    var feedbackBackdrop: UIButton!
     var feedbackViewController: FeedbackViewController!
 
     // MARK: - Constants
@@ -252,25 +251,13 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             make.edges.equalToSuperview()
         }
 
-        feedbackBackdrop = UIButton()
-        feedbackBackdrop.addTarget(self, action: #selector(hideFeedbackForm), for: .touchUpInside)
-        feedbackBackdrop.backgroundColor = UIColor(white: 0, alpha: 0.2)
-        feedbackBackdrop.isHidden = true
-        view.addSubview(feedbackBackdrop)
-
-        feedbackBackdrop.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
         feedbackViewController = FeedbackViewController()
         addChild(feedbackViewController)
-        feedbackViewController.parentHide = hideFeedbackForm
         feedbackViewController.view.isHidden = true
         view.addSubview(feedbackViewController.view)
 
         feedbackViewController.view.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.width.equalTo(300)
+            make.edges.equalToSuperview()
         }
 
         adapter.performUpdates(animated: false, completion: nil)
@@ -336,12 +323,6 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         } else {
             title = ""
         }
-    }
-
-    @objc func hideFeedbackForm() {
-        feedbackBackdrop.isHidden = true
-        feedbackViewController.view.isHidden = true
-        feedbackViewController.resetForm()
     }
 
 }

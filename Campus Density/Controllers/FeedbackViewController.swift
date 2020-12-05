@@ -24,14 +24,12 @@ class FeedbackViewController: UIViewController {
 
     var feedback: Feedback?
 
-    // Optional hide function to call from parent
-    var parentHide: (() -> Void)?
-
     // These are kept in ready-to-go first question state when the FeedbackViewController is not active.
-    // Invariant: questionView = questions[questionIndex] is shown, with all other questions hidden
+    // Invariant: questionView = questions[questionIndex] is shown, with all other questions hidden.
     var questionIndex: Int = 0
     var questionView: UIView!
     var questions: [UIView]!
+    var background: UIView!
     var nextButton: UIButton!
     var prevButton: UIButton!
 
@@ -42,17 +40,26 @@ class FeedbackViewController: UIViewController {
     }
 
     func setupControlsAndBackground() {
-        let background = UIView()
+        let backdrop = UIButton()
+        backdrop.addTarget(self, action: #selector(hide), for: .touchUpInside)
+        backdrop.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        view.addSubview(backdrop)
+        backdrop.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        background = UIView()
         background.backgroundColor = .blue
         view.addSubview(background)
         background.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.center.equalToSuperview()
+            make.height.width.equalTo(300)
         }
 
         let hideButton = UIButton()
         hideButton.addTarget(self, action: #selector(hide), for: .touchUpInside)
         hideButton.backgroundColor = .red
-        view.addSubview(hideButton)
+        background.addSubview(hideButton)
         hideButton.snp.makeConstraints { make in
             make.top.right.equalToSuperview().inset(10)
             make.height.width.equalTo(15)
@@ -62,7 +69,7 @@ class FeedbackViewController: UIViewController {
         nextButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
         nextButton.backgroundColor = .green
         nextButton.setTitle("Next", for: .normal)
-        view.addSubview(nextButton)
+        background.addSubview(nextButton)
         nextButton.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(80)
@@ -74,7 +81,7 @@ class FeedbackViewController: UIViewController {
         prevButton.backgroundColor = .orange
         prevButton.setTitle("Previous", for: .normal)
         prevButton.isHidden = true
-        view.addSubview(prevButton)
+        background.addSubview(prevButton)
         prevButton.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(80)
@@ -91,7 +98,7 @@ class FeedbackViewController: UIViewController {
 
         questions = [isAccurateView, observedView]
         for question in questions {
-            view.addSubview(question)
+            background.addSubview(question)
             question.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview().inset(20)
                 make.bottom.equalTo(nextButton.snp_topMargin)
@@ -100,7 +107,8 @@ class FeedbackViewController: UIViewController {
         }
     }
 
-    func prepareWith(location: String, predictedDensity: Int) {
+    func showWith(location: String, predictedDensity: Int) {
+        view.isHidden = false
         feedback = Feedback(isAccurate: false, predicted: predictedDensity, observed: 0, waitTime: 0, dineIn: false, startDine: 0, endDine: 0, campuslocation: location, comments: "")
     }
 
@@ -116,8 +124,8 @@ class FeedbackViewController: UIViewController {
             }
             questionView = questions[questionIndex]
             questionView.isHidden = false
+            prevButton.isHidden = false
         }
-        prevButton.isHidden = false
     }
 
     @objc func prevQuestion() {
@@ -136,7 +144,6 @@ class FeedbackViewController: UIViewController {
 
     @objc func hide() {
         view.isHidden = true
-        parentHide?()
         resetForm()
     }
 
@@ -145,12 +152,12 @@ class FeedbackViewController: UIViewController {
     }
 
     func resetForm() {
+        feedback = nil
         questionView?.isHidden = true
         questionIndex = 0
         questionView = questions[questionIndex]
         questionView.isHidden = false
         nextButton.setTitle(questions.count == 1 ? "Submit" : "Next", for: .normal)
-        print(prevButton.isHidden)
         prevButton.isHidden = true
     }
 

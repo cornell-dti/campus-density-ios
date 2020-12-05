@@ -117,10 +117,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
 extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
 
     func formLinkSectionControllerDidPressLinkButton() {
-        feedbackBackdrop.isHidden = false
-        feedbackViewController.view.isHidden = false
         // TODO Might need to search through history maps to get predicted density
-        feedbackViewController.prepareWith(location: place.id, predictedDensity: place.density.rawValue)
+        feedbackViewController.showWith(location: place.id, predictedDensity: place.density.rawValue)
     }
 
 }
