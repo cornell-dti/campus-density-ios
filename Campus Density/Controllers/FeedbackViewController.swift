@@ -56,6 +56,7 @@ class FeedbackViewController: UIViewController {
         nextButton = UIButton()
         nextButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
         nextButton.backgroundColor = .green
+        nextButton.setTitle("Next", for: .normal)
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints { make in
             make.height.equalTo(30)
@@ -66,6 +67,8 @@ class FeedbackViewController: UIViewController {
         prevButton = UIButton()
         prevButton.addTarget(self, action: #selector(prevQuestion), for: .touchUpInside)
         prevButton.backgroundColor = .orange
+        prevButton.setTitle("Previous", for: .normal)
+        prevButton.isHidden = true
         view.addSubview(prevButton)
         prevButton.snp.makeConstraints { make in
             make.height.equalTo(30)
@@ -101,16 +104,43 @@ class FeedbackViewController: UIViewController {
     }
 
     @objc func nextQuestion() {
-        print("Next question")
+        questionView.isHidden = true
+        questionIndex += 1
+        if questionIndex == questions.count { // If out of questions, it's time to submit
+            submitFeedback()
+            hide()
+        } else {
+            if questionIndex == questions.count - 1 {
+                nextButton.setTitle("Submit", for: .normal)
+            }
+            questionView = questions[questionIndex]
+            questionView.isHidden = false
+        }
+        prevButton.isHidden = false
     }
 
     @objc func prevQuestion() {
-        print("Previous question")
+        questionView.isHidden = true
+        questionIndex -= 1
+        if questionIndex <= 0 {
+            prevButton.isHidden = true
+            questionIndex = 0
+        }
+        questionView = questions[questionIndex]
+        questionView.isHidden = false
+        if nextButton.currentTitle != "Next" {
+            nextButton.setTitle("Next", for: .normal)
+        }
     }
 
     @objc func hide() {
         view.isHidden = true
         parentHide?()
+        // Actually this may be a good place to reset everything
+    }
+
+    func submitFeedback() {
+        print("Submit feedback")
     }
 
 }
