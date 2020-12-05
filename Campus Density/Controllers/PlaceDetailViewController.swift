@@ -341,6 +341,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     @objc func hideFeedbackForm() {
         feedbackBackdrop.isHidden = true
         feedbackViewController.view.isHidden = true
+        feedbackViewController.resetForm()
     }
 
 }

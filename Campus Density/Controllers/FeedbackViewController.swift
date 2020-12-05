@@ -24,7 +24,11 @@ class FeedbackViewController: UIViewController {
 
     var feedback: Feedback?
 
+    // Optional hide function to call from parent
     var parentHide: (() -> Void)?
+
+    // These are kept in ready-to-go first question state when the FeedbackViewController is not active.
+    // Invariant: questionView = questions[questionIndex] is shown, with all other questions hidden
     var questionIndex: Int = 0
     var questionView: UIView!
     var questions: [UIView]!
@@ -34,6 +38,7 @@ class FeedbackViewController: UIViewController {
     override func viewDidLoad() {
         setupControlsAndBackground()
         setupQuestions()
+        resetForm()
     }
 
     func setupControlsAndBackground() {
@@ -83,8 +88,8 @@ class FeedbackViewController: UIViewController {
         isAccurateView.backgroundColor = .green
         let observedView = UIView()
         observedView.backgroundColor = .yellow
-        questions = [isAccurateView, observedView]
 
+        questions = [isAccurateView, observedView]
         for question in questions {
             view.addSubview(question)
             question.snp.makeConstraints { make in
@@ -97,10 +102,6 @@ class FeedbackViewController: UIViewController {
 
     func prepareWith(location: String, predictedDensity: Int) {
         feedback = Feedback(isAccurate: false, predicted: predictedDensity, observed: 0, waitTime: 0, dineIn: false, startDine: 0, endDine: 0, campuslocation: location, comments: "")
-        questionIndex = 0
-        questionView = questions[questionIndex]
-        questionView.isHidden = false
-        // Possibly want to reset the question views too
     }
 
     @objc func nextQuestion() {
@@ -136,11 +137,21 @@ class FeedbackViewController: UIViewController {
     @objc func hide() {
         view.isHidden = true
         parentHide?()
-        // Actually this may be a good place to reset everything
+        resetForm()
     }
 
     func submitFeedback() {
         print("Submit feedback")
+    }
+
+    func resetForm() {
+        questionView?.isHidden = true
+        questionIndex = 0
+        questionView = questions[questionIndex]
+        questionView.isHidden = false
+        nextButton.setTitle(questions.count == 1 ? "Submit" : "Next", for: .normal)
+        print(prevButton.isHidden)
+        prevButton.isHidden = true
     }
 
 }
