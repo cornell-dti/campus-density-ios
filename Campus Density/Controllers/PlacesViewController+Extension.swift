@@ -26,6 +26,8 @@ extension PlacesViewController: ListAdapterDataSource {
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
         objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(AppFeedbackModel())
+        objects.append(SpaceModel(space: Constants.mediumPadding))
         objects.append(LogoModel(length: logoLength, link: dtiWebsite))
         objects.append(SpaceModel(space: Constants.smallPadding))
         return objects
@@ -44,6 +46,9 @@ extension PlacesViewController: ListAdapterDataSource {
         } else if object is LastUpdatedTextModel {
             let lastUpdatedTextModel = object as! LastUpdatedTextModel
             return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel)
+        } else if object is AppFeedbackModel {
+            let appFeedbackModel = object as! AppFeedbackModel
+            return AppFeedbackSectionController(appFeedbackModel: appFeedbackModel, delegate: self)
         } else if object is LogoModel {
             let logoModel = object as! LogoModel
             return LogoSectionController(logoModel: logoModel, delegate: self)
@@ -88,6 +93,14 @@ extension PlacesViewController: LogoSectionControllerDelegate {
         UIApplication.shared.open(url)
     }
 
+}
+
+extension PlacesViewController: AppFeedbackSectionControllerDelegate {
+
+    func appFeedbackSectionControllerDidTapLink() {
+        feedbackHome.isHidden = false
+        feedbackViewController.view.isHidden = false
+    }
 }
 
 extension PlacesViewController: PlaceSectionControllerDelegate {

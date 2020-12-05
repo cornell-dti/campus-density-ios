@@ -48,6 +48,10 @@
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
 		3A140B08DF4E0819AFC1184A /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9430CFB8EC63D630A3283564 /* Pods_Campus_Density.framework */; };
+		3A48808B257B3EDE00BADD18 /* HomeFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A48808A257B3EDE00BADD18 /* HomeFeedbackViewController.swift */; };
+		3A488090257B40D600BADD18 /* AppFeedbackSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A48808F257B40D600BADD18 /* AppFeedbackSectionController.swift */; };
+		3A488095257B527900BADD18 /* AppFeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A488094257B527900BADD18 /* AppFeedbackModel.swift */; };
+		3A48809A257B531800BADD18 /* AppFeedbackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A488099257B531800BADD18 /* AppFeedbackCell.swift */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
@@ -155,6 +159,10 @@
 		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
 		125DB691B65A1E80E57A3B58 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		355A9D3241FBB93485463234 /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
+		3A48808A257B3EDE00BADD18 /* HomeFeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedbackViewController.swift; sourceTree = "<group>"; };
+		3A48808F257B40D600BADD18 /* AppFeedbackSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackSectionController.swift; sourceTree = "<group>"; };
+		3A488094257B527900BADD18 /* AppFeedbackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackModel.swift; sourceTree = "<group>"; };
+		3A488099257B531800BADD18 /* AppFeedbackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackCell.swift; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -255,6 +263,7 @@
 			children = (
 				0C8B6D5E2232436600058AE6 /* SpaceModel.swift */,
 				0C209B0E224823560007AFA9 /* LogoModel.swift */,
+				3A488094257B527900BADD18 /* AppFeedbackModel.swift */,
 				0C209B1822482D610007AFA9 /* FiltersModel.swift */,
 				0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */,
 				0C8B6D62223244B700058AE6 /* FormLinkModel.swift */,
@@ -284,6 +293,7 @@
 				0CB3BF7B2232C44E00A5B371 /* GraphSectionController.swift */,
 				0C209B10224824250007AFA9 /* PlaceSectionController.swift */,
 				0C209B142248281E0007AFA9 /* LogoSectionController.swift */,
+				3A48808F257B40D600BADD18 /* AppFeedbackSectionController.swift */,
 				0C209B1A22482DDB0007AFA9 /* FiltersSectionController.swift */,
 				08F679832378E976005B7810 /* MenuSectionController.swift */,
 				081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */,
@@ -353,6 +363,7 @@
 				0CB3BF872232CF9F00A5B371 /* PlaceDetailViewController.swift */,
 				0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */,
 				3CDC62BF2577440B005083C2 /* FeedbackViewController.swift */,
+				3A48808A257B3EDE00BADD18 /* HomeFeedbackViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -369,6 +380,7 @@
 				0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */,
 				0C209B12224825AF0007AFA9 /* PlaceCell.swift */,
 				0C209B16224829280007AFA9 /* LogoCell.swift */,
+				3A488099257B531800BADD18 /* AppFeedbackCell.swift */,
 				08F6797F2378E7BA005B7810 /* MenuCell.swift */,
 				EE93BF172380A44300219902 /* MealFilterCell.swift */,
 				3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */,
@@ -694,6 +706,7 @@
 				EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */,
 				3C9D93B224E85A0C000C27A6 /* MenuHeaderCell.swift in Sources */,
 				EE4C803F24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift in Sources */,
+				3A488090257B40D600BADD18 /* AppFeedbackSectionController.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
 				EEA41181249E85C700190A30 /* AvailabilityHeaderSectionController.swift in Sources */,
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
@@ -704,6 +717,7 @@
 				0CB3BF782232BF3200A5B371 /* DaySelectionSectionController.swift in Sources */,
 				3CD56C8D24AEB21A004D4910 /* LastUpdatedTextCell.swift in Sources */,
 				EE0DEF7D251509A2001632C5 /* PoliciesCell.swift in Sources */,
+				3A48808B257B3EDE00BADD18 /* HomeFeedbackViewController.swift in Sources */,
 				EE1BC56224967C8A004DD427 /* AvailabilityInfoSectionController.swift in Sources */,
 				0C8B6D63223244B700058AE6 /* FormLinkModel.swift in Sources */,
 				0C8B6D652232459900058AE6 /* DaySelectionModel.swift in Sources */,
@@ -711,9 +725,11 @@
 				3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */,
 				3CDC62C02577440B005083C2 /* FeedbackViewController.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
+				3A48809A257B531800BADD18 /* AppFeedbackCell.swift in Sources */,
 				0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */,
 				08F679802378E7BA005B7810 /* MenuCell.swift in Sources */,
 				0C209B11224824250007AFA9 /* PlaceSectionController.swift in Sources */,
+				3A488095257B527900BADD18 /* AppFeedbackModel.swift in Sources */,
 				0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */,
 				EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */,
 				0C209B1B22482DDB0007AFA9 /* FiltersSectionController.swift in Sources */,

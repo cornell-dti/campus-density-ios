@@ -31,6 +31,8 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
     var refreshBarsView: LoadingBarsView!
+    var feedbackHome: UIButton!
+    var feedbackViewController: HomeFeedbackViewController!
 
     // MARK: - Constants
     let refreshOffset: CGFloat = 146
@@ -327,6 +329,28 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         loadingBarsView.startAnimating()
         view.addSubview(loadingBarsView)
 
+        feedbackHome = UIButton()
+        feedbackHome.addTarget(self, action: #selector(homeFeedbackForm), for: .touchUpInside)
+        feedbackHome.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        feedbackHome.isHidden = true
+        view.addSubview(feedbackHome)
+
+        feedbackHome.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        feedbackViewController = HomeFeedbackViewController()
+        addChild(feedbackViewController)
+        feedbackViewController.parentHide = homeFeedbackForm
+        feedbackViewController.view.isHidden = true
+        view.addSubview(feedbackViewController.view)
+
+        feedbackViewController.view.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(300)
+        }
+
+        adapter.performUpdates(animated: false, completion: nil)
     }
 
     @objc func didPullToRefresh(sender: UIRefreshControl) {
@@ -386,4 +410,8 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         view.endEditing(true)
     }
 
+    @objc func homeFeedbackForm() {
+    feedbackHome.isHidden = true
+    feedbackViewController.view.isHidden = true
+    }
 }
