@@ -56,6 +56,7 @@
 		3C9D93B424E85BDF000C27A6 /* MenuHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9D93B324E85BDF000C27A6 /* MenuHeaderSectionController.swift */; };
 		3C9D93B624E85F03000C27A6 /* MenuHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9D93B524E85F03000C27A6 /* MenuHeaderModel.swift */; };
 		3CA57843257C8FE90081E16B /* FeedbackQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA57842257C8FE90081E16B /* FeedbackQuestion.swift */; };
+		3CA57848257C987D0081E16B /* UIControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA57847257C987D0081E16B /* UIControl+Extension.swift */; };
 		3CBCB12924A7C6B600543B3D /* LastUpdatedTextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCB12824A7C6B600543B3D /* LastUpdatedTextModel.swift */; };
 		3CBCB12B24A7C73000543B3D /* LastUpdatedTextSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCB12A24A7C73000543B3D /* LastUpdatedTextSectionController.swift */; };
 		3CD56C8D24AEB21A004D4910 /* LastUpdatedTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD56C8C24AEB21A004D4910 /* LastUpdatedTextCell.swift */; };
@@ -164,6 +165,7 @@
 		3C9D93B324E85BDF000C27A6 /* MenuHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeaderSectionController.swift; sourceTree = "<group>"; };
 		3C9D93B524E85F03000C27A6 /* MenuHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeaderModel.swift; sourceTree = "<group>"; };
 		3CA57842257C8FE90081E16B /* FeedbackQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackQuestion.swift; sourceTree = "<group>"; };
+		3CA57847257C987D0081E16B /* UIControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extension.swift"; sourceTree = "<group>"; };
 		3CBCB12824A7C6B600543B3D /* LastUpdatedTextModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdatedTextModel.swift; sourceTree = "<group>"; };
 		3CBCB12A24A7C73000543B3D /* LastUpdatedTextSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdatedTextSectionController.swift; sourceTree = "<group>"; };
 		3CD56C8C24AEB21A004D4910 /* LastUpdatedTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdatedTextCell.swift; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 				0C316AD42223773400AE4BE3 /* Utils.swift */,
 				0CC6B74521B0AF1400E7B359 /* System.swift */,
 				0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */,
+				3CA57847257C987D0081E16B /* UIControl+Extension.swift */,
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
 				0C8B6D6C22324C1200058AE6 /* SectionControllers */,
 				EE9BED4923F4B79800A37464 /* GymSectionControllers */,
@@ -741,6 +744,7 @@
 				0C8B6D7022324DDE00058AE6 /* SpaceCell.swift in Sources */,
 				EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */,
 				0C209B152248281E0007AFA9 /* LogoSectionController.swift in Sources */,
+				3CA57848257C987D0081E16B /* UIControl+Extension.swift in Sources */,
 				08F679822378E8D7005B7810 /* MenuModel.swift in Sources */,
 				0C209B1D22482E650007AFA9 /* FiltersCell.swift in Sources */,
 				0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */,
