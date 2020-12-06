@@ -22,19 +22,50 @@ class AppFeedbackCell: UICollectionViewCell {
 
     // MARK: - Views
     var linkButton: UIButton!
+    var cellbground: UIView!
+    var feedbackLabel: UILabel!
 
     // MARK: - Constants
-    let surveyButtonText =  "Like Flux? Give us feedback."
+    let surveyButtonText =  "Have feedback? We'd love to hear from you!"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        setupViews()
+    }
+
+    func setupViews() {
+        // Enable shadows with rounded border
+        cellbground = UIView()
+        cellbground.backgroundColor = .white
+        cellbground.clipsToBounds = false
+        cellbground.layer.masksToBounds = false
+        cellbground.layer.cornerRadius = 10
+        cellbground.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+        cellbground.layer.shadowOpacity = 0.1
+        cellbground.layer.borderColor = UIColor.whiteTwo.cgColor
+        cellbground.layer.borderWidth = 0.5
+        cellbground.layer.shadowRadius = 5
+        cellbground.layer.shadowOffset = CGSize(width: 0, height: 3)
+        addSubview(cellbground)
+
+        feedbackLabel = UILabel()
+        feedbackLabel.text = surveyButtonText
+        feedbackLabel.textAlignment = .left
+        feedbackLabel.numberOfLines = 0
+        feedbackLabel.textColor = .grayishBrown
+        feedbackLabel.font = .sixteenBold
+        addSubview(feedbackLabel)
+
         linkButton = UIButton()
-        linkButton.addTarget(self, action: #selector(linkButtonPressed), for: .touchUpInside)
-        linkButton.setTitle(surveyButtonText, for: .normal)
-        linkButton.setTitleColor(.black, for: .normal)
+        linkButton.setTitle("", for: .normal)
+        let linkButtonText = NSAttributedString(string: "Leave Feedback", attributes: [.foregroundColor: UIColor.white, .font: UIFont.fourteen])
+        linkButton.setAttributedTitle(linkButtonText, for: .normal)
+        linkButton.backgroundColor = UIColor(red: 0.29, green: 0.56, blue: 0.89, alpha: 1)
+        linkButton.setTitleColor(.white, for: .normal)
+        linkButton.layer.cornerRadius = 6
         linkButton.titleLabel?.textAlignment = .center
-        linkButton.setAttributedTitle(self.attributedString(), for: .normal)
+        linkButton.addTarget(self, action: #selector(linkButtonPressed), for: .touchUpInside)
         addSubview(linkButton)
 
         setupConstraints()
@@ -45,24 +76,27 @@ class AppFeedbackCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func attributedString() -> NSAttributedString? {
-        let attributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0),
-            NSAttributedString.Key.foregroundColor: UIColor.black,
-            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
-        let attributedString = NSAttributedString(string: self.surveyButtonText, attributes: attributes)
-        return attributedString
-    }
-
     @objc func linkButtonPressed() {
         delegate?.appFeedbackCellDidTapLink()
     }
 
     func setupConstraints() {
+        cellbground.snp.makeConstraints { snp in
+            snp.edges.equalToSuperview()
+        }
+
+        feedbackLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(30)
+            make.height.equalTo(130)
+            make.width.equalToSuperview().multipliedBy(0.4)
+        }
+
         linkButton.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-30)
+            make.height.equalTo(30)
+            make.width.equalToSuperview().multipliedBy(0.4)
         }
 
     }
@@ -72,19 +106,4 @@ class AppFeedbackCell: UICollectionViewCell {
         setupConstraints()
     }
 
-}
-
-extension UILabel {
-    func underlineMyText(range1: String, range2: String) {
-        if let textString = self.text {
-
-            let str = NSString(string: textString)
-            let firstRange = str.range(of: range1)
-            let secRange = str.range(of: range2)
-            let attributedString = NSMutableAttributedString(string: textString)
-            attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: firstRange)
-            attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: secRange)
-            attributedText = attributedString
-        }
-    }
 }

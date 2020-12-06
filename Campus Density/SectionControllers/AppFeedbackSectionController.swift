@@ -22,7 +22,7 @@ class AppFeedbackSectionController: ListSectionController {
     weak var delegate: AppFeedbackSectionControllerDelegate?
 
     // MARK: - Constants
-    let cellHeight: CGFloat = 20
+    let cellHeight: CGFloat = 105
 
     init(appFeedbackModel: AppFeedbackModel, delegate: AppFeedbackSectionControllerDelegate) {
         self.appFeedbackModel = appFeedbackModel
@@ -31,7 +31,7 @@ class AppFeedbackSectionController: ListSectionController {
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        return CGSize(width: containerSize.width, height: cellHeight)
+        return CGSize(width: containerSize.width - 2 * Constants.smallPadding, height: cellHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
