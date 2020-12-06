@@ -27,8 +27,8 @@ class FeedbackViewController: UIViewController {
     // These are kept in ready-to-go first question state when the FeedbackViewController is not active.
     // Invariant: questionView = questions[questionIndex] is shown, with all other questions hidden.
     var questionIndex: Int = 0
-    var questionView: UIView!
-    var questions: [UIView]!
+    var questionView: FeedbackQuestion!
+    var questions: [FeedbackQuestion]!
     var background: UIView!
     var nextButton: UIButton!
     var prevButton: UIButton!
@@ -91,10 +91,17 @@ class FeedbackViewController: UIViewController {
 
     func setupQuestions() {
         // Dummy questions
-        let isAccurateView = UIView()
-        isAccurateView.backgroundColor = .green
-        let observedView = UIView()
-        observedView.backgroundColor = .yellow
+        let isAccurateView: FeedbackQuestion = {
+            let view = FeedbackQuestion(subtitle: "Is this information accurate?")
+            view.backgroundColor = .green
+            return view
+        }()
+
+        let observedView: FeedbackQuestion = {
+            let view = FeedbackQuestion(subtitle: "How crowded do you think the dining hall is right now?")
+            view.backgroundColor = .yellow
+            return view
+        }()
 
         questions = [isAccurateView, observedView]
         for question in questions {
