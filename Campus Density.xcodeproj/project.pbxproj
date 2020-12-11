@@ -52,6 +52,7 @@
 		3A488090257B40D600BADD18 /* AppFeedbackSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A48808F257B40D600BADD18 /* AppFeedbackSectionController.swift */; };
 		3A488095257B527900BADD18 /* AppFeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A488094257B527900BADD18 /* AppFeedbackModel.swift */; };
 		3A48809A257B531800BADD18 /* AppFeedbackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A488099257B531800BADD18 /* AppFeedbackCell.swift */; };
+		3A520C7A2583D28400633817 /* ThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A520C792583D28400633817 /* ThankYouViewController.swift */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
@@ -163,6 +164,7 @@
 		3A48808F257B40D600BADD18 /* AppFeedbackSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackSectionController.swift; sourceTree = "<group>"; };
 		3A488094257B527900BADD18 /* AppFeedbackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackModel.swift; sourceTree = "<group>"; };
 		3A488099257B531800BADD18 /* AppFeedbackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackCell.swift; sourceTree = "<group>"; };
+		3A520C792583D28400633817 /* ThankYouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouViewController.swift; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				0CB3BF892232CFB600A5B371 /* PlaceDetailViewController+Extension.swift */,
 				3CDC62BF2577440B005083C2 /* FeedbackViewController.swift */,
 				3A48808A257B3EDE00BADD18 /* HomeFeedbackViewController.swift */,
+				3A520C792583D28400633817 /* ThankYouViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				0C29A760219E1F4200515D01 /* API.swift in Sources */,
 				0C8B6D7222324F1200058AE6 /* CurrentDensitySectionController.swift in Sources */,
 				0CC6B74221B0A43C00E7B359 /* LogoView.swift in Sources */,
+				3A520C7A2583D28400633817 /* ThankYouViewController.swift in Sources */,
 				0CA3F4C22173EA8000988A46 /* PlacesViewController.swift in Sources */,
 				0CB3BF7C2232C44E00A5B371 /* GraphSectionController.swift in Sources */,
 				EE64E0D7240B09DC003E449E /* GymFiltersModel.swift in Sources */,

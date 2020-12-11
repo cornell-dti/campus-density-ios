@@ -9,6 +9,7 @@
 import UIKit
 
 class HomeFeedbackViewController: UIViewController {
+    //var scrollView: UIScrollView!
     var recLabel: UILabel!
     let recLabelText = "1. How willing are you to recommend Flux to your friends? (1-10)"
     var button1: UIButton!
@@ -51,6 +52,24 @@ class HomeFeedbackViewController: UIViewController {
         title = "Feedback"
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.tintColor = .warmGray
+
+        setupViews()
+        setupConstraints()
+    }
+
+    func setupViews() {
+
+//        scrollView = UIScrollView()
+//        scrollView.translatesAutoresizingMaskIntoConstraints = false
+//        scrollView.backgroundColor = .white
+//        scrollView.delegate = self
+//        scrollView.isScrollEnabled = true
+//        scrollView.alwaysBounceVertical = false
+//        scrollView.contentSize = CGSize(width: 0, height: self.scrollView.contentSize.height)
+//        view.addSubview(scrollView)
+//        scrollView.snp.makeConstraints { make in
+//                make.edges.equalToSuperview()
+//            }
 
         recLabel = setUpLabel()
         recLabel.text = recLabelText
@@ -119,8 +138,6 @@ class HomeFeedbackViewController: UIViewController {
         proceedButton.layer.cornerRadius = 7
         proceedButton.addTarget(self, action: #selector(proceedButtonPressed), for: .touchUpInside)
         view.addSubview(proceedButton)
-
-        setupConstraints()
     }
 
     func setUpLabel() -> UILabel {
@@ -319,7 +336,7 @@ class HomeFeedbackViewController: UIViewController {
 
         proceedButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(50)
+            make.top.equalTo(suggestionBox.snp.bottom).offset(100)
             make.width.equalTo(150)
             make.height.equalTo(50)
         }
@@ -346,6 +363,8 @@ class HomeFeedbackViewController: UIViewController {
     }
 
     @objc func proceedButtonPressed() {
-        print("Thank you for filling out the survey")
+        let thankYouViewController = ThankYouViewController()
+        navigationController?.pushViewController(thankYouViewController, animated: true)
     }
+
 }
