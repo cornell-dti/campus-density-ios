@@ -339,16 +339,16 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             make.edges.equalToSuperview()
         }
 
-        feedbackViewController = HomeFeedbackViewController()
-        addChild(feedbackViewController)
-        feedbackViewController.parentHide = homeFeedbackForm
-        feedbackViewController.view.isHidden = true
-        view.addSubview(feedbackViewController.view)
-
-        feedbackViewController.view.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.width.equalTo(300)
-        }
+//        feedbackViewController = HomeFeedbackViewController()
+//        addChild(feedbackViewController)
+//        feedbackViewController.parentHide = homeFeedbackForm
+//        feedbackViewController.view.isHidden = true
+//        view.addSubview(feedbackViewController.view)
+//
+//        feedbackViewController.view.snp.makeConstraints { make in
+//            make.center.equalToSuperview()
+//            make.height.width.equalTo(300)
+//        }
 
         adapter.performUpdates(animated: false, completion: nil)
     }

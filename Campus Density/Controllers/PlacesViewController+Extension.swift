@@ -98,8 +98,8 @@ extension PlacesViewController: LogoSectionControllerDelegate {
 extension PlacesViewController: AppFeedbackSectionControllerDelegate {
 
     func appFeedbackSectionControllerDidTapLink() {
-        feedbackHome.isHidden = false
-        feedbackViewController.view.isHidden = false
+        let homeFeedbackViewController = HomeFeedbackViewController()
+        navigationController?.pushViewController(homeFeedbackViewController, animated: true)
     }
 }
 
