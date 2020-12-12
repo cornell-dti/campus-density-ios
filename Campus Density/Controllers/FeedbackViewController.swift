@@ -26,18 +26,16 @@ class FeedbackViewController: UIViewController {
 
     // These are kept in ready-to-go first question state when the FeedbackViewController is not active.
     // Invariant: questionView = questions[questionIndex] is shown, with all other questions hidden.
-    // TODO: - Reset the views of each question as well
     var questionIndex: Int = 0
     var questionView: FeedbackQuestion!
-    var questions: [FeedbackQuestion]!
+    var questions: [FeedbackQuestion] = []
     var background: UIView!
     var nextButton: UIButton!
     var prevButton: UIButton!
 
     override func viewDidLoad() {
         setupControlsAndBackground()
-        setupQuestions()
-        resetForm()
+        resetForm() // Also sets up questions
     }
 
     func setupControlsAndBackground() {
@@ -91,6 +89,10 @@ class FeedbackViewController: UIViewController {
     }
 
     func setupQuestions() {
+        for question in questions {
+            question.removeFromSuperview()
+        }
+
         let accuracyQuestion = AccuracyQuestion()
         accuracyQuestion.delegate = self
 
@@ -154,7 +156,7 @@ class FeedbackViewController: UIViewController {
 
     func resetForm() {
         feedback = nil
-        questionView?.isHidden = true
+        setupQuestions()
         questionIndex = 0
         questionView = questions[questionIndex]
         questionView.isHidden = false
