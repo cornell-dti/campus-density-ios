@@ -90,56 +90,13 @@ class FeedbackViewController: UIViewController {
     }
 
     func setupQuestions() {
-        // Dummy questions
-        let isAccurateView: FeedbackQuestion = {
-            let view = FeedbackQuestion(subtitle: "Is this information accurate?")
-            view.backgroundColor = .green
-            let yesLabel = UILabel()
-            let noLabel = UILabel()
-            let yesButton = UIButton()
-            let noButton = UIButton()
-            yesLabel.text = "Yes"
-            noLabel.text = "No"
-            for button in [yesButton, noButton] {
-                button.layer.borderColor = UIColor.black.cgColor
-                button.layer.borderWidth = 1
-                button.layer.cornerRadius = 5
-                button.snp.makeConstraints { make in
-                    make.height.width.equalTo(10)
-                }
-            }
-            yesButton.addHandler(for: .touchUpInside) {
-                yesButton.backgroundColor = .black
-                noButton.backgroundColor = .clear
-                self.feedback?.isAccurate = true
-            }
-            noButton.addHandler(for: .touchUpInside) {
-                yesButton.backgroundColor = .clear
-                noButton.backgroundColor = .black
-                self.feedback?.isAccurate = false
-            }
-            var upper: UIView = view.subtitle
-            for row in [UIStackView(arrangedSubviews: [yesButton, yesLabel]), UIStackView(arrangedSubviews: [noButton, noLabel])] {
-                view.addSubview(row)
-                row.alignment = .center
-                row.spacing = 10
-                row.snp.makeConstraints { make in
-                    make.left.right.equalToSuperview().inset(30)
-                    make.height.equalTo(20)
-                    make.top.equalTo(upper.snp_bottomMargin).offset(5)
-                }
-                upper = row
-            }
-            return view
-        }()
+        let accuracyQuestion = AccuracyQuestion()
+        accuracyQuestion.delegate = self
 
-        let observedView: FeedbackQuestion = {
-            let view = FeedbackQuestion(subtitle: "How crowded do you think the dining hall is right now?")
-            view.backgroundColor = .yellow
-            return view
-        }()
+        let observedDensityQuestion = ObservedDensityQuestion()
+        observedDensityQuestion.delegate = self
 
-        questions = [isAccurateView, observedView]
+        questions = [accuracyQuestion, observedDensityQuestion]
         for question in questions {
             background.addSubview(question)
             question.snp.makeConstraints { make in
@@ -204,4 +161,13 @@ class FeedbackViewController: UIViewController {
         prevButton.isHidden = true
     }
 
+}
+
+extension FeedbackViewController: AccuracyQuestionDelegate {
+    func accuracyWasChanged(isAccurate: Bool) {
+        self.feedback?.isAccurate = isAccurate
+    }
+}
+
+extension FeedbackViewController: ObservedDensityQuestionDelegate {
 }

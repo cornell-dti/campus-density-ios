@@ -48,6 +48,8 @@
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
 		3A140B08DF4E0819AFC1184A /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9430CFB8EC63D630A3283564 /* Pods_Campus_Density.framework */; };
+		3C29547D25856E6F00965D9A /* AccuracyQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */; };
+		3C29548525856EDE00965D9A /* ObservedDensityQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
@@ -157,6 +159,8 @@
 		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
 		125DB691B65A1E80E57A3B58 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		355A9D3241FBB93485463234 /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
+		3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccuracyQuestion.swift; sourceTree = "<group>"; };
+		3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedDensityQuestion.swift; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -250,7 +254,6 @@
 			children = (
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
-				3CA57842257C8FE90081E16B /* FeedbackQuestion.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				EE9BED4D23F4B8E500A37464 /* GymCells */,
 				0CA3F4ED2173EB5F00988A46 /* Controllers */,
 				EEED3D2923F87717000E0220 /* GymControllers */,
+				3C29547B25856DFF00965D9A /* FeedbackQuestions */,
 				0CA3F4C82173EA8100988A46 /* LaunchScreen.storyboard */,
 				0CA3F4CB2173EA8100988A46 /* Info.plist */,
 				EE1BC56524969B28004DD427 /* Assets.xcassets */,
@@ -396,6 +400,16 @@
 				EE03ED9023EBDA800064266B /* Keys.plist */,
 			);
 			path = Secrets;
+			sourceTree = "<group>";
+		};
+		3C29547B25856DFF00965D9A /* FeedbackQuestions */ = {
+			isa = PBXGroup;
+			children = (
+				3CA57842257C8FE90081E16B /* FeedbackQuestion.swift */,
+				3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */,
+				3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */,
+			);
+			path = FeedbackQuestions;
 			sourceTree = "<group>";
 		};
 		88D611C92EA1178C5CDAE793 /* Pods */ = {
@@ -722,9 +736,11 @@
 				0C209B11224824250007AFA9 /* PlaceSectionController.swift in Sources */,
 				0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */,
 				EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */,
+				3C29547D25856E6F00965D9A /* AccuracyQuestion.swift in Sources */,
 				0C209B1B22482DDB0007AFA9 /* FiltersSectionController.swift in Sources */,
 				EE1BC56024954239004DD427 /* AvailabilityInfoCell.swift in Sources */,
 				3CBCB12924A7C6B600543B3D /* LastUpdatedTextModel.swift in Sources */,
+				3C29548525856EDE00965D9A /* ObservedDensityQuestion.swift in Sources */,
 				0C209B17224829280007AFA9 /* LogoCell.swift in Sources */,
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
 				0C8B6D612232441C00058AE6 /* CurrentDensityModel.swift in Sources */,
