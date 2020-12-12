@@ -26,6 +26,7 @@ class FeedbackViewController: UIViewController {
 
     // These are kept in ready-to-go first question state when the FeedbackViewController is not active.
     // Invariant: questionView = questions[questionIndex] is shown, with all other questions hidden.
+    // TODO: - Reset the views of each question as well
     var questionIndex: Int = 0
     var questionView: FeedbackQuestion!
     var questions: [FeedbackQuestion]!
@@ -170,4 +171,7 @@ extension FeedbackViewController: AccuracyQuestionDelegate {
 }
 
 extension FeedbackViewController: ObservedDensityQuestionDelegate {
+    func observedDensityWasChanged(observed: Int) {
+        self.feedback?.observed = observed
+    }
 }

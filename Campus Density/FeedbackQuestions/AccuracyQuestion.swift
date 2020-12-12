@@ -42,7 +42,7 @@ class AccuracyQuestion: FeedbackQuestion {
             row.snp.makeConstraints { make in
                 make.left.right.equalToSuperview().inset(30)
                 make.height.equalTo(20)
-                make.top.equalTo(upper.snp_bottomMargin).offset(5)
+                make.top.equalTo(upper.snp.bottom).offset(5)
             }
             upper = row
         }
