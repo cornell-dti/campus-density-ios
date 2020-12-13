@@ -12,7 +12,7 @@ class FeedbackQuestion: UIView {
     var title = UILabel()
     var subtitle = UILabel()
 
-    init(title: String = "Accuracy Feedback", subtitle: String) {
+    init(title: String = "Accuracy Feedback", subtitle: String = "") {
         super.init(frame: .zero)
         // TODO this will be styled eventually
         self.title.text = title

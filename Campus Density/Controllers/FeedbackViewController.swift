@@ -29,18 +29,20 @@ class FeedbackViewController: UIViewController {
     var questionIndex: Int = 0
     var questionView: FeedbackQuestion!
     var questions: [FeedbackQuestion] = []
+    var thanksView: ThanksQuestion!
+    var thanksTimer: Timer?
     var background: UIView!
     var nextButton: UIButton!
     var prevButton: UIButton!
     var isMovedUp: Bool = false
 
     override func viewDidLoad() {
-        setupControlsAndBackground()
+        setupControlsBackgroundThanks()
         resetForm() // Also sets up questions
         setupGestureRecognizers()
     }
 
-    func setupControlsAndBackground() {
+    func setupControlsBackgroundThanks() {
         let backdrop = UIButton()
         backdrop.addTarget(self, action: #selector(hide), for: .touchUpInside)
         backdrop.backgroundColor = UIColor(white: 0, alpha: 0.2)
@@ -88,6 +90,14 @@ class FeedbackViewController: UIViewController {
             make.width.equalTo(80)
             make.bottom.left.equalToSuperview().inset(20)
         }
+
+        thanksView = ThanksQuestion()
+        thanksView.isHidden = true
+        background.addSubview(thanksView)
+        thanksView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview().inset(20)
+            make.bottom.equalTo(nextButton.snp.top).offset(-30)
+        }
     }
 
     func setupQuestions() {
@@ -134,7 +144,7 @@ class FeedbackViewController: UIViewController {
         questionIndex += 1
         if questionIndex == questions.count { // If out of questions, it's time to submit
             submitFeedback()
-            hide()
+            showThanksAndHide()
         } else {
             if questionIndex == questions.count - 1 {
                 nextButton.setTitle("Submit", for: .normal)
@@ -172,14 +182,28 @@ class FeedbackViewController: UIViewController {
         print("Submit feedback")
     }
 
+    func showThanksAndHide() {
+        questionView.isHidden = true
+        prevButton.isHidden = true
+        nextButton.isHidden = true
+        thanksView.isHidden = false
+        thanksTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+            self.hide()
+        }
+    }
+
     func resetForm() {
         feedback = nil
         setupQuestions()
         questionIndex = 0
         questionView = questions[questionIndex]
         questionView.isHidden = false
-        nextButton.setTitle(questions.count == 1 ? "Submit" : "Next", for: .normal)
         prevButton.isHidden = true
+        nextButton.isHidden = false
+        nextButton.setTitle(questions.count == 1 ? "Submit" : "Next", for: .normal)
+        thanksView.isHidden = true
+        thanksTimer?.invalidate()
+        thanksTimer = nil
     }
 
     func moveUp() {

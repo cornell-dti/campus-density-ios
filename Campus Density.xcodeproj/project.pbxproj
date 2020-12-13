@@ -52,6 +52,7 @@
 		3C29548525856EDE00965D9A /* ObservedDensityQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */; };
 		3C29548A25858D0200965D9A /* WaitTimeQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548925858D0200965D9A /* WaitTimeQuestion.swift */; };
 		3C755EAC2586B93500C7FFC5 /* CommentsQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C755EAB2586B93500C7FFC5 /* CommentsQuestion.swift */; };
+		3C7A4E642586C9C600676980 /* ThanksQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A4E632586C9C600676980 /* ThanksQuestion.swift */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
@@ -165,6 +166,7 @@
 		3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedDensityQuestion.swift; sourceTree = "<group>"; };
 		3C29548925858D0200965D9A /* WaitTimeQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimeQuestion.swift; sourceTree = "<group>"; };
 		3C755EAB2586B93500C7FFC5 /* CommentsQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsQuestion.swift; sourceTree = "<group>"; };
+		3C7A4E632586C9C600676980 /* ThanksQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksQuestion.swift; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */,
 				3C29548925858D0200965D9A /* WaitTimeQuestion.swift */,
 				3C755EAB2586B93500C7FFC5 /* CommentsQuestion.swift */,
+				3C7A4E632586C9C600676980 /* ThanksQuestion.swift */,
 			);
 			path = FeedbackQuestions;
 			sourceTree = "<group>";
@@ -694,6 +697,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C7A4E642586C9C600676980 /* ThanksQuestion.swift in Sources */,
 				0C8B6D7422324FFA00058AE6 /* CurrentDensityCell.swift in Sources */,
 				3CBCB12B24A7C73000543B3D /* LastUpdatedTextSectionController.swift in Sources */,
 				EE93BF182380A44300219902 /* MealFilterCell.swift in Sources */,
