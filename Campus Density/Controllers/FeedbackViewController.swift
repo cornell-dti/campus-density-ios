@@ -32,10 +32,12 @@ class FeedbackViewController: UIViewController {
     var background: UIView!
     var nextButton: UIButton!
     var prevButton: UIButton!
+    var isMovedUp: Bool = false
 
     override func viewDidLoad() {
         setupControlsAndBackground()
         resetForm() // Also sets up questions
+        setupGestureRecognizers()
     }
 
     func setupControlsAndBackground() {
@@ -102,7 +104,10 @@ class FeedbackViewController: UIViewController {
         let waitTimeQuestion = WaitTimeQuestion()
         waitTimeQuestion.delegate = self
 
-        questions = [accuracyQuestion, observedDensityQuestion, waitTimeQuestion]
+        let commentsQuestion = CommentsQuestion()
+        commentsQuestion.delegate = self
+
+        questions = [accuracyQuestion, observedDensityQuestion, waitTimeQuestion, commentsQuestion]
         for question in questions {
             background.addSubview(question)
             question.snp.makeConstraints { make in
@@ -111,6 +116,12 @@ class FeedbackViewController: UIViewController {
             }
             question.isHidden = true
         }
+    }
+
+    func setupGestureRecognizers() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapRecognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapRecognizer)
     }
 
     func showWith(location: String, predictedDensity: Int) {
@@ -153,6 +164,10 @@ class FeedbackViewController: UIViewController {
         resetForm()
     }
 
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
     func submitFeedback() {
         print("Submit feedback")
     }
@@ -167,6 +182,19 @@ class FeedbackViewController: UIViewController {
         prevButton.isHidden = true
     }
 
+    func moveUp() {
+        if !isMovedUp {
+            isMovedUp = true
+            UIView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = -100 })
+        }
+    }
+
+    func moveDown() {
+        if isMovedUp {
+            isMovedUp = false
+            UIView.animate(withDuration: 0.2, animations: { self.view.frame.origin.y = 0 })
+        }
+    }
 }
 
 extension FeedbackViewController: AccuracyQuestionDelegate {
@@ -184,5 +212,19 @@ extension FeedbackViewController: ObservedDensityQuestionDelegate {
 extension FeedbackViewController: WaitTimeQuestionDelegate {
     func waitTimeWasChanged(waitTime: Int) {
         self.feedback?.waitTime = waitTime
+    }
+}
+
+extension FeedbackViewController: CommentsQuestionDelegate {
+    func commentsWasChanged(comments: String) {
+        self.feedback?.comments = comments
+    }
+
+    func commentsDidBeginEditing() {
+        moveUp()
+    }
+
+    func commentsDidEndEditing() {
+        moveDown()
     }
 }
