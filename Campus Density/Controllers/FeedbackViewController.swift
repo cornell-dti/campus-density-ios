@@ -52,7 +52,8 @@ class FeedbackViewController: UIViewController {
         }
 
         background = UIView()
-        background.backgroundColor = .blue
+        background.backgroundColor = .white
+        background.layer.cornerRadius = 8
         view.addSubview(background)
         background.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -61,7 +62,7 @@ class FeedbackViewController: UIViewController {
 
         let hideButton = UIButton()
         hideButton.addTarget(self, action: #selector(hide), for: .touchUpInside)
-        hideButton.backgroundColor = .red
+        hideButton.setImage(UIImage(named: "close"), for: .normal)
         background.addSubview(hideButton)
         hideButton.snp.makeConstraints { make in
             make.top.right.equalToSuperview().inset(10)
@@ -70,33 +71,40 @@ class FeedbackViewController: UIViewController {
 
         nextButton = UIButton()
         nextButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
-        nextButton.backgroundColor = .green
+        nextButton.backgroundColor = .densityGreen
+        nextButton.layer.cornerRadius = 3
         nextButton.setTitle("Next", for: .normal)
+        nextButton.titleLabel?.font = .fourteen
         background.addSubview(nextButton)
         nextButton.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(80)
-            make.bottom.right.equalToSuperview().inset(20)
+            make.bottom.right.equalToSuperview().inset(30)
         }
 
         prevButton = UIButton()
         prevButton.addTarget(self, action: #selector(prevQuestion), for: .touchUpInside)
-        prevButton.backgroundColor = .orange
+        prevButton.layer.cornerRadius = 3
+        prevButton.layer.borderWidth = 1
+        prevButton.layer.borderColor = UIColor.densityGreen.cgColor
+        prevButton.setTitleColor(.densityGreen, for: .normal)
         prevButton.setTitle("Previous", for: .normal)
+        prevButton.titleLabel?.font = .fourteen
         prevButton.isHidden = true
         background.addSubview(prevButton)
         prevButton.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(80)
-            make.bottom.left.equalToSuperview().inset(20)
+            make.bottom.left.equalToSuperview().inset(30)
         }
 
         thanksView = ThanksQuestion()
         thanksView.isHidden = true
         background.addSubview(thanksView)
         thanksView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview().inset(20)
-            make.bottom.equalTo(nextButton.snp.top).offset(-30)
+            make.top.equalToSuperview().inset(30)
+            make.left.right.equalToSuperview().inset(20)
+            make.bottom.equalTo(nextButton.snp.top).offset(-20)
         }
     }
 
@@ -121,7 +129,8 @@ class FeedbackViewController: UIViewController {
         for question in questions {
             background.addSubview(question)
             question.snp.makeConstraints { make in
-                make.top.left.right.equalToSuperview().inset(20)
+                make.top.equalToSuperview().inset(30)
+                make.left.right.equalToSuperview().inset(30)
                 make.bottom.equalTo(nextButton.snp.top).offset(-30)
             }
             question.isHidden = true

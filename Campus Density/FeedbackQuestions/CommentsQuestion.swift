@@ -20,10 +20,9 @@ class CommentsQuestion: FeedbackQuestion, UITextViewDelegate {
 
     init() {
         super.init(subtitle: "Is there anything else you would like to share?")
-        backgroundColor = .magenta
         textView.layer.cornerRadius = 5
         textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = UIColor.whiteTwo.cgColor
         textView.delegate = self
         addSubview(textView)
         textView.snp.makeConstraints { make in

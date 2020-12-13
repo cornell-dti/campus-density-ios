@@ -14,11 +14,13 @@ class FeedbackQuestion: UIView {
 
     init(title: String = "Accuracy Feedback", subtitle: String = "") {
         super.init(frame: .zero)
-        // TODO this will be styled eventually
         self.title.text = title
         self.title.textAlignment = .center
+        self.title.font = .eighteenBold
         self.subtitle.text = subtitle
         self.subtitle.textAlignment = .center
+        self.subtitle.font = .fourteen
+        self.subtitle.textColor = .warmGray
         self.subtitle.numberOfLines = 0
         addSubview(self.title)
         addSubview(self.subtitle)
@@ -26,7 +28,7 @@ class FeedbackQuestion: UIView {
             make.top.left.right.equalToSuperview()
         }
         self.subtitle.snp.makeConstraints { make in
-            make.top.equalTo(self.title.snp_bottomMargin).offset(5)
+            make.top.equalTo(self.title.snp.bottom).offset(10)
             make.left.right.equalToSuperview()
         }
     }

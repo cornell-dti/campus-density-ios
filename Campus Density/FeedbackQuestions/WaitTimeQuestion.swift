@@ -19,12 +19,11 @@ class WaitTimeQuestion: FeedbackQuestion, UIPickerViewDataSource, UIPickerViewDe
 
     init() {
         super.init(subtitle: "How many minutes did you wait in line?")
-        backgroundColor = .white
         picker.dataSource = self
         picker.delegate = self
         addSubview(picker)
         picker.snp.makeConstraints { make in
-            make.height.equalTo(120)
+            make.height.equalTo(110)
             make.bottom.left.right.equalToSuperview()
         }
     }

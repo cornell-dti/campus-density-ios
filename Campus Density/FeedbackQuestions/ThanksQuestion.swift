@@ -14,13 +14,14 @@ class ThanksQuestion: FeedbackQuestion {
 
     init() {
         super.init(title: "Thank You!")
-        backgroundColor = .white
         addSubview(thanksImageView)
         thanksImageView.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
         }
         thanksLabel.text = "This helps us fix any discrepancies and create a better experience for you."
         thanksLabel.numberOfLines = 0
+        thanksLabel.font = .fourteen
+        thanksLabel.textColor = .warmGray
         thanksLabel.textAlignment = .center
         addSubview(thanksLabel)
         thanksLabel.snp.makeConstraints { make in

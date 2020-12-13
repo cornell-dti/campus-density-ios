@@ -22,7 +22,6 @@ class ObservedDensityQuestion: FeedbackQuestion {
 
     init() {
         super.init(subtitle: "How crowded do you think the dining hall is right now?")
-        backgroundColor = .yellow
         for density in 0...3 {
             let colorPill = UIButton()
             let radioButton = UIButton()
@@ -30,7 +29,7 @@ class ObservedDensityQuestion: FeedbackQuestion {
             colorPill.layer.cornerRadius = 5
             radioButton.layer.cornerRadius = 5
             radioButton.layer.borderWidth = 1
-            radioButton.layer.borderColor = UIColor.black.cgColor
+            radioButton.layer.borderColor = UIColor.warmGray.cgColor
             colorPill.addHandler(for: .primaryActionTriggered) {
                 self.changeObservedDensity(density: density)
             }
@@ -63,15 +62,19 @@ class ObservedDensityQuestion: FeedbackQuestion {
 
         notBusyLabel.text = "Not busy"
         veryBusyLabel.text = "Very busy"
+        notBusyLabel.font = .fourteen
+        veryBusyLabel.font = .fourteen
+        notBusyLabel.textColor = .darkGray
+        veryBusyLabel.textColor = .darkGray
         addSubview(notBusyLabel)
         addSubview(veryBusyLabel)
         notBusyLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.bottom.equalTo(colorPillsStackView.snp.top)
+            make.bottom.equalTo(colorPillsStackView.snp.top).offset(-5)
         }
         veryBusyLabel.snp.makeConstraints { make in
             make.right.equalToSuperview()
-            make.bottom.equalTo(colorPillsStackView.snp.top)
+            make.bottom.equalTo(colorPillsStackView.snp.top).offset(-5)
         }
     }
 

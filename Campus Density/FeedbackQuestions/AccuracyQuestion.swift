@@ -21,13 +21,16 @@ class AccuracyQuestion: FeedbackQuestion {
 
     init() {
         super.init(subtitle: "Is this information accurate?")
-        backgroundColor = .green
         yesLabel.text = "Yes"
         noLabel.text = "No"
+        yesLabel.font = .sixteen
+        noLabel.font = .sixteen
+        yesLabel.textColor = .darkGray
+        noLabel.textColor = .darkGray
         yesButton.addHandler(for: .primaryActionTriggered, action: yesButtonPressed)
         noButton.addHandler(for: .primaryActionTriggered, action: noButtonPressed)
         for button in [yesButton, noButton] {
-            button.layer.borderColor = UIColor.black.cgColor
+            button.layer.borderColor = UIColor.warmGray.cgColor
             button.layer.borderWidth = 1
             button.layer.cornerRadius = 5
             button.snp.makeConstraints { make in
@@ -42,7 +45,7 @@ class AccuracyQuestion: FeedbackQuestion {
             row.snp.makeConstraints { make in
                 make.left.right.equalToSuperview().inset(30)
                 make.height.equalTo(20)
-                make.top.equalTo(upper.snp.bottom).offset(5)
+                make.top.equalTo(upper.snp.bottom).offset(30)
             }
             upper = row
         }
