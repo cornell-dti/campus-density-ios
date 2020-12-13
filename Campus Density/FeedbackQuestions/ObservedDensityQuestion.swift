@@ -47,7 +47,7 @@ class ObservedDensityQuestion: FeedbackQuestion {
         addSubview(colorPillsStackView)
         colorPillsStackView.snp.makeConstraints { make in
             make.height.equalTo(15)
-            make.bottom.equalToSuperview().inset(50)
+            make.bottom.equalToSuperview().inset(30)
             make.left.right.equalToSuperview()
         }
         for i in 0...3 {  // Feel free to make this better with a stack view like above

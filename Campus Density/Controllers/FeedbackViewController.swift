@@ -99,12 +99,15 @@ class FeedbackViewController: UIViewController {
         let observedDensityQuestion = ObservedDensityQuestion()
         observedDensityQuestion.delegate = self
 
-        questions = [accuracyQuestion, observedDensityQuestion]
+        let waitTimeQuestion = WaitTimeQuestion()
+        waitTimeQuestion.delegate = self
+
+        questions = [accuracyQuestion, observedDensityQuestion, waitTimeQuestion]
         for question in questions {
             background.addSubview(question)
             question.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview().inset(20)
-                make.bottom.equalTo(nextButton.snp_topMargin)
+                make.bottom.equalTo(nextButton.snp.top).offset(-30)
             }
             question.isHidden = true
         }
@@ -175,5 +178,11 @@ extension FeedbackViewController: AccuracyQuestionDelegate {
 extension FeedbackViewController: ObservedDensityQuestionDelegate {
     func observedDensityWasChanged(observed: Int) {
         self.feedback?.observed = observed
+    }
+}
+
+extension FeedbackViewController: WaitTimeQuestionDelegate {
+    func waitTimeWasChanged(waitTime: Int) {
+        self.feedback?.waitTime = waitTime
     }
 }
