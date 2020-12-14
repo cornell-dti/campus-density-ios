@@ -9,42 +9,44 @@
 import UIKit
 
 class HomeFeedbackViewController: UIViewController {
-    //var scrollView: UIScrollView!
+
+    //recommendation question variables
     var recLabel: UILabel!
     let recLabelText = "1. How willing are you to recommend Flux to your friends? (1-10)"
-    var button1: UIButton!
-    var button2: UIButton!
-    var button3: UIButton!
-    var button4: UIButton!
-    var button5: UIButton!
-    var recButtons: [UIButton]!
+    var recButtons: [UIButton] = []
+    var recButtonsStackView: UIStackView!
+    let radioButtonTitles = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    let radioButtonColors: [UIColor] = [.densityRed, .densityRed, .densityRed, .peach, .peach, .wheat, .wheat, .wheat, .densityGreen, .densityGreen]
+
+    //feature question variables
     var featureLabel: UILabel!
-    let featureLabelText = "2. Which feature do you find useful?"
-    var checkbox1: UIButton!
-    var checkbox1Label: UILabel!
-    var checkbox2: UIButton!
-    var checkbox2Label: UILabel!
-    var checkbox3: UIButton!
-    var checkbox3Label: UILabel!
-    var checkbox4: UIButton!
-    var checkbox4Label: UILabel!
-    var allLabel: UILabel!
-    let allLabelText = "3. How do you like Flux overall?"
-    var barOne: UIView!
-    var barTwo: UIView!
-    var barThree: UIView!
-    var barFour: UIView!
+    let featureLabelText = "2. Which feature(s) do you find useful?"
+    var featureLabels: [UILabel] = []
+    let featureLabelTitles = ["Popular Times", "Availability Breakdown", "Dining Areas", "Menu"]
+    var featureButtons: [UIButton] = []
+    var featureButtonsStackView: UIStackView!
+
+    //overall review question variables
+    var reviewLabel: UILabel!
+    let reviewLabelText = "3. How do you like Flux overall?"
+    let pillColors: [UIColor] = [.densityRed, .orangeyRed, .wheat, .densityGreen]
+    let notLikeLabel = UILabel()
+    let likeLabel = UILabel()
+    var pillsStackView: UIStackView!
+    var pills: [UIButton] = []
+    var radioButtons: [UIButton] = []
+
+    //suggestion question variables
     var suggestionLabel: UILabel!
     let suggestionLabelText = "4. Do you have any other suggestions?"
     var suggestionBox: UITextView!
     let suggestionPlaceholderText = "Please enter here. \nWe really appreciate your feedback."
+
     var proceedButton: UIButton!
 
     //Constants
     let padding: CGFloat = 15
     let interBarSpacing: CGFloat = 5
-    let innerPadding: CGFloat = 50
-    let labelHeight: CGFloat = 20
     let densityBarHeight: CGFloat = 25
 
     override func viewDidLoad() {
@@ -52,82 +54,15 @@ class HomeFeedbackViewController: UIViewController {
         title = "Feedback"
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.tintColor = .warmGray
-
         setupViews()
         setupConstraints()
     }
 
     func setupViews() {
-
-//        scrollView = UIScrollView()
-//        scrollView.translatesAutoresizingMaskIntoConstraints = false
-//        scrollView.backgroundColor = .white
-//        scrollView.delegate = self
-//        scrollView.isScrollEnabled = true
-//        scrollView.alwaysBounceVertical = false
-//        scrollView.contentSize = CGSize(width: 0, height: self.scrollView.contentSize.height)
-//        view.addSubview(scrollView)
-//        scrollView.snp.makeConstraints { make in
-//                make.edges.equalToSuperview()
-//            }
-
-        recLabel = setUpLabel()
-        recLabel.text = recLabelText
-        recLabel.numberOfLines = 2
-        view.addSubview(recLabel)
-
-        addChoiceButtons()
-
-        featureLabel = setUpLabel()
-        featureLabel.text = featureLabelText
-        view.addSubview(featureLabel)
-
-        checkbox1Label = setUpCheckboxLabel()
-        checkbox1Label.text = "Popular Times"
-        view.addSubview(checkbox1Label)
-
-        checkbox2Label = setUpCheckboxLabel()
-        checkbox2Label.text = "Availability Breakdown"
-        view.addSubview(checkbox2Label)
-
-        checkbox3Label = setUpCheckboxLabel()
-        checkbox3Label.text = "Dining Areas"
-        view.addSubview(checkbox3Label)
-
-        checkbox4Label = setUpCheckboxLabel()
-        checkbox4Label.text = "Menu"
-        view.addSubview(checkbox4Label)
-
-        allLabel = setUpLabel()
-        allLabel.text = allLabelText
-        view.addSubview(allLabel)
-
-        barOne = setupBar()
-        view.addSubview(barOne)
-
-        barTwo = setupBar()
-        view.addSubview(barTwo)
-
-        barThree = setupBar()
-        view.addSubview(barThree)
-
-        barFour = setupBar()
-        view.addSubview(barFour)
-
-        suggestionLabel = setUpLabel()
-        suggestionLabel.text = suggestionLabelText
-        view.addSubview(suggestionLabel)
-
-        suggestionBox = UITextView()
-        suggestionBox.translatesAutoresizingMaskIntoConstraints = false
-        suggestionBox.text = suggestionPlaceholderText
-        suggestionBox.textColor = .densityDarkGray
-        suggestionBox.textAlignment = .left
-        suggestionBox.layer.cornerRadius = 3
-        suggestionBox.layer.borderWidth = 1
-        suggestionBox.layer.borderColor = UIColor.grayishBrown.cgColor
-        suggestionBox.allowsEditingTextAttributes = true
-        view.addSubview(suggestionBox)
+        setUpQuestionOne()
+        setUpQuestionTwo()
+        setUpQuestionThree()
+        setUpQuestionFour()
 
         proceedButton = UIButton()
         proceedButton.translatesAutoresizingMaskIntoConstraints = false
@@ -149,66 +84,170 @@ class HomeFeedbackViewController: UIViewController {
         return label
     }
 
-    func setUpCheckboxLabel() -> UILabel {
-        let checkboxLabel = UILabel()
-        checkboxLabel.textColor = .densityDarkGray
-        checkboxLabel.font = .fourteen
-        checkboxLabel.translatesAutoresizingMaskIntoConstraints = false
-        checkboxLabel.textAlignment = .left
-        return checkboxLabel
+    func setUpQuestionOne() {
+        recLabel = setUpLabel()
+        recLabel.text = recLabelText
+        recLabel.numberOfLines = 2
+        view.addSubview(recLabel)
+
+        for rating in 0...9 {
+            let button = UIButton()
+            button.setTitle(radioButtonTitles[rating], for: .normal)
+            button.backgroundColor = .white
+            button.tag = rating
+            button.layer.cornerRadius = 10
+            button.layer.borderWidth = 2
+            button.setTitleColor(.densityDarkGray, for: .normal)
+            button.titleLabel?.font =  UIFont(name: "Avenir", size: 14)
+            button.layer.borderColor = UIColor.densityDarkGray.cgColor
+            button.addTarget(self, action: #selector(radioButtonPressed), for: .touchUpInside)
+            button.snp.makeConstraints { make in
+                make.height.width.equalTo(22)
+            }
+            recButtons.append(button)
+        }
+
+        recButtonsStackView = UIStackView(arrangedSubviews: recButtons)
+        recButtonsStackView.alignment = .center
+        recButtonsStackView.distribution = .fillEqually
+        recButtonsStackView.spacing = 12
+        view.addSubview(recButtonsStackView)
     }
 
-    func addChoiceButtons() {
-        button1 = UIButton()
-        button1.translatesAutoresizingMaskIntoConstraints = false
-        button1.backgroundColor = .white
-        button1.layer.cornerRadius = 10
-        button1.layer.borderWidth = 2
-        button1.setTitle("1", for: .normal)
-        button1.setTitleColor(.densityDarkGray, for: .normal)
-        button1.titleLabel?.font =  UIFont(name: "Avenir", size: 14)
-        button1.layer.borderColor = UIColor.densityDarkGray.cgColor
-        button1.addTarget(self, action: #selector(radioButtonPressed), for: .touchUpInside)
-        view.addSubview(button1)
-
-        checkbox1 = UIButton()
-        checkbox1.translatesAutoresizingMaskIntoConstraints = false
-        checkbox1.setImage(UIImage(named: "unchecked-box"), for: .normal)
-        checkbox1.addTarget(self, action: #selector(checkboxPressed), for: .touchUpInside)
-        view.addSubview(checkbox1)
-
-        checkbox2 = UIButton()
-        checkbox2.translatesAutoresizingMaskIntoConstraints = false
-        checkbox2.setImage(UIImage(named: "unchecked-box"), for: .normal)
-        checkbox1.addTarget(self, action: #selector(checkboxPressed), for: .touchUpInside)
-        view.addSubview(checkbox2)
-
-        checkbox3 = UIButton()
-        checkbox3.translatesAutoresizingMaskIntoConstraints = false
-        checkbox3.setImage(UIImage(named: "unchecked-box"), for: .normal)
-        checkbox1.addTarget(self, action: #selector(checkboxPressed), for: .touchUpInside)
-        view.addSubview(checkbox3)
-
-        checkbox4 = UIButton()
-        checkbox4.translatesAutoresizingMaskIntoConstraints = false
-        checkbox4.setImage(UIImage(named: "unchecked-box"), for: .normal)
-        checkbox1.addTarget(self, action: #selector(checkboxPressed), for: .touchUpInside)
-        view.addSubview(checkbox4)
-
+    @objc func radioButtonPressed(sender: UIButton) {
+        let rating = sender.tag
+        let recColor = radioButtonColors[rating]
+        for i in 0...9 {
+            if i<=rating {
+                recButtons[i].backgroundColor = recColor
+                recButtons[i].setTitleColor(.white, for: .normal)
+                recButtons[i].layer.borderColor = recColor.cgColor
+            } else {
+                recButtons[i].backgroundColor = .white
+                recButtons[i].setTitleColor(.densityDarkGray, for: .normal)
+                recButtons[i].layer.borderColor = UIColor.densityDarkGray.cgColor
+            }
+        }
     }
 
-    func setupBar() -> UIView {
-        let view = UIView()
-        view.backgroundColor = .densityRed
-        view.clipsToBounds = true
-        view.layer.cornerRadius = densityBarHeight / 2.0
-        return view
+    func setUpQuestionTwo() {
+        featureLabel = setUpLabel()
+        featureLabel.text = featureLabelText
+        view.addSubview(featureLabel)
+
+        for number in 0...3 {
+            let label = UILabel()
+            label.tag = number
+            label.text = featureLabelTitles[number]
+            label.textColor = .grayishBrown
+            label.font = UIFont(name: "Avenir", size: 16.0)
+            featureLabels.append(label)
+            let button = UIButton()
+            button.tag = number
+            button.setImage(UIImage(named: "unchecked-box"), for: .normal)
+            button.addTarget(self, action: #selector(checkboxButtonPressed), for: .touchUpInside)
+            button.snp.makeConstraints { make in
+                make.width.height.equalTo(30)
+            }
+            featureButtons.append(button)
+        }
+
+        var padding = 10
+        for (checkbox, label) in zip(featureButtons, featureLabels) {
+            let checkStackView = UIStackView(arrangedSubviews: [checkbox, label])
+            view.addSubview(checkStackView)
+            checkStackView.alignment = .center
+            checkStackView.spacing = 10
+            checkStackView.snp.makeConstraints { make in
+                make.left.equalTo(recLabel.snp.left)
+                make.top.equalTo(featureLabel.snp.bottom).offset(padding)
+            }
+            padding = padding + 25
+        }
+    }
+
+    @objc func checkboxButtonPressed(sender: UIButton) {
+        if sender.image(for: .normal) == UIImage(named: "checked-box") {
+            sender.setImage(UIImage(named: "unchecked-box"), for: .normal)
+        } else {
+            sender.setImage(UIImage(named: "checked-box"), for: .normal)
+        }
+    }
+
+    func setUpQuestionThree() {
+        reviewLabel = setUpLabel()
+        reviewLabel.text = reviewLabelText
+        view.addSubview(reviewLabel)
+
+        notLikeLabel.text = "I don't like it."
+        likeLabel.text = "Very much"
+        for label in [notLikeLabel, likeLabel] {
+            label.font = .fourteen
+            label.textColor = .darkGray
+            view.addSubview(label)
+        }
+
+        for pillRating in 0...3 {
+            let pill = UIButton()
+            let radioButton = UIButton()
+            pill.backgroundColor = .whiteTwo
+            pill.layer.cornerRadius = densityBarHeight / 2.0
+            pill.tag = pillRating
+            radioButton.layer.borderWidth = 1
+            radioButton.layer.borderColor = UIColor.warmGray.cgColor
+            radioButton.layer.cornerRadius = 5
+            radioButton.tag = pillRating
+            pill.addTarget(self, action: #selector(pillButtonPressed), for: .touchUpInside)
+            radioButton.addTarget(self, action: #selector(pillButtonPressed), for: .touchUpInside)
+            pills.append(pill)
+            radioButtons.append(radioButton)
+        }
+        pillsStackView = UIStackView(arrangedSubviews: pills)
+        pillsStackView.distribution = .fillEqually
+        pillsStackView.spacing = 5
+        view.addSubview(pillsStackView)
+
+        for i in 0...3 {
+            let radioButton = radioButtons[i]
+            let pill = pills[i]
+            view.addSubview(radioButton)
+            radioButton.snp.makeConstraints { make in
+            make.height.width.equalTo(10)
+            make.top.equalTo(pill.snp.bottom).offset(10)
+            make.centerX.equalTo(pill)
+            }
+        }
+    }
+
+    @objc func pillButtonPressed(sender: UIButton) {
+        let pillRating = sender.tag
+        let pillColor = pillColors[pillRating]
+        for i in 0...3 {
+            pills[i].backgroundColor = i<=pillRating ? pillColor : .whiteTwo
+            radioButtons[i].backgroundColor = i == pillRating ? .black : .clear
+        }
+    }
+
+    func setUpQuestionFour() {
+        suggestionLabel = setUpLabel()
+        suggestionLabel.text = suggestionLabelText
+        view.addSubview(suggestionLabel)
+
+        suggestionBox = UITextView()
+        suggestionBox.translatesAutoresizingMaskIntoConstraints = false
+        suggestionBox.text = suggestionPlaceholderText
+        suggestionBox.textColor = .densityDarkGray
+        suggestionBox.textAlignment = .left
+        suggestionBox.layer.cornerRadius = 3
+        suggestionBox.layer.borderWidth = 1
+        suggestionBox.layer.borderColor = UIColor.grayishBrown.cgColor
+        suggestionBox.allowsEditingTextAttributes = true
+        view.addSubview(suggestionBox)
     }
 
     func setupConstraints() {
         let labelTextHeight = recLabelText.height(withConstrainedWidth: view.frame.width - Constants.smallPadding, font: recLabel.font)
         let totalBarWidth: CGFloat = view.frame.width - padding * 4 - interBarSpacing * 3
-        let barWidth: CGFloat = totalBarWidth / 4.0
         let leftPadding: CGFloat = 20
         let suggestionBoxWidth: CGFloat = view.frame.width - 2 * leftPadding
 
@@ -219,110 +258,45 @@ class HomeFeedbackViewController: UIViewController {
             make.height.equalTo(labelTextHeight)
         }
 
-        button1.snp.makeConstraints { make in
-            make.left.equalTo(recLabel.snp.left)
+        recButtonsStackView.snp.makeConstraints { make in
             make.top.equalTo(recLabel.snp.bottom).offset(10)
-            make.width.equalTo(20)
-            make.height.equalTo(20)
+            make.left.equalTo(recLabel.snp.left)
         }
 
         featureLabel.snp.makeConstraints { make in
             make.left.equalTo(recLabel.snp.left)
-            make.top.equalTo(button1.snp.bottom).offset(30)
+            make.top.equalTo(recButtonsStackView.snp.bottom).offset(30)
             make.right.equalToSuperview().offset(-20)
             make.height.equalTo(labelTextHeight)
         }
 
-        checkbox1.snp.makeConstraints { make in
+        reviewLabel.snp.makeConstraints { make in
             make.left.equalTo(recLabel.snp.left)
-            make.top.equalTo(featureLabel.snp.bottom).offset(10)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-        }
-
-        checkbox1Label.snp.makeConstraints { make in
-            make.left.equalTo(checkbox1.snp.right).offset(5)
-            make.top.equalTo(featureLabel.snp.bottom).offset(10)
-            make.height.equalTo(checkbox1.snp.height)
-        }
-
-        checkbox2.snp.makeConstraints { make in
-            make.left.equalTo(recLabel.snp.left)
-            make.top.equalTo(checkbox1.snp.bottom).offset(3)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-        }
-
-        checkbox2Label.snp.makeConstraints { make in
-            make.left.equalTo(checkbox2.snp.right).offset(5)
-            make.top.equalTo(checkbox1.snp.bottom).offset(3)
-            make.height.equalTo(checkbox1.snp.height)
-        }
-
-        checkbox3.snp.makeConstraints { make in
-            make.left.equalTo(recLabel.snp.left)
-            make.top.equalTo(checkbox2.snp.bottom).offset(3)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-        }
-
-        checkbox3Label.snp.makeConstraints { make in
-            make.left.equalTo(checkbox3.snp.right).offset(5)
-            make.top.equalTo(checkbox2.snp.bottom).offset(3)
-            make.height.equalTo(checkbox1.snp.height)
-        }
-
-        checkbox4.snp.makeConstraints { make in
-            make.left.equalTo(recLabel.snp.left)
-            make.top.equalTo(checkbox3.snp.bottom).offset(3)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-        }
-
-        checkbox4Label.snp.makeConstraints { make in
-            make.left.equalTo(checkbox4.snp.right).offset(5)
-            make.top.equalTo(checkbox3.snp.bottom).offset(3)
-            make.height.equalTo(checkbox1.snp.height)
-        }
-
-        allLabel.snp.makeConstraints { make in
-            make.left.equalTo(recLabel.snp.left)
-            make.top.equalTo(checkbox4.snp.bottom).offset(30)
+            make.top.equalTo(featureLabel.snp.bottom).offset(140) //calculated
             make.right.equalToSuperview().offset(-20)
             make.height.equalTo(labelTextHeight)
         }
 
-        barOne.snp.makeConstraints { make in
+        notLikeLabel.snp.makeConstraints { make in
             make.left.equalTo(recLabel.snp.left)
-            make.width.equalTo(barWidth)
-            make.top.equalTo(allLabel.snp.bottom).offset(10)
-            make.height.equalTo(densityBarHeight)
+            make.top.equalTo(reviewLabel.snp.bottom).offset(10)
         }
 
-        barTwo.snp.makeConstraints { make in
-            make.left.equalTo(barOne.snp.right).offset(interBarSpacing)
-            make.width.equalTo(barWidth)
-            make.bottom.equalTo(barOne)
-            make.height.equalTo(barOne)
+        likeLabel.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(20)
+            make.top.equalTo(reviewLabel.snp.bottom).offset(10)
         }
 
-        barThree.snp.makeConstraints { make in
-            make.left.equalTo(barTwo.snp.right).offset(interBarSpacing)
-            make.width.equalTo(barWidth)
-            make.bottom.equalTo(barOne)
-            make.height.equalTo(barOne)
-        }
-
-        barFour.snp.makeConstraints { make in
-            make.left.equalTo(barThree.snp.right).offset(interBarSpacing)
-            make.width.equalTo(barWidth)
-            make.bottom.equalTo(barOne)
-            make.height.equalTo(barOne)
+        pillsStackView.snp.makeConstraints { make in
+            make.height.equalTo(25)
+            make.top.equalTo(likeLabel.snp.bottom).offset(5)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(totalBarWidth)
         }
 
         suggestionLabel.snp.makeConstraints { make in
             make.left.equalTo(recLabel.snp.left)
-            make.top.equalTo(barOne.snp.bottom).offset(30)
+            make.top.equalTo(pillsStackView.snp.bottom).offset(55)
             make.right.equalToSuperview().offset(-20)
             make.height.equalTo(labelTextHeight)
         }
@@ -342,29 +316,8 @@ class HomeFeedbackViewController: UIViewController {
         }
     }
 
-    @objc func radioButtonPressed() {
-        if button1.titleColor(for: .normal) == .white {
-            button1.backgroundColor = .white
-            button1.layer.borderColor = UIColor.densityDarkGray.cgColor
-            button1.setTitleColor(.densityDarkGray, for: .normal)
-        } else {
-            button1.backgroundColor = .densityGreen
-            button1.layer.borderColor = UIColor.densityGreen.cgColor
-            button1.setTitleColor(.white, for: .normal)
-        }
-    }
-
-    @objc func checkboxPressed() {
-        if checkbox1.image(for: .normal) == UIImage(named: "checked-box") {
-            checkbox1.setImage(UIImage(named: "unchecked-box"), for: .normal)
-        } else {
-            checkbox1.setImage(UIImage(named: "checked-box"), for: .normal)
-        }
-    }
-
     @objc func proceedButtonPressed() {
         let thankYouViewController = ThankYouViewController()
         navigationController?.pushViewController(thankYouViewController, animated: true)
     }
-
 }
