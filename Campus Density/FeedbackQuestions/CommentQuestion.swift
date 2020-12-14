@@ -1,5 +1,5 @@
 //
-//  CommentsQuestion.swift
+//  CommentQuestion.swift
 //  Campus Density
 //
 //  Created by Changyuan Lin on 12/13/20.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol CommentsQuestionDelegate: class {
-    func commentsWasChanged(comments: String)
-    func commentsDidBeginEditing()
-    func commentsDidEndEditing()
+protocol CommentQuestionDelegate: class {
+    func commentWasChanged(comment: String)
+    func commentDidBeginEditing()
+    func commentDidEndEditing()
 }
 
-class CommentsQuestion: FeedbackQuestion, UITextViewDelegate {
-    weak var delegate: CommentsQuestionDelegate?
+class CommentQuestion: FeedbackQuestion, UITextViewDelegate {
+    weak var delegate: CommentQuestionDelegate?
     let textView = UITextView()
 
     init() {
@@ -32,15 +32,15 @@ class CommentsQuestion: FeedbackQuestion, UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        delegate?.commentsDidBeginEditing()
+        delegate?.commentDidBeginEditing()
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        delegate?.commentsDidEndEditing()
+        delegate?.commentDidEndEditing()
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        delegate?.commentsWasChanged(comments: textView.text)
+        delegate?.commentWasChanged(comment: textView.text)
     }
 
     required init?(coder: NSCoder) {

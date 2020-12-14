@@ -9,15 +9,12 @@
 import UIKit
 
 struct Feedback: Codable {
-    var isAccurate: Bool
+    var eatery: String
     var predicted: Int
     var observed: Int
     var waitTime: Int
-    var dineIn: Bool
-    var startDine: Int
-    var endDine: Int
-    var campuslocation: String
-    var comments: String
+    var comment: String
+    var isAccurate: Bool  // Only used internally at the moment
 }
 
 class FeedbackViewController: UIViewController {
@@ -122,10 +119,10 @@ class FeedbackViewController: UIViewController {
         let waitTimeQuestion = WaitTimeQuestion()
         waitTimeQuestion.delegate = self
 
-        let commentsQuestion = CommentsQuestion()
-        commentsQuestion.delegate = self
+        let commentQuestion = CommentQuestion()
+        commentQuestion.delegate = self
 
-        questions = [accuracyQuestion, observedDensityQuestion, waitTimeQuestion, commentsQuestion]
+        questions = [accuracyQuestion, observedDensityQuestion, waitTimeQuestion, commentQuestion]
         for question in questions {
             background.addSubview(question)
             question.snp.makeConstraints { make in
@@ -145,7 +142,7 @@ class FeedbackViewController: UIViewController {
 
     func showWith(location: String, predictedDensity: Int) {
         view.isHidden = false
-        feedback = Feedback(isAccurate: false, predicted: predictedDensity, observed: 0, waitTime: 0, dineIn: false, startDine: 0, endDine: 0, campuslocation: location, comments: "")
+        feedback = Feedback(eatery: location, predicted: predictedDensity, observed: -1, waitTime: -1, comment: "", isAccurate: false)
     }
 
     @objc func nextQuestion() {
@@ -248,16 +245,16 @@ extension FeedbackViewController: WaitTimeQuestionDelegate {
     }
 }
 
-extension FeedbackViewController: CommentsQuestionDelegate {
-    func commentsWasChanged(comments: String) {
-        self.feedback?.comments = comments
+extension FeedbackViewController: CommentQuestionDelegate {
+    func commentWasChanged(comment: String) {
+        self.feedback?.comment = comment
     }
 
-    func commentsDidBeginEditing() {
+    func commentDidBeginEditing() {
         moveUp()
     }
 
-    func commentsDidEndEditing() {
+    func commentDidEndEditing() {
         moveDown()
     }
 }
