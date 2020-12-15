@@ -185,7 +185,9 @@ class FeedbackViewController: UIViewController {
     }
 
     func submitFeedback() {
-        print("Submit feedback")
+        API.addFeedback(feedback: feedback!) { success in
+            print("addFeedback was maybe \(success) but it hasn't been tested")
+        }
     }
 
     func showThanksAndHide() {

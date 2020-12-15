@@ -432,6 +432,24 @@ class API {
                 }
         }
     }
+
+    static func addFeedback(feedback: Feedback, completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+
+        // TODO: improve error handling based on response (JSON?)
+        AF.request("\(url)/addFeedback", method: .post, parameters: feedback, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
+            switch response.result {
+            case .success:
+                completion(true)
+            case .failure(let error):
+                print(error, "addFeedback")
+                completion(false)
+            }
+        }
+    }
 }
 
 extension JSONDecoder {
