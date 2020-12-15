@@ -147,7 +147,7 @@ class FeedbackViewController: UIViewController {
 
     @objc func nextQuestion() {
         questionView.isHidden = true
-        questionIndex += 1
+        questionIndex += (questionIndex == 0 && self.feedback!.isAccurate) ? 2 : 1
         if questionIndex == questions.count { // If out of questions, it's time to submit
             submitFeedback()
             showThanksAndHide()
@@ -163,7 +163,7 @@ class FeedbackViewController: UIViewController {
 
     @objc func prevQuestion() {
         questionView.isHidden = true
-        questionIndex -= 1
+        questionIndex -= (questionIndex == 2 && self.feedback!.isAccurate) ? 2 : 1
         if questionIndex <= 0 {
             prevButton.isHidden = true
             questionIndex = 0

@@ -27,6 +27,8 @@ class AccuracyQuestion: FeedbackQuestion {
         noLabel.font = .sixteen
         yesLabel.textColor = .darkGray
         noLabel.textColor = .darkGray
+        yesButton.backgroundColor = .clear
+        noButton.backgroundColor = .black
         yesButton.addHandler(for: .primaryActionTriggered, action: yesButtonPressed)
         noButton.addHandler(for: .primaryActionTriggered, action: noButtonPressed)
         for button in [yesButton, noButton] {
