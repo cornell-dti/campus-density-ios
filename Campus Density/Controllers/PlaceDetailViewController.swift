@@ -40,9 +40,10 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
-    let spinnerHeight: CGFloat = 35
+    let spinnerHeight: CGFloat = 25
     let linkTopOffset: CGFloat = 5
     let dividerHeight: CGFloat = 1
+    let spinnerY: CGFloat = 626 //calculated programmatically using menu y value
     let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
     let unavailableText = "No menus available"
     let ithacaTime = TimeZone(identifier: "America/New_York")!
@@ -76,7 +77,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         spinnerView.snp.makeConstraints { make in
             make.width.height.equalTo(spinnerHeight)
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(view.frame.height/3)
+            make.centerY.equalTo(spinnerY)
         }
 
         unavailableLabel = UILabel()
@@ -87,7 +88,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
         unavailableLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(view.frame.height/4)
+            make.centerY.equalTo(spinnerY)
         }
 
         ithacaCalendar.timeZone = ithacaTime

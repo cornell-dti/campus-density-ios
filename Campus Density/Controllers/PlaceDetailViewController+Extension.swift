@@ -47,11 +47,12 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                     }
                 }
             }
-        } else if place.menus.weeksMenus.count == 0 {
+        }
+        //if there are not any available menus for the day, the unavailable menu label is shown else it is hidden and the activity indicator spins until the menus load
+        else if place.menus.weeksMenus.count == 0 {
             spinnerView.isHidden = false
             spinnerView.animate()
             view.addSubview(spinnerView)
-            print("No Menus Available")
         } else {
             unavailableLabel.isHidden = false
             view.addSubview(unavailableLabel)
