@@ -10,9 +10,10 @@ import UIKit
 
 struct Feedback: Codable {
     var eatery: String
-    var predicted: Int
-    var observed: Int
-    var waitTime: Int
+    var predictedDensity: Int  // Not on backend yet
+    var observedDensity: Int  // Not on backend yet
+    var predictedWait: Int  // Unknown, but required
+    var observedWait: Int
     var comment: String
     var isAccurate: Bool  // Only used internally at the moment
 }
@@ -142,7 +143,7 @@ class FeedbackViewController: UIViewController {
 
     func showWith(location: String, predictedDensity: Int) {
         view.isHidden = false
-        feedback = Feedback(eatery: location, predicted: predictedDensity, observed: -1, waitTime: -1, comment: "", isAccurate: false)
+        feedback = Feedback(eatery: location, predictedDensity: predictedDensity, observedDensity: -1, predictedWait: -1, observedWait: -1, comment: "", isAccurate: false)
     }
 
     @objc func nextQuestion() {
@@ -237,13 +238,13 @@ extension FeedbackViewController: AccuracyQuestionDelegate {
 
 extension FeedbackViewController: ObservedDensityQuestionDelegate {
     func observedDensityWasChanged(observed: Int) {
-        self.feedback?.observed = observed
+        self.feedback?.observedDensity = observed
     }
 }
 
 extension FeedbackViewController: WaitTimeQuestionDelegate {
     func waitTimeWasChanged(waitTime: Int) {
-        self.feedback?.waitTime = waitTime
+        self.feedback?.observedWait = waitTime
     }
 }
 

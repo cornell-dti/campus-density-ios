@@ -21,7 +21,7 @@ class ObservedDensityQuestion: FeedbackQuestion {
     var radioButtons: [UIButton] = []
 
     init() {
-        super.init(subtitle: "How crowded do you think the dining hall is right now?")
+        super.init(subtitle: "How crowded do you think this location is right now?")
         for density in 0...3 {
             let colorPill = UIButton()
             let radioButton = UIButton()
