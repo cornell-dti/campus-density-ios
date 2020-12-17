@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PlacesViewController.swift
 //  Campus Density
 //
 //  Created by Matthew Coufal on 10/14/18.
@@ -10,6 +10,7 @@ import SnapKit
 import Firebase
 import IGListKit
 
+/// Region to filter eatery locations by
 enum Filter: String {
     case all = "All"
     case north = "North"
@@ -17,6 +18,7 @@ enum Filter: String {
     case central = "Central"
 }
 
+/// The main-screen view controller of the app. It contains the scrollable list of eateries that lead to detail views.
 class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Data vars
@@ -90,6 +92,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         setupGestureRecognizers()
     }
 
+    /// Attempt to sign in and update the eatery data
     func signIn() {
         if let user = Auth.auth().currentUser {
             if System.token != nil {
@@ -141,6 +144,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    /// Display an alert that eatery data failed to load.
     func alertError() {
         let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { _ in
@@ -219,7 +223,6 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -227,24 +230,16 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         updatePlaces()
     }
 
-    func filterLabel(filter: Filter) -> String {
-        switch filter {
-        case .all:
-            return "All"
-        case .central:
-            return "Central"
-        case .north:
-            return "North"
-        case .west:
-            return "West"
-        }
-    }
-
     /// Update `filteredPlaces` by filtering through current location filter and then search filter
     func updateFilteredPlaces() {
         filteredPlaces = filter(places: filter(places: System.places, by: self.selectedFilter), by: self.searchText)
     }
 
+    /// Filter a list of eateries by region.
+    /// - Parameters:
+    ///   - places: List of eateries
+    ///   - selectedFilter: Region to filter by, may be `.all`
+    /// - Returns: A new list only containing places whose region satisfies the filter
     func filter(places: [Place], by selectedFilter: Filter) -> [Place] {
         var filteredPlaces: [Place] = []
         print("Filtering by \(selectedFilter)")
@@ -268,6 +263,11 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         return filteredPlaces
     }
 
+    /// Filter a list of eateries to those whose names contain a substring.
+    /// - Parameters:
+    ///   - places: List of eateries
+    ///   - text: String to filter display name by
+    /// - Returns: A new list containing places whose display name contains `text`
     func filter(places: [Place], by text: String) -> [Place] {
         var filteredPlaces: [Place] = []
         print("Filtering by \(text)")
@@ -282,6 +282,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         return filteredPlaces
     }
 
+    /// Set up pull-to-refesh functionality at top of page
     func setupRefreshControl() {
         if refreshBarsView != nil {
             refreshBarsView.removeFromSuperview()

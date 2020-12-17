@@ -12,6 +12,7 @@ protocol AccuracyQuestionDelegate: class {
     func accuracyWasChanged(isAccurate: Bool)
 }
 
+/// Feedback question asking if Flux information is accurate. Radio buttons yes/no.
 class AccuracyQuestion: FeedbackQuestion {
     weak var delegate: AccuracyQuestionDelegate?
     let yesLabel = UILabel()
@@ -53,12 +54,14 @@ class AccuracyQuestion: FeedbackQuestion {
         }
     }
 
+    /// Update the radio buttons to reflect that the information is accurate. Also notifies its delegate.
     func yesButtonPressed() {
         yesButton.backgroundColor = .black
         noButton.backgroundColor = .clear
         delegate?.accuracyWasChanged(isAccurate: true)
     }
 
+    /// Update the radio buttons to reflect that the information is not accurate. Also notifies its delegate.
     func noButtonPressed() {
         yesButton.backgroundColor = .clear
         noButton.backgroundColor = .black

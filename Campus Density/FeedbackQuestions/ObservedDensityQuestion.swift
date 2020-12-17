@@ -12,6 +12,7 @@ protocol ObservedDensityQuestionDelegate: class {
     func observedDensityWasChanged(observed: Int)
 }
 
+/// Feedback question with Flux pills to ask for observed density/crowdedness
 class ObservedDensityQuestion: FeedbackQuestion {
     weak var delegate: ObservedDensityQuestionDelegate?
     let colors: [UIColor] = [.lightTeal, .wheat, .peach, .orangeyRed] // From CurrentDensityCell
@@ -78,6 +79,8 @@ class ObservedDensityQuestion: FeedbackQuestion {
         }
     }
 
+    /// Update color pills and radio buttons to reflect a new selected density. Also notifies its delegate of the change.
+    /// - Parameter density: A number 0-3, with 0 being "not busy" and 3 being "very busy"
     func changeObservedDensity(density: Int) {
         let densityColor = colors[density]
         for i in 0...3 {

@@ -12,6 +12,7 @@ protocol WaitTimeQuestionDelegate: class {
     func waitTimeWasChanged(waitTime: Int)
 }
 
+/// Feedback question asking for observed wait time using a `PickerView`
 class WaitTimeQuestion: FeedbackQuestion, UIPickerViewDataSource, UIPickerViewDelegate {
     weak var delegate: WaitTimeQuestionDelegate?
     let options = ["0-2", "2-4", "4-6", "6-8", "8-10", "10-12", "12-14", "14-16", "16-18", "18-20", "20+"]
