@@ -37,14 +37,15 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
     var spinnerView: ActivityView!
+    var feedbackViewController: FeedbackViewController!
 
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
     let spinnerHeight: CGFloat = 25
     let linkTopOffset: CGFloat = 5
+  
     let dividerHeight: CGFloat = 1
     let spinnerY: CGFloat = 626 //calculated programmatically using menu y value
-    let feedbackForm = "https://docs.google.com/forms/d/e/1FAIpQLSeJZ7AyVRZ8tfw-XiJqREmKn9y0wPCyreEkkysJn0QHCLDmaA/viewform?vc=0&c=0&w=1"
     let unavailableText = "No menus available"
     let ithacaTime = TimeZone(identifier: "America/New_York")!
     var ithacaCalendar = Calendar.current
@@ -104,7 +105,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             loadingHours = false
             setup()
         }
-        if ((place?.menus.weeksMenus)!.isEmpty) {
+        if (place?.menus.weeksMenus)!.isEmpty {
             getMenus()
         } else {
             loadingMenus = false
@@ -276,6 +277,15 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         adapter.dataSource = self
 
         collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        feedbackViewController = FeedbackViewController()
+        addChild(feedbackViewController)
+        feedbackViewController.view.isHidden = true
+        view.addSubview(feedbackViewController.view)
+
+        feedbackViewController.view.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 

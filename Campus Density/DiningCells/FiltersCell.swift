@@ -61,7 +61,7 @@ class FiltersCell: UICollectionViewCell {
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
                 make.left.equalToSuperview().offset(buttonLeftOffset)
-                make.bottom.equalToSuperview()
+                make.top.equalToSuperview()
             })
             index += 1
             buttonLeftOffset += buttonWidth + padding

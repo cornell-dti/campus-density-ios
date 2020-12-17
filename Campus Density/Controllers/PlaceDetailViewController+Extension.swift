@@ -15,7 +15,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
         var menus = DayMenus(menus: [], date: "help")
         var menuDay = selectedWeekday + 1 - getCurrentWeekday()
-        if (menuDay <= 0) {
+        if menuDay <= 0 {
             menuDay = 7 + menuDay
         }
         if place.menus.weeksMenus.count != 0 {
@@ -23,9 +23,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         }
         var meals = [Meal]()
         var endTimes = [Int]()
-        if (menus.menus.count != 0) {
+        if menus.menus.count != 0 {
             for meal in menus.menus {
-                if (meal.menu.count != 0) {
+                if meal.menu.count != 0 {
                     meals.append(Meal(rawValue: meal.description)!)
                     endTimes.append(meal.endTime)
                 }
@@ -64,7 +64,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: Constants.smallPadding),
             AvailabilityInfoModel(place: place),
             SpaceModel(space: linkTopOffset),
-            FormLinkModel(feedbackForm: feedbackForm, lastUpdated: lastUpdatedTime),
+            FormLinkModel(lastUpdated: lastUpdatedTime),
             SpaceModel(space: Constants.mediumPadding),
             SectionDividerModel(lineWidth: dividerHeight),
             SpaceModel(space: Constants.mediumPadding),
@@ -131,9 +131,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
 
 extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
 
-    func formLinkSectionControllerDidPressLinkButton(link: String) {
-        guard let url = URL(string: feedbackForm) else { return }
-        UIApplication.shared.open(url)
+    func formLinkSectionControllerDidPressLinkButton() {
+        feedbackViewController.showWith(location: place.id, predictedDensity: place.density.rawValue)
     }
 
 }

@@ -11,7 +11,7 @@ import IGListKit
 
 protocol FormLinkSectionControllerDelegate: class {
 
-    func formLinkSectionControllerDidPressLinkButton(link: String)
+    func formLinkSectionControllerDidPressLinkButton()
 
 }
 
@@ -36,7 +36,7 @@ class FormLinkSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: FormLinkCell.self, for: self, at: index) as! FormLinkCell
-        cell.configure(delegate: self, link: formLinkModel.feedbackForm, lastUpdatedDate: formLinkModel.lastUpdated)
+        cell.configure(delegate: self, lastUpdatedDate: formLinkModel.lastUpdated)
         return cell
     }
 
@@ -48,8 +48,8 @@ class FormLinkSectionController: ListSectionController {
 
 extension FormLinkSectionController: FormLinkCellDelegate {
 
-    func formLinkCellDidPressLinkButton(link: String) {
-        delegate?.formLinkSectionControllerDidPressLinkButton(link: link)
+    func formLinkCellDidPressLinkButton() {
+        delegate?.formLinkSectionControllerDidPressLinkButton()
     }
 
 }
