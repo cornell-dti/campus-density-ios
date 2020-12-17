@@ -55,7 +55,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: Constants.smallPadding),
             AvailabilityInfoModel(place: place),
             SpaceModel(space: linkTopOffset),
-            FormLinkModel(feedbackForm: feedbackForm, lastUpdated: lastUpdatedTime),
+            FormLinkModel(lastUpdated: lastUpdatedTime),
             SpaceModel(space: Constants.mediumPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.smallPadding),
@@ -116,9 +116,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
 
 extension PlaceDetailViewController: FormLinkSectionControllerDelegate {
 
-    func formLinkSectionControllerDidPressLinkButton(link: String) {
-        guard let url = URL(string: feedbackForm) else { return }
-        UIApplication.shared.open(url)
+    func formLinkSectionControllerDidPressLinkButton() {
+        feedbackViewController.showWith(location: place.id, predictedDensity: place.density.rawValue)
     }
 
 }
