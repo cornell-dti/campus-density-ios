@@ -91,7 +91,7 @@ class Place: ListDiffable {
     var id: String
     var density: Density
     var isClosed: Bool
-    var hours: [Int: String]
+    var hours: [DailyInfo]
     var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
@@ -107,7 +107,7 @@ class Place: ListDiffable {
     ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -281,7 +281,7 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
                     }
                     completion(true)
                 case .failure(let error):
@@ -307,7 +307,7 @@ class API {
         if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
 
             let formatter = DateFormatter()
-            formatter.dateFormat = "MM-dd-yy"
+            formatter.dateFormat = "MM-dd-yy" // weird format
             // Always get hours based on the time in New York
             formatter.timeZone = TimeZone(identifier: "America/New_York")
             let startDate = formatter.string(from: today)
@@ -325,32 +325,10 @@ class API {
                     let result: AFResult<[HoursResponse]> = decoder.decodeResponse(from: response)
                     switch result {
                     case .success(let hoursResponseArray):
-                        // TODO delete this preprocessing of hours data function when DetailControllerHeader isn't relying on it anymore
-                        // No longer used by any HoursCell as that has been moved into the menus
-                        let hoursResponse = hoursResponseArray[0]
-                        var hours = [Int: String]()
-                        for dailyInfo in hoursResponse.hours {
-                            let day = dailyInfo.dayOfWeek
-                            let dailyHours = dailyInfo.dailyHours
-                            let timeFormatter = DateFormatter()
-                            // Display hours in ET
-                            timeFormatter.timeZone = TimeZone(identifier: "America/New_York")
-                            timeFormatter.timeStyle = .short
-                            guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
-                            let open = Date(timeIntervalSince1970: openTimestamp)
-                            let close = Date(timeIntervalSince1970: closeTimestamp)
-                            let openTime = timeFormatter.string(from: open)
-                            let closeTime = timeFormatter.string(from: close)
-                            if let hoursString = hours[day] {
-                                hours[day] = hoursString + "\n\(openTime) - \(closeTime)"
-                            } else {
-                                hours[day] = "\(openTime) - \(closeTime)"
-                            }
-                        }
                         if let placeIndex = System.places.firstIndex(where: { other -> Bool in
                             return other.id == place.id
                         }) {
-                            System.places[placeIndex].hours = hours
+                            System.places[placeIndex].hours = hoursResponseArray[0].hours
                         } else {
                             success = false
                         }

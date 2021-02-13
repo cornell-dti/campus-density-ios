@@ -10,7 +10,6 @@ import UIKit
 
 class DetailControllerHeaderCell: UICollectionViewCell {
 
-    var place: Place!
     var displayLabel: UILabel!
     var timeString: NSMutableAttributedString!
     var timeLabel: UILabel!
@@ -64,23 +63,15 @@ class DetailControllerHeaderCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with place: Place) {
-        self.place = place
-        displayLabel.text = place.displayName
-        if place.displayName.count >= 23 {
+    func configure(displayName: String, hours: [DailyInfo]) {
+        displayLabel.text = displayName
+        if displayName.count >= 23 {
             displayLabel.font = .twentyEightBold
         }
 
-        if place.isClosed {
-            timeString = NSMutableAttributedString(string: "Closed")
-            timeString.addAttribute(.foregroundColor, value: UIColor.orangeyRed, range: NSRange(location: 0, length: timeString.mutableString.length))
-        } else {
-            let closingString = getNextClosingText()
-            timeString = NSMutableAttributedString(string: "Open until \(closingString)")
-            timeString.addAttribute(.foregroundColor, value: UIColor.lightTeal, range: NSRange(location: 0, length: timeString.mutableString.length))
-        }
-
-        timeLabel.attributedText = timeString
+        let timeText = getNextClosingText()
+        let attributes = [NSAttributedString.Key.foregroundColor: (timeText == "Closed" ? UIColor.orangeyRed : UIColor.lightTeal)]
+        timeLabel.attributedText = NSMutableAttributedString(string: timeText, attributes: attributes)
     }
 
     /**
