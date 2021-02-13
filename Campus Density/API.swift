@@ -141,9 +141,16 @@ class Token: Codable {
     }
 }
 
+struct DailyHours: Codable {
+
+    var startTimestamp: Double
+    var endTimestamp: Double
+
+}
+
 struct DailyInfo: Codable {
 
-    var dailyHours: [String: Double]
+    var dailyHours: DailyHours
     var date: String
     var dayOfWeek: Int
     var status: String

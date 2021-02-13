@@ -69,44 +69,31 @@ class DetailControllerHeaderCell: UICollectionViewCell {
             displayLabel.font = .twentyEightBold
         }
 
-        let timeText = getNextClosingText()
+        let timeText = getNextClosingText(hours: hours)
         let attributes = [NSAttributedString.Key.foregroundColor: (timeText == "Closed" ? UIColor.orangeyRed : UIColor.lightTeal)]
         timeLabel.attributedText = NSMutableAttributedString(string: timeText, attributes: attributes)
     }
 
     /**
-     Returns a string representing the next closing time for this place, with the hh:mm aa format.
+     Returns a user-facing string representing the next closing time for this place.
     */
-    func getNextClosingText() -> String {
+    func getNextClosingText(hours: [DailyInfo]) -> String {
 
+        // TODO: consider moving to util or someplace since ithacaTime/ithacaCalendar are used multiple places
         let ithacaTime = TimeZone(identifier: "America/New_York")!
         var ithacaCalendar = Calendar.current
-
         ithacaCalendar.timeZone = ithacaTime
 
         let currTime = Date()
-        let day = ithacaCalendar.component(.weekday, from: currTime)
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
         dateFormatter.timeZone = ithacaTime
-        guard let placeHoursStringified = place.hours[day - 1] else { return "Operating hours could not be found" }
-        let placeHours = placeHoursStringified.split(separator: "\n")
-        for s in placeHours {
-            let rangeSplit = String(s).split(separator: "-")
-            let endTime = String(rangeSplit[1]).trimmingCharacters(in: .whitespacesAndNewlines)
-            print("Endtime: " + endTime)
 
-            var currTimeRef = Date(timeIntervalSinceReferenceDate: 0) // Initiates date at 2001-01-01 00:00:00 +0000
-            var endTimeRef = Date(timeIntervalSinceReferenceDate: 0)
-
-            let currDateComponents = ithacaCalendar.dateComponents([.hour, .minute], from: currTime)
-            let endTimeComponents = ithacaCalendar.dateComponents([.hour, .minute], from: dateFormatter.date(from: endTime)!)
-
-            currTimeRef = ithacaCalendar.date(byAdding: currDateComponents, to: currTimeRef)!
-            endTimeRef = ithacaCalendar.date(byAdding: endTimeComponents, to: endTimeRef)!
-
-            if currTimeRef < endTimeRef {
-                return endTime
+        for mealPeriod in hours {
+            let startTime = Date(timeIntervalSince1970: mealPeriod.dailyHours.startTimestamp)
+            let endTime = Date(timeIntervalSince1970: mealPeriod.dailyHours.endTimestamp)
+            if currTime > startTime && currTime < endTime {
+                return "Open until \(dateFormatter.string(from: endTime))"
             }
         }
 
