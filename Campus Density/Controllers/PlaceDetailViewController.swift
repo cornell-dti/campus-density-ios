@@ -43,7 +43,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     let largeLoadingBarsLength: CGFloat = 63
     let spinnerHeight: CGFloat = 25
     let linkTopOffset: CGFloat = 5
-  
+
     let dividerHeight: CGFloat = 1
     let spinnerY: CGFloat = 626 //calculated programmatically using menu y value
     let unavailableText = "No menus available"
