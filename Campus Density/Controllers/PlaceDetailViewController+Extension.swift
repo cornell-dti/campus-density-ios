@@ -49,11 +49,11 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             }
         }
         return [
-            DetailControllerHeaderModel(place: place),
+            DetailControllerHeaderModel(displayName: place.displayName, hours: place.hours),
             SpaceModel(space: Constants.smallPadding),
             AvailabilityHeaderModel(),
             SpaceModel(space: Constants.smallPadding),
-            AvailabilityInfoModel(place: place),
+            AvailabilityInfoModel(place: place), // TODO: look into only passing what's necessary
             SpaceModel(space: linkTopOffset),
             FormLinkModel(lastUpdated: lastUpdatedTime),
             SpaceModel(space: Constants.mediumPadding),

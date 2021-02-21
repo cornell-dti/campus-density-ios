@@ -11,11 +11,13 @@ import IGListKit
 
 class DetailControllerHeaderModel {
 
-    var place: Place!
+    var displayName: String
+    var hours: [DailyInfo]
     var identifier = UUID().uuidString
 
-    init(place: Place) {
-        self.place = place
+    init(displayName: String, hours: [DailyInfo]) {
+        self.displayName = displayName
+        self.hours = hours
     }
 }
 
