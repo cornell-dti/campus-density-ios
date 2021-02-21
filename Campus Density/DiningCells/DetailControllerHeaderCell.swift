@@ -75,7 +75,7 @@ class DetailControllerHeaderCell: UICollectionViewCell {
     }
 
     /**
-     Returns a user-facing string representing the next closing time for this place.
+     Returns a user-facing string representing the next closing time for this place, e.g. "Open until 8:30 PM" or "Closed"
     */
     func getNextClosingText(hours: [DailyInfo]) -> String {
 
