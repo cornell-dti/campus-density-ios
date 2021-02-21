@@ -90,7 +90,7 @@ class Place: ListDiffable {
     var displayName: String
     var id: String
     var density: Density
-    var waitTime: Int
+    var waitTime: Int?
     var isClosed: Bool
     var hours: [DailyInfo]
     var history: [String: [String: Double]]
@@ -108,7 +108,7 @@ class Place: ListDiffable {
     ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
-    init(displayName: String, id: String, density: Density, waitTime: Int, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, waitTime: Int?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -318,7 +318,7 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: -1, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: nil, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
                     }
                     completion(true)
                 case .failure(let error):
