@@ -212,6 +212,8 @@ class API {
         return value
     }
 
+    // MARK: - PlacesView Functions
+
     /// Fetches the information about the opening/closing times of all the eateries (as specified in the `PlaceInfo` definition, and then sets the `region` and `isClosed` properties of this eateries corresponding `Place` instance in System.places based on this fetched data
     static func status(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
@@ -302,6 +304,74 @@ class API {
         }
     }
 
+    static func densities(completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        AF.request("\(url)/howDense", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: AFResult<[PlaceDensity]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let densities):
+                    self.lastUpdatedDensityTime = Date() // Set last updated density time to now
+                    densities.forEach({ placeDensity in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == placeDensity.id
+                        })
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].density = placeDensity.density
+                    })
+                    completion(true)
+                case .failure(let error):
+                    print(error, "howDense")
+                    completion(false)
+                }
+        }
+    }
+
+    static func getLastUpdatedDensityTime() -> Date {
+        let multiples = floor(lastUpdatedDensityTime!.timeIntervalSince1970 / lastUpdatedRoundingSeconds)
+        return Date(timeIntervalSince1970: multiples * lastUpdatedRoundingSeconds)
+    }
+
+    // MARK: - PlaceDetailView Functions
+
+    static func menus(place: Place, completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+
+        print("PLACE: \(place.id)")
+
+        let parameters = [
+            "facility": place.id
+        ]
+
+        AF.request("\(url)/menuData", parameters: parameters, headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: AFResult<[WeekMenus]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let menulist):
+                    menulist.forEach({menu in
+                        let index = System.places.firstIndex(where: { place -> Bool in
+                            return place.id == menu.id
+                        })
+                        guard let placeIndex = index else { return }
+                        System.places[placeIndex].menus = menu
+                    })
+                    completion(true)
+
+                case .failure(let error):
+                    print(error, "menuData")
+                    completion(false)
+                }
+        }
+    }
+
     static func hours(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -348,73 +418,6 @@ class API {
         } else {
             success = false
             completion(success)
-        }
-
-    }
-
-    static func densities(completion: @escaping (Bool) -> Void) {
-        guard let token = System.token else { return }
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)"
-        ]
-        AF.request("\(url)/howDense", headers: headers)
-            .responseData { response in
-                let decoder = JSONDecoder()
-                let result: AFResult<[PlaceDensity]> = decoder.decodeResponse(from: response)
-                switch result {
-                case .success(let densities):
-                    self.lastUpdatedDensityTime = Date() // Set last updated density time to now
-                    densities.forEach({ placeDensity in
-                        let index = System.places.firstIndex(where: { place -> Bool in
-                            return place.id == placeDensity.id
-                        })
-                        guard let placeIndex = index else { return }
-                        System.places[placeIndex].density = placeDensity.density
-                    })
-                    completion(true)
-                case .failure(let error):
-                    print(error, "howDense")
-                    completion(false)
-                }
-        }
-    }
-
-    static func getLastUpdatedDensityTime() -> Date {
-        let multiples = floor(lastUpdatedDensityTime!.timeIntervalSince1970 / lastUpdatedRoundingSeconds)
-        return Date(timeIntervalSince1970: multiples * lastUpdatedRoundingSeconds)
-    }
-
-    static func menus(place: Place, completion: @escaping (Bool) -> Void) {
-        guard let token = System.token else { return }
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)"
-        ]
-
-        print("PLACE: \(place.id)")
-
-        let parameters = [
-            "facility": place.id
-        ]
-
-        AF.request("\(url)/menuData", parameters: parameters, headers: headers)
-            .responseData { response in
-                let decoder = JSONDecoder()
-                let result: AFResult<[WeekMenus]> = decoder.decodeResponse(from: response)
-                switch result {
-                case .success(let menulist):
-                    menulist.forEach({menu in
-                        let index = System.places.firstIndex(where: { place -> Bool in
-                            return place.id == menu.id
-                        })
-                        guard let placeIndex = index else { return }
-                        System.places[placeIndex].menus = menu
-                    })
-                    completion(true)
-
-                case .failure(let error):
-                    print(error, "menuData")
-                    completion(false)
-                }
         }
     }
 
