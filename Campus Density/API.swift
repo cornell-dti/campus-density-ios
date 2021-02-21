@@ -90,6 +90,7 @@ class Place: ListDiffable {
     var displayName: String
     var id: String
     var density: Density
+    var waitTime: Int
     var isClosed: Bool
     var hours: [DailyInfo]
     var history: [String: [String: Double]]
@@ -107,10 +108,11 @@ class Place: ListDiffable {
     ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, waitTime: Int, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
+        self.waitTime = waitTime
         self.isClosed = isClosed
         self.hours = hours
         self.history = history
@@ -249,6 +251,32 @@ class API {
         }
     }
 
+    static func waitTimes(completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        AF.request("\(url)/waitTime", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: AFResult<[String: Int]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let data):
+                    data.forEach { id, waitTime in
+                        guard let index = System.places.firstIndex(where: { place in
+                            return place.id == id
+                        }) else { return }
+                        // note: timestamp ignored -- currently "last updated" text corresponds to last time density was updated (every 5 mins)
+                        System.places[index].waitTime = waitTime
+                    }
+                    completion(true)
+                case .failure(let error):
+                    print(error, "waitTimes")
+                    completion(false)
+                }
+        }
+    }
+
     static func history(completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
@@ -290,7 +318,7 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: -1, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
                     }
                     completion(true)
                 case .failure(let error):
