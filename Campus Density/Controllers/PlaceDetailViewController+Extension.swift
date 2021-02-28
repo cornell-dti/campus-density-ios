@@ -57,7 +57,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: linkTopOffset),
             AvailabilityInfoModel(place: place), // TODO: look into only passing what's necessary
             SpaceModel(space: linkTopOffset),
-            FormLinkModel(lastUpdated: lastUpdatedTime),
+            FormLinkModel(isClosed: place.isClosed, waitTime: place.waitTime),
             SpaceModel(space: Constants.mediumPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.smallPadding),

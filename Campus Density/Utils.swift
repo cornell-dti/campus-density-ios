@@ -53,6 +53,14 @@ func interpretDensity(place: Place) -> String {
     }
 }
 
+func waitTimeText(waitTime: Int?) -> String {
+    if let time = waitTime {
+        return "\(time) min. wait"
+    } else {
+        return "? min. wait"
+    }
+}
+
 func weekdayAbbreviation(weekday: Int) -> String {
     switch weekday {
         case 0:

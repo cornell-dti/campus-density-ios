@@ -162,14 +162,6 @@ class PlaceCell: UICollectionViewCell {
         }
     }
 
-    func waitTimeText() -> String {
-        if let waitTime = place.waitTime {
-            return "\(waitTime) min. Wait time"
-        } else {
-            return "? min. Wait time"
-        }
-    }
-
     func colorBars() {
         if place.isClosed {
             barOne.backgroundColor = .whiteTwo
@@ -209,7 +201,7 @@ class PlaceCell: UICollectionViewCell {
     func configure(with place: Place) {
         self.place = place
         nameLabel.text = place.displayName
-        waitTimeLabel.text = place.isClosed ? "Closed" : waitTimeText()
+        waitTimeLabel.text = place.isClosed ? "Closed" : waitTimeText(waitTime: place.waitTime)
         waitTimeLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
         colorBars()
         setupConstraints()
