@@ -57,7 +57,7 @@ func waitTimeText(waitTime: Int?) -> String {
     if let time = waitTime {
         return "\(time) min. wait"
     } else {
-        return "? min. wait"
+        return "Unknown wait"
     }
 }
 
