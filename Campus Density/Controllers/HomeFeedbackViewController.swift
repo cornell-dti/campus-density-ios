@@ -30,6 +30,7 @@ class HomeFeedbackViewController: UIViewController {
     var nextButton: UIButton!
     var prevButton: UIButton!
     var isMovedUp: Bool = false
+    var notAnswered: UILabel!
 
     override func viewDidLoad() {
         setupControlsBackgroundThanks()
@@ -101,6 +102,19 @@ class HomeFeedbackViewController: UIViewController {
                 make.left.right.equalToSuperview().inset(20)
                 make.bottom.equalTo(nextButton.snp.top).offset(-20)
             }
+        
+        notAnswered = UILabel()
+        notAnswered.textColor = .black
+        notAnswered.textAlignment = .center
+        notAnswered.font = .ten
+        notAnswered.text = "Please answer this question before proceeding"
+        notAnswered.isHidden = true
+        background.addSubview(notAnswered)
+        notAnswered.snp.makeConstraints{ make in
+            make.bottom.equalTo(nextButton.snp.top).offset(-20)
+            make.centerX.equalToSuperview()
+        }
+        
         }
     
     func setupQuestions() {
@@ -141,10 +155,15 @@ class HomeFeedbackViewController: UIViewController {
 
     func showWith() {
         view.isHidden = false
-        feedback = FluxFeedback(likelytoRecommend: -1, usefulFeatures: [0], likeFluxOverall: -1, comment: "")
+        feedback = FluxFeedback(likelytoRecommend: -1, usefulFeatures: [], likeFluxOverall: -1, comment: "")
         }
     
     @objc func nextQuestion() {
+        if questionIndex == 0 && feedback?.likelytoRecommend == -1{
+            notAnswered.isHidden = false
+        }
+        else{
+            notAnswered.isHidden = true
             questionView.isHidden = true
             questionIndex += 1
             if questionIndex == questions.count { // If out of questions, it's time to submit
@@ -159,6 +178,7 @@ class HomeFeedbackViewController: UIViewController {
                 prevButton.isHidden = false
             }
         }
+    }
 
     @objc func prevQuestion() {
             questionView.isHidden = true
@@ -260,3 +280,5 @@ extension HomeFeedbackViewController: OtherCommentsQuestionDelegate {
         self.feedback?.comment = comment
     }
 }
+
+
