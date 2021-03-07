@@ -185,7 +185,7 @@ class HomeFeedbackViewController: UIViewController {
 
         func submitFeedback() {
             API.addGeneralFeedback(feedback: feedback!) { success in
-                print(success)
+                print("addGeneralFeedback was maybe \(success) but it hasn't been tested")
             }
         }
 
