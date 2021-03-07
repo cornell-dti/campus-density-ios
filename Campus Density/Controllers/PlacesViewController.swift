@@ -166,9 +166,19 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    func getDensities() {
-        API.densities { gotDensities in
-            if gotDensities {
+    func getStatus() {
+        API.status { gotStatus in
+            if gotStatus {
+                self.getHistory()
+            } else {
+                self.alertError()
+            }
+        }
+    }
+
+    func getWaitTimes() {
+        API.waitTimes { gotWaitTimes in
+            if gotWaitTimes {
                 self.getStatus()
             } else {
                 self.alertError()
@@ -176,10 +186,10 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    func getStatus() {
-        API.status { gotStatus in
-            if gotStatus {
-                self.getHistory()
+    func getDensities() {
+        API.densities { gotDensities in
+            if gotDensities {
+                self.getWaitTimes()
             } else {
                 self.alertError()
             }
@@ -201,11 +211,15 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             setupRefreshControl()
             API.densities { gotDensities in
                 if gotDensities {
-                    API.status { gotStatus in
-                        if gotStatus {
-                            sortPlaces() // Maybe fixes a bug related to opening the app after a long time and refreshed densities being out of order
-                            self.updateFilteredPlaces()
-                            self.adapter.performUpdates(animated: false, completion: nil)
+                    API.waitTimes { gotWaitTimes in
+                        if gotWaitTimes {
+                            API.status { gotStatus in
+                                if gotStatus {
+                                    sortPlaces() // Maybe fixes a bug related to opening the app after a long time and refreshed densities being out of order
+                                    self.updateFilteredPlaces()
+                                    self.adapter.performUpdates(animated: false, completion: nil)
+                                }
+                            }
                         }
                     }
                 }
@@ -333,11 +347,17 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         guard let refreshControl = collectionView.refreshControl else { return }
         API.densities { gotDensities in
             if gotDensities {
-                sortPlaces()
-                self.updateFilteredPlaces()
+                API.waitTimes { _ in
+                    API.status { _ in
+                        sortPlaces()
+                        self.updateFilteredPlaces()
+                        refreshControl.endRefreshing()
+                        self.adapter.performUpdates(animated: false, completion: nil) // After refreshing, reload with sorted places - otherwise may just have same order with updated density card on cell dequeue and configure (passing the place by reference and updating the places) ?
+                    }
+                }
+            } else {
+                self.alertError()
             }
-            refreshControl.endRefreshing()
-            self.adapter.performUpdates(animated: false, completion: nil) // After refreshing, reload with sorted places - otherwise may just have same order with updated density card on cell dequeue and configure (passing the place by reference and updating the places) ?
         }
     }
 
