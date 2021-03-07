@@ -445,7 +445,7 @@ class API {
                 case .success:
                     completion(true)
                 case .failure(let error):
-                    print(error, "addHomeFeedback")
+                    print(error, "addGeneralFeedback")
                     completion(false)
             }
         }

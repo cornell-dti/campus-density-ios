@@ -38,7 +38,7 @@ class HomeFeedbackViewController: UIViewController {
         setupGestureRecognizers()
     }
 
-    func setupControlsBackgroundThanks() {
+    func setupControlsBackgroundThanks() { //From FeedbackViewController
             let backdrop = UIButton()
             backdrop.addTarget(self, action: #selector(hide), for: .touchUpInside)
             backdrop.backgroundColor = UIColor(white: 0, alpha: 0.2)
