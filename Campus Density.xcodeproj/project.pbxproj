@@ -53,6 +53,12 @@
 		3A488095257B527900BADD18 /* AppFeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A488094257B527900BADD18 /* AppFeedbackModel.swift */; };
 		3A48809A257B531800BADD18 /* AppFeedbackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A488099257B531800BADD18 /* AppFeedbackCell.swift */; };
 		3A520C7A2583D28400633817 /* ThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A520C792583D28400633817 /* ThankYouViewController.swift */; };
+		3A60636225F531B900A0D457 /* RecommendQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60636125F531B900A0D457 /* RecommendQuestion.swift */; };
+		3A60636725F5338700A0D457 /* HomeFeedbackQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60636625F5338700A0D457 /* HomeFeedbackQuestion.swift */; };
+		3A60636F25F53AB600A0D457 /* FeaturesQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60636E25F53AB600A0D457 /* FeaturesQuestion.swift */; };
+		3A60637425F5472200A0D457 /* ThankYouQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60637325F5472200A0D457 /* ThankYouQuestion.swift */; };
+		3A60637925F557DA00A0D457 /* ReviewQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60637825F557DA00A0D457 /* ReviewQuestion.swift */; };
+		3A60637E25F55C0700A0D457 /* OtherCommentsQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60637D25F55C0700A0D457 /* OtherCommentsQuestion.swift */; };
 		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
@@ -165,6 +171,12 @@
 		3A488094257B527900BADD18 /* AppFeedbackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackModel.swift; sourceTree = "<group>"; };
 		3A488099257B531800BADD18 /* AppFeedbackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeedbackCell.swift; sourceTree = "<group>"; };
 		3A520C792583D28400633817 /* ThankYouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouViewController.swift; sourceTree = "<group>"; };
+		3A60636125F531B900A0D457 /* RecommendQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendQuestion.swift; sourceTree = "<group>"; };
+		3A60636625F5338700A0D457 /* HomeFeedbackQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedbackQuestion.swift; sourceTree = "<group>"; };
+		3A60636E25F53AB600A0D457 /* FeaturesQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesQuestion.swift; sourceTree = "<group>"; };
+		3A60637325F5472200A0D457 /* ThankYouQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouQuestion.swift; sourceTree = "<group>"; };
+		3A60637825F557DA00A0D457 /* ReviewQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewQuestion.swift; sourceTree = "<group>"; };
+		3A60637D25F55C0700A0D457 /* OtherCommentsQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCommentsQuestion.swift; sourceTree = "<group>"; };
 		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
@@ -341,6 +353,7 @@
 				0CC6B74521B0AF1400E7B359 /* System.swift */,
 				0CA3F4F52173EEBE00988A46 /* UIColor+Extension.swift */,
 				0C5D0C0A21827F9C00060874 /* UIFont+Extension.swift */,
+				3A60635525F5313000A0D457 /* HomeFeedbackQuestions */,
 				0C8B6D6C22324C1200058AE6 /* SectionControllers */,
 				EE9BED4923F4B79800A37464 /* GymSectionControllers */,
 				0C8B6D5D2232430600058AE6 /* DiningModels */,
@@ -405,6 +418,19 @@
 				EE03ED9023EBDA800064266B /* Keys.plist */,
 			);
 			path = Secrets;
+			sourceTree = "<group>";
+		};
+		3A60635525F5313000A0D457 /* HomeFeedbackQuestions */ = {
+			isa = PBXGroup;
+			children = (
+				3A60636125F531B900A0D457 /* RecommendQuestion.swift */,
+				3A60637325F5472200A0D457 /* ThankYouQuestion.swift */,
+				3A60637D25F55C0700A0D457 /* OtherCommentsQuestion.swift */,
+				3A60636E25F53AB600A0D457 /* FeaturesQuestion.swift */,
+				3A60637825F557DA00A0D457 /* ReviewQuestion.swift */,
+				3A60636625F5338700A0D457 /* HomeFeedbackQuestion.swift */,
+			);
+			path = HomeFeedbackQuestions;
 			sourceTree = "<group>";
 		};
 		88D611C92EA1178C5CDAE793 /* Pods */ = {
@@ -699,6 +725,7 @@
 				0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */,
 				0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */,
 				EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */,
+				3A60637425F5472200A0D457 /* ThankYouQuestion.swift in Sources */,
 				EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */,
 				EEA4117F249E849100190A30 /* AvailabilityHeaderModel.swift in Sources */,
 				0CA3F4EF2173ECD500988A46 /* PlacesViewController+Extension.swift in Sources */,
@@ -716,6 +743,8 @@
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
 				081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */,
 				3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */,
+				3A60637925F557DA00A0D457 /* ReviewQuestion.swift in Sources */,
+				3A60636225F531B900A0D457 /* RecommendQuestion.swift in Sources */,
 				EEA307C1238B28F400566BF7 /* GymsViewController.swift in Sources */,
 				EEED3D2B23F87752000E0220 /* GymDetailViewController.swift in Sources */,
 				0CB3BF782232BF3200A5B371 /* DaySelectionSectionController.swift in Sources */,
@@ -746,11 +775,13 @@
 				EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */,
 				0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */,
 				3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */,
+				3A60637E25F55C0700A0D457 /* OtherCommentsQuestion.swift in Sources */,
 				0CB3BF7E2232C50D00A5B371 /* GraphCell.swift in Sources */,
 				0C209B1922482D610007AFA9 /* FiltersModel.swift in Sources */,
 				3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */,
 				EE0DEF7F25151263001632C5 /* PoliciesSectionController.swift in Sources */,
 				0CC6B74621B0AF1400E7B359 /* System.swift in Sources */,
+				3A60636725F5338700A0D457 /* HomeFeedbackQuestion.swift in Sources */,
 				0C209B13224825AF0007AFA9 /* PlaceCell.swift in Sources */,
 				EE6E78F025117F2700B2F803 /* PoliciesModel.swift in Sources */,
 				08F679842378E976005B7810 /* MenuSectionController.swift in Sources */,
@@ -758,6 +789,7 @@
 				EE64E0D9240B0BD5003E449E /* GymFiltersSectionController.swift in Sources */,
 				0C209B152248281E0007AFA9 /* LogoSectionController.swift in Sources */,
 				08F679822378E8D7005B7810 /* MenuModel.swift in Sources */,
+				3A60636F25F53AB600A0D457 /* FeaturesQuestion.swift in Sources */,
 				0C209B1D22482E650007AFA9 /* FiltersCell.swift in Sources */,
 				0CB3BF882232CF9F00A5B371 /* PlaceDetailViewController.swift in Sources */,
 				EE9BED4F23F4B90C00A37464 /* GymDensityCell.swift in Sources */,
