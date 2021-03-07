@@ -24,6 +24,8 @@ class OtherCommentsQuestion: HomeFeedbackQuestion, UITextViewDelegate {
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.whiteTwo.cgColor
         textView.delegate = self
+        textView.text = "Please enter here! We really appreciate your feedback"
+        textView.textColor = .densityDarkGray
         addSubview(textView)
         textView.snp.makeConstraints { make in
             make.height.equalTo(80)
@@ -32,6 +34,10 @@ class OtherCommentsQuestion: HomeFeedbackQuestion, UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.densityDarkGray{
+            textView.text = ""
+            textView.textColor = .black
+        }
         delegate?.commentDidBeginEditing()
     }
 

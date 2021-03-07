@@ -17,7 +17,7 @@ class RecommendQuestion: HomeFeedbackQuestion {
     var recButtons: [UIButton] = []
     var recButtonsStackView: UIStackView!
     let radioButtonTitles = ["1", "2", "3", "4", "5"]
-    let radioButtonColors: [UIColor] = [.densityRed, .densityRed, .peach, .wheat, .densityGreen]
+    let radioButtonColors: [UIColor] = [.densityRed, .densityRed, .wheat, .peach,.densityGreen]
 
 
     

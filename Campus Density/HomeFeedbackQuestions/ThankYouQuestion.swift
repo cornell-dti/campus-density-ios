@@ -9,16 +9,22 @@
 import UIKit
 
 class ThankYouQuestion: HomeFeedbackQuestion {
-    let thanksImageView = UIImageView(image: UIImage(named: "thanks"))
+    let thankYouLabel = UILabel()
     let thanksLabel = UILabel()
 
     init() {
-        super.init(title: "Thank You!")
-        addSubview(thanksImageView)
-        thanksImageView.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
+        super.init(title: "")
+        thankYouLabel.text = "Thank You!"
+        thankYouLabel.numberOfLines = 0
+        thankYouLabel.font = .twentyBold
+        thankYouLabel.textColor = .black
+        thankYouLabel.textAlignment = .center
+        addSubview(thankYouLabel)
+        thankYouLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview().offset(-20)
         }
-        thanksLabel.text = "This helps us fix any discrepancies and create a better experience for you."
+        thanksLabel.text = "Your feedback would help us improve."
         thanksLabel.numberOfLines = 0
         thanksLabel.font = .fourteen
         thanksLabel.textColor = .warmGray
@@ -26,7 +32,7 @@ class ThankYouQuestion: HomeFeedbackQuestion {
         addSubview(thanksLabel)
         thanksLabel.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(thanksImageView.snp.bottom).offset(20)
+            make.top.equalTo(thankYouLabel.snp.bottom).offset(20)
         }
     }
 
