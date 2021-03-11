@@ -8,10 +8,15 @@
 
 import UIKit
 
+/// A blank feedback question
 class FeedbackQuestion: UIView {
     var title = UILabel()
     var subtitle = UILabel()
 
+    /// Initialize a blank feedback question, optionally with custom title/subtitle
+    /// - Parameters:
+    ///   - title: Question title, default "Accuracy Feedback"
+    ///   - subtitle: Question subtitle, default empty
     init(title: String = "Accuracy Feedback", subtitle: String = "") {
         super.init(frame: .zero)
         self.title.text = title

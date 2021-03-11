@@ -172,25 +172,39 @@ struct HistoricalData: Codable {
 
 }
 
+/// Group of individual menu items under one category such as "Grill Station"
 struct MenuItem: Codable {
+    /// List of individual food items
     var items: [String]
+    /// The "station" that these food items are available at, e.g. "Salad Bar Station", "Cereal/Bagel Bar"
     var category: String
 }
 
+/// The menu for one meal at a particular dining hall on a particular day.
 struct MenuData: Codable {
+    /// List of menu items, grouped by category (see `MenuItem`)
     var menu: [MenuItem]
+    /// The meal description, e.g. "Lunch"
     var description: String
+    /// The absolute start time of this meal, in Unix time
     var startTime: Int
+    /// The absolute end time of this meal, in Unix time
     var endTime: Int
 }
 
+/// All menu data for a dining hall on a particular day.
 struct DayMenus: Codable {
+    /// The list of meal menus, ordered in breakfast, lunch, dinner (could be brunch)
     var menus: [MenuData]
+    /// The date that these menus belong to, e.g. "2020-12-17"
     var date: String
 }
 
+/// A week's worth of menus for a particular dining hall.
 struct WeekMenus: Codable {
+    /// The list of menus for each day, in chronological order
     var weeksMenus: [DayMenus]
+    /// Eatery id, e.g. "becker"
     var id: String
 }
 

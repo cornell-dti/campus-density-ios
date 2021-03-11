@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Non-interactive display of Thank You question
 class ThanksQuestion: FeedbackQuestion {
     let thanksImageView = UIImageView(image: UIImage(named: "thanks"))
     let thanksLabel = UILabel()

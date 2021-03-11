@@ -10,6 +10,7 @@ import UIKit
 import IGListKit
 import Firebase
 
+/// The meal (breakfast, brunch, lunch, dinner) to view the menus of.
 enum Meal: String, CaseIterable {
     case none = "No"
     case breakfast = "Breakfast"
@@ -18,6 +19,8 @@ enum Meal: String, CaseIterable {
     case dinner = "Dinner"
 }
 
+/// The view controller that handles detailed display of one `Place`.
+/// This view controller is at the heart of the app, as it hosts the open hours, day chips, and menus.
 class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Data vars
@@ -26,7 +29,8 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     var selectedHour: Int = 0
     var mealList = [Meal]()
     var selectedMeal: Meal = .none
-    var weekdays = [(Int, Int)]() // (weekday, dayNum) as in (0, 5) for Sunday the 5th
+    /// The next days, indexed at the current day and storing (weekday, dayNum) as (0, 5) for Sunday the 5th
+    var weekdays = [(Int, Int)]()
     var densityMap = [Int: Double]()
     var adapter: ListAdapter!
     var loadingHours: Bool = true
@@ -167,6 +171,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    /// Display an alert that eatery data failed to load.
     func alertError(completion: @escaping () -> Void) {
         let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { _ in
@@ -184,6 +189,8 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         setupViews()
     }
 
+    /// Set the upcoming days of the week.
+    /// Used to show day chips in the right order, including day of week and day of month.
     func setWeekdays() {
         let today = Date()
         weekdays = []
@@ -195,6 +202,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    /// The current hour of the day in the dining hall's local time
     func getCurrentHour() -> Int {
         let today = Date()
         return ithacaCalendar.component(.hour, from: today)
@@ -295,18 +303,24 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    /// The current numerical day of week in the dining hall's timezone.
+    /// - Returns: A number representing the day of week. See `Calendar` for more information.
     func getCurrentWeekday() -> Int {
         let today = Date()
         return ithacaCalendar.component(.weekday, from: today) - 1
     }
 
+    /// The current localized string representation of day of week in the dining hall's timezone.
+    /// - Returns: A string representing day of week, e.g. "Sunday"
     func selectedWeekdayText() -> String {
         return ithacaCalendar.weekdaySymbols[selectedWeekday]
     }
 
+    /// A  user-facing string representation of the date. Includes the time zone if the user's local time zone is not equal to Eastern Time.
+    /// - Returns: A string in the form "MMMM dd EDT", with the time zone being optional.
     func selectedDateText() -> String {
         let today = Date()
-        guard let weekdayIndex = weekdays.firstIndex(where: {$0.0 == selectedWeekday}) else { return "" }
+        guard let weekdayIndex = weekdays.firstIndex(where: { $0.0 == selectedWeekday }) else { return "" }
         guard let selectedDate = ithacaCalendar.date(byAdding: Calendar.Component.day, value: weekdayIndex, to: today) else { return "" }
         let formatter = DateFormatter()
         formatter.timeZone = ithacaTime
