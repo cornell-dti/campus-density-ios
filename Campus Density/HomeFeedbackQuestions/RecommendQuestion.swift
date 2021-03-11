@@ -17,13 +17,11 @@ class RecommendQuestion: HomeFeedbackQuestion {
     var recButtons: [UIButton] = []
     var recButtonsStackView: UIStackView!
     let radioButtonTitles = ["1", "2", "3", "4", "5"]
-    let radioButtonColors: [UIColor] = [.densityRed, .densityRed, .wheat, .peach,.densityGreen]
+    let radioButtonColors: [UIColor] = [.densityRed, .densityRed, .wheat, .peach, .densityGreen]
 
-
-    
     init() {
         super.init(subtitle: "1. How willing are you to recommend Flux to your friends? (1-10)")
-        
+
         for rating in 0...4 {
             let button = UIButton()
             button.setTitle(radioButtonTitles[rating], for: .normal)
@@ -51,11 +49,11 @@ class RecommendQuestion: HomeFeedbackQuestion {
             make.centerX.equalToSuperview()
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     @objc func radioButtonPressed(sender: UIButton) {
         let rating = sender.tag
         let recColor = radioButtonColors[rating]
@@ -73,4 +71,3 @@ class RecommendQuestion: HomeFeedbackQuestion {
         delegate?.recValueWasChanged(rec: rating)
     }
 }
-
