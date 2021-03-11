@@ -9,18 +9,18 @@
 import UIKit
 
 struct FluxFeedback: Codable {
-    var likelytoRecommend: Int;
+    var likelytoRecommend: Int
     var usefulFeatures: [Int]
     // How do you like flux overall
-    var likeFluxOverall: Int;
+    var likeFluxOverall: Int
     // other comments
-    var comment: String;
+    var comment: String
 }
 
 class HomeFeedbackViewController: UIViewController {
-    
+
     var feedback: FluxFeedback?
-    
+
     var questionIndex: Int = 0
     var questionView: HomeFeedbackQuestion!
     var questions: [HomeFeedbackQuestion] = []
@@ -102,7 +102,7 @@ class HomeFeedbackViewController: UIViewController {
                 make.left.right.equalToSuperview().inset(20)
                 make.bottom.equalTo(nextButton.snp.top).offset(-20)
             }
-        
+
         notAnswered = UILabel()
         notAnswered.textColor = .black
         notAnswered.textAlignment = .center
@@ -110,31 +110,30 @@ class HomeFeedbackViewController: UIViewController {
         notAnswered.text = "Please answer this question before proceeding"
         notAnswered.isHidden = true
         background.addSubview(notAnswered)
-        notAnswered.snp.makeConstraints{ make in
+        notAnswered.snp.makeConstraints { make in
             make.bottom.equalTo(nextButton.snp.top).offset(-20)
             make.centerX.equalToSuperview()
         }
-        
+
         }
-    
+
     func setupQuestions() {
         for question in questions {
             question.removeFromSuperview()
         }
 
-
         let recQuestion = RecommendQuestion()
         recQuestion.delegate = self
-        
+
         let featuresQuestion = FeaturesQuestion()
         featuresQuestion.delegate = self
-        
+
         let reviewQuestion = ReviewQuestion()
         reviewQuestion.delegate = self
 
         let otherCommentsQuestion = OtherCommentsQuestion()
         otherCommentsQuestion.delegate = self
-        
+
         questions = [recQuestion, featuresQuestion, reviewQuestion, otherCommentsQuestion]
         for question in questions {
             background.addSubview(question)
@@ -146,7 +145,7 @@ class HomeFeedbackViewController: UIViewController {
             question.isHidden = true
         }
     }
-    
+
     func setupGestureRecognizers() {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
             tapRecognizer.cancelsTouchesInView = false
@@ -157,12 +156,11 @@ class HomeFeedbackViewController: UIViewController {
         view.isHidden = false
         feedback = FluxFeedback(likelytoRecommend: -1, usefulFeatures: [], likeFluxOverall: -1, comment: "")
         }
-    
+
     @objc func nextQuestion() {
-        if questionIndex == 0 && feedback?.likelytoRecommend == -1{
+        if questionIndex == 0 && feedback?.likelytoRecommend == -1 {
             notAnswered.isHidden = false
-        }
-        else{
+        } else {
             notAnswered.isHidden = true
             questionView.isHidden = true
             questionIndex += 1
@@ -271,14 +269,12 @@ extension HomeFeedbackViewController: OtherCommentsQuestionDelegate {
     func commentDidBeginEditing() {
         moveUp()
     }
-    
+
     func commentDidEndEditing() {
         moveDown()
     }
-    
+
     func otherCommentsWasChanged(comment: String) {
         self.feedback?.comment = comment
     }
 }
-
-

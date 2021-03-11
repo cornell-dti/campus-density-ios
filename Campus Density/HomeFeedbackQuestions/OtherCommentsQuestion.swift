@@ -34,7 +34,7 @@ class OtherCommentsQuestion: HomeFeedbackQuestion, UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.densityDarkGray{
+        if textView.textColor == UIColor.densityDarkGray {
             textView.text = ""
             textView.textColor = .black
         }
