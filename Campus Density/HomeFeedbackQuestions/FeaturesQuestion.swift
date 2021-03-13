@@ -48,7 +48,7 @@ class FeaturesQuestion: HomeFeedbackQuestion {
             checkStackView.snp.makeConstraints { make in
                 make.top.equalTo(upper.snp.bottom).offset(padding)
             }
-                padding += 25
+                padding = padding + 25
         }
     }
 
