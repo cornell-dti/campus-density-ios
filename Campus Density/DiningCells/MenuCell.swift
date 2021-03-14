@@ -27,11 +27,6 @@ class MenuCell: UICollectionViewCell {
         menuCollectionView.isPagingEnabled = true
         menuCollectionView.showsHorizontalScrollIndicator = false
         contentView.addSubview(menuCollectionView)
-//        unavailableLabel = UILabel()
-//        unavailableLabel.textColor = .warmGray
-//        unavailableLabel.font = .eighteenBold
-//        unavailableLabel.text = "No menus available"
-//        contentView.addSubview(unavailableLabel)
     }
 
     func setupConstraints() {

@@ -54,7 +54,7 @@ class MenuHeaderCell: UICollectionViewCell {
             make.width.equalToSuperview().inset(Constants.smallPadding)
             make.left.equalToSuperview().offset(Constants.smallPadding)
             make.height.equalTo(detailsLabelTextHeight)
-            make.top.equalTo(headerLabel.snp_bottom).offset(spacing)
+            make.top.equalTo(headerLabel.snp.bottom).offset(spacing)
         }
     }
 

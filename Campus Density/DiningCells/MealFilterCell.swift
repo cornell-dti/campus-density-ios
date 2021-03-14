@@ -52,7 +52,6 @@ class MealFilterCell: UICollectionViewCell {
         let buttonWidth = frame.width / numOfMeals
         let sliderHeight = buttonHeight
         for (meal, button) in zip(mealModel.meals, filterButtons) {
-            let buttonWidth = buttonWidth
             button.snp.makeConstraints { make in
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
