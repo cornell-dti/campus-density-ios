@@ -57,7 +57,7 @@ class FormLinkCell: UICollectionViewCell {
         }
     }
 
-    func configure(delegate: FormLinkCellDelegate, isClosed: Bool, waitTime: Int?) {
+    func configure(delegate: FormLinkCellDelegate, isClosed: Bool, waitTime: Double?) {
         self.delegate = delegate
         waitTimeLabel.text = isClosed ? "Closed" : waitTimeText(waitTime: waitTime)
         setupConstraints()

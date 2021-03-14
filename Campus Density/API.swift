@@ -90,7 +90,7 @@ class Place: ListDiffable {
     var displayName: String
     var id: String
     var density: Density
-    var waitTime: Int?
+    var waitTime: Double?
     var isClosed: Bool
     var hours: [DailyInfo]
     var history: [String: [String: Double]]
@@ -108,7 +108,7 @@ class Place: ListDiffable {
     ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
-    init(displayName: String, id: String, density: Density, waitTime: Int?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, waitTime: Double?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -259,7 +259,7 @@ class API {
         AF.request("\(url)/waitTime", headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
-                let result: AFResult<[String: Int]> = decoder.decodeResponse(from: response)
+                let result: AFResult<[String: Double]> = decoder.decodeResponse(from: response)
                 switch result {
                 case .success(let data):
                     data.forEach { id, waitTime in

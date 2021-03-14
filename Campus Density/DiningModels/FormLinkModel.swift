@@ -12,10 +12,10 @@ import IGListKit
 class FormLinkModel {
 
     var isClosed: Bool
-    var waitTime: Int?
+    var waitTime: Double?
     let identifier = UUID().uuidString
 
-    init(isClosed: Bool, waitTime: Int?) {
+    init(isClosed: Bool, waitTime: Double?) {
         self.isClosed = isClosed
         self.waitTime = waitTime
     }

@@ -53,9 +53,9 @@ func interpretDensity(place: Place) -> String {
     }
 }
 
-func waitTimeText(waitTime: Int?) -> String {
+func waitTimeText(waitTime: Double?) -> String {
     if let time = waitTime {
-        return "\(time) min. wait"
+        return "\(Int(time)) min. wait"
     } else {
         return "Unknown wait"
     }
