@@ -43,7 +43,7 @@ extension PlacesViewController: ListAdapterDataSource {
             return FiltersSectionController(filtersModel: filtersModel, delegate: self)
         } else if object is LastUpdatedTextModel {
             let lastUpdatedTextModel = object as! LastUpdatedTextModel
-            return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel)
+            return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel, style: .main)
         } else if object is LogoModel {
             let logoModel = object as! LogoModel
             return LogoSectionController(logoModel: logoModel, delegate: self)

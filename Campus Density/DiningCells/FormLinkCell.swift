@@ -21,7 +21,7 @@ class FormLinkCell: UICollectionViewCell {
 
     // MARK: - View vars
     var linkButton: UIButton!
-    var lastUpdatedLabel: UILabel!
+    var waitTimeLabel: UILabel!
 
     // MARK: - Constants
     let linkButtonText = "Is this accurate?"
@@ -37,10 +37,10 @@ class FormLinkCell: UICollectionViewCell {
         linkButton.titleLabel?.textAlignment = .right
         addSubview(linkButton)
 
-        lastUpdatedLabel = UILabel()
-        lastUpdatedLabel.textColor = .densityDarkGray
-        lastUpdatedLabel.font = .fourteen
-        addSubview(lastUpdatedLabel)
+        waitTimeLabel = UILabel()
+        waitTimeLabel.textColor = .densityDarkGray
+        waitTimeLabel.font = .fourteen
+        addSubview(waitTimeLabel)
 
         setupConstraints()
     }
@@ -51,17 +51,15 @@ class FormLinkCell: UICollectionViewCell {
             make.right.equalToSuperview().inset(Constants.smallPadding)
         }
 
-        lastUpdatedLabel.snp.makeConstraints { make in
+        waitTimeLabel.snp.makeConstraints { make in
             make.height.equalToSuperview()
             make.left.equalToSuperview().inset(Constants.smallPadding)
         }
     }
 
-    func configure(delegate: FormLinkCellDelegate, lastUpdatedDate: Date) {
+    func configure(delegate: FormLinkCellDelegate, isClosed: Bool, waitTime: Double?) {
         self.delegate = delegate
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        lastUpdatedLabel.text = "Last updated " + formatter.string(from: lastUpdatedDate)
+        waitTimeLabel.text = isClosed ? "Closed" : waitTimeText(waitTime: waitTime)
         setupConstraints()
     }
 

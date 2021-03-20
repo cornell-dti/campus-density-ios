@@ -53,9 +53,11 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: Constants.smallPadding),
             AvailabilityHeaderModel(),
             SpaceModel(space: Constants.smallPadding),
+            LastUpdatedTextModel(lastUpdated: lastUpdatedTime),
+            SpaceModel(space: linkTopOffset),
             AvailabilityInfoModel(place: place), // TODO: look into only passing what's necessary
             SpaceModel(space: linkTopOffset),
-            FormLinkModel(lastUpdated: lastUpdatedTime),
+            FormLinkModel(isClosed: place.isClosed, waitTime: place.waitTime),
             SpaceModel(space: Constants.mediumPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.smallPadding),
@@ -102,6 +104,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         } else if object is AvailabilityHeaderModel {
             let availabilityHeaderModel = object as! AvailabilityHeaderModel
             return AvailabilityHeaderSectionController(headerModel: availabilityHeaderModel)
+        } else if object is LastUpdatedTextModel {
+            let lastUpdatedTextModel = object as! LastUpdatedTextModel
+            return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel, style: .detail)
         } else {
             let menuHeaderModel = object as! MenuHeaderModel
             return MenuHeaderSectionController(menuHeaderModel: menuHeaderModel)
