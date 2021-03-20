@@ -38,7 +38,7 @@ class FormLinkCell: UICollectionViewCell {
         addSubview(linkButton)
 
         waitTimeLabel = UILabel()
-        waitTimeLabel.textColor = .grayishBrown
+        waitTimeLabel.textColor = .densityDarkGray
         waitTimeLabel.font = .fourteen
         addSubview(waitTimeLabel)
 
