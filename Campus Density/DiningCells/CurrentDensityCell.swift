@@ -8,6 +8,7 @@
 
 import UIKit
 
+// NOTE: This has been replaced with AvailabilityCell
 class CurrentDensityCell: UICollectionViewCell {
 
     // MARK: - Data vars
@@ -180,7 +181,7 @@ class CurrentDensityCell: UICollectionViewCell {
 
     func configure(with place: Place) {
         self.place = place
-        densityLabel.text = place.isClosed ? "Closed" : interpretDensity(place: place)
+        densityLabel.text = place.isClosed ? "Closed" : interpretDensity(density: place.density) // This CurrentDensity stuff would need to be fixed like PlaceModel
         densityLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
         colorBars()
     }

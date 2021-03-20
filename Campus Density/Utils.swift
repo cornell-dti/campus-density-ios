@@ -40,8 +40,8 @@ func getCurrentDensity(densityMap: [Int: Double], selectedHour: Int) -> String {
     }
 }
 
-func interpretDensity(place: Place) -> String {
-    switch place.density {
+func interpretDensity(density: Density) -> String {
+    switch density {
         case .veryBusy:
             return "Very busy"
         case .prettyBusy:
