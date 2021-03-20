@@ -92,9 +92,9 @@ extension PlacesViewController: LogoSectionControllerDelegate {
 
 extension PlacesViewController: PlaceSectionControllerDelegate {
 
-    func placeSectionControllerDidSelectPlace(place: Place) {
+    func placeSectionControllerDidSelectPlace(id: String) {
         let placeDetailViewController = PlaceDetailViewController()
-        placeDetailViewController.place = place
+        placeDetailViewController.place = filteredPlaces.first(where: { $0.id == id })
         navigationController?.pushViewController(placeDetailViewController, animated: true)
     }
 

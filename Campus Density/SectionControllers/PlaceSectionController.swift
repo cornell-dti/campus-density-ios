@@ -11,7 +11,7 @@ import IGListKit
 
 protocol PlaceSectionControllerDelegate: class {
 
-    func placeSectionControllerDidSelectPlace(place: Place)
+    func placeSectionControllerDidSelectPlace(id: String)
 
 }
 
@@ -47,7 +47,7 @@ class PlaceSectionController: ListSectionController {
     }
 
     override func didSelectItem(at index: Int) {
-//        delegate?.placeSectionControllerDidSelectPlace(place: place)
+        delegate?.placeSectionControllerDidSelectPlace(id: placeModel.id)
     }
 
     override func didHighlightItem(at index: Int) {
