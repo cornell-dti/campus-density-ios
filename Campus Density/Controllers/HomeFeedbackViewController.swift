@@ -58,7 +58,7 @@ class HomeFeedbackViewController: UIViewController {
 
             let hideButton = UIButton()
             hideButton.addTarget(self, action: #selector(hide), for: .touchUpInside)
-            hideButton.setImage(UIImage(named: "close"), for: .normal)
+            hideButton.setImage(UIImage(named: "quit"), for: .normal)
             background.addSubview(hideButton)
             hideButton.snp.makeConstraints { make in
                 make.top.right.equalToSuperview().inset(10)
@@ -154,6 +154,7 @@ class HomeFeedbackViewController: UIViewController {
 
     func showWith() {
         view.isHidden = false
+        navigationController?.navigationBar.barTintColor = UIColor(white: 1, alpha: 0)
         feedback = FluxFeedback(likelytoRecommend: -1, usefulFeatures: [], likeFluxOverall: -1, comment: "")
         }
 
@@ -194,6 +195,7 @@ class HomeFeedbackViewController: UIViewController {
 
         @objc func hide() {
             view.isHidden = true
+            navigationController?.navigationBar.barTintColor = UIColor(white: 1, alpha: 0)
             resetForm()
         }
 
