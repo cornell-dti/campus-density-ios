@@ -46,7 +46,6 @@ class MealFilterCell: UICollectionViewCell {
     }
 
     func setupConstraints() {
-        var index: Int = 0
         var buttonLeftOffset: CGFloat = 0
         let numOfMeals: CGFloat = CGFloat(filterButtons.count)
         let buttonWidth = frame.width / numOfMeals
@@ -58,13 +57,12 @@ class MealFilterCell: UICollectionViewCell {
                 make.left.equalToSuperview().offset(buttonLeftOffset)
             }
             if meal == mealModel.selectedMeal {
-                lineView = UIView(frame: CGRect(x: CGFloat(index)*buttonWidth, y: sliderHeight, width: buttonWidth, height: 2))
+                lineView = UIView(frame: CGRect(x: buttonLeftOffset, y: sliderHeight, width: buttonWidth, height: 2))
                 lineView.backgroundColor = .densityGreen
                 lineView.layer.borderColor = UIColor.densityGreen.cgColor
                 lineView.layer.borderWidth = 1
                 contentView.addSubview(lineView)
             }
-            index += 1
             buttonLeftOffset += buttonWidth
         }
     }
