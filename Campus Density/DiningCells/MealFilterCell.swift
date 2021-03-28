@@ -20,6 +20,7 @@ class MealFilterCell: UICollectionViewCell {
 
     // MARK: - View vars
     var filterButtons = [UIButton]()
+    var lineView: UIView!
 
     // MARK: - Constants
     let labelHorizontalPadding: CGFloat = 10
@@ -45,18 +46,24 @@ class MealFilterCell: UICollectionViewCell {
     }
 
     func setupConstraints() {
-        let padding: CGFloat = Constants.smallPadding
-        var index: Int = 0
-        var buttonLeftOffset: CGFloat = padding
-        filterButtons.forEach { button in
-            let buttonWidth = mealLabel(meal: mealModel.meals[index]).widthWithConstrainedHeight(frame.height, font: .sixteen) + labelHorizontalPadding * 2
-            button.snp.makeConstraints({ make in
+        var buttonLeftOffset: CGFloat = 0
+        let numOfMeals: CGFloat = CGFloat(filterButtons.count)
+        let buttonWidth = frame.width / numOfMeals
+        let sliderHeight = buttonHeight
+        for (meal, button) in zip(mealModel.meals, filterButtons) {
+            button.snp.makeConstraints { make in
                 make.width.equalTo(buttonWidth)
                 make.height.equalTo(buttonHeight)
                 make.left.equalToSuperview().offset(buttonLeftOffset)
-            })
-            index += 1
-            buttonLeftOffset += buttonWidth + padding
+            }
+            if meal == mealModel.selectedMeal {
+                lineView = UIView(frame: CGRect(x: buttonLeftOffset, y: sliderHeight, width: buttonWidth, height: 2))
+                lineView.backgroundColor = .densityGreen
+                lineView.layer.borderColor = UIColor.densityGreen.cgColor
+                lineView.layer.borderWidth = 1
+                contentView.addSubview(lineView)
+            }
+            buttonLeftOffset += buttonWidth
         }
     }
 
@@ -73,16 +80,14 @@ class MealFilterCell: UICollectionViewCell {
             let button = UIButton()
             button.tag = index
             button.setTitle(mealLabel(meal: meal), for: .normal)
-            button.titleLabel?.font = .sixteen
+            button.titleLabel?.font = .eighteen
             button.setTitleColor(.warmGray, for: .normal)
             button.clipsToBounds = true
             if meal == mealModel.selectedMeal {
-                button.setTitleColor(.grayishBrown, for: .normal)
-                button.layer.borderColor = UIColor.warmGray.cgColor
-                button.layer.borderWidth = 1
+                button.setTitleColor(.densityGreen, for: .normal)
+                button.titleLabel?.font = .eighteenBold
             }
-            button.layer.cornerRadius = 10
-            button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
+            button.addTarget(self, action: #selector(filterButtonPressed), for: .primaryActionTriggered)
             contentView.addSubview(button)
             self.filterButtons.append(button)
         }

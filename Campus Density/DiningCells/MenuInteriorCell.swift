@@ -53,7 +53,7 @@ class MenuInteriorCell: UICollectionViewCell {
         clockImageView.image = UIImage(named: "clock")
         contentView.addSubview(clockImageView)
         hoursLabel = UILabel()
-        hoursLabel.font = .eighteenBold
+        hoursLabel.font = .sixteenBold
         hoursLabel.textColor = .black
         contentView.addSubview(hoursLabel)
         menuLabel = UILabel()
@@ -84,7 +84,7 @@ class MenuInteriorCell: UICollectionViewCell {
                 res.append(newLine)
             }
             let categoryString = NSMutableAttributedString(string: station.category)
-            categoryString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.eighteenBold], range: NSRange(location: 0, length: categoryString.length))
+            categoryString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.grayishBrown, NSAttributedString.Key.font: UIFont.sixteenBold], range: NSRange(location: 0, length: categoryString.length))
             res.append(categoryString)
             let itemString = NSMutableAttributedString()
             for item in station.items {

@@ -34,6 +34,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             self.mealList = meals
 
             if !meals.contains(selectedMeal) && meals.count > 0 {
+                print("you are here")
+                unavailableLabel.isHidden = true
                 let currentTime = Int(Date().timeIntervalSince1970)
                 print("Current Time: \(currentTime)")
                 selectedMeal = meals[0]
@@ -46,8 +48,18 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                         print("\(currentTime) > \(endTime) at index \(index), which is \(meals[index])")
                     }
                 }
+            } else if meals.count == 0 {
+                unavailableLabel.isHidden = false
+                view.addSubview(unavailableLabel)
             }
         }
+        //if there are not any available menus for the day, the unavailable menu label is shown else it is hidden and the activity indicator spins until the menus load
+        else if place.menus.weeksMenus.count == 0 {
+            spinnerView.isHidden = false
+            spinnerView.animate()
+            view.addSubview(spinnerView)
+        }
+
         return [
             DetailControllerHeaderModel(displayName: place.displayName, hours: place.hours),
             SpaceModel(space: Constants.smallPadding),
@@ -59,12 +71,15 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             SpaceModel(space: linkTopOffset),
             FormLinkModel(isClosed: place.isClosed, waitTime: place.waitTime),
             SpaceModel(space: Constants.mediumPadding),
+            SectionDividerModel(lineWidth: dividerHeight),
+            SpaceModel(space: Constants.mediumPadding),
+            MenuHeaderModel(),
+            SpaceModel(space: Constants.mlPadding),
             DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
             SpaceModel(space: Constants.smallPadding),
-            MenuHeaderModel(),
-            SpaceModel(space: Constants.smallPadding),
             MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
-            SpaceModel(space: Constants.smallPadding),
+            SectionDividerModel(lineWidth: dividerHeight),
+            SpaceModel(space: Constants.mediumPadding),
             MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
             SpaceModel(space: Constants.smallPadding)
         ]
@@ -74,6 +89,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         if object is SpaceModel {
             let spaceModel = object as! SpaceModel
             return SpaceSectionController(spaceModel: spaceModel)
+        } else if object is SectionDividerModel {
+            let sectionDividerModel = object as! SectionDividerModel
+            return SectionDividerSectionController(sectionDividerModel: sectionDividerModel)
         } else if object is CurrentDensityModel {
             let currentDensityModel = object as! CurrentDensityModel
             return CurrentDensitySectionController(currentDensityModel: currentDensityModel)

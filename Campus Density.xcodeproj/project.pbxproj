@@ -48,6 +48,10 @@
 		0CC6B74621B0AF1400E7B359 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74521B0AF1400E7B359 /* System.swift */; };
 		0CC6B74921B0D52B00E7B359 /* LoadingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */; };
 		3A140B08DF4E0819AFC1184A /* Pods_Campus_Density.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9430CFB8EC63D630A3283564 /* Pods_Campus_Density.framework */; };
+		3A4F39E826108C5500B03C59 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4F39E726108C5500B03C59 /* ActivityView.swift */; };
+		3A4F39ED26108CAA00B03C59 /* SectionDividerSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4F39EC26108CAA00B03C59 /* SectionDividerSectionController.swift */; };
+		3A4F39F226108CF000B03C59 /* SectionDividerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4F39F126108CF000B03C59 /* SectionDividerModel.swift */; };
+		3A4F39F726108D3000B03C59 /* SectionDividerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4F39F626108D3000B03C59 /* SectionDividerCell.swift */; };
 		3C29547D25856E6F00965D9A /* AccuracyQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */; };
 		3C29548525856EDE00965D9A /* ObservedDensityQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */; };
 		3C29548A25858D0200965D9A /* WaitTimeQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548925858D0200965D9A /* WaitTimeQuestion.swift */; };
@@ -162,6 +166,10 @@
 		0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingBarsView.swift; sourceTree = "<group>"; };
 		125DB691B65A1E80E57A3B58 /* Pods-Campus DensityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus DensityTests.debug.xcconfig"; path = "Target Support Files/Pods-Campus DensityTests/Pods-Campus DensityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		355A9D3241FBB93485463234 /* Pods-Campus Density.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Campus Density.debug.xcconfig"; path = "Target Support Files/Pods-Campus Density/Pods-Campus Density.debug.xcconfig"; sourceTree = "<group>"; };
+		3A4F39E726108C5500B03C59 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		3A4F39EC26108CAA00B03C59 /* SectionDividerSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDividerSectionController.swift; sourceTree = "<group>"; };
+		3A4F39F126108CF000B03C59 /* SectionDividerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDividerModel.swift; sourceTree = "<group>"; };
+		3A4F39F626108D3000B03C59 /* SectionDividerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDividerCell.swift; sourceTree = "<group>"; };
 		3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccuracyQuestion.swift; sourceTree = "<group>"; };
 		3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedDensityQuestion.swift; sourceTree = "<group>"; };
 		3C29548925858D0200965D9A /* WaitTimeQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimeQuestion.swift; sourceTree = "<group>"; };
@@ -259,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				0CC6B74121B0A43C00E7B359 /* LogoView.swift */,
+				3A4F39E726108C5500B03C59 /* ActivityView.swift */,
 				0CC6B74821B0D52B00E7B359 /* LoadingBarsView.swift */,
 			);
 			path = Views;
@@ -268,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				0C8B6D5E2232436600058AE6 /* SpaceModel.swift */,
+				3A4F39F126108CF000B03C59 /* SectionDividerModel.swift */,
 				0C209B0E224823560007AFA9 /* LogoModel.swift */,
 				0C209B1822482D610007AFA9 /* FiltersModel.swift */,
 				0C8B6D602232441C00058AE6 /* CurrentDensityModel.swift */,
@@ -292,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				0C8B6D6D22324C3400058AE6 /* SpaceSectionController.swift */,
+				3A4F39EC26108CAA00B03C59 /* SectionDividerSectionController.swift */,
 				0C8B6D7122324F1200058AE6 /* CurrentDensitySectionController.swift */,
 				0CB3BF732232BC4A00A5B371 /* FormLinkSectionController.swift */,
 				0CB3BF772232BF3200A5B371 /* DaySelectionSectionController.swift */,
@@ -382,6 +393,7 @@
 				0C8B6D7322324FFA00058AE6 /* CurrentDensityCell.swift */,
 				0CB3BF752232BCC400A5B371 /* FormLinkCell.swift */,
 				0CB3BF792232C0F700A5B371 /* DaySelectionCell.swift */,
+				3A4F39F626108D3000B03C59 /* SectionDividerCell.swift */,
 				0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */,
 				0C209B12224825AF0007AFA9 /* PlaceCell.swift */,
 				0C209B16224829280007AFA9 /* LogoCell.swift */,
@@ -722,11 +734,14 @@
 				EE4C804324A751E400EB5FA4 /* DetailControllerHeaderSectionController.swift in Sources */,
 				EE11414224E85E2F004C35F5 /* SearchBarModel.swift in Sources */,
 				EE11414424E85F35004C35F5 /* SearchBarCell.swift in Sources */,
+				3A4F39F726108D3000B03C59 /* SectionDividerCell.swift in Sources */,
 				0CB3BF762232BCC400A5B371 /* FormLinkCell.swift in Sources */,
 				EE1BC56424967CF4004DD427 /* AvailabilityInfoModel.swift in Sources */,
 				3C9D93B224E85A0C000C27A6 /* MenuHeaderCell.swift in Sources */,
+				3A4F39F226108CF000B03C59 /* SectionDividerModel.swift in Sources */,
 				EE4C803F24A5FDCE00EB5FA4 /* DetailControllerHeaderCell.swift in Sources */,
 				0CA3F4F62173EEBE00988A46 /* UIColor+Extension.swift in Sources */,
+				3A4F39E826108C5500B03C59 /* ActivityView.swift in Sources */,
 				EEA41181249E85C700190A30 /* AvailabilityHeaderSectionController.swift in Sources */,
 				0C8B6D5F2232436600058AE6 /* SpaceModel.swift in Sources */,
 				081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */,
@@ -757,6 +772,7 @@
 				0C5D0C0B21827F9C00060874 /* UIFont+Extension.swift in Sources */,
 				0C8B6D612232441C00058AE6 /* CurrentDensityModel.swift in Sources */,
 				3CA57843257C8FE90081E16B /* FeedbackQuestion.swift in Sources */,
+				3A4F39ED26108CAA00B03C59 /* SectionDividerSectionController.swift in Sources */,
 				0C316AD52223773400AE4BE3 /* Utils.swift in Sources */,
 				EEED3D2823F86C7C000E0220 /* GymDensitySectionController.swift in Sources */,
 				0C8B6D6E22324C3400058AE6 /* SpaceSectionController.swift in Sources */,
