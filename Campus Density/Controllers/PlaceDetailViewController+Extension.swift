@@ -33,9 +33,15 @@ extension PlaceDetailViewController: ListAdapterDataSource {
 
             self.mealList = meals
 
-            if !meals.contains(selectedMeal) && meals.count > 0 {
-                print("you are here")
+            if meals.count > 0 {
+                spinnerView.isHidden = true
                 unavailableLabel.isHidden = true
+            } else {
+                unavailableLabel.isHidden = false
+                view.addSubview(unavailableLabel)
+            }
+
+            if !meals.contains(selectedMeal) && meals.count > 0 {
                 let currentTime = Int(Date().timeIntervalSince1970)
                 print("Current Time: \(currentTime)")
                 selectedMeal = meals[0]
@@ -48,16 +54,17 @@ extension PlaceDetailViewController: ListAdapterDataSource {
                         print("\(currentTime) > \(endTime) at index \(index), which is \(meals[index])")
                     }
                 }
-            } else if meals.count == 0 {
-                unavailableLabel.isHidden = false
-                view.addSubview(unavailableLabel)
             }
         }
+
         //if there are not any available menus for the day, the unavailable menu label is shown else it is hidden and the activity indicator spins until the menus load
         else if place.menus.weeksMenus.count == 0 {
             spinnerView.isHidden = false
             spinnerView.animate()
             view.addSubview(spinnerView)
+        } else {
+            unavailableLabel.isHidden = false
+            view.addSubview(unavailableLabel)
         }
 
         return [
