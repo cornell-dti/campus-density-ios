@@ -22,7 +22,7 @@ extension PlacesViewController: ListAdapterDataSource {
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(PoliciesModel())
         objects.append(SpaceModel(space: Constants.smallPadding / 3))
-        objects.append(contentsOf: filteredPlaces)
+        objects.append(contentsOf: filteredPlaces.map { place in PlaceModel(place: place) })
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
         objects.append(SpaceModel(space: Constants.smallPadding))
@@ -32,9 +32,9 @@ extension PlacesViewController: ListAdapterDataSource {
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        if object is Place {
-            let place = object as! Place
-            return PlaceSectionController(place: place, delegate: self)
+        if object is PlaceModel {
+            let placeModel = object as! PlaceModel
+            return PlaceSectionController(placeModel: placeModel, delegate: self)
         } else if object is SpaceModel {
             let spaceModel = object as! SpaceModel
             return SpaceSectionController(spaceModel: spaceModel)
@@ -92,9 +92,9 @@ extension PlacesViewController: LogoSectionControllerDelegate {
 
 extension PlacesViewController: PlaceSectionControllerDelegate {
 
-    func placeSectionControllerDidSelectPlace(place: Place) {
+    func placeSectionControllerDidSelectPlace(id: String) {
         let placeDetailViewController = PlaceDetailViewController()
-        placeDetailViewController.place = place
+        placeDetailViewController.place = filteredPlaces.first(where: { $0.id == id })
         navigationController?.pushViewController(placeDetailViewController, animated: true)
     }
 

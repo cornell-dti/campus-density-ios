@@ -11,14 +11,14 @@ import IGListKit
 
 protocol PlaceSectionControllerDelegate: class {
 
-    func placeSectionControllerDidSelectPlace(place: Place)
+    func placeSectionControllerDidSelectPlace(id: String)
 
 }
 
 class PlaceSectionController: ListSectionController {
 
     // MARK: - Data vars
-    var place: Place!
+    var placeModel: PlaceModel!
     weak var delegate: PlaceSectionControllerDelegate?
 
     // MARK: - Constants
@@ -27,27 +27,27 @@ class PlaceSectionController: ListSectionController {
     let cellAnimationDuration: TimeInterval = 0.2
     let cellScale: CGFloat = 0.95
 
-    init(place: Place, delegate: PlaceSectionControllerDelegate) {
-        self.place = place
+    init(placeModel: PlaceModel, delegate: PlaceSectionControllerDelegate) {
+        self.placeModel = placeModel
         self.delegate = delegate
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let densityWidth = interpretDensity(place: place).widthWithConstrainedHeight(labelHeight, font: .fourteen)
+        let densityWidth = interpretDensity(density: placeModel.density).widthWithConstrainedHeight(labelHeight, font: .fourteen)
         let nameWidth = containerSize.width - Constants.smallPadding * 4 - densityWidth - 5
-        let nameHeight = place.displayName.height(withConstrainedWidth: nameWidth, font: .sixteenBold)
+        let nameHeight = placeModel.displayName.height(withConstrainedWidth: nameWidth, font: .sixteenBold)
         return CGSize(width: containerSize.width, height: Constants.smallPadding * 4 + Constants.mediumPadding + nameHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: PlaceCell.self, for: self, at: index) as! PlaceCell
-        cell.configure(with: place)
+        cell.configure(with: placeModel)
         return cell
     }
 
     override func didSelectItem(at index: Int) {
-        delegate?.placeSectionControllerDidSelectPlace(place: place)
+        delegate?.placeSectionControllerDidSelectPlace(id: placeModel.id)
     }
 
     override func didHighlightItem(at index: Int) {
@@ -65,7 +65,7 @@ class PlaceSectionController: ListSectionController {
     }
 
     override func didUpdate(to object: Any) {
-        place = object as? Place
+        placeModel = object as? PlaceModel
     }
 
 }

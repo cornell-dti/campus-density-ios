@@ -17,10 +17,6 @@ enum Density: Int, Codable {
 
 class PlaceCell: UICollectionViewCell {
 
-    // MARK: - Data vars
-    var place: Place!
-    var percentage: Double!
-
     // MARK: - View vars
     var background: UIView!
     var nameLabel: UILabel!
@@ -162,15 +158,15 @@ class PlaceCell: UICollectionViewCell {
         }
     }
 
-    func colorBars() {
-        if place.isClosed {
+    func colorBars(isClosed: Bool, density: Density) {
+        if isClosed {
             barOne.backgroundColor = .whiteTwo
             barTwo.backgroundColor = barOne.backgroundColor
             barThree.backgroundColor = barOne.backgroundColor
             barFour.backgroundColor = barOne.backgroundColor
             return
         }
-        switch place.density {
+        switch density {
             case .veryBusy:
                 barOne.backgroundColor = .orangeyRed
                 barTwo.backgroundColor = barOne.backgroundColor
@@ -198,12 +194,11 @@ class PlaceCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with place: Place) {
-        self.place = place
-        nameLabel.text = place.displayName
-        waitTimeLabel.text = place.isClosed ? "Closed" : waitTimeText(waitTime: place.waitTime)
-        waitTimeLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
-        colorBars()
+    func configure(with placeModel: PlaceModel) {
+        nameLabel.text = placeModel.displayName
+        waitTimeLabel.text = placeModel.isClosed ? "Closed" : waitTimeText(waitTime: placeModel.waitTime)
+        waitTimeLabel.textColor = placeModel.isClosed ? .orangeyRed : .densityDarkGray
+        colorBars(isClosed: placeModel.isClosed, density: placeModel.density)
         setupConstraints()
     }
 

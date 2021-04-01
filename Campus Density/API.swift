@@ -85,7 +85,7 @@ struct PlaceInfo: Codable {
  Represents all the information about that is displayed on the `PlaceDetailViewController` view for a specific eatery.
  */
 
-class Place: ListDiffable {
+class Place {
 
     var displayName: String
     var id: String
@@ -118,17 +118,6 @@ class Place: ListDiffable {
         self.history = history
         self.region = region
         self.menus = menus
-    }
-
-    //The following two functions are required rto conform to the ListDiffabe protocol
-    func diffIdentifier() -> NSObjectProtocol {
-        return id as NSString
-    }
-
-    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        if self === object { return true }
-        guard let place = object as? Place else { return false }
-        return place.id == id
     }
 
 }
