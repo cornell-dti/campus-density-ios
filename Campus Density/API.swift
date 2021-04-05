@@ -199,6 +199,11 @@ struct WeekMenus: Codable {
     var id: String
 }
 
+struct AddFeedbackResponse: Codable {
+    var success: Bool
+    var message: String?
+}
+
 class API {
 
     /// API remembering when it last updated density
@@ -458,13 +463,20 @@ class API {
             "Authorization": "Bearer \(token)"
         ]
 
-        // TODO: improve error handling based on response (JSON?)
         AF.request("\(url)/addFeedback", method: .post, parameters: feedback, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
-            switch response.result {
-            case .success:
-                completion(true)
+            let decoder = JSONDecoder()
+            let result: AFResult<AddFeedbackResponse> = decoder.decodeResponse(from: response)
+            switch result {
+            case .success(let data):
+                print(data)
+                if data.success {
+                    completion(true)
+                } else {
+                    completion(false) // Feedback was processed but rejected
+                }
             case .failure(let error):
                 print(error, "addFeedback")
+                print("(Could not decode response to AddFeedbackResponse struct!!)")
                 completion(false)
             }
         }

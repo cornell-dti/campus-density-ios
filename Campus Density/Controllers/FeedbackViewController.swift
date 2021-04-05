@@ -143,6 +143,7 @@ class FeedbackViewController: UIViewController {
 
     func showWith(location: String, predictedDensity: Int) {
         view.isHidden = false
+        navigationController?.navigationBar.barTintColor = UIColor(white: 0.77, alpha: 0) // Surprisingly, this gets 80% white
         feedback = Feedback(eatery: location, predictedDensity: predictedDensity, observedDensity: -1, predictedWait: -1, observedWait: -1, comment: "", isAccurate: false)
     }
 
@@ -178,6 +179,7 @@ class FeedbackViewController: UIViewController {
 
     @objc func hide() {
         view.isHidden = true
+        navigationController?.navigationBar.barTintColor = UIColor(white: 1, alpha: 0)
         resetForm()
     }
 
@@ -187,7 +189,7 @@ class FeedbackViewController: UIViewController {
 
     func submitFeedback() {
         API.addFeedback(feedback: feedback!) { success in
-            print("addFeedback was maybe \(success) but it hasn't been tested")
+            print("addFeedback was \(success)")
         }
     }
 
