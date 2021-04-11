@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Icon-Rounded.png",
+      "filename" : "close.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Icon-Rounded@2x.png",
+      "filename" : "close-1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Icon-Rounded@3x.png",
+      "filename" : "close-2.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

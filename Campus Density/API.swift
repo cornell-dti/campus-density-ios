@@ -85,13 +85,14 @@ struct PlaceInfo: Codable {
  Represents all the information about that is displayed on the `PlaceDetailViewController` view for a specific eatery.
  */
 
-class Place: ListDiffable {
+class Place {
 
     var displayName: String
     var id: String
     var density: Density
+    var waitTime: Double?
     var isClosed: Bool
-    var hours: [Int: String]
+    var hours: [DailyInfo]
     var history: [String: [String: Double]]
     var region: Region
     var menus: WeekMenus
@@ -107,26 +108,16 @@ class Place: ListDiffable {
     ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
-    init(displayName: String, id: String, density: Density, isClosed: Bool, hours: [Int: String], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, waitTime: Double?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
         self.displayName = displayName
         self.id = id
         self.density = density
+        self.waitTime = waitTime
         self.isClosed = isClosed
         self.hours = hours
         self.history = history
         self.region = region
         self.menus = menus
-    }
-
-    //The following two functions are required rto conform to the ListDiffabe protocol
-    func diffIdentifier() -> NSObjectProtocol {
-        return id as NSString
-    }
-
-    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        if self === object { return true }
-        guard let place = object as? Place else { return false }
-        return place.id == id
     }
 
 }
@@ -141,9 +132,16 @@ class Token: Codable {
     }
 }
 
+struct DailyHours: Codable {
+
+    var startTimestamp: Double
+    var endTimestamp: Double
+
+}
+
 struct DailyInfo: Codable {
 
-    var dailyHours: [String: Double]
+    var dailyHours: DailyHours
     var date: String
     var dayOfWeek: Int
     var status: String
@@ -165,26 +163,45 @@ struct HistoricalData: Codable {
 
 }
 
+/// Group of individual menu items under one category such as "Grill Station"
 struct MenuItem: Codable {
+    /// List of individual food items
     var items: [String]
+    /// The "station" that these food items are available at, e.g. "Salad Bar Station", "Cereal/Bagel Bar"
     var category: String
 }
 
+/// The menu for one meal at a particular dining hall on a particular day.
 struct MenuData: Codable {
+    /// List of menu items, grouped by category (see `MenuItem`)
     var menu: [MenuItem]
+    /// The meal description, e.g. "Lunch"
     var description: String
+    /// The absolute start time of this meal, in Unix time
     var startTime: Int
+    /// The absolute end time of this meal, in Unix time
     var endTime: Int
 }
 
+/// All menu data for a dining hall on a particular day.
 struct DayMenus: Codable {
+    /// The list of meal menus, ordered in breakfast, lunch, dinner (could be brunch)
     var menus: [MenuData]
+    /// The date that these menus belong to, e.g. "2020-12-17"
     var date: String
 }
 
+/// A week's worth of menus for a particular dining hall.
 struct WeekMenus: Codable {
+    /// The list of menus for each day, in chronological order
     var weeksMenus: [DayMenus]
+    /// Eatery id, e.g. "becker"
     var id: String
+}
+
+struct AddFeedbackResponse: Codable {
+    var success: Bool
+    var message: String?
 }
 
 class API {
@@ -204,6 +221,8 @@ class API {
         guard let value = dict[key] as? String else { return "" }
         return value
     }
+
+    // MARK: - PlacesView Functions
 
     /// Fetches the information about the opening/closing times of all the eateries (as specified in the `PlaceInfo` definition, and then sets the `region` and `isClosed` properties of this eateries corresponding `Place` instance in System.places based on this fetched data
     static func status(completion: @escaping (Bool) -> Void) {
@@ -235,6 +254,32 @@ class API {
                     UserDefaults.standard.removeObject(forKey: "authKey")
                     UserDefaults.standard.synchronize()
                     System.places = []
+                    completion(false)
+                }
+        }
+    }
+
+    static func waitTimes(completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        AF.request("\(url)/waitTime", headers: headers)
+            .responseData { response in
+                let decoder = JSONDecoder()
+                let result: AFResult<[String: Double]> = decoder.decodeResponse(from: response)
+                switch result {
+                case .success(let data):
+                    data.forEach { id, waitTime in
+                        guard let index = System.places.firstIndex(where: { place in
+                            return place.id == id
+                        }) else { return }
+                        // note: timestamp ignored -- currently "last updated" text corresponds to last time density was updated (every 5 mins)
+                        System.places[index].waitTime = waitTime
+                    }
+                    completion(true)
+                case .failure(let error):
+                    print(error, "waitTimes")
                     completion(false)
                 }
         }
@@ -281,7 +326,7 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, isClosed: false, hours: [:], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: nil, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
                     }
                     completion(true)
                 case .failure(let error):
@@ -293,78 +338,6 @@ class API {
                     completion(false)
                 }
         }
-    }
-
-    static func hours(place: Place, completion: @escaping (Bool) -> Void) {
-        guard let token = System.token else { return }
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)"
-        ]
-
-        var success = true
-
-        let today = Date()
-        if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
-
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM-dd-yy"
-            // Always get hours based on the time in New York
-            formatter.timeZone = TimeZone(identifier: "America/New_York")
-            let startDate = formatter.string(from: today)
-            let endDate = formatter.string(from: sixDaysLater)
-
-            let parameters = [
-                "id": place.id,
-                "startDate": startDate,
-                "endDate": endDate
-            ]
-
-            AF.request("\(url)/facilityHours", parameters: parameters, headers: headers)
-                .responseData { response in
-                    let decoder = JSONDecoder()
-                    let result: AFResult<[HoursResponse]> = decoder.decodeResponse(from: response)
-                    switch result {
-                    case .success(let hoursResponseArray):
-                        // TODO delete this preprocessing of hours data function when DetailControllerHeader isn't relying on it anymore
-                        // No longer used by any HoursCell as that has been moved into the menus
-                        let hoursResponse = hoursResponseArray[0]
-                        var hours = [Int: String]()
-                        for dailyInfo in hoursResponse.hours {
-                            let day = dailyInfo.dayOfWeek
-                            let dailyHours = dailyInfo.dailyHours
-                            let timeFormatter = DateFormatter()
-                            // Display hours in ET
-                            timeFormatter.timeZone = TimeZone(identifier: "America/New_York")
-                            timeFormatter.timeStyle = .short
-                            guard let openTimestamp = dailyHours["startTimestamp"], let closeTimestamp = dailyHours["endTimestamp"] else { return }
-                            let open = Date(timeIntervalSince1970: openTimestamp)
-                            let close = Date(timeIntervalSince1970: closeTimestamp)
-                            let openTime = timeFormatter.string(from: open)
-                            let closeTime = timeFormatter.string(from: close)
-                            if let hoursString = hours[day] {
-                                hours[day] = hoursString + "\n\(openTime) - \(closeTime)"
-                            } else {
-                                hours[day] = "\(openTime) - \(closeTime)"
-                            }
-                        }
-                        if let placeIndex = System.places.firstIndex(where: { other -> Bool in
-                            return other.id == place.id
-                        }) {
-                            System.places[placeIndex].hours = hours
-                        } else {
-                            success = false
-                        }
-                    case .failure(let error):
-                        print(error, "faciliyHours")
-                        success = false
-                    }
-                    completion(success)
-            }
-        } else {
-            success = false
-            completion(success)
-        }
-
     }
 
     static func densities(completion: @escaping (Bool) -> Void) {
@@ -398,6 +371,8 @@ class API {
         let multiples = floor(lastUpdatedDensityTime!.timeIntervalSince1970 / lastUpdatedRoundingSeconds)
         return Date(timeIntervalSince1970: multiples * lastUpdatedRoundingSeconds)
     }
+
+    // MARK: - PlaceDetailView Functions
 
     static func menus(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
@@ -433,6 +408,7 @@ class API {
         }
     }
 
+
     static func addGeneralFeedback(feedback: FluxFeedback, completion: @escaping (Bool) -> Void) {
             guard let token = System.token else { return }
             let headers: HTTPHeaders = [
@@ -445,6 +421,80 @@ class API {
                 case .failure(let error):
                     print(error, "addGeneralFeedback")
                     completion(false)
+            }
+        }
+    }
+  
+    static func hours(place: Place, completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+
+        var success = true
+
+        let today = Date()
+        if let sixDaysLater = Calendar.current.date(byAdding: Calendar.Component.day, value: 6, to: today) {
+
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM-dd-yy" // weird format
+            // Always get hours based on the time in New York
+            formatter.timeZone = TimeZone(identifier: "America/New_York")
+            let startDate = formatter.string(from: today)
+            let endDate = formatter.string(from: sixDaysLater)
+
+            let parameters = [
+                "id": place.id,
+                "startDate": startDate,
+                "endDate": endDate
+            ]
+
+            AF.request("\(url)/facilityHours", parameters: parameters, headers: headers)
+                .responseData { response in
+                    let decoder = JSONDecoder()
+                    let result: AFResult<[HoursResponse]> = decoder.decodeResponse(from: response)
+                    switch result {
+                    case .success(let hoursResponseArray):
+                        if let placeIndex = System.places.firstIndex(where: { other -> Bool in
+                            return other.id == place.id
+                        }) {
+                            System.places[placeIndex].hours = hoursResponseArray[0].hours
+                        } else {
+                            success = false
+                        }
+                    case .failure(let error):
+                        print(error, "faciliyHours")
+                        success = false
+                    }
+                    completion(success)
+            }
+        } else {
+            success = false
+            completion(success)
+        }
+    }
+
+    static func addFeedback(feedback: Feedback, completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+
+        AF.request("\(url)/addFeedback", method: .post, parameters: feedback, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
+            let decoder = JSONDecoder()
+            let result: AFResult<AddFeedbackResponse> = decoder.decodeResponse(from: response)
+            switch result {
+            case .success(let data):
+                print(data)
+                if data.success {
+                    completion(true)
+                } else {
+                    completion(false) // Feedback was processed but rejected
+                }
+            case .failure(let error):
+                print(error, "addFeedback")
+                print("(Could not decode response to AddFeedbackResponse struct!!)")
+                completion(false)
             }
         }
     }

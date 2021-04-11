@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PlacesViewController.swift
 //  Campus Density
 //
 //  Created by Matthew Coufal on 10/14/18.
@@ -10,6 +10,7 @@ import SnapKit
 import Firebase
 import IGListKit
 
+/// Region to filter eatery locations by
 enum Filter: String {
     case all = "All"
     case north = "North"
@@ -17,6 +18,7 @@ enum Filter: String {
     case central = "Central"
 }
 
+/// The main-screen view controller of the app. It contains the scrollable list of eateries that lead to detail views.
 class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Data vars
@@ -92,6 +94,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         setupGestureRecognizers()
     }
 
+    /// Attempt to sign in and update the eatery data
     func signIn() {
         if let user = Auth.auth().currentUser {
             if System.token != nil {
@@ -143,6 +146,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    /// Display an alert that eatery data failed to load.
     func alertError() {
         let alertController = UIAlertController(title: "Error", message: "Failed to load data. Check your network connection.", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { _ in
@@ -168,9 +172,19 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    func getDensities() {
-        API.densities { gotDensities in
-            if gotDensities {
+    func getStatus() {
+        API.status { gotStatus in
+            if gotStatus {
+                self.getHistory()
+            } else {
+                self.alertError()
+            }
+        }
+    }
+
+    func getWaitTimes() {
+        API.waitTimes { gotWaitTimes in
+            if gotWaitTimes {
                 self.getStatus()
             } else {
                 self.alertError()
@@ -178,10 +192,10 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    func getStatus() {
-        API.status { gotStatus in
-            if gotStatus {
-                self.getHistory()
+    func getDensities() {
+        API.densities { gotDensities in
+            if gotDensities {
+                self.getWaitTimes()
             } else {
                 self.alertError()
             }
@@ -203,11 +217,15 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
             setupRefreshControl()
             API.densities { gotDensities in
                 if gotDensities {
-                    API.status { gotStatus in
-                        if gotStatus {
-                            sortPlaces() // Maybe fixes a bug related to opening the app after a long time and refreshed densities being out of order
-                            self.updateFilteredPlaces()
-                            self.adapter.performUpdates(animated: false, completion: nil)
+                    API.waitTimes { gotWaitTimes in
+                        if gotWaitTimes {
+                            API.status { gotStatus in
+                                if gotStatus {
+                                    sortPlaces() // Maybe fixes a bug related to opening the app after a long time and refreshed densities being out of order
+                                    self.updateFilteredPlaces()
+                                    self.adapter.performUpdates(animated: false, completion: nil)
+                                }
+                            }
                         }
                     }
                 }
@@ -221,7 +239,6 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -229,24 +246,16 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         updatePlaces()
     }
 
-    func filterLabel(filter: Filter) -> String {
-        switch filter {
-        case .all:
-            return "All"
-        case .central:
-            return "Central"
-        case .north:
-            return "North"
-        case .west:
-            return "West"
-        }
-    }
-
     /// Update `filteredPlaces` by filtering through current location filter and then search filter
     func updateFilteredPlaces() {
         filteredPlaces = filter(places: filter(places: System.places, by: self.selectedFilter), by: self.searchText)
     }
 
+    /// Filter a list of eateries by region.
+    /// - Parameters:
+    ///   - places: List of eateries
+    ///   - selectedFilter: Region to filter by, may be `.all`
+    /// - Returns: A new list only containing places whose region satisfies the filter
     func filter(places: [Place], by selectedFilter: Filter) -> [Place] {
         var filteredPlaces: [Place] = []
         print("Filtering by \(selectedFilter)")
@@ -270,6 +279,11 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         return filteredPlaces
     }
 
+    /// Filter a list of eateries to those whose names contain a substring.
+    /// - Parameters:
+    ///   - places: List of eateries
+    ///   - text: String to filter display name by
+    /// - Returns: A new list containing places whose display name contains `text`
     func filter(places: [Place], by text: String) -> [Place] {
         var filteredPlaces: [Place] = []
         print("Filtering by \(text)")
@@ -284,6 +298,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         return filteredPlaces
     }
 
+    /// Set up pull-to-refesh functionality at top of page
     func setupRefreshControl() {
         if refreshBarsView != nil {
             refreshBarsView.removeFromSuperview()
@@ -354,11 +369,17 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         guard let refreshControl = collectionView.refreshControl else { return }
         API.densities { gotDensities in
             if gotDensities {
-                sortPlaces()
-                self.updateFilteredPlaces()
+                API.waitTimes { _ in
+                    API.status { _ in
+                        sortPlaces()
+                        self.updateFilteredPlaces()
+                        refreshControl.endRefreshing()
+                        self.adapter.performUpdates(animated: false, completion: nil) // After refreshing, reload with sorted places - otherwise may just have same order with updated density card on cell dequeue and configure (passing the place by reference and updating the places) ?
+                    }
+                }
+            } else {
+                self.alertError()
             }
-            refreshControl.endRefreshing()
-            self.adapter.performUpdates(animated: false, completion: nil) // After refreshing, reload with sorted places - otherwise may just have same order with updated density card on cell dequeue and configure (passing the place by reference and updating the places) ?
         }
     }
 

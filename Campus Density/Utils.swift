@@ -11,6 +11,7 @@ import UIKit
 struct Constants {
     static let smallPadding: CGFloat = 15
     static let mediumPadding: CGFloat = 25
+    static let mlPadding: CGFloat = 40
     static let largePadding: CGFloat = 50
 }
 
@@ -40,8 +41,8 @@ func getCurrentDensity(densityMap: [Int: Double], selectedHour: Int) -> String {
     }
 }
 
-func interpretDensity(place: Place) -> String {
-    switch place.density {
+func interpretDensity(density: Density) -> String {
+    switch density {
         case .veryBusy:
             return "Very busy"
         case .prettyBusy:
@@ -50,6 +51,14 @@ func interpretDensity(place: Place) -> String {
             return "Not busy"
         case .somewhatBusy:
             return "Somewhat busy"
+    }
+}
+
+func waitTimeText(waitTime: Double?) -> String {
+    if let time = waitTime {
+        return "\(Int(time)) min. wait"
+    } else {
+        return "Unknown wait"
     }
 }
 

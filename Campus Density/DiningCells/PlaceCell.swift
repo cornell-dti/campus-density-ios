@@ -17,15 +17,10 @@ enum Density: Int, Codable {
 
 class PlaceCell: UICollectionViewCell {
 
-    // MARK: - Data vars
-    var place: Place!
-    var percentage: Double!
-
     // MARK: - View vars
     var background: UIView!
     var nameLabel: UILabel!
-    var densityLabel: UILabel!
-    var capacityLabel: UILabel!
+    var waitTimeLabel: UILabel!
     var barOne: UIView!
     var barTwo: UIView!
     var barThree: UIView!
@@ -71,11 +66,11 @@ class PlaceCell: UICollectionViewCell {
         nameLabel.font = .sixteenBold
         contentView.addSubview(nameLabel)
 
-        densityLabel = UILabel()
-        densityLabel.adjustsFontSizeToFitWidth = true
-        densityLabel.textAlignment = .right
-        densityLabel.font = .fourteen
-        contentView.addSubview(densityLabel)
+        waitTimeLabel = UILabel()
+        waitTimeLabel.adjustsFontSizeToFitWidth = true
+        waitTimeLabel.textAlignment = .right
+        waitTimeLabel.font = .fourteen
+        contentView.addSubview(waitTimeLabel)
 
         barOne = setupBar()
         contentView.addSubview(barOne)
@@ -110,8 +105,8 @@ class PlaceCell: UICollectionViewCell {
 
         let barWidth: CGFloat = totalBarWidth / 4.0
 
-        guard let densityLabelText = densityLabel.text else { return }
-        let densityLabelWidth = densityLabelText.widthWithConstrainedHeight(labelHeight, font: densityLabel.font)
+        guard let waitTimeLabelText = waitTimeLabel.text else { return }
+        let waitTimeLabelWidth = waitTimeLabelText.widthWithConstrainedHeight(labelHeight, font: waitTimeLabel.font)
 
         background.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(padding)
@@ -148,8 +143,8 @@ class PlaceCell: UICollectionViewCell {
             make.height.equalTo(barOne)
         }
 
-        densityLabel.snp.makeConstraints { make in
-            make.width.equalTo(densityLabelWidth)
+        waitTimeLabel.snp.makeConstraints { make in
+            make.width.equalTo(waitTimeLabelWidth)
             make.right.equalTo(background).inset(padding)
             make.top.equalTo(background)
             make.bottom.equalTo(barOne.snp.top)
@@ -158,33 +153,20 @@ class PlaceCell: UICollectionViewCell {
         nameLabel.snp.makeConstraints { make in
             make.left.equalTo(barOne)
             make.bottom.equalTo(barOne.snp.top)
-            make.right.equalTo(densityLabel.snp.left).offset(-5)
+            make.right.equalTo(waitTimeLabel.snp.left).offset(-5)
             make.top.equalTo(background)
         }
     }
 
-    func interpretDensity() -> String {
-        switch place.density {
-            case .veryBusy:
-                return "Very busy"
-            case .prettyBusy:
-                return "Pretty busy"
-            case .notBusy:
-                return "Not busy"
-            case .somewhatBusy:
-                return "Somewhat busy"
-        }
-    }
-
-    func colorBars() {
-        if place.isClosed {
+    func colorBars(isClosed: Bool, density: Density) {
+        if isClosed {
             barOne.backgroundColor = .whiteTwo
             barTwo.backgroundColor = barOne.backgroundColor
             barThree.backgroundColor = barOne.backgroundColor
             barFour.backgroundColor = barOne.backgroundColor
             return
         }
-        switch place.density {
+        switch density {
             case .veryBusy:
                 barOne.backgroundColor = .orangeyRed
                 barTwo.backgroundColor = barOne.backgroundColor
@@ -212,12 +194,11 @@ class PlaceCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with place: Place) {
-        self.place = place
-        nameLabel.text = place.displayName
-        densityLabel.text = place.isClosed ? "Closed" : interpretDensity()
-        densityLabel.textColor = place.isClosed ? .orangeyRed : .densityDarkGray
-        colorBars()
+    func configure(with placeModel: PlaceModel) {
+        nameLabel.text = placeModel.displayName
+        waitTimeLabel.text = placeModel.isClosed ? "Closed" : waitTimeText(waitTime: placeModel.waitTime)
+        waitTimeLabel.textColor = placeModel.isClosed ? .orangeyRed : .densityDarkGray
+        colorBars(isClosed: placeModel.isClosed, density: placeModel.density)
         setupConstraints()
     }
 

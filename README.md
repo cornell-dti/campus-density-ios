@@ -37,12 +37,26 @@ _Screenshots showing major parts of app_
 <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc1.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc2.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc3.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;"> <img src="https://raw.githubusercontent.com/cornell-dti/campus-density-ios/master/Screenshots/sc4.png" width="250px" style="margin: 10px; border: 1px rgba(0,0,0,0.4) solid;">
 ​
 ## Contributors
+**2020-2021**
+* **Andrew Gao** - Product Manager
+* **Yvonne Chan** - Product Manager
+* **Kaushik Ravikumar** - Technical Project Manager
+* **Ansh Godha** - iOS Developer
+* **Mihikaa Goenka** - iOS Developer
+* **Changyuan Lin** - iOS Developer
+* **Toby Ko** - Android Developer
+* **Jessica Feng** - Backend Developer
+* **Vaishnavi Gupta** - Backend Developer
+* **Buma Gana** - Designer
+* **Katherine Go** - Designer
+* **Rebecca Fu** - Designer
+* **Isabella Zhou** - Designer
+
 **2019-2020**
 * **Ansh Godha** - iOS Developer
-
-**2019-2020**
- * **Changyuan Lin** - iOS Developer
-
+* **Changyuan Lin** - iOS Developer
+* **Mihikaa Goenka** - iOS Developer
+ 
 **2018-2019**
  * **Matthew Coufal** - iOS Developer
 

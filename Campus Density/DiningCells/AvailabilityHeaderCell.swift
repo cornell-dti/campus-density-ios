@@ -14,7 +14,7 @@ class AvailabilityHeaderCell: UICollectionViewCell {
     var headerLabel: UILabel!
 
     // MARK: - Constants
-    let headerLabelText = "Availability"
+    let headerLabelText = "Current Availability"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,7 +23,7 @@ class AvailabilityHeaderCell: UICollectionViewCell {
         headerLabel.text = headerLabelText
         headerLabel.textColor = .black
         headerLabel.textAlignment = .left
-        headerLabel.font = .thirtyBold
+        headerLabel.font = .twentyFiveBold
         addSubview(headerLabel)
 
         setupConstraints()

@@ -18,24 +18,32 @@ class LastUpdatedTextCell: UICollectionViewCell {
 
         lastUpdatedLabel = UILabel()
         lastUpdatedLabel.textColor = .densityDarkGray
-        lastUpdatedLabel.textAlignment = .center
-        lastUpdatedLabel.font = .sixteen
-        addSubview(lastUpdatedLabel)
+        contentView.addSubview(lastUpdatedLabel)
 
         setupConstraints()
     }
 
     func setupConstraints() {
         lastUpdatedLabel.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview().inset(Constants.smallPadding)
             make.height.equalToSuperview()
         }
     }
 
-    func configure(lastUpdatedDate: Date) {
+    func configure(lastUpdatedDate: Date, style: LastUpdatedTextSectionController.Style) {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+
+        switch style {
+        case .main:
+            formatter.dateStyle = .medium
+            lastUpdatedLabel.textAlignment = .center
+            lastUpdatedLabel.font = .sixteen
+        case .detail:
+            formatter.dateStyle = .none
+            lastUpdatedLabel.textAlignment = .left
+            lastUpdatedLabel.font = .fourteen
+        }
+
         formatter.timeStyle = .short
         lastUpdatedLabel.text = "Last updated " + formatter.string(from: lastUpdatedDate)
         setupConstraints()

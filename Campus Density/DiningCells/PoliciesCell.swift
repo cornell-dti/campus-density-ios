@@ -65,7 +65,7 @@ class PoliciesCell: UICollectionViewCell {
 
         diningPolicyButton = UIButton()
         diningPolicyButton.setTitle("", for: .normal)
-        let diningPolicyButtonText = NSAttributedString(string: "View dining hall policies", attributes: [.foregroundColor: UIColor.warmGray, .font: UIFont.sixteen])
+        let diningPolicyButtonText = NSAttributedString(string: "View dining hall policies", attributes: [.foregroundColor: UIColor.warmGray, .font: UIFont.fourteen])
         diningPolicyButton.setAttributedTitle(diningPolicyButtonText, for: .normal)
         diningPolicyButton.tintColor = .white
         diningPolicyButton.layer.borderColor = UIColor.warmGray.cgColor

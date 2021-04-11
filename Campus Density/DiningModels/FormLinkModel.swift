@@ -11,11 +11,13 @@ import IGListKit
 
 class FormLinkModel {
 
-    var lastUpdated: Date
+    var isClosed: Bool
+    var waitTime: Double?
     let identifier = UUID().uuidString
 
-    init(lastUpdated: Date) {
-        self.lastUpdated = lastUpdated
+    init(isClosed: Bool, waitTime: Double?) {
+        self.isClosed = isClosed
+        self.waitTime = waitTime
     }
 
 }

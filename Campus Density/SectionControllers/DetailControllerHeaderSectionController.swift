@@ -25,7 +25,7 @@ class DetailControllerHeaderSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: DetailControllerHeaderCell.self, for: self, at: index) as! DetailControllerHeaderCell
-        cell.configure(with: headerModel.place)
+        cell.configure(displayName: headerModel.displayName, hours: headerModel.hours)
         return cell
     }
 

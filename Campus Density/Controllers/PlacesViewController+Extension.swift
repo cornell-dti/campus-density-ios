@@ -22,7 +22,7 @@ extension PlacesViewController: ListAdapterDataSource {
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(PoliciesModel())
         objects.append(SpaceModel(space: Constants.smallPadding / 3))
-        objects.append(contentsOf: filteredPlaces)
+        objects.append(contentsOf: filteredPlaces.map { place in PlaceModel(place: place) })
         objects.append(SpaceModel(space: Constants.smallPadding))
         objects.append(AppFeedbackModel())
         objects.append(SpaceModel(space: Constants.smallPadding))
@@ -34,9 +34,9 @@ extension PlacesViewController: ListAdapterDataSource {
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        if object is Place {
-            let place = object as! Place
-            return PlaceSectionController(place: place, delegate: self)
+        if object is PlaceModel {
+            let placeModel = object as! PlaceModel
+            return PlaceSectionController(placeModel: placeModel, delegate: self)
         } else if object is SpaceModel {
             let spaceModel = object as! SpaceModel
             return SpaceSectionController(spaceModel: spaceModel)
@@ -45,7 +45,7 @@ extension PlacesViewController: ListAdapterDataSource {
             return FiltersSectionController(filtersModel: filtersModel, delegate: self)
         } else if object is LastUpdatedTextModel {
             let lastUpdatedTextModel = object as! LastUpdatedTextModel
-            return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel)
+            return LastUpdatedTextSectionController(lastUpdatedTextModel: lastUpdatedTextModel, style: .main)
         } else if object is AppFeedbackModel {
             let appFeedbackModel = object as! AppFeedbackModel
             return AppFeedbackSectionController(appFeedbackModel: appFeedbackModel, delegate: self)
@@ -104,9 +104,9 @@ extension PlacesViewController: AppFeedbackSectionControllerDelegate {
 
 extension PlacesViewController: PlaceSectionControllerDelegate {
 
-    func placeSectionControllerDidSelectPlace(place: Place) {
+    func placeSectionControllerDidSelectPlace(id: String) {
         let placeDetailViewController = PlaceDetailViewController()
-        placeDetailViewController.place = place
+        placeDetailViewController.place = filteredPlaces.first(where: { $0.id == id })
         navigationController?.pushViewController(placeDetailViewController, animated: true)
     }
 
