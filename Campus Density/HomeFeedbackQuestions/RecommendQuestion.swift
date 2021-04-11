@@ -20,7 +20,7 @@ class RecommendQuestion: HomeFeedbackQuestion {
     let radioButtonColors: [UIColor] = [.densityRed, .densityRed, .wheat, .peach, .densityGreen]
 
     init() {
-        super.init(subtitle: "1. How willing are you to recommend Flux to your friends? (1-10)")
+        super.init(subtitle: "1. How willing are you to recommend Flux to your friends? (1-5)")
 
         for rating in 0...4 {
             let button = UIButton()
@@ -58,7 +58,7 @@ class RecommendQuestion: HomeFeedbackQuestion {
         let rating = sender.tag
         let recColor = radioButtonColors[rating]
         for i in 0...4 {
-            if i<=rating {
+            if i <= rating {
                 recButtons[i].backgroundColor = recColor
                 recButtons[i].setTitleColor(.white, for: .normal)
                 recButtons[i].layer.borderColor = recColor.cgColor

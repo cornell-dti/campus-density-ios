@@ -9,7 +9,7 @@
 import UIKit
 
 struct FluxFeedback: Codable {
-    var likelytoRecommend: Int
+    var likelyToRecommend: Int
     var usefulFeatures: [Int]
     // How do you like flux overall
     var likeFluxOverall: Int
@@ -114,8 +114,7 @@ class HomeFeedbackViewController: UIViewController {
             make.bottom.equalTo(nextButton.snp.top).offset(-20)
             make.centerX.equalToSuperview()
         }
-
-        }
+    }
 
     func setupQuestions() {
         for question in questions {
@@ -155,11 +154,13 @@ class HomeFeedbackViewController: UIViewController {
     func showWith() {
         view.isHidden = false
         navigationController?.navigationBar.barTintColor = UIColor(white: 1, alpha: 0)
-        feedback = FluxFeedback(likelytoRecommend: -1, usefulFeatures: [], likeFluxOverall: -1, comment: "")
-        }
+        feedback = FluxFeedback(likelyToRecommend: -1, usefulFeatures: [], likeFluxOverall: -1, comment: "")
+    }
 
     @objc func nextQuestion() {
-        if questionIndex == 0 && feedback?.likelytoRecommend == -1 {
+        if questionIndex == 0 && feedback?.likelyToRecommend == -1 {
+            notAnswered.isHidden = false
+        } else if questionIndex == 2 && feedback?.likeFluxOverall == -1 {
             notAnswered.isHidden = false
         } else {
             notAnswered.isHidden = true
@@ -205,7 +206,7 @@ class HomeFeedbackViewController: UIViewController {
 
         func submitFeedback() {
             API.addGeneralFeedback(feedback: feedback!) { success in
-                print("addGeneralFeedback was maybe \(success) but it hasn't been tested")
+                print("maybe \(success)")
             }
         }
 
@@ -225,6 +226,7 @@ class HomeFeedbackViewController: UIViewController {
             questionIndex = 0
             questionView = questions[questionIndex]
             questionView.isHidden = false
+            notAnswered.isHidden = true
             prevButton.isHidden = true
             nextButton.isHidden = false
             nextButton.setTitle(questions.count == 1 ? "Submit" : "Next", for: .normal)
@@ -250,20 +252,19 @@ class HomeFeedbackViewController: UIViewController {
 
 extension HomeFeedbackViewController: RecommendationQuestionDelegate {
     func recValueWasChanged(rec: Int) {
-        self.feedback?.likelytoRecommend = rec
+        self.feedback?.likelyToRecommend = rec + 1
     }
 }
 
 extension HomeFeedbackViewController: FeaturesQuestionDelegate {
     func featuresWasChanged(features: [Int]) {
-        self.feedback?.usefulFeatures = features
+        self.feedback?.usefulFeatures = features.sorted()
     }
 }
 
 extension HomeFeedbackViewController: ReviewQuestionDelegate {
     func reviewWasChanged(review: Int) {
         self.feedback?.likeFluxOverall = review
-        print(review)
     }
 }
 

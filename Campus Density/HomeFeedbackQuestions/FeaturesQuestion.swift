@@ -18,6 +18,7 @@ class FeaturesQuestion: HomeFeedbackQuestion {
     let featureLabelTitles = ["Popular Times", "Availability Breakdown", "Dining Areas", "Menu"]
     var featureButtons: [UIButton] = []
     var featureButtonsStackView: UIStackView!
+    var chosenFeatures: [Int] = [0, 0, 0, 0]
 
     init() {
         super.init(subtitle: "2. Which feature(s) do you find useful?")
@@ -59,19 +60,17 @@ class FeaturesQuestion: HomeFeedbackQuestion {
     @objc func checkboxButtonPressed(sender: UIButton) {
         if sender.image(for: .normal) == UIImage(named: "checked-box") {
             sender.setImage(UIImage(named: "unchecked-box"), for: .normal)
+            chosenFeatures[sender.tag] = 0
         } else {
             sender.setImage(UIImage(named: "checked-box"), for: .normal)
+            chosenFeatures[sender.tag] = 1
         }
         var features: [Int] = []
         for i in 0...3 {
-            if featureButtons[i].image(for: .normal) == UIImage(named: "checked-box") && !(features.contains(i)) {
+            if chosenFeatures[i] == 1 && !(features.contains(i)) {
                 features.append(i)
-                features.sort()
-                print(features)
-            } else if featureButtons[i].image(for: .normal) == UIImage(named: "unchecked-box") && features.contains(i) {
+            } else if chosenFeatures[i] == 0 && (features.contains(i)) {
                 features.remove(at: i)
-                features.sort()
-                print(features)
             }
         }
         delegate?.featuresWasChanged(features: features)

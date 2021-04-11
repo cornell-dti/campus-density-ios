@@ -330,7 +330,6 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(loadingBarsView)
 
         feedbackHome = UIButton()
-        //feedbackHome.addTarget(self, action: #selector(homeFeedbackForm), for: .touchUpInside)
         feedbackHome.backgroundColor = UIColor(white: 0, alpha: 0.2)
         feedbackHome.isHidden = true
         view.addSubview(feedbackHome)
@@ -407,9 +406,4 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
-//    @objc func homeFeedbackForm() {
-//    feedbackHome.isHidden = true
-//    feedbackViewController.view.isHidden = true
-//    }
 }

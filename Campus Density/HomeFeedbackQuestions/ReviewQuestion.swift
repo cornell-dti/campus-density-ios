@@ -14,7 +14,7 @@ protocol ReviewQuestionDelegate: class {
 
 class ReviewQuestion: HomeFeedbackQuestion {
     weak var delegate: ReviewQuestionDelegate?
-    let colors: [UIColor] = [.lightTeal, .wheat, .peach, .orangeyRed] // From CurrentDensityCell
+    let colors: [UIColor] = [.orangeyRed, .wheat, .peach, .lightTeal] // From CurrentDensityCell
     let noLikeLabel = UILabel()
     let likeLabel = UILabel()
     var colorPills: [UIButton] = []
@@ -44,7 +44,7 @@ class ReviewQuestion: HomeFeedbackQuestion {
         addSubview(colorPillsStackView)
         colorPillsStackView.snp.makeConstraints { make in
             make.height.equalTo(15)
-            make.bottom.equalToSuperview().inset(30)
+            make.bottom.equalToSuperview().inset(40)
             make.left.right.equalToSuperview()
         }
         for i in 0...3 {  // Feel free to make this better with a stack view like above
