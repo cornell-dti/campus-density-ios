@@ -11,6 +11,7 @@ import UIKit
 struct Constants {
     static let smallPadding: CGFloat = 15
     static let mediumPadding: CGFloat = 25
+    static let mlPadding: CGFloat = 40
     static let largePadding: CGFloat = 50
 }
 

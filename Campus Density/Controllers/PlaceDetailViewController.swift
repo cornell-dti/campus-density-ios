@@ -25,6 +25,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Data vars
     var place: Place!
+    var unavailableLabel: UILabel!
     var selectedWeekday: Int = 0
     var selectedHour: Int = 0
     var mealList = [Meal]()
@@ -39,11 +40,16 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - View vars
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
+    var spinnerView: ActivityView!
     var feedbackViewController: FeedbackViewController!
 
     // MARK: - Constants
     let largeLoadingBarsLength: CGFloat = 63
     let linkTopOffset: CGFloat = 5
+    let spinnerHeight: CGFloat = 25
+    let dividerHeight: CGFloat = 1
+    let spinnerY: CGFloat = 626 //calculated programmatically using menu y value
+    let unavailableText = "No menus available"
     let ithacaTime = TimeZone(identifier: "America/New_York")!
     var ithacaCalendar = Calendar.current
 
@@ -69,11 +75,34 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             make.center.equalToSuperview()
         }
 
+        spinnerView = ActivityView()
+        view.addSubview(spinnerView)
+
+        spinnerView.snp.makeConstraints { make in
+            make.width.height.equalTo(spinnerHeight)
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(spinnerY)
+        }
+
+        unavailableLabel = UILabel()
+        unavailableLabel.textColor = .warmGray
+        unavailableLabel.font = .eighteenBold
+        unavailableLabel.text = unavailableText
+        unavailableLabel.isHidden = true
+        view.addSubview(unavailableLabel)
+
+        unavailableLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(spinnerY)
+        }
+
         ithacaCalendar.timeZone = ithacaTime
 
         if place.hours.isEmpty {
             loadingBarsView.isHidden = false
             loadingBarsView.startAnimating()
+            spinnerView.isHidden = true
+            unavailableLabel.isHidden = true
             getHours()
         } else {
             loadingBarsView.removeFromSuperview()

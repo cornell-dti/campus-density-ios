@@ -12,9 +12,12 @@ class MenuHeaderCell: UICollectionViewCell {
 
     // MARK: - View vars
     var headerLabel: UILabel!
+    var detailsLabel: UILabel!
 
     // MARK: - Constants
-    let headerLabelText = "Menu"
+    let headerLabelText = "Menus & Hours"
+    let detailsLabelText = "Show Details For:"
+    let spacing = 5
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,8 +26,15 @@ class MenuHeaderCell: UICollectionViewCell {
         headerLabel.text = headerLabelText
         headerLabel.textColor = .black
         headerLabel.textAlignment = .left
-        headerLabel.font = .thirtyBold
+        headerLabel.font = .twentyFiveBold
         addSubview(headerLabel)
+
+        detailsLabel = UILabel()
+        detailsLabel.text = detailsLabelText
+        detailsLabel.textColor = .warmGray
+        detailsLabel.textAlignment = .left
+        detailsLabel.font = .sixteen
+        addSubview(detailsLabel)
 
         setupConstraints()
     }
@@ -32,10 +42,19 @@ class MenuHeaderCell: UICollectionViewCell {
     func setupConstraints() {
         let headerLabelTextHeight = headerLabelText.height(withConstrainedWidth: frame.width - Constants.smallPadding * 2, font: headerLabel.font)
 
+        let detailsLabelTextHeight = detailsLabelText.height(withConstrainedWidth: frame.width - Constants.smallPadding * 2, font: detailsLabel.font)
+
         headerLabel.snp.makeConstraints { make in
             make.width.equalToSuperview().inset(Constants.smallPadding)
             make.left.equalToSuperview().offset(Constants.smallPadding)
             make.height.equalTo(headerLabelTextHeight)
+        }
+
+        detailsLabel.snp.makeConstraints { make in
+            make.width.equalToSuperview().inset(Constants.smallPadding)
+            make.left.equalToSuperview().offset(Constants.smallPadding)
+            make.height.equalTo(detailsLabelTextHeight)
+            make.top.equalTo(headerLabel.snp.bottom).offset(spacing)
         }
     }
 
