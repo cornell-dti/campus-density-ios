@@ -58,7 +58,7 @@ class HomeFeedbackViewController: UIViewController {
 
             let hideButton = UIButton()
             hideButton.addTarget(self, action: #selector(hide), for: .touchUpInside)
-            hideButton.setImage(UIImage(named: "quit"), for: .normal)
+            hideButton.setImage(UIImage(named: "close"), for: .normal)
             background.addSubview(hideButton)
             hideButton.snp.makeConstraints { make in
                 make.top.right.equalToSuperview().inset(10)

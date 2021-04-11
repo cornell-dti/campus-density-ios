@@ -438,8 +438,6 @@ class API {
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer \(token)"
             ]
-
-            // TODO: improve error handling based on response (JSON?)
             AF.request("\(url)/addGeneralFeedback", method: .post, parameters: feedback, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
                 switch response.result {
                 case .success:
