@@ -408,7 +408,6 @@ class API {
         }
     }
 
-
     static func addGeneralFeedback(feedback: FluxFeedback, completion: @escaping (Bool) -> Void) {
             guard let token = System.token else { return }
             let headers: HTTPHeaders = [
@@ -424,7 +423,7 @@ class API {
             }
         }
     }
-  
+
     static func hours(place: Place, completion: @escaping (Bool) -> Void) {
         guard let token = System.token else { return }
         let headers: HTTPHeaders = [
