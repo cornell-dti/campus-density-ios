@@ -109,7 +109,7 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             loadingHours = false
             setup()
         }
-        if (place?.menus.weeksMenus)!.isEmpty {
+        if place.diningMenus == nil {
             getMenus()
         } else {
             loadingMenus = false

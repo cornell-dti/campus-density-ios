@@ -95,7 +95,7 @@ class Place {
     var hours: [DailyInfo]
     var history: [String: [String: Double]]
     var region: Region
-    var menus: WeekMenus
+    var diningMenus: [DayMenus]?
 
     /// Initilizes a new Place object with the eatety's display name, it's corresponding FIrebase id, its `Density`, whether it is closed or not, its hours, history, location and its week's menus.
     ///
@@ -108,7 +108,7 @@ class Place {
     ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
-    init(displayName: String, id: String, density: Density, waitTime: Double?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, waitTime: Double?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, diningMenus: [DayMenus]?) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -117,7 +117,7 @@ class Place {
         self.hours = hours
         self.history = history
         self.region = region
-        self.menus = menus
+        self.diningMenus = diningMenus
     }
 
 }
@@ -326,7 +326,7 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: nil, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: nil, isClosed: false, hours: [], history: [:], region: .north, diningMenus: nil)
                     }
                     completion(true)
                 case .failure(let error):
@@ -397,7 +397,7 @@ class API {
                             return place.id == menu.id
                         })
                         guard let placeIndex = index else { return }
-                        System.places[placeIndex].menus = menu
+                        System.places[placeIndex].diningMenus = menu.weeksMenus
                     })
                     completion(true)
 

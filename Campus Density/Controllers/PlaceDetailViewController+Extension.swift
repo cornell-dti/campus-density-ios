@@ -18,8 +18,8 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         if menuDay <= 0 {
             menuDay = 7 + menuDay
         }
-        if place.menus.weeksMenus.count != 0 {
-            menus = place.menus.weeksMenus[menuDay]
+        if let diningMenus = place.diningMenus, !diningMenus.isEmpty {
+            menus = diningMenus[menuDay]
         }
         var meals = [Meal]()
         var endTimes = [Int]()
@@ -58,7 +58,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         }
 
         //if there are not any available menus for the day, the unavailable menu label is shown else it is hidden and the activity indicator spins until the menus load
-        else if place.menus.weeksMenus.count == 0 {
+        else if place.diningMenus?.count == 0 {
             spinnerView.isHidden = false
             spinnerView.animate()
             view.addSubview(spinnerView)
