@@ -28,7 +28,6 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
     var unavailableLabel: UILabel!
     var selectedWeekday: Int = 0
     var selectedHour: Int = 0
-    var mealList = [Meal]()
     var selectedMeal: Meal = .none
     /// The next days, indexed at the current day and storing (weekday, dayNum) as (0, 5) for Sunday the 5th
     var weekdays = [(Int, Int)]()
