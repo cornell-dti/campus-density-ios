@@ -1,5 +1,5 @@
 //
-//  MenuInteriorCell.swift
+//  DiningHallMenuInteriorCell.swift
 //  Campus Density
 //
 //  Created by Changyuan Lin on 2/29/20.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class MenuInteriorCell: UICollectionViewCell {
+class DiningHallMenuInteriorCell: UICollectionViewCell {
 
-    static let identifier: String = "MenuInteriorCell"
+    static let identifier: String = "DiningHallMenuInteriorCell"
 
     // MARK: - View vars
     var clockImageView: UIImageView!
@@ -34,12 +34,12 @@ class MenuInteriorCell: UICollectionViewCell {
         clockImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.left.equalToSuperview().offset(Constants.smallPadding)
-            make.height.width.equalTo(MenuInteriorCell.hoursLabelHeight)
+            make.height.width.equalTo(DiningHallMenuInteriorCell.hoursLabelHeight)
         }
         hoursLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.height.equalTo(MenuInteriorCell.hoursLabelHeight)
-            make.left.equalTo(clockImageView.snp.right).offset(MenuInteriorCell.clockHoursGap)
+            make.height.equalTo(DiningHallMenuInteriorCell.hoursLabelHeight)
+            make.left.equalTo(clockImageView.snp.right).offset(DiningHallMenuInteriorCell.clockHoursGap)
         }
         menuLabel.snp.makeConstraints { make in
             make.top.equalTo(hoursLabel.snp.bottom).offset(Constants.smallPadding)
@@ -120,8 +120,8 @@ class MenuInteriorCell: UICollectionViewCell {
     }
 
     func configure(menuData: MenuData) {
-        hoursLabel.text = MenuInteriorCell.getHoursString(menuData: menuData)
-        menuLabel.attributedText = MenuInteriorCell.getMenuString(menuData: menuData)
+        hoursLabel.text = DiningHallMenuInteriorCell.getHoursString(menuData: menuData)
+        menuLabel.attributedText = DiningHallMenuInteriorCell.getMenuString(menuData: menuData)
         setupConstraints()
     }
 

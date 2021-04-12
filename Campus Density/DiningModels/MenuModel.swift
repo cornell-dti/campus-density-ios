@@ -11,15 +11,27 @@ import IGListKit
 
 class MenuModel {
 
-    var menu: DayMenus
-    var mealNames: [Meal]
-    var selectedMeal: Meal
+    let facilityType: FacilityType
+    let diningHallMenu: DayMenus! // nil if facilityType == .cafe
+    let mealNames: [Meal]! // nil if facilityType == .cafe
+    let selectedMeal: Meal
+    let cafeMenu: [String]! // nil if facilityType == .diningHall
     let identifier = UUID().uuidString
 
-    init(menu: DayMenus, mealNames: [Meal], selectedMeal: Meal) {
-        self.menu = menu
+    init(diningHallMenu: DayMenus, mealNames: [Meal], selectedMeal: Meal) {
+        self.facilityType = .diningHall
+        self.diningHallMenu = diningHallMenu
         self.mealNames = mealNames
         self.selectedMeal = selectedMeal
+        self.cafeMenu = nil
+    }
+
+    init(cafeMenu: [String]) {
+        self.facilityType = .cafe
+        self.diningHallMenu = nil
+        self.mealNames = nil
+        self.selectedMeal = .none
+        self.cafeMenu = cafeMenu
     }
 
 }

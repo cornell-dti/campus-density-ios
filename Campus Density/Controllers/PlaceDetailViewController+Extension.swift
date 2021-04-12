@@ -103,9 +103,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             objects.append(MealFiltersModel(meals: meals, selectedMeal: selectedMeal))
             objects.append(SectionDividerModel(lineWidth: dividerHeight))
             objects.append(SpaceModel(space: Constants.mediumPadding))
-            objects.append(MenuModel(menu: diningHallMenus, mealNames: meals, selectedMeal: selectedMeal))
+            objects.append(MenuModel(diningHallMenu: diningHallMenus, mealNames: meals, selectedMeal: selectedMeal))
         case .cafe:
-            break
+            objects.append(MenuModel(cafeMenu: place.cafeMenus!))
         case .none:
             break
         }
