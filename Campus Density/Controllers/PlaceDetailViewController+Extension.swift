@@ -95,9 +95,9 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         objects.append(SectionDividerModel(lineWidth: dividerHeight))
         objects.append(SpaceModel(space: Constants.mediumPadding))
         objects.append(MenuHeaderModel())
+        objects.append(SpaceModel(space: Constants.mlPadding))
         switch place.facilityType {
         case .diningHall:
-            objects.append(SpaceModel(space: Constants.mlPadding))
             objects.append(DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays))
             objects.append(SpaceModel(space: Constants.smallPadding))
             objects.append(MealFiltersModel(meals: meals, selectedMeal: selectedMeal))

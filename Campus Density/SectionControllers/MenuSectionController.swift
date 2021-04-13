@@ -33,20 +33,27 @@ class MenuSectionController: ListSectionController {
         switch menuModel.facilityType {
         case .diningHall:
             for menu in menuModel.diningHallMenu.menus {
-                let menuHeight = heightForDiningHallMenu(menuData: menu)
+                let menuHeight = heightForMenu(menuData: menu)
                 maxHeight = CGFloat.maximum(maxHeight, menuHeight)
             }
         case .cafe:
-            maxHeight = 100 // TODO find cafe menu height
+            maxHeight = heightForMenu(cafeMenu: menuModel.cafeMenu)
         }
         return maxHeight
     }
 
     /// The height of the menu cell for a specific `Meal`
-    func heightForDiningHallMenu(menuData: MenuData) -> CGFloat {
+    func heightForMenu(menuData: MenuData) -> CGFloat {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         let width = containerSize.width - 2 * Constants.smallPadding
         let menuHeight = ceil(DiningHallMenuInteriorCell.getMenuString(menuData: menuData).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height)
+        return menuHeight
+    }
+
+    func heightForMenu(cafeMenu: [String]) -> CGFloat {
+        guard let containerSize = collectionContext?.containerSize else { return .zero }
+        let width = containerSize.width - 2 * Constants.smallPadding
+        let menuHeight = ceil(CafeMenuCell.getMenuString(cafeMenu: cafeMenu).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height)
         return menuHeight
     }
 
@@ -61,18 +68,25 @@ class MenuSectionController: ListSectionController {
                 return CGSize(width: containerSize.width, height: tallestMenu + (DiningHallMenuInteriorCell.hoursLabelHeight + Constants.smallPadding)) // use heightForMenu() to change size every time
             }
         case .cafe:
-            return CGSize(width: containerSize.width, height: tallestMenu + Constants.smallPadding)
+            return CGSize(width: containerSize.width, height: tallestMenu + (CafeMenuCell.hoursLabelHeight + Constants.smallPadding))
         }
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        let cell = collectionContext?.dequeueReusableCell(of: DiningHallMenuCell.self, for: self, at: index) as! DiningHallMenuCell
-        if let index = menuModel.mealNames.index(of: menuModel.selectedMeal) {
-            cell.configure(dataSource: self, selected: index, delegate: self)
-        } else {
-            cell.configureAsNoMenus()
+        switch menuModel.facilityType {
+        case .diningHall:
+            let cell = collectionContext?.dequeueReusableCell(of: DiningHallMenuCell.self, for: self, at: index) as! DiningHallMenuCell
+            if let index = menuModel.mealNames.index(of: menuModel.selectedMeal) {
+                cell.configure(dataSource: self, selected: index, delegate: self)
+            } else {
+                cell.configureAsNoMenus()
+            }
+            return cell
+        case .cafe:
+            let cell = collectionContext?.dequeueReusableCell(of: CafeMenuCell.self, for: self, at: index) as! CafeMenuCell
+            cell.configure(cafeMenu: menuModel.cafeMenu, startTime: 0, endTime: 1000)
+            return cell
         }
-        return cell
     }
 
     override func didUpdate(to object: Any) {

@@ -55,6 +55,7 @@
 		3C29547D25856E6F00965D9A /* AccuracyQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */; };
 		3C29548525856EDE00965D9A /* ObservedDensityQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */; };
 		3C29548A25858D0200965D9A /* WaitTimeQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548925858D0200965D9A /* WaitTimeQuestion.swift */; };
+		3C3839542625155D00DD6250 /* CafeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3839532625155D00DD6250 /* CafeMenuCell.swift */; };
 		3C722EE42606938400E1DCFA /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C722EE32606938400E1DCFA /* PlaceModel.swift */; };
 		3C755EAC2586B93500C7FFC5 /* CommentQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C755EAB2586B93500C7FFC5 /* CommentQuestion.swift */; };
 		3C7A4E642586C9C600676980 /* ThanksQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A4E632586C9C600676980 /* ThanksQuestion.swift */; };
@@ -174,6 +175,7 @@
 		3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccuracyQuestion.swift; sourceTree = "<group>"; };
 		3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedDensityQuestion.swift; sourceTree = "<group>"; };
 		3C29548925858D0200965D9A /* WaitTimeQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimeQuestion.swift; sourceTree = "<group>"; };
+		3C3839532625155D00DD6250 /* CafeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeMenuCell.swift; sourceTree = "<group>"; };
 		3C722EE32606938400E1DCFA /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		3C755EAB2586B93500C7FFC5 /* CommentQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentQuestion.swift; sourceTree = "<group>"; };
 		3C7A4E632586C9C600676980 /* ThanksQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksQuestion.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				3CD56C8C24AEB21A004D4910 /* LastUpdatedTextCell.swift */,
 				EE11414324E85F35004C35F5 /* SearchBarCell.swift */,
 				EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */,
+				3C3839532625155D00DD6250 /* CafeMenuCell.swift */,
 			);
 			path = DiningCells;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				3C29548A25858D0200965D9A /* WaitTimeQuestion.swift in Sources */,
 				0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */,
 				EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */,
+				3C3839542625155D00DD6250 /* CafeMenuCell.swift in Sources */,
 				EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */,
 				EEA4117F249E849100190A30 /* AvailabilityHeaderModel.swift in Sources */,
 				3C755EAC2586B93500C7FFC5 /* CommentQuestion.swift in Sources */,

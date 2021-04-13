@@ -25,6 +25,16 @@ func getHourLabel(selectedHour: Int) -> String {
     return "\(hour) \(selectedHour < 12 ? "AM" : "PM")"
 }
 
+/// Get open hours in "Open from <start> - <end>" format, in the Ithaca time zone
+func getHoursString(startTime: Double, endTime: Double) -> String {
+    let formatter = DateFormatter()
+    formatter.timeZone = TimeZone(identifier: "America/New_York")
+    formatter.timeStyle = .short
+    let startString = formatter.string(from: Date(timeIntervalSince1970: startTime))
+    let endString = formatter.string(from: Date(timeIntervalSince1970: endTime))
+    return "Open from \(startString) - \(endString)"
+}
+
 func getCurrentDensity(densityMap: [Int: Double], selectedHour: Int) -> String {
     if densityMap.isEmpty {
         return "Closed"
