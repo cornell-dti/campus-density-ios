@@ -84,7 +84,7 @@ class MenuSectionController: ListSectionController {
             return cell
         case .cafe:
             let cell = collectionContext?.dequeueReusableCell(of: CafeMenuCell.self, for: self, at: index) as! CafeMenuCell
-            cell.configure(cafeMenu: menuModel.cafeMenu, startTime: 0, endTime: 1000)
+            cell.configure(cafeMenu: menuModel.cafeMenu, startTime: menuModel.cafeStartTime, endTime: menuModel.cafeEndTime)
             return cell
         }
     }
@@ -96,7 +96,7 @@ class MenuSectionController: ListSectionController {
 
 }
 
-// For the collection view inside the menu cell, returning interior cells
+// For the collection view inside the dining hall menu cell, returning dining hall interior cells
 extension MenuSectionController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return menuModel.mealNames.count

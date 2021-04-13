@@ -110,7 +110,7 @@ class DiningHallMenuInteriorCell: UICollectionViewCell {
     }
 
     func configure(menuData: MenuData) {
-        hoursLabel.text = getHoursString(startTime: Double(menuData.startTime), endTime: Double(menuData.endTime))
+        hoursLabel.text = getHoursString(startTime: menuData.startTime, endTime: menuData.endTime)
         menuLabel.attributedText = DiningHallMenuInteriorCell.getMenuString(menuData: menuData)
         setupConstraints()
     }

@@ -187,9 +187,9 @@ struct MenuData: Codable {
     /// The meal description, e.g. "Lunch"
     var description: String
     /// The absolute start time of this meal, in Unix time
-    var startTime: Int
+    var startTime: Double
     /// The absolute end time of this meal, in Unix time
-    var endTime: Int
+    var endTime: Double
 }
 
 /// All menu data for a dining hall on a particular day.
@@ -441,7 +441,6 @@ class API {
                                     return place.id == menu.id
                                 })
                                 guard let placeIndex = index else { return }
-                                print(menu.weeksMenus)
                                 System.places[placeIndex].cafeMenus = menu.weeksMenus
                                 System.places[placeIndex].facilityType = .cafe
                             })

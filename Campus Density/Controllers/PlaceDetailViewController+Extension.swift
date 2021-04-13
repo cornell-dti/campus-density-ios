@@ -32,7 +32,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             }
             diningHallMenus = diningMenus[menuDay]
             meals = [Meal]()
-            var endTimes = [Int]()
+            var endTimes = [Double]()
             if diningHallMenus.menus.count > 0 {
                 for meal in diningHallMenus.menus {
                     if meal.menu.count != 0 {
@@ -50,7 +50,7 @@ extension PlaceDetailViewController: ListAdapterDataSource {
 
                 // Auto-select next meal if none selected/previous selection unavailable for this day
                 if !meals.contains(selectedMeal) && meals.count > 0 {
-                    let currentTime = Int(Date().timeIntervalSince1970)
+                    let currentTime = Date().timeIntervalSince1970
                     print("Current Time: \(currentTime)")
                     selectedMeal = meals[0]
                     for (index, endTime) in endTimes.enumerated() {
@@ -94,10 +94,10 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         objects.append(SpaceModel(space: Constants.mediumPadding))
         objects.append(SectionDividerModel(lineWidth: dividerHeight))
         objects.append(SpaceModel(space: Constants.mediumPadding))
-        objects.append(MenuHeaderModel())
-        objects.append(SpaceModel(space: Constants.mlPadding))
         switch place.facilityType {
         case .diningHall:
+            objects.append(MenuHeaderModel(showDetails: true))
+            objects.append(SpaceModel(space: Constants.smallPadding))
             objects.append(DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays))
             objects.append(SpaceModel(space: Constants.smallPadding))
             objects.append(MealFiltersModel(meals: meals, selectedMeal: selectedMeal))
@@ -105,7 +105,10 @@ extension PlaceDetailViewController: ListAdapterDataSource {
             objects.append(SpaceModel(space: Constants.mediumPadding))
             objects.append(MenuModel(diningHallMenu: diningHallMenus, mealNames: meals, selectedMeal: selectedMeal))
         case .cafe:
-            objects.append(MenuModel(cafeMenu: place.cafeMenus!))
+            objects.append(MenuHeaderModel(showDetails: false))
+            objects.append(SpaceModel(space: Constants.smallPadding))
+            let hours = place.hours[0].dailyHours
+            objects.append(MenuModel(cafeMenu: place.cafeMenus!, startTime: hours.startTimestamp, endTime: hours.endTimestamp))
         case .none:
             break
         }
