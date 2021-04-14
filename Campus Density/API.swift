@@ -481,6 +481,23 @@ class API {
             }
         }
     }
+    
+    static func addGeneralFeedback(feedback: FluxFeedback, completion: @escaping (Bool) -> Void) {
+        guard let token = System.token else { return }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        
+        AF.request("\(url)/addGeneralFeedback", method: .post, parameters: feedback, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
+            switch response.result {
+            case .success:
+                completion(true)
+            case .failure(let error):
+                print(error, "addGeneralFeedback")
+                completion(false)
+            }
+        }
+    }
 }
 
 extension JSONDecoder {
