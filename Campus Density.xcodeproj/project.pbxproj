@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		081E43702380B4B1001D0485 /* MealsFilterSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */; };
-		08F679802378E7BA005B7810 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6797F2378E7BA005B7810 /* MenuCell.swift */; };
+		08F679802378E7BA005B7810 /* DiningHallMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6797F2378E7BA005B7810 /* DiningHallMenuCell.swift */; };
 		08F679822378E8D7005B7810 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F679812378E8D7005B7810 /* MenuModel.swift */; };
 		08F679842378E976005B7810 /* MenuSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F679832378E976005B7810 /* MenuSectionController.swift */; };
 		0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C209B0E224823560007AFA9 /* LogoModel.swift */; };
@@ -65,10 +65,11 @@
 		3C29547D25856E6F00965D9A /* AccuracyQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */; };
 		3C29548525856EDE00965D9A /* ObservedDensityQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */; };
 		3C29548A25858D0200965D9A /* WaitTimeQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29548925858D0200965D9A /* WaitTimeQuestion.swift */; };
+		3C3839542625155D00DD6250 /* CafeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3839532625155D00DD6250 /* CafeMenuCell.swift */; };
 		3C722EE42606938400E1DCFA /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C722EE32606938400E1DCFA /* PlaceModel.swift */; };
 		3C755EAC2586B93500C7FFC5 /* CommentQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C755EAB2586B93500C7FFC5 /* CommentQuestion.swift */; };
 		3C7A4E642586C9C600676980 /* ThanksQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A4E632586C9C600676980 /* ThanksQuestion.swift */; };
-		3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */; };
+		3C8008E9240B3EAF004DD1DB /* DiningHallMenuInteriorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8008E8240B3EAF004DD1DB /* DiningHallMenuInteriorCell.swift */; };
 		3C873289244218CA00D42F59 /* GraphHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C873288244218CA00D42F59 /* GraphHeaderCell.swift */; };
 		3C87328B244218EE00D42F59 /* GraphHeaderSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */; };
 		3C87328D244219B000D42F59 /* GraphHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87328C244219B000D42F59 /* GraphHeaderModel.swift */; };
@@ -132,7 +133,7 @@
 
 /* Begin PBXFileReference section */
 		081E436F2380B4B1001D0485 /* MealsFilterSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsFilterSectionController.swift; sourceTree = "<group>"; };
-		08F6797F2378E7BA005B7810 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		08F6797F2378E7BA005B7810 /* DiningHallMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningHallMenuCell.swift; sourceTree = "<group>"; };
 		08F679812378E8D7005B7810 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
 		08F679832378E976005B7810 /* MenuSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSectionController.swift; sourceTree = "<group>"; };
 		0C209B0E224823560007AFA9 /* LogoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoModel.swift; sourceTree = "<group>"; };
@@ -194,10 +195,11 @@
 		3C29547C25856E6F00965D9A /* AccuracyQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccuracyQuestion.swift; sourceTree = "<group>"; };
 		3C29548425856EDE00965D9A /* ObservedDensityQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedDensityQuestion.swift; sourceTree = "<group>"; };
 		3C29548925858D0200965D9A /* WaitTimeQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimeQuestion.swift; sourceTree = "<group>"; };
+		3C3839532625155D00DD6250 /* CafeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeMenuCell.swift; sourceTree = "<group>"; };
 		3C722EE32606938400E1DCFA /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		3C755EAB2586B93500C7FFC5 /* CommentQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentQuestion.swift; sourceTree = "<group>"; };
 		3C7A4E632586C9C600676980 /* ThanksQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksQuestion.swift; sourceTree = "<group>"; };
-		3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteriorCell.swift; sourceTree = "<group>"; };
+		3C8008E8240B3EAF004DD1DB /* DiningHallMenuInteriorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningHallMenuInteriorCell.swift; sourceTree = "<group>"; };
 		3C873288244218CA00D42F59 /* GraphHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderCell.swift; sourceTree = "<group>"; };
 		3C87328A244218EE00D42F59 /* GraphHeaderSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderSectionController.swift; sourceTree = "<group>"; };
 		3C87328C244219B000D42F59 /* GraphHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphHeaderModel.swift; sourceTree = "<group>"; };
@@ -424,9 +426,9 @@
 				0CB3BF7D2232C50D00A5B371 /* GraphCell.swift */,
 				0C209B12224825AF0007AFA9 /* PlaceCell.swift */,
 				0C209B16224829280007AFA9 /* LogoCell.swift */,
-				08F6797F2378E7BA005B7810 /* MenuCell.swift */,
+				08F6797F2378E7BA005B7810 /* DiningHallMenuCell.swift */,
 				EE93BF172380A44300219902 /* MealFilterCell.swift */,
-				3C8008E8240B3EAF004DD1DB /* MenuInteriorCell.swift */,
+				3C8008E8240B3EAF004DD1DB /* DiningHallMenuInteriorCell.swift */,
 				3C873288244218CA00D42F59 /* GraphHeaderCell.swift */,
 				EEA4117C249E841200190A30 /* AvailabilityHeaderCell.swift */,
 				3C9D93B124E85A0C000C27A6 /* MenuHeaderCell.swift */,
@@ -435,6 +437,7 @@
 				EE11414324E85F35004C35F5 /* SearchBarCell.swift */,
 				EE0DEF7C251509A2001632C5 /* PoliciesCell.swift */,
 				3A0548E526278ACD00E659F4 /* AppFeedbackCell.swift */,
+				3C3839532625155D00DD6250 /* CafeMenuCell.swift */,
 			);
 			path = DiningCells;
 			sourceTree = "<group>";
@@ -767,6 +770,7 @@
 				3C29548A25858D0200965D9A /* WaitTimeQuestion.swift in Sources */,
 				0C209B0F224823560007AFA9 /* LogoModel.swift in Sources */,
 				EE64E0DB240B0DAC003E449E /* GymFilterCell.swift in Sources */,
+				3C3839542625155D00DD6250 /* CafeMenuCell.swift in Sources */,
 				EE93BF1A2380A89F00219902 /* MealFiltersModel.swift in Sources */,
 				EEA4117F249E849100190A30 /* AvailabilityHeaderModel.swift in Sources */,
 				3C755EAC2586B93500C7FFC5 /* CommentQuestion.swift in Sources */,
@@ -800,11 +804,11 @@
 				0C8B6D652232459900058AE6 /* DaySelectionModel.swift in Sources */,
 				3C9D93B424E85BDF000C27A6 /* MenuHeaderSectionController.swift in Sources */,
 				3A0548EB26278B2C00E659F4 /* AppFeedbackSectionController.swift in Sources */,
-				3C8008E9240B3EAF004DD1DB /* MenuInteriorCell.swift in Sources */,
+				3C8008E9240B3EAF004DD1DB /* DiningHallMenuInteriorCell.swift in Sources */,
 				3CDC62C02577440B005083C2 /* FeedbackViewController.swift in Sources */,
 				0CA3F4C02173EA8000988A46 /* AppDelegate.swift in Sources */,
 				0C8B6D6722324A7A00058AE6 /* GraphModel.swift in Sources */,
-				08F679802378E7BA005B7810 /* MenuCell.swift in Sources */,
+				08F679802378E7BA005B7810 /* DiningHallMenuCell.swift in Sources */,
 				0C209B11224824250007AFA9 /* PlaceSectionController.swift in Sources */,
 				0CB3BF742232BC4A00A5B371 /* FormLinkSectionController.swift in Sources */,
 				EE9BED4C23F4B7ED00A37464 /* GymDensityModel.swift in Sources */,

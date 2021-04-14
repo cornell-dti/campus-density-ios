@@ -25,6 +25,11 @@ enum Region: String, Codable {
     case west
 }
 
+enum FacilityType: String, Codable {
+    case diningHall = "dining-hall"
+    case cafe = "cafe"
+}
+
 /**
  Represents the information of an eatery's name
  
@@ -95,7 +100,9 @@ class Place {
     var hours: [DailyInfo]
     var history: [String: [String: Double]]
     var region: Region
-    var menus: WeekMenus
+    var facilityType: FacilityType!
+    var diningMenus: [DayMenus]?
+    var cafeMenus: [String]?
 
     /// Initilizes a new Place object with the eatety's display name, it's corresponding FIrebase id, its `Density`, whether it is closed or not, its hours, history, location and its week's menus.
     ///
@@ -108,7 +115,7 @@ class Place {
     ///   - history: TODO
     ///   - region: A `Region` instance specifying where this object is located on campus
     ///   - menus: A `WeekMenus` instance representing all the menus for this eatery for the entire week, starting from today.
-    init(displayName: String, id: String, density: Density, waitTime: Double?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, menus: WeekMenus) {
+    init(displayName: String, id: String, density: Density, waitTime: Double?, isClosed: Bool, hours: [DailyInfo], history: [String: [String: Double]], region: Region, facilityType: FacilityType?, diningMenus: [DayMenus]?, cafeMenus: [String]?) {
         self.displayName = displayName
         self.id = id
         self.density = density
@@ -117,7 +124,9 @@ class Place {
         self.hours = hours
         self.history = history
         self.region = region
-        self.menus = menus
+        self.facilityType = facilityType
+        self.diningMenus = diningMenus
+        self.cafeMenus = cafeMenus
     }
 
 }
@@ -178,9 +187,9 @@ struct MenuData: Codable {
     /// The meal description, e.g. "Lunch"
     var description: String
     /// The absolute start time of this meal, in Unix time
-    var startTime: Int
+    var startTime: Double
     /// The absolute end time of this meal, in Unix time
-    var endTime: Int
+    var endTime: Double
 }
 
 /// All menu data for a dining hall on a particular day.
@@ -197,6 +206,17 @@ struct WeekMenus: Codable {
     var weeksMenus: [DayMenus]
     /// Eatery id, e.g. "becker"
     var id: String
+}
+
+/// Static menus for cafe
+struct CafeMenus: Codable {
+    var weeksMenus: [String]
+    var id: String
+}
+
+/// Used to decode if location should use CafeMenus or WeekMenus
+struct CafeOrDiningHall: Codable {
+    var type: FacilityType
 }
 
 struct AddFeedbackResponse: Codable {
@@ -326,7 +346,7 @@ class API {
                 switch result {
                 case .success(let placeNames):
                     System.places = placeNames.map { placeName in
-                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: nil, isClosed: false, hours: [], history: [:], region: .north, menus: WeekMenus(weeksMenus: [], id: placeName.id))
+                        return Place(displayName: placeName.displayName, id: placeName.id, density: .notBusy, waitTime: nil, isClosed: false, hours: [], history: [:], region: .north, facilityType: nil, diningMenus: nil, cafeMenus: nil)
                     }
                     completion(true)
                 case .failure(let error):
@@ -383,26 +403,56 @@ class API {
         print("PLACE: \(place.id)")
 
         let parameters = [
-            "facility": place.id
+            "id": place.id
         ]
 
         AF.request("\(url)/menuData", parameters: parameters, headers: headers)
             .responseData { response in
                 let decoder = JSONDecoder()
-                let result: AFResult<[WeekMenus]> = decoder.decodeResponse(from: response)
-                switch result {
-                case .success(let menulist):
-                    menulist.forEach({menu in
-                        let index = System.places.firstIndex(where: { place -> Bool in
-                            return place.id == menu.id
-                        })
-                        guard let placeIndex = index else { return }
-                        System.places[placeIndex].menus = menu
-                    })
-                    completion(true)
+                let facilityTypeResult: AFResult<[CafeOrDiningHall]> = decoder.decodeResponse(from: response)
+                switch facilityTypeResult {
+                case .success(let facilityTypeList):
+                    switch facilityTypeList[0].type { // This only fetches menus for one location at a time
 
+                    case .diningHall:
+                        let result: AFResult<[WeekMenus]> = decoder.decodeResponse(from: response)
+                        switch result {
+                        case .success(let menulist):
+                            menulist.forEach({ menu in // Looping... through one element
+                                let index = System.places.firstIndex(where: { place -> Bool in
+                                    return place.id == menu.id
+                                })
+                                guard let placeIndex = index else { return }
+                                System.places[placeIndex].diningMenus = menu.weeksMenus
+                                System.places[placeIndex].facilityType = .diningHall
+                            })
+                            completion(true)
+                        case .failure(let error):
+                            print(error, "menuData failed to decode dining hall style menus")
+                            completion(false)
+                        }
+
+                    case .cafe:
+                        let result: AFResult<[CafeMenus]> = decoder.decodeResponse(from: response)
+                        switch result {
+                        case .success(let menulist):
+                            menulist.forEach({ menu in // Looping... through one element
+                                let index = System.places.firstIndex(where: { place -> Bool in
+                                    return place.id == menu.id
+                                })
+                                guard let placeIndex = index else { return }
+                                System.places[placeIndex].cafeMenus = menu.weeksMenus
+                                System.places[placeIndex].facilityType = .cafe
+                            })
+                            completion(true)
+                        case .failure(let error):
+                            print(error, "menuData failed to decode cafe style menus")
+                            completion(false)
+                        }
+
+                    }
                 case .failure(let error):
-                    print(error, "menuData")
+                    print(error, "menuData failed to decode cafe or dining hall")
                     completion(false)
                 }
         }

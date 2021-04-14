@@ -1,5 +1,5 @@
 //
-//  MenuInteriorCell.swift
+//  DiningHallMenuInteriorCell.swift
 //  Campus Density
 //
 //  Created by Changyuan Lin on 2/29/20.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class MenuInteriorCell: UICollectionViewCell {
+class DiningHallMenuInteriorCell: UICollectionViewCell {
 
-    static let identifier: String = "MenuInteriorCell"
+    static let identifier: String = "DiningHallMenuInteriorCell"
 
     // MARK: - View vars
     var clockImageView: UIImageView!
@@ -34,12 +34,12 @@ class MenuInteriorCell: UICollectionViewCell {
         clockImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.left.equalToSuperview().offset(Constants.smallPadding)
-            make.height.width.equalTo(MenuInteriorCell.hoursLabelHeight)
+            make.height.width.equalTo(DiningHallMenuInteriorCell.hoursLabelHeight)
         }
         hoursLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.height.equalTo(MenuInteriorCell.hoursLabelHeight)
-            make.left.equalTo(clockImageView.snp.right).offset(MenuInteriorCell.clockHoursGap)
+            make.height.equalTo(DiningHallMenuInteriorCell.hoursLabelHeight)
+            make.left.equalTo(clockImageView.snp.right).offset(DiningHallMenuInteriorCell.clockHoursGap)
         }
         menuLabel.snp.makeConstraints { make in
             make.top.equalTo(hoursLabel.snp.bottom).offset(Constants.smallPadding)
@@ -63,16 +63,6 @@ class MenuInteriorCell: UICollectionViewCell {
         contentView.addSubview(menuLabel)
     }
 
-    /// Get the hours from `menuData` (specific day and meal) in "Open from <start> - <end>" format
-    static func getHoursString(menuData: MenuData) -> String {
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "America/New_York")
-        formatter.timeStyle = .short
-        let startString = formatter.string(from: Date(timeIntervalSince1970: Double(menuData.startTime)))
-        let endString = formatter.string(from: Date(timeIntervalSince1970: Double(menuData.endTime)))
-        return "Open from \(startString) - \(endString)"
-    }
-
     static func getMenuString(menuData: MenuData) -> NSMutableAttributedString {
         let res = NSMutableAttributedString(string: "")
         let newLine = NSAttributedString(string: "\n", attributes: [NSAttributedString.Key.font: UIFont.fourteen])
@@ -89,7 +79,7 @@ class MenuInteriorCell: UICollectionViewCell {
             let itemString = NSMutableAttributedString()
             for item in station.items {
                 if itemString != empty {
-                    itemString.append(newLine)
+                    itemString.append(newLine) // the styling is actually overridden here b/c it's part of itemString
                 }
                 itemString.append(NSAttributedString(string: item))
             }
@@ -120,8 +110,8 @@ class MenuInteriorCell: UICollectionViewCell {
     }
 
     func configure(menuData: MenuData) {
-        hoursLabel.text = MenuInteriorCell.getHoursString(menuData: menuData)
-        menuLabel.attributedText = MenuInteriorCell.getMenuString(menuData: menuData)
+        hoursLabel.text = getHoursString(startTime: menuData.startTime, endTime: menuData.endTime)
+        menuLabel.attributedText = DiningHallMenuInteriorCell.getMenuString(menuData: menuData)
         setupConstraints()
     }
 
