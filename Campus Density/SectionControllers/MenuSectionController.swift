@@ -28,12 +28,16 @@ class MenuSectionController: ListSectionController {
         tallestMenu = findLongestMenu(menuModel: menuModel)
     }
 
-    // Note: not currently in use as there should not be a gap between menu and hours in covid era flux
     func findLongestMenu(menuModel: MenuModel) -> CGFloat {
         var maxHeight: CGFloat = 0
-        for menu in menuModel.menu.menus {
-            let menuHeight = heightForMenu(menuData: menu)
-            maxHeight = CGFloat.maximum(maxHeight, menuHeight)
+        switch menuModel.facilityType {
+        case .diningHall:
+            for menu in menuModel.diningHallMenu.menus {
+                let menuHeight = heightForMenu(menuData: menu)
+                maxHeight = CGFloat.maximum(maxHeight, menuHeight)
+            }
+        case .cafe:
+            maxHeight = heightForMenu(cafeMenu: menuModel.cafeMenu)
         }
         return maxHeight
     }
@@ -42,28 +46,47 @@ class MenuSectionController: ListSectionController {
     func heightForMenu(menuData: MenuData) -> CGFloat {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
         let width = containerSize.width - 2 * Constants.smallPadding
-        let menuHeight = ceil(MenuInteriorCell.getMenuString(menuData: menuData).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height)
+        let menuHeight = ceil(DiningHallMenuInteriorCell.getMenuString(menuData: menuData).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height)
+        return menuHeight
+    }
+
+    func heightForMenu(cafeMenu: [String]) -> CGFloat {
+        guard let containerSize = collectionContext?.containerSize else { return .zero }
+        let width = containerSize.width - 2 * Constants.smallPadding
+        let menuHeight = ceil(CafeMenuCell.getMenuString(cafeMenu: cafeMenu).boundingRect(with: CGSize.init(width: width, height: 0), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size.height)
         return menuHeight
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let meal = menuModel.selectedMeal
-        if meal == .none {
-            return CGSize(width: containerSize.width, height: unavailableText.height(withConstrainedWidth: containerSize.width, font: .eighteenBold))
-        } else {
-            return CGSize(width: containerSize.width, height: tallestMenu + (MenuInteriorCell.hoursLabelHeight + Constants.smallPadding)) // use heightForMenu() to change size every time
+        switch menuModel.facilityType {
+        case .diningHall:
+            let meal = menuModel.selectedMeal
+            if meal == .none {
+                return CGSize(width: containerSize.width, height: unavailableText.height(withConstrainedWidth: containerSize.width, font: .eighteenBold))
+            } else {
+                return CGSize(width: containerSize.width, height: tallestMenu + (DiningHallMenuInteriorCell.hoursLabelHeight + Constants.smallPadding)) // use heightForMenu() to change size every time
+            }
+        case .cafe:
+            return CGSize(width: containerSize.width, height: tallestMenu + (CafeMenuCell.hoursLabelHeight + Constants.smallPadding))
         }
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        let cell = collectionContext?.dequeueReusableCell(of: MenuCell.self, for: self, at: index) as! MenuCell
-        if let index = menuModel.mealNames.index(of: menuModel.selectedMeal) {
-            cell.configure(dataSource: self, selected: index, delegate: self)
-        } else {
-            cell.configureAsNoMenus()
+        switch menuModel.facilityType {
+        case .diningHall:
+            let cell = collectionContext?.dequeueReusableCell(of: DiningHallMenuCell.self, for: self, at: index) as! DiningHallMenuCell
+            if let index = menuModel.mealNames.index(of: menuModel.selectedMeal) {
+                cell.configure(dataSource: self, selected: index, delegate: self)
+            } else {
+                cell.configureAsNoMenus()
+            }
+            return cell
+        case .cafe:
+            let cell = collectionContext?.dequeueReusableCell(of: CafeMenuCell.self, for: self, at: index) as! CafeMenuCell
+            cell.configure(cafeMenu: menuModel.cafeMenu, startTime: menuModel.cafeStartTime, endTime: menuModel.cafeEndTime)
+            return cell
         }
-        return cell
     }
 
     override func didUpdate(to object: Any) {
@@ -73,16 +96,16 @@ class MenuSectionController: ListSectionController {
 
 }
 
-// For the collection view inside the menu cell, returning interior cells
+// For the collection view inside the dining hall menu cell, returning dining hall interior cells
 extension MenuSectionController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return menuModel.mealNames.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInteriorCell.identifier, for: indexPath) as! MenuInteriorCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiningHallMenuInteriorCell.identifier, for: indexPath) as! DiningHallMenuInteriorCell
         let mealName = menuModel.mealNames[indexPath.item]
-        let specificMenu = menuModel.menu.menus.first(where: {$0.description == mealName.rawValue})!
+        let specificMenu = menuModel.diningHallMenu.menus.first(where: { $0.description == mealName.rawValue })!
         cell.configure(menuData: specificMenu)
         return cell
     }
@@ -91,8 +114,8 @@ extension MenuSectionController: UICollectionViewDataSource {
 extension MenuSectionController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index: Int = Int(scrollView.contentOffset.x / scrollView.frame.width)
-        menuModel.selectedMeal = self.menuModel.mealNames[index]
-        print("Swiped to \(menuModel.selectedMeal)")
-        delegate?.menuSectionControllerDidChangeSelectedMeal(meal: menuModel.selectedMeal)
+        let selectedMeal = self.menuModel.mealNames[index]
+        print("Swiped to \(selectedMeal)")
+        delegate?.menuSectionControllerDidChangeSelectedMeal(meal: selectedMeal)
     }
 }

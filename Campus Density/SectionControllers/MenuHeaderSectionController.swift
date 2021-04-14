@@ -15,7 +15,9 @@ class MenuHeaderSectionController: ListSectionController {
     var menuHeaderModel: MenuHeaderModel!
 
     // MARK: - Constants
-    let headerText = "Menu"
+    let headerLabelText = "Menus & Hours"
+    let detailsLabelText = "Show Details For:"
+    let spacing: CGFloat = 5
 
     init(menuHeaderModel: MenuHeaderModel) {
         self.menuHeaderModel = menuHeaderModel
@@ -23,12 +25,16 @@ class MenuHeaderSectionController: ListSectionController {
 
     override func sizeForItem(at index: Int) -> CGSize {
         guard let containerSize = collectionContext?.containerSize else { return .zero }
-        let textHeight = headerText.height(withConstrainedWidth: containerSize.width - Constants.smallPadding * 2, font: .thirtyBold)
+        var textHeight = headerLabelText.height(withConstrainedWidth: containerSize.width - Constants.smallPadding * 2, font: .twentyFiveBold)
+        if menuHeaderModel.showDetails {
+            textHeight += detailsLabelText.height(withConstrainedWidth: containerSize.width - Constants.smallPadding * 2, font: .sixteen) + spacing
+        }
         return CGSize(width: containerSize.width, height: textHeight)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(of: MenuHeaderCell.self, for: self, at: index) as! MenuHeaderCell
+        cell.configure(showDetails: menuHeaderModel.showDetails)
         return cell
     }
 

@@ -1,5 +1,5 @@
 //
-//  MenuCell.swift
+//  DiningHallMenuCell.swift
 //  Campus Density
 //
 //  Created by Ashneel Das on 11/10/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuCell: UICollectionViewCell {
+class DiningHallMenuCell: UICollectionViewCell {
 
     // MARK: - View vars
     var menuCollectionView: UICollectionView!
@@ -21,7 +21,7 @@ class MenuCell: UICollectionViewCell {
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         menuCollectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
-        menuCollectionView.register(MenuInteriorCell.self, forCellWithReuseIdentifier: MenuInteriorCell.identifier)
+        menuCollectionView.register(DiningHallMenuInteriorCell.self, forCellWithReuseIdentifier: DiningHallMenuInteriorCell.identifier)
         menuCollectionView.backgroundColor = .white
         menuCollectionView.isPagingEnabled = true
         menuCollectionView.showsHorizontalScrollIndicator = false

@@ -13,83 +13,109 @@ extension PlaceDetailViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         let lastUpdatedTime = API.getLastUpdatedDensityTime()
-        var menus = DayMenus(menus: [], date: "help")
-        var menuDay = selectedWeekday + 1 - getCurrentWeekday()
-        if menuDay <= 0 {
-            menuDay = 7 + menuDay
-        }
-        if place.menus.weeksMenus.count != 0 {
-            menus = place.menus.weeksMenus[menuDay]
-        }
-        var meals = [Meal]()
-        var endTimes = [Int]()
-        if menus.menus.count != 0 {
-            for meal in menus.menus {
-                if meal.menu.count != 0 {
-                    meals.append(Meal(rawValue: meal.description)!)
-                    endTimes.append(meal.endTime)
+
+        var diningHallMenus: DayMenus!
+        var meals: [Meal]!
+
+        switch place.facilityType {
+        case .diningHall:
+            spinnerView.isHidden = true
+            var menuDay = selectedWeekday + 1 - getCurrentWeekday()
+            if menuDay <= 0 {
+                menuDay = 7 + menuDay
+            }
+            guard let diningMenus = place.diningMenus, menuDay < diningMenus.count else {
+                print("This is not supposed to happen during normal operation, not enough menus returned!")
+                unavailableLabel.isHidden = false
+                view.addSubview(unavailableLabel)
+                break
+            }
+            diningHallMenus = diningMenus[menuDay]
+            meals = [Meal]()
+            var endTimes = [Double]()
+            if diningHallMenus.menus.count > 0 {
+                for meal in diningHallMenus.menus {
+                    if meal.menu.count != 0 {
+                        meals.append(Meal(rawValue: meal.description)!)
+                        endTimes.append(meal.endTime)
+                    }
+                }
+
+                if meals.count > 0 {
+                    unavailableLabel.isHidden = true
+                } else {
+                    unavailableLabel.isHidden = false
+                    view.addSubview(unavailableLabel)
+                }
+
+                // Auto-select next meal if none selected/previous selection unavailable for this day
+                if !meals.contains(selectedMeal) && meals.count > 0 {
+                    let currentTime = Date().timeIntervalSince1970
+                    print("Current Time: \(currentTime)")
+                    selectedMeal = meals[0]
+                    for (index, endTime) in endTimes.enumerated() {
+                        if currentTime < endTime {
+                            print("\(currentTime) < \(endTime) at index \(index), which is \(meals[index]), choosing this")
+                            selectedMeal = meals[index]
+                            break
+                        } else {
+                            print("\(currentTime) > \(endTime) at index \(index), which is \(meals[index])")
+                        }
+                    }
                 }
             }
-
-            self.mealList = meals
-
-            if meals.count > 0 {
-                spinnerView.isHidden = true
-                unavailableLabel.isHidden = true
-            } else {
+            // If there are not any available menus for THIS day, the unavailable menu label is shown
+            else {
                 unavailableLabel.isHidden = false
                 view.addSubview(unavailableLabel)
             }
 
-            if !meals.contains(selectedMeal) && meals.count > 0 {
-                let currentTime = Int(Date().timeIntervalSince1970)
-                print("Current Time: \(currentTime)")
-                selectedMeal = meals[0]
-                for (index, endTime) in endTimes.enumerated() {
-                    if currentTime < endTime {
-                        print("\(currentTime) < \(endTime) at index \(index), which is \(meals[index]), choosing this")
-                        selectedMeal = meals[index]
-                        break
-                    } else {
-                        print("\(currentTime) > \(endTime) at index \(index), which is \(meals[index])")
-                    }
-                }
-            }
-        }
+        case .cafe:
+            spinnerView.isHidden = true
 
-        //if there are not any available menus for the day, the unavailable menu label is shown else it is hidden and the activity indicator spins until the menus load
-        else if place.menus.weeksMenus.count == 0 {
+        // Still waiting on /menuData to complete and return menus and facility type, so show spinner
+        case .none:
             spinnerView.isHidden = false
             spinnerView.animate()
             view.addSubview(spinnerView)
-        } else {
-            unavailableLabel.isHidden = false
-            view.addSubview(unavailableLabel)
         }
 
-        return [
-            DetailControllerHeaderModel(displayName: place.displayName, hours: place.hours),
-            SpaceModel(space: Constants.smallPadding),
-            AvailabilityHeaderModel(),
-            SpaceModel(space: Constants.smallPadding),
-            LastUpdatedTextModel(lastUpdated: lastUpdatedTime),
-            SpaceModel(space: linkTopOffset),
-            AvailabilityInfoModel(place: place), // TODO: look into only passing what's necessary
-            SpaceModel(space: linkTopOffset),
-            FormLinkModel(isClosed: place.isClosed, waitTime: place.waitTime),
-            SpaceModel(space: Constants.mediumPadding),
-            SectionDividerModel(lineWidth: dividerHeight),
-            SpaceModel(space: Constants.mediumPadding),
-            MenuHeaderModel(),
-            SpaceModel(space: Constants.mlPadding),
-            DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays),
-            SpaceModel(space: Constants.smallPadding),
-            MealFiltersModel(meals: meals, selectedMeal: selectedMeal),
-            SectionDividerModel(lineWidth: dividerHeight),
-            SpaceModel(space: Constants.mediumPadding),
-            MenuModel(menu: menus, mealNames: meals, selectedMeal: selectedMeal),
-            SpaceModel(space: Constants.smallPadding)
-        ]
+        var objects = [ListDiffable]()
+
+        objects.append(DetailControllerHeaderModel(displayName: place.displayName, hours: place.hours))
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(AvailabilityHeaderModel())
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        objects.append(LastUpdatedTextModel(lastUpdated: lastUpdatedTime))
+        objects.append(SpaceModel(space: linkTopOffset))
+        objects.append(AvailabilityInfoModel(place: place)) // TODO: look into only passing what's necessary
+        objects.append(SpaceModel(space: linkTopOffset))
+        objects.append(FormLinkModel(isClosed: place.isClosed, waitTime: place.waitTime))
+        objects.append(SpaceModel(space: Constants.mediumPadding))
+        objects.append(SectionDividerModel(lineWidth: dividerHeight))
+        objects.append(SpaceModel(space: Constants.mediumPadding))
+        switch place.facilityType {
+        case .diningHall:
+            objects.append(MenuHeaderModel(showDetails: true))
+            objects.append(SpaceModel(space: Constants.smallPadding))
+            objects.append(DaySelectionModel(selectedWeekday: selectedWeekday, weekdays: weekdays))
+            objects.append(SpaceModel(space: Constants.smallPadding))
+            objects.append(MealFiltersModel(meals: meals, selectedMeal: selectedMeal))
+            objects.append(SectionDividerModel(lineWidth: dividerHeight))
+            objects.append(SpaceModel(space: Constants.mediumPadding))
+            objects.append(MenuModel(diningHallMenu: diningHallMenus, mealNames: meals, selectedMeal: selectedMeal))
+        case .cafe:
+            objects.append(MenuHeaderModel(showDetails: false))
+            objects.append(SpaceModel(space: Constants.smallPadding))
+            if !place.hours.isEmpty {
+                let hours = place.hours[0].dailyHours
+                objects.append(MenuModel(cafeMenu: place.cafeMenus!, startTime: hours.startTimestamp, endTime: hours.endTimestamp))
+            }
+        case .none:
+            break
+        }
+        objects.append(SpaceModel(space: Constants.smallPadding))
+        return objects
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {

@@ -10,7 +10,12 @@ import Foundation
 import IGListKit
 
 class MenuHeaderModel {
+    let showDetails: Bool
     let identifier = UUID().uuidString
+
+    init(showDetails: Bool) {
+        self.showDetails = showDetails
+    }
 }
 
 extension MenuHeaderModel: ListDiffable {

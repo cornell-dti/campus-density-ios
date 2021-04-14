@@ -58,6 +58,10 @@ class MenuHeaderCell: UICollectionViewCell {
         }
     }
 
+    func configure(showDetails: Bool) {
+        detailsLabel.isHidden = !showDetails
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
