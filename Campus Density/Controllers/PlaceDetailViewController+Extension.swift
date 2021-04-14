@@ -107,8 +107,10 @@ extension PlaceDetailViewController: ListAdapterDataSource {
         case .cafe:
             objects.append(MenuHeaderModel(showDetails: false))
             objects.append(SpaceModel(space: Constants.smallPadding))
-            let hours = place.hours[0].dailyHours
-            objects.append(MenuModel(cafeMenu: place.cafeMenus!, startTime: hours.startTimestamp, endTime: hours.endTimestamp))
+            if !place.hours.isEmpty {
+                let hours = place.hours[0].dailyHours
+                objects.append(MenuModel(cafeMenu: place.cafeMenus!, startTime: hours.startTimestamp, endTime: hours.endTimestamp))
+            }
         case .none:
             break
         }

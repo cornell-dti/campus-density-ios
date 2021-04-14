@@ -108,7 +108,8 @@ class PlaceDetailViewController: UIViewController, UIScrollViewDelegate {
             loadingHours = false
             setup()
         }
-        if place.diningMenus == nil {
+        // If facility type is unknown, we haven't fetched any menus yet -- do so now
+        if place.facilityType == nil {
             getMenus()
         } else {
             loadingMenus = false
