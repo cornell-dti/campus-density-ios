@@ -76,4 +76,3 @@ class FeaturesQuestion: HomeFeedbackQuestion {
         delegate?.featuresWasChanged(features: features)
     }
 }
-

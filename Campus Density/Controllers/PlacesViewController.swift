@@ -33,11 +33,11 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
     var collectionView: UICollectionView!
     var loadingBarsView: LoadingBarsView!
     var refreshBarsView: LoadingBarsView!
-    
+
     // MARK: - Feedback Components
     var feedbackHome: UIButton!
     var homeFeedbackViewController: HomeFeedbackViewController!
-    
+
     // MARK: - Constants
     let refreshOffset: CGFloat = 146
     let cellAnimationDuration: TimeInterval = 0.2
@@ -345,7 +345,7 @@ class PlacesViewController: UIViewController, UIScrollViewDelegate {
         loadingBarsView.configure(with: .large)
         loadingBarsView.startAnimating()
         view.addSubview(loadingBarsView)
-    
+
         feedbackHome = UIButton()
         feedbackHome.backgroundColor = UIColor(white: 0, alpha: 0.2)
         feedbackHome.isHidden = true
